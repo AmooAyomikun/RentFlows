@@ -1,0 +1,27 @@
+{
+  "landlord": {
+    "id": "landlord-1",
+    "name": "Chidi Amaechi",
+    "email": "chidi@rentflow.ng",
+    "phone": "+234 802 123 4567",
+    "role": "landlord",
+    "businessName": "Amaechi Properties Ltd",
+    "avatar": null,
+    "bankName": "Zenith Bank",
+    "accountNumber": "****3456",
+    "createdAt": "2024-01-15T10:00:00Z"
+  },
+  "tenant": {
+    "id": "tenant-1",
+    "name": "Adaeze Nwachukwu",
+    "email": "adaeze@gmail.com",
+    "phone": "+234 803 456 7890",
+    "role": "tenant",
+    "propertyId": "prop-1",
+    "unitId": "unit-1-1",
+    "landlordName": "Chidi Amaechi",
+    "landlordPhone": "+234 802 123 4567",
+    "avatar": null,
+    "createdAt": "2025-01-01T10:00:00Z"
+  }
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "notif-1",
+    "type": "payment",
+    "title": "Rent received — Adaeze Nwachukwu",
+    "message": "₦350,000 rent payment received for Unit A1, Greenview Estate Block A.",
+    "isRead": false,
+    "createdAt": "2026-06-01T10:31:00Z",
+    "link": "/landlord/payments",
+    "icon": "check-circle"
+  },
+  {
+    "id": "notif-2",
+    "type": "payment",
+    "title": "Rent received — Oluwaseun Fashola",
+    "message": "₦400,000 rent payment received for Duplex 1, Harmony Courts.",
+    "isRead": false,
+    "createdAt": "2026-06-01T09:01:00Z",
+    "link": "/landlord/payments",
+    "icon": "check-circle"
+  },
+  {
+    "id": "notif-3",
+    "type": "maintenance",
+    "title": "New maintenance request — Emeka Okafor",
+    "message": "Security issue reported for Unit A2, Greenview Estate Block A: faulty door lock.",
+    "isRead": false,
+    "createdAt": "2026-06-14T18:46:00Z",
+    "link": "/landlord/maintenance",
+    "icon": "wrench"
+  },
+  {
+    "id": "notif-4",
+    "type": "payment",
+    "title": "Overdue alert — Ngozi Ike",
+    "message": "Rent for Unit A7 is now 90 days overdue. Consider following up urgently.",
+    "isRead": true,
+    "createdAt": "2026-06-13T08:00:00Z",
+    "link": "/landlord/payments",
+    "icon": "alert-circle"
+  },
+  {
+    "id": "notif-5",
+    "type": "system",
+    "title": "Welcome to RentFlow!",
+    "message": "Your account is set up and ready. Add your first property to get started.",
+    "isRead": true,
+    "createdAt": "2026-01-15T10:00:00Z",
+    "link": "/landlord/properties",
+    "icon": "info"
+  },
+  {
+    "id": "notif-6",
+    "type": "maintenance",
+    "title": "Maintenance resolved — Flat 103",
+    "message": "The AC issue in Flat 103, Sunrise Flats has been marked as resolved.",
+    "isRead": true,
+    "createdAt": "2026-06-07T16:01:00Z",
+    "link": "/landlord/maintenance",
+    "icon": "check-circle"
+  }
+]

@@ -1,0 +1,232 @@
+[
+  {
+    "id": "unit-1-1",
+    "propertyId": "prop-1",
+    "label": "Unit A1",
+    "bedrooms": 3,
+    "rentAmount": 350000,
+    "dueDayOfMonth": 1,
+    "status": "occupied",
+    "tenantId": "tenant-1"
+  },
+  {
+    "id": "unit-1-2",
+    "propertyId": "prop-1",
+    "label": "Unit A2",
+    "bedrooms": 3,
+    "rentAmount": 350000,
+    "dueDayOfMonth": 1,
+    "status": "occupied",
+    "tenantId": "tenant-2"
+  },
+  {
+    "id": "unit-1-3",
+    "propertyId": "prop-1",
+    "label": "Unit A3",
+    "bedrooms": 2,
+    "rentAmount": 280000,
+    "dueDayOfMonth": 5,
+    "status": "occupied",
+    "tenantId": "tenant-3"
+  },
+  {
+    "id": "unit-1-4",
+    "propertyId": "prop-1",
+    "label": "Unit A4",
+    "bedrooms": 2,
+    "rentAmount": 280000,
+    "dueDayOfMonth": 5,
+    "status": "occupied",
+    "tenantId": "tenant-4"
+  },
+  {
+    "id": "unit-1-5",
+    "propertyId": "prop-1",
+    "label": "Unit A5",
+    "bedrooms": 3,
+    "rentAmount": 380000,
+    "dueDayOfMonth": 10,
+    "status": "occupied",
+    "tenantId": "tenant-5"
+  },
+  {
+    "id": "unit-1-6",
+    "propertyId": "prop-1",
+    "label": "Unit A6",
+    "bedrooms": 3,
+    "rentAmount": 380000,
+    "dueDayOfMonth": 10,
+    "status": "occupied",
+    "tenantId": "tenant-6"
+  },
+  {
+    "id": "unit-1-7",
+    "propertyId": "prop-1",
+    "label": "Unit A7",
+    "bedrooms": 2,
+    "rentAmount": 300000,
+    "dueDayOfMonth": 15,
+    "status": "occupied",
+    "tenantId": "tenant-7"
+  },
+  {
+    "id": "unit-1-8",
+    "propertyId": "prop-1",
+    "label": "Unit A8",
+    "bedrooms": 2,
+    "rentAmount": 280000,
+    "dueDayOfMonth": 15,
+    "status": "vacant",
+    "tenantId": null
+  },
+  {
+    "id": "unit-2-1",
+    "propertyId": "prop-2",
+    "label": "Duplex 1",
+    "bedrooms": 4,
+    "rentAmount": 400000,
+    "dueDayOfMonth": 1,
+    "status": "occupied",
+    "tenantId": "tenant-8"
+  },
+  {
+    "id": "unit-2-2",
+    "propertyId": "prop-2",
+    "label": "Duplex 2",
+    "bedrooms": 4,
+    "rentAmount": 400000,
+    "dueDayOfMonth": 1,
+    "status": "occupied",
+    "tenantId": "tenant-9"
+  },
+  {
+    "id": "unit-2-3",
+    "propertyId": "prop-2",
+    "label": "Duplex 3",
+    "bedrooms": 4,
+    "rentAmount": 400000,
+    "dueDayOfMonth": 1,
+    "status": "occupied",
+    "tenantId": "tenant-10"
+  },
+  {
+    "id": "unit-2-4",
+    "propertyId": "prop-2",
+    "label": "Duplex 4",
+    "bedrooms": 4,
+    "rentAmount": 400000,
+    "dueDayOfMonth": 1,
+    "status": "occupied",
+    "tenantId": "tenant-11"
+  },
+  {
+    "id": "unit-3-1",
+    "propertyId": "prop-3",
+    "label": "Flat 101",
+    "bedrooms": 2,
+    "rentAmount": 300000,
+    "dueDayOfMonth": 1,
+    "status": "occupied",
+    "tenantId": "tenant-12"
+  },
+  {
+    "id": "unit-3-2",
+    "propertyId": "prop-3",
+    "label": "Flat 102",
+    "bedrooms": 2,
+    "rentAmount": 300000,
+    "dueDayOfMonth": 1,
+    "status": "occupied",
+    "tenantId": "tenant-13"
+  },
+  {
+    "id": "unit-3-3",
+    "propertyId": "prop-3",
+    "label": "Flat 103",
+    "bedrooms": 3,
+    "rentAmount": 450000,
+    "dueDayOfMonth": 5,
+    "status": "occupied",
+    "tenantId": "tenant-14"
+  },
+  {
+    "id": "unit-3-4",
+    "propertyId": "prop-3",
+    "label": "Flat 104",
+    "bedrooms": 3,
+    "rentAmount": 450000,
+    "dueDayOfMonth": 5,
+    "status": "vacant",
+    "tenantId": null
+  },
+  {
+    "id": "unit-3-5",
+    "propertyId": "prop-3",
+    "label": "Flat 201",
+    "bedrooms": 2,
+    "rentAmount": 300000,
+    "dueDayOfMonth": 10,
+    "status": "occupied",
+    "tenantId": "tenant-15"
+  },
+  {
+    "id": "unit-3-6",
+    "propertyId": "prop-3",
+    "label": "Flat 202",
+    "bedrooms": 2,
+    "rentAmount": 300000,
+    "dueDayOfMonth": 10,
+    "status": "occupied",
+    "tenantId": null
+  },
+  {
+    "id": "unit-3-7",
+    "propertyId": "prop-3",
+    "label": "Flat 203",
+    "bedrooms": 3,
+    "rentAmount": 450000,
+    "dueDayOfMonth": 10,
+    "status": "vacant",
+    "tenantId": null
+  },
+  {
+    "id": "unit-3-8",
+    "propertyId": "prop-3",
+    "label": "Flat 204",
+    "bedrooms": 3,
+    "rentAmount": 450000,
+    "dueDayOfMonth": 15,
+    "status": "occupied",
+    "tenantId": null
+  },
+  {
+    "id": "unit-4-1",
+    "propertyId": "prop-4",
+    "label": "Unit 1",
+    "bedrooms": 3,
+    "rentAmount": 150000,
+    "dueDayOfMonth": 1,
+    "status": "occupied",
+    "tenantId": "tenant-16"
+  },
+  {
+    "id": "unit-4-2",
+    "propertyId": "prop-4",
+    "label": "Unit 2",
+    "bedrooms": 3,
+    "rentAmount": 150000,
+    "dueDayOfMonth": 1,
+    "status": "occupied",
+    "tenantId": "tenant-17"
+  },
+  {
+    "id": "unit-4-3",
+    "propertyId": "prop-4",
+    "label": "Unit 3",
+    "bedrooms": 2,
+    "rentAmount": 150000,
+    "dueDayOfMonth": 1,
+    "status": "vacant",
+    "tenantId": null
+  }
+]

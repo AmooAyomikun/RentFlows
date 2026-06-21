@@ -1,0 +1,225 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base resets ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #FAF7F2;
+  color: #4A4F4C;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ─── Typography ─── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cabinet Grotesk', 'Inter', sans-serif;
+  color: #1B1F1D;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+h1 { font-size: clamp(36px, 5vw, 56px); letter-spacing: -0.02em; }
+h2 { font-size: clamp(28px, 3.5vw, 40px); letter-spacing: -0.01em; }
+h3 { font-size: clamp(22px, 2.5vw, 28px); font-weight: 600; }
+h4 { font-size: clamp(18px, 2vw, 20px); font-weight: 600; }
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+
+/* Mono font for numbers/data */
+.font-mono,
+[data-mono] {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ─── Focus styles (accessibility) ─── */
+:focus-visible {
+  outline: 2px solid #0B4F45;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF7F2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C8C3BB;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8A8F8B;
+}
+
+/* ─── Skeleton shimmer ─── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #EDE9E1 25%,
+    #E2DDD5 50%,
+    #EDE9E1 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Reduced-motion overrides ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Custom utility classes ─── */
+.text-balance { text-wrap: balance; }
+
+/* Card hover lift */
+.card-hover {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(27,31,29,0.08);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #0B4F45, #C75B30);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Marketing section spacing */
+.section-py {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+@media (max-width: 768px) {
+  .section-py {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* Badge color variants */
+.badge-paid {
+  background-color: rgba(30, 158, 106, 0.12);
+  color: #1E9E6A;
+}
+.badge-pending {
+  background-color: rgba(232, 162, 61, 0.12);
+  color: #E8A23D;
+}
+.badge-overdue {
+  background-color: rgba(209, 67, 67, 0.12);
+  color: #D14343;
+}
+.badge-resolved {
+  background-color: rgba(59, 125, 216, 0.12);
+  color: #3B7DD8;
+}
+.badge-in-progress {
+  background-color: rgba(199, 91, 48, 0.12);
+  color: #C75B30;
+}
+
+/* Sidebar dark bg */
+.sidebar-bg { background-color: #0E2522; }
+
+/* Page transition wrapper */
+.page-transition {
+  animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animated gradient mesh for hero */
+.hero-mesh {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(11,79,69,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(199,91,48,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 70% at 60% 80%, rgba(11,79,69,0.1) 0%, transparent 60%);
+  animation: meshDrift 12s ease-in-out infinite alternate;
+}
+
+@keyframes meshDrift {
+  0% { opacity: 0.8; transform: scale(1) rotate(0deg); }
+  100% { opacity: 1; transform: scale(1.05) rotate(1deg); }
+}
+
+/* Float animation for illustrations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+/* Stagger delay utilities */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Toast progress bar */
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.3;
+  animation: toastProgress 3s linear forwards;
+}
+
+@keyframes toastProgress {
+  from { width: 100%; }
+  to { width: 0%; }
+}

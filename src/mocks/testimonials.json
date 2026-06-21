@@ -1,0 +1,52 @@
+[
+  {
+    "id": "test-1",
+    "name": "Chukwuma Obi",
+    "role": "landlord",
+    "location": "Lagos",
+    "propertyCount": 12,
+    "avatar": null,
+    "quote": "Before RentFlow, I was chasing 12 tenants on WhatsApp every month. Now I check one dashboard, and the money comes in. I haven't sent a single 'please pay your rent' message in four months.",
+    "result": "40% reduction in late payments"
+  },
+  {
+    "id": "test-2",
+    "name": "Adaeze Nwofor",
+    "role": "tenant",
+    "location": "Abuja",
+    "propertyCount": null,
+    "avatar": null,
+    "quote": "My landlord doesn't even know I exist unless there's an issue. I pay rent, download my receipt, and I have proof whenever I need it. This is what renting should feel like.",
+    "result": null
+  },
+  {
+    "id": "test-3",
+    "name": "Ibrahim Suleiman",
+    "role": "landlord",
+    "location": "Kano",
+    "propertyCount": 6,
+    "avatar": null,
+    "quote": "I manage properties from three cities. RentFlow gives me visibility I never had before. If a tenant is overdue, I know immediately — not when they finally pick up the phone.",
+    "result": "Manages 3 cities from one screen"
+  },
+  {
+    "id": "test-4",
+    "name": "Chiamaka Eze",
+    "role": "tenant",
+    "location": "Port Harcourt",
+    "propertyCount": null,
+    "avatar": null,
+    "quote": "I reported a plumbing issue at 9pm and it was acknowledged by 10am. My previous landlord would take three weeks. The difference is night and day.",
+    "result": null
+  },
+  {
+    "id": "test-5",
+    "name": "Yemi Adesanya",
+    "role": "landlord",
+    "location": "Ibadan",
+    "propertyCount": 3,
+    "avatar": null,
+    "quote": "Tax season used to be a nightmare — digging through bank statements and spreadsheets. Now I just export the report from RentFlow. Done in five minutes.",
+    "result": "Saves 4 hours every tax season"
+  }
+]

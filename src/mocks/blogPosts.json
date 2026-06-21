@@ -1,0 +1,38 @@
+[
+  {
+    "id": "blog-1",
+    "slug": "5-ways-to-reduce-late-rent-payments",
+    "title": "5 Proven Ways to Reduce Late Rent Payments",
+    "excerpt": "Late rent payments are the number one pain point for Nigerian landlords. Here are five practical strategies that actually work.",
+    "coverImage": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80",
+    "category": "Landlord Tips",
+    "author": "RentFlow Team",
+    "readTime": "5 min read",
+    "publishedAt": "2026-05-15T10:00:00Z",
+    "content": "Late rent payments cost Nigerian landlords billions of naira in lost income and stress every year. The good news? Most late payments are preventable with the right systems in place.\n\n**1. Send automated reminders**\nAutomatic reminders 7 days, 3 days, and 1 day before rent is due significantly reduce forgetfulness. RentFlow sends these automatically via SMS and email.\n\n**2. Make payment effortless**\nThe harder it is to pay, the more likely tenants will delay. With RentFlow, tenants pay in three taps — no bank queues, no WhatsApp back-and-forth.\n\n**3. Be transparent about late fees**\nClearly communicate your late fee policy in the lease agreement. Tenants who know there is a consequence are more likely to pay on time.\n\n**4. Offer multiple payment methods**\nCard, bank transfer, Paystack — giving tenants options removes friction and excuses.\n\n**5. Build a payment record**\nWhen tenants have a visible payment history showing their track record, many take pride in keeping it clean."
+  },
+  {
+    "id": "blog-2",
+    "slug": "understanding-tenancy-agreements-nigeria",
+    "title": "Understanding Tenancy Agreements in Nigeria: A Landlord's Guide",
+    "excerpt": "A solid tenancy agreement protects both you and your tenant. This guide covers what must be included under Nigerian law.",
+    "coverImage": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",
+    "category": "Legal",
+    "author": "RentFlow Team",
+    "readTime": "8 min read",
+    "publishedAt": "2026-04-22T10:00:00Z",
+    "content": "A tenancy agreement is the backbone of any landlord-tenant relationship. Without one, disputes are almost impossible to resolve fairly.\n\n**What must a tenancy agreement include?**\n- Names of landlord and tenant(s)\n- Property address and description\n- Rent amount and due date\n- Security deposit amount and conditions for return\n- Lease duration (start and end date)\n- Notice period for termination\n- Maintenance responsibilities\n\n**Tenancy Law in Nigeria**\nThe Tenancy Law of Lagos State 2011 is one of the most comprehensive in Nigeria. It limits advance rent demands to 1 year for residential properties. Similar protections exist in other states.\n\n**RentFlow's lease management**\nRentFlow stores your lease agreements digitally, making them accessible to both you and your tenant at any time."
+  },
+  {
+    "id": "blog-3",
+    "slug": "maintenance-requests-best-practices",
+    "title": "How to Handle Maintenance Requests Like a Professional Landlord",
+    "excerpt": "How you respond to maintenance requests directly affects tenant retention. Here's a system that works.",
+    "coverImage": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=800&q=80",
+    "category": "Property Management",
+    "author": "RentFlow Team",
+    "readTime": "6 min read",
+    "publishedAt": "2026-03-10T10:00:00Z",
+    "content": "Maintenance requests handled badly are the leading reason tenants leave and leave bad word-of-mouth behind.\n\n**The 24-hour acknowledgement rule**\nAcknowledge every maintenance request within 24 hours — even if you can't fix it yet. Silence is the worst response.\n\n**Categorise by priority**\nNot all maintenance is equal. A broken security door is urgent; a squeaky hinge is not. RentFlow lets you assign priority levels so nothing urgent slips through.\n\n**Keep tenants updated**\nOnce a contractor is booked, tell the tenant. Once the job is done, mark it resolved. Transparency builds trust.\n\n**Use RentFlow's kanban board**\nRentFlow's maintenance board gives you a clear view of every open request across all properties — received, in progress, resolved."
+  }
+]

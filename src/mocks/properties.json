@@ -1,0 +1,58 @@
+[
+  {
+    "id": "prop-1",
+    "name": "Greenview Estate Block A",
+    "address": "12 Greenview Close, Lekki Phase 1",
+    "city": "Lagos",
+    "state": "Lagos",
+    "type": "Apartment",
+    "coverImage": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80",
+    "totalUnits": 8,
+    "occupiedUnits": 7,
+    "monthlyRevenue": 2800000,
+    "description": "A modern 8-unit apartment block in the heart of Lekki with 24/7 security, backup generator, and swimming pool.",
+    "createdAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": "prop-2",
+    "name": "Harmony Courts",
+    "address": "45 Ibrahim Abiodun Street, GRA",
+    "city": "Port Harcourt",
+    "state": "Rivers",
+    "type": "Duplex",
+    "coverImage": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80",
+    "totalUnits": 4,
+    "occupiedUnits": 4,
+    "monthlyRevenue": 1600000,
+    "description": "Four fully detached duplexes in the serene GRA area with private parking and well-maintained gardens.",
+    "createdAt": "2024-03-20T10:00:00Z"
+  },
+  {
+    "id": "prop-3",
+    "name": "Sunrise Flats",
+    "address": "7 Sunrise Avenue, Wuse II",
+    "city": "Abuja",
+    "state": "FCT",
+    "type": "Flat",
+    "coverImage": "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=600&q=80",
+    "totalUnits": 12,
+    "occupiedUnits": 9,
+    "monthlyRevenue": 3600000,
+    "description": "Modern 12-flat complex near the city centre with excellent road access and proximity to key amenities.",
+    "createdAt": "2024-05-10T10:00:00Z"
+  },
+  {
+    "id": "prop-4",
+    "name": "Okonkwo Villa",
+    "address": "3 Okonkwo Street, Independence Layout",
+    "city": "Enugu",
+    "state": "Enugu",
+    "type": "Bungalow",
+    "coverImage": "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80",
+    "totalUnits": 3,
+    "occupiedUnits": 2,
+    "monthlyRevenue": 450000,
+    "description": "Three-unit bungalow compound in a quiet neighborhood with spacious yards and reliable water supply.",
+    "createdAt": "2024-08-01T10:00:00Z"
+  }
+]
