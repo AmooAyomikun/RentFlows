@@ -60,9 +60,13 @@ const ForLandlords = () => {
           <div className="grid sm:grid-cols-2 gap-5">
             {perks.map((p, i) => (
               <motion.div key={p.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                <Card className="h-full">
-                  <div className="w-11 h-11 bg-primary/10 rounded flex items-center justify-center mb-4">
-                    <p.icon size={22} className="text-primary" aria-hidden="true" />
+                <Card className="h-full group">
+                  {/* Upgraded icon: gradient halo + larger icon */}
+                  <div className="relative mb-5 w-fit">
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 blur-xl scale-150 opacity-60 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true" />
+                    <div className="relative bg-primary/10 w-14 h-14 rounded-2xl flex items-center justify-center">
+                      <p.icon size={26} className="text-primary" aria-hidden="true" />
+                    </div>
                   </div>
                   <h3 className="font-display font-semibold text-charcoal text-lg mb-2">{p.title}</h3>
                   <p className="text-sm text-muted">{p.desc}</p>
@@ -73,19 +77,40 @@ const ForLandlords = () => {
         </div>
       </section>
 
-      {/* Multi-property visual */}
-      <section className="section-py bg-white" aria-label="Multi-property management">
-        <div className="max-w-marketing mx-auto px-6 text-center">
-          <h2 className="font-display text-charcoal mb-4">One dashboard. Any number of properties.</h2>
-          <p className="text-body text-body max-w-xl mx-auto mb-10">Whether you manage 1 duplex or a 50-unit portfolio across multiple cities, RentFlow shows you everything in one place.</p>
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-3 max-w-lg mx-auto">
+      {/* Multi-property visual — with real photo background */}
+      <section className="relative section-py overflow-hidden" aria-label="Multi-property management">
+        {/* Photo background with teal overlay */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/trust-bg.png)' }}
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-[#073A33]/85" aria-hidden="true" />
+
+        <div className="max-w-marketing mx-auto px-6 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent/90 mb-3">Scale freely</p>
+            <h2 className="font-display text-white mb-4">One dashboard. Any number of properties.</h2>
+            <p className="text-white/70 max-w-xl mx-auto mb-10">Whether you manage 1 duplex or a 50-unit portfolio across multiple cities, RentFlow shows you everything in one place.</p>
+          </motion.div>
+          <motion.div
+            className="grid grid-cols-3 md:grid-cols-5 gap-3 max-w-lg mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+          >
             {['Lekki', 'GRA', 'Wuse', 'Enugu', '+More'].map((loc) => (
-              <div key={loc} className="bg-primary/8 border border-primary/20 rounded-lg p-3 text-center">
-                <Building2 size={18} className="text-primary mx-auto mb-1" aria-hidden="true" />
-                <p className="text-xs font-medium text-primary">{loc}</p>
+              <div key={loc} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center hover:bg-white/15 transition-colors">
+                <Building2 size={18} className="text-white/80 mx-auto mb-1" aria-hidden="true" />
+                <p className="text-xs font-medium text-white/90">{loc}</p>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

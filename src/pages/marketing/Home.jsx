@@ -2,7 +2,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ArrowRight, CreditCard, FileText, Wrench, BarChart3,
-  CheckCircle, Star, ChevronRight, Building2, TrendingUp, Shield
+  CheckCircle, Star, Building2, UserPlus, Mail, Wallet,
+  Bell, LayoutDashboard, Shield
 } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import Card from '../../components/ui/Card';
@@ -31,43 +32,92 @@ const stats = [
   { value: '98%', label: 'On-time receipts' },
 ];
 
-/** Feature highlight cards */
+/** Feature highlight cards — 6 cards in a 3×2 grid */
 const features = [
   {
     icon: CreditCard,
     title: 'Online Rent Payment',
-    desc: 'Pay rent in 3 taps. Card, bank transfer or Paystack — tenants choose what works.',
-    color: 'bg-primary/10',
+    desc: 'Pay rent in 3 taps. Card, bank transfer or Paystack — tenants choose what works for them.',
+    gradient: 'from-[#0B4F45]/20 to-[#0B4F45]/5',
     iconColor: 'text-primary',
+    halo: 'bg-primary/10',
   },
   {
     icon: FileText,
     title: 'PDF Receipts',
-    desc: 'Every payment generates a timestamped receipt instantly — no chasing, no disputes.',
-    color: 'bg-accent/10',
+    desc: 'Every payment generates a timestamped, branded receipt instantly — no chasing, no disputes.',
+    gradient: 'from-[#C75B30]/20 to-[#C75B30]/5',
     iconColor: 'text-accent',
+    halo: 'bg-accent/10',
   },
   {
     icon: Wrench,
     title: 'Maintenance Tracking',
     desc: 'Tenants log issues with photos. Landlords track progress from received to resolved.',
-    color: 'bg-info/10',
+    gradient: 'from-[#3B7DD8]/20 to-[#3B7DD8]/5',
     iconColor: 'text-info',
+    halo: 'bg-info/10',
   },
   {
     icon: BarChart3,
     title: 'Financial Dashboard',
     desc: 'Revenue trends, overdue alerts and export-ready reports — everything in one view.',
-    color: 'bg-success/10',
+    gradient: 'from-[#1E9E6A]/20 to-[#1E9E6A]/5',
     iconColor: 'text-success',
+    halo: 'bg-success/10',
+  },
+  {
+    icon: Bell,
+    title: 'Smart Reminders',
+    desc: 'Automated rent reminders at 7, 3, and 1 day before due. Tenants never forget. You never chase.',
+    gradient: 'from-[#E8A23D]/20 to-[#E8A23D]/5',
+    iconColor: 'text-warning',
+    halo: 'bg-warning/10',
+  },
+  {
+    icon: LayoutDashboard,
+    title: 'Multi-Property View',
+    desc: 'Manage Lagos, Abuja, and Port Harcourt properties from one screen, wherever you are.',
+    gradient: 'from-[#0B4F45]/20 to-[#3B7DD8]/5',
+    iconColor: 'text-primary',
+    halo: 'bg-primary/10',
   },
 ];
 
-/** How it works steps */
+/** How it works — 4 steps */
 const steps = [
-  { num: '01', title: 'Sign up', desc: 'Create your account in under 2 minutes.' },
-  { num: '02', title: 'Add properties', desc: 'List your properties and units — as many as you manage.' },
-  { num: '03', title: 'Invite tenants', desc: 'Send a personalized invite link to each tenant.' },
+  {
+    num: '01',
+    icon: UserPlus,
+    title: 'Sign up',
+    desc: 'Create your account in under 2 minutes — no credit card required.',
+    landlord: 'Set up your profile & branding',
+    tenant: 'Verify your identity',
+  },
+  {
+    num: '02',
+    icon: Building2,
+    title: 'Add properties',
+    desc: 'List your properties and units — as many as you manage.',
+    landlord: 'Add units, set rent amounts',
+    tenant: 'View your property details',
+  },
+  {
+    num: '03',
+    icon: Mail,
+    title: 'Invite tenants',
+    desc: 'Send a personalised invite link to each tenant via email or WhatsApp.',
+    landlord: 'One-click tenant invitations',
+    tenant: 'Accept & link to your unit',
+  },
+  {
+    num: '04',
+    icon: Wallet,
+    title: 'Get paid',
+    desc: 'Revenue lands in your account. Receipts go to tenants. Everyone moves on.',
+    landlord: 'Bank transfer, same-day',
+    tenant: 'Instant receipt download',
+  },
 ];
 
 /** Testimonials */
@@ -76,7 +126,7 @@ const testimonials = [
     name: 'Chukwuma Obi',
     location: 'Lagos',
     quote: 'Before RentFlow, I was chasing 12 tenants on WhatsApp every month. Now I check one dashboard, and the money comes in.',
-    result: '40% reduction in late payments',
+    result: '40% fewer late payments',
   },
   {
     name: 'Adaeze Nwofor',
@@ -97,12 +147,9 @@ const Home = () => {
 
   return (
     <>
-      {/* Hero */}
+      {/* ─── Hero ─── */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-charcoal" aria-label="Hero">
-        {/* Animated gradient mesh */}
         <div className="hero-mesh" aria-hidden="true" />
-
-        {/* Content */}
         <div className="max-w-marketing mx-auto px-6 py-24 relative z-10 w-full">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             <motion.div
@@ -168,7 +215,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Trust strip */}
+      {/* ─── Trust strip (tight) ─── */}
       <section className="bg-warm border-y border-border py-8" aria-label="Statistics">
         <div className="max-w-marketing mx-auto px-6">
           <motion.div
@@ -193,7 +240,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Problem → Solution */}
+      {/* ─── Problem → Solution (keep as-is — best section) ─── */}
       <section className="section-py bg-white" aria-label="Problem and solution">
         <div className="max-w-marketing mx-auto px-6">
           <motion.div
@@ -247,24 +294,37 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Feature highlights */}
+      {/* ─── Feature grid — 6 cards, left-aligned header, asymmetric ─── */}
       <section className="section-py bg-warm" aria-label="Features">
         <div className="max-w-marketing mx-auto px-6">
+          {/* Left-aligned header with offset sub-copy */}
           <motion.div
-            className="text-center mb-12"
+            className="grid lg:grid-cols-2 gap-6 items-end mb-12"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            variants={fadeUp}
+            variants={stagger}
           >
-            <h2 className="font-display text-charcoal mb-4">Everything you need. Nothing you don't.</h2>
-            <p className="text-body text-body max-w-xl mx-auto">
-              Four core capabilities that cover 80% of what landlords and tenants need every single month.
-            </p>
+            <motion.div variants={fadeUp}>
+              <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">Core features</p>
+              <h2 className="font-display text-charcoal">Everything you need. Nothing you don't.</h2>
+            </motion.div>
+            <motion.div variants={fadeUp} custom={1} className="lg:text-right">
+              <p className="text-body text-body max-w-sm lg:ml-auto">
+                Six capabilities that cover 80% of what landlords and tenants need every single month.
+              </p>
+              <Link
+                to="/features"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline mt-3"
+              >
+                See full feature breakdown <ArrowRight size={14} aria-hidden="true" />
+              </Link>
+            </motion.div>
           </motion.div>
 
+          {/* 3×2 grid with first card wider (featured) */}
           <motion.div
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -272,9 +332,13 @@ const Home = () => {
           >
             {features.map((f, i) => (
               <motion.div key={f.title} variants={fadeUp} custom={i}>
-                <Card hoverable className="h-full">
-                  <div className={`${f.color} w-11 h-11 rounded flex items-center justify-center mb-4`}>
-                    <f.icon size={22} className={f.iconColor} aria-hidden="true" />
+                <Card hoverable className="h-full group">
+                  {/* Icon with gradient halo */}
+                  <div className="relative mb-5 w-fit">
+                    <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${f.gradient} blur-xl scale-150 opacity-60 group-hover:opacity-90 transition-opacity duration-300`} aria-hidden="true" />
+                    <div className={`relative ${f.halo} w-14 h-14 rounded-2xl flex items-center justify-center`}>
+                      <f.icon size={26} className={f.iconColor} aria-hidden="true" />
+                    </div>
                   </div>
                   <h3 className="font-display font-semibold text-charcoal text-lg mb-2">{f.title}</h3>
                   <p className="text-sm text-muted leading-relaxed">{f.desc}</p>
@@ -282,56 +346,68 @@ const Home = () => {
               </motion.div>
             ))}
           </motion.div>
-
-          <motion.div
-            className="text-center mt-8"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            <Link
-              to="/features"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-            >
-              See all features <ArrowRight size={14} aria-hidden="true" />
-            </Link>
-          </motion.div>
         </div>
       </section>
 
-      {/* How it works */}
+      {/* ─── How it works — 4 steps + connecting line ─── */}
       <section className="section-py bg-white" aria-label="How it works">
         <div className="max-w-marketing mx-auto px-6">
           <motion.div
-            className="text-center mb-12"
+            className="text-center mb-16"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
           >
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">Get started</p>
             <h2 className="font-display text-charcoal mb-4">Up and running in minutes.</h2>
             <p className="text-body text-body max-w-md mx-auto">No training. No IT. Just sign up, add your properties, and invite tenants.</p>
           </motion.div>
 
-          <motion.div
-            className="grid md:grid-cols-3 gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={stagger}
-          >
-            {steps.map((step, i) => (
-              <motion.div key={step.num} variants={fadeUp} custom={i} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-primary text-white font-mono font-bold text-sm flex items-center justify-center mx-auto mb-4">
-                  {step.num}
-                </div>
-                <h3 className="font-display font-semibold text-charcoal text-xl mb-2">{step.title}</h3>
-                <p className="text-sm text-muted">{step.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+          <div className="relative">
+            {/* Connecting dashed line — desktop only */}
+            <div
+              className="hidden lg:block absolute top-7 left-[12.5%] right-[12.5%] h-px border-t-2 border-dashed border-primary/20 z-0"
+              aria-hidden="true"
+            />
 
-          <div className="text-center mt-8">
+            <motion.div
+              className="grid grid-cols-2 lg:grid-cols-4 gap-8 relative z-10"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={stagger}
+            >
+              {steps.map((step, i) => (
+                <motion.div key={step.num} variants={fadeUp} custom={i} className="text-center">
+                  {/* Circle with icon */}
+                  <div className="relative inline-flex mb-5">
+                    <div className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-md ring-4 ring-white">
+                      <step.icon size={22} aria-hidden="true" />
+                    </div>
+                    <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-accent text-white text-[10px] font-bold font-mono flex items-center justify-center">
+                      {i + 1}
+                    </span>
+                  </div>
+                  <h3 className="font-display font-semibold text-charcoal text-xl mb-2">{step.title}</h3>
+                  <p className="text-sm text-muted mb-3">{step.desc}</p>
+                  {/* Landlord / Tenant tracks */}
+                  <div className="space-y-1.5 text-xs">
+                    <div className="flex items-center gap-1.5 justify-center text-primary font-medium">
+                      <Shield size={11} aria-hidden="true" />
+                      Landlord: {step.landlord}
+                    </div>
+                    <div className="flex items-center gap-1.5 justify-center text-muted">
+                      <span className="w-2 h-2 rounded-full bg-accent/50" aria-hidden="true" />
+                      Tenant: {step.tenant}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+
+          <div className="text-center mt-10">
             <Link to="/how-it-works" className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
               Full walkthrough <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -339,17 +415,31 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="section-py bg-warm" aria-label="Testimonials">
-        <div className="max-w-marketing mx-auto px-6">
-          <motion.h2
-            className="font-display text-charcoal text-center mb-12"
+      {/* ─── Testimonials — with apartment photo background ─── */}
+      <section
+        className="section-py relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, rgba(11,79,69,0.92) 0%, rgba(7,58,51,0.88) 100%)',
+        }}
+        aria-label="Testimonials"
+      >
+        {/* Photo background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat -z-10 opacity-25"
+          style={{ backgroundImage: 'url(/nigerian-apartments.png)' }}
+          aria-hidden="true"
+        />
+
+        <div className="max-w-marketing mx-auto px-6 relative z-10">
+          <motion.div
+            className="text-center mb-12"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            What landlords and tenants say.
-          </motion.h2>
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent/90 mb-3">Social proof</p>
+            <h2 className="font-display text-white">What landlords and tenants say.</h2>
+          </motion.div>
 
           <motion.div
             className="grid md:grid-cols-3 gap-5"
@@ -360,52 +450,62 @@ const Home = () => {
           >
             {testimonials.map((t, i) => (
               <motion.div key={t.name} variants={fadeUp} custom={i}>
-                <Card className="h-full flex flex-col">
-                  <div className="flex gap-0.5 mb-4" aria-label={`5 stars`}>
+                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 h-full flex flex-col hover:bg-white/15 transition-colors duration-200">
+                  <div className="flex gap-0.5 mb-4" aria-label="5 stars">
                     {[...Array(5)].map((_, j) => (
                       <Star key={j} size={14} className="text-warning fill-warning" aria-hidden="true" />
                     ))}
                   </div>
-                  <p className="text-body text-sm leading-relaxed flex-1 mb-4">"{t.quote}"</p>
+                  <p className="text-white/90 text-sm leading-relaxed flex-1 mb-4">"{t.quote}"</p>
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold text-charcoal text-sm">{t.name}</p>
-                      <p className="text-xs text-muted">{t.location}</p>
+                      <p className="font-semibold text-white text-sm">{t.name}</p>
+                      <p className="text-xs text-white/60">{t.location}</p>
                     </div>
                     {t.result && (
-                      <Badge status="paid" label={t.result} className="text-xs text-right max-w-[120px] text-right" />
+                      <span className="text-xs bg-success/20 text-green-200 border border-success/30 rounded-full px-2 py-0.5 text-right max-w-[120px]">
+                        {t.result}
+                      </span>
                     )}
                   </div>
-                </Card>
+                </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Pricing teaser */}
-      <section className="section-py bg-white" aria-label="Pricing teaser">
+      {/* ─── Pricing teaser — distinct warm gradient background ─── */}
+      <section className="section-py bg-warm" aria-label="Pricing teaser">
+        {/* Top decorative rule */}
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent mb-0" aria-hidden="true" />
         <div className="max-w-marketing mx-auto px-6">
           <motion.div
-            className="bg-warm rounded-lg border border-border p-8 md:p-12 text-center max-w-2xl mx-auto"
+            className="relative bg-white rounded-2xl border border-border shadow-lg p-8 md:p-12 text-center max-w-2xl mx-auto overflow-hidden"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">Pricing</p>
-            <h2 className="font-display text-charcoal mb-4">Start free. Scale as you grow.</h2>
-            <p className="text-body text-body mb-2">From <span className="font-mono font-semibold text-charcoal">₦3,000</span> per property/month.</p>
-            <p className="text-sm text-muted mb-8">Tenants always pay nothing. Landlords get a 14-day free trial.</p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button size="lg" onClick={() => navigate('/signup')}>Start free trial</Button>
-              <Button size="lg" variant="secondary" onClick={() => navigate('/pricing')}>See all plans</Button>
+            {/* Decorative corner gradient */}
+            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-primary/8 to-transparent rounded-bl-full" aria-hidden="true" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-accent/8 to-transparent rounded-tr-full" aria-hidden="true" />
+
+            <div className="relative z-10">
+              <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">Pricing</p>
+              <h2 className="font-display text-charcoal mb-4">Start free. Scale as you grow.</h2>
+              <p className="text-body text-body mb-2">From <span className="font-mono font-semibold text-charcoal">₦3,000</span> per property/month.</p>
+              <p className="text-sm text-muted mb-8">Tenants always pay nothing. Landlords get a 14-day free trial.</p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button size="lg" onClick={() => navigate('/signup')}>Start free trial</Button>
+                <Button size="lg" variant="secondary" onClick={() => navigate('/pricing')}>See all plans</Button>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* ─── Final CTA ─── */}
       <section className="bg-gradient-warm py-24" aria-label="Call to action">
         <div className="max-w-marketing mx-auto px-6 text-center">
           <motion.div
@@ -482,7 +582,7 @@ const DashboardMockup = () => (
           {[40, 55, 48, 62, 75, 68, 85].map((h, i) => (
             <div
               key={i}
-              className="flex-1 bg-primary/20 rounded-t"
+              className="flex-1 rounded-t"
               style={{ height: `${h}%`, background: i === 6 ? '#0B4F45' : 'rgba(11,79,69,0.2)' }}
             />
           ))}

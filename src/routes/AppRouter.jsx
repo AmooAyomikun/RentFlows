@@ -42,6 +42,7 @@ import Settings from '../pages/landlord/Settings';
 
 // Tenant Pages
 import TenantDashboard from '../pages/tenant/TenantDashboard';
+import TenantLease from '../pages/tenant/TenantLease';
 import TenantPayments from '../pages/tenant/TenantPayments';
 import TenantMaintenance from '../pages/tenant/TenantMaintenance';
 import TenantSettings from '../pages/tenant/TenantSettings';
@@ -49,6 +50,7 @@ import TenantSettings from '../pages/tenant/TenantSettings';
 // Fallbacks
 import NotFound from '../pages/NotFound';
 import PlaceholderView from '../pages/PlaceholderView';
+import Notifications from '../pages/Notifications';
 
 // Route Guards
 const RequireAuth = ({ children, allowedRole }) => {
@@ -128,7 +130,7 @@ const AppRouter = () => {
           <Route path="maintenance" element={<Maintenance />} />
           <Route path="maintenance/:id" element={<PlaceholderView title="Maintenance Ticket" type="Ticket View" />} />
           <Route path="reports" element={<Reports />} />
-          <Route path="notifications" element={<PlaceholderView title="Notifications" type="Notifications View" />} />
+          <Route path="notifications" element={<Notifications role="landlord" />} />
           <Route path="settings" element={<Settings />} />
         </Route>
 
@@ -143,9 +145,12 @@ const AppRouter = () => {
         >
           <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<TenantDashboard />} />
+          <Route path="lease" element={<TenantLease />} />
+          <Route path="pay-rent" element={<TenantPayments />} />
           <Route path="payments" element={<TenantPayments />} />
           <Route path="maintenance" element={<TenantMaintenance />} />
           <Route path="maintenance/:id" element={<PlaceholderView title="Maintenance Ticket" type="Ticket View" />} />
+          <Route path="notifications" element={<Notifications role="tenant" />} />
           <Route path="settings" element={<TenantSettings />} />
         </Route>
 
