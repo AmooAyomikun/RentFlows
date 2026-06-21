@@ -11,7 +11,7 @@ export const getMaintenanceRequests = async ({ tenantId, propertyId, status } = 
   if (tenantId) reqs = reqs.filter((r) => r.tenantId === tenantId);
   if (propertyId) reqs = reqs.filter((r) => r.propertyId === propertyId);
   if (status) reqs = reqs.filter((r) => r.status === status);
-  return reqs.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+  return reqs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 };
 
 export const getMaintenanceById = async (id) => {
@@ -28,7 +28,7 @@ export const createMaintenanceRequest = async (data) => {
     ...data,
     id: `maint-${Date.now()}`,
     status: 'received',
-    submittedAt: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     notes: '',
     statusHistory: [

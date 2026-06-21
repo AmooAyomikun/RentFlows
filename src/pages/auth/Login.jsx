@@ -29,7 +29,7 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const user = await login(data.email, data.password);
+      const user = await login({ email: data.email, password: data.password });
       setUser(user);
       toast.success(`Welcome back, ${user.name?.split(' ')[0]}!`);
       const dashPath = user.role === 'tenant' ? '/tenant/dashboard' : '/landlord/dashboard';
@@ -87,7 +87,7 @@ const Login = () => {
             variant="outline"
             size="sm"
             onClick={async () => {
-              const u = await login('landlord@demo.com', 'demo123');
+              const u = await login({ email: 'landlord@demo.com', password: 'demo123' });
               setUser(u);
               navigate('/landlord/dashboard');
             }}
@@ -98,7 +98,7 @@ const Login = () => {
             variant="outline"
             size="sm"
             onClick={async () => {
-              const u = await login('tenant@demo.com', 'demo123');
+              const u = await login({ email: 'tenant@demo.com', password: 'demo123' });
               setUser(u);
               navigate('/tenant/dashboard');
             }}

@@ -35,6 +35,7 @@ import Properties from '../pages/landlord/Properties';
 import AddProperty from '../pages/landlord/AddProperty';
 import PropertyDetail from '../pages/landlord/PropertyDetail';
 import Tenants from '../pages/landlord/Tenants';
+import Payments from '../pages/landlord/Payments';
 import Maintenance from '../pages/landlord/Maintenance';
 import Reports from '../pages/landlord/Reports';
 import Settings from '../pages/landlord/Settings';
@@ -123,10 +124,11 @@ const AppRouter = () => {
           <Route path="properties/:id/units/:unitId" element={<PlaceholderView title="Unit Details" type="Unit View" />} />
           <Route path="tenants" element={<Tenants />} />
           <Route path="tenants/:id" element={<PlaceholderView title="Tenant Profile" type="Tenant Record" />} />
-          <Route path="payments" element={<PlaceholderView title="All Payments" type="Payment Ledger" />} />
+          <Route path="payments" element={<Payments />} />
           <Route path="maintenance" element={<Maintenance />} />
           <Route path="maintenance/:id" element={<PlaceholderView title="Maintenance Ticket" type="Ticket View" />} />
           <Route path="reports" element={<Reports />} />
+          <Route path="notifications" element={<PlaceholderView title="Notifications" type="Notifications View" />} />
           <Route path="settings" element={<Settings />} />
         </Route>
 
