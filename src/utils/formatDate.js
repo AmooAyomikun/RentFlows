@@ -59,3 +59,9 @@ export const shortDate = (date) => formatDate(date, 'MMM d');
  * Returns "1 Jun 2026" long date.
  */
 export const longDate = (date) => formatDate(date, 'd MMM yyyy');
+
+/**
+ * Returns a formatted date and time.
+ */
+export const formatDateTime = (date, pattern = 'MMM d, yyyy h:mm a') => formatDate(date, pattern);
+

@@ -66,3 +66,16 @@ export const getTenantPayments = async () => {
     { id: '2', date: '2023-01-10', amount: 450000, status: 'completed' },
   ];
 };
+
+export const getTenantProfile = async () => {
+  await mockDelay(300, 500);
+  return {
+    propertyName: "Okafor Plaza",
+    unitName: "Apt 4B",
+    rentAmount: 450000,
+    rentCycle: "year",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31"
+  };
+};
+
