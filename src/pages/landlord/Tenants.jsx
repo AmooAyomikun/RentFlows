@@ -20,7 +20,7 @@ const Tenants = () => {
 
   const filtered = tenants.filter(t => {
     const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase()) || t.email.toLowerCase().includes(search.toLowerCase()) || (t.unitName && t.unitName.toLowerCase().includes(search.toLowerCase()));
-    const matchesStatus = statusFilter === 'all' || t.status === statusFilter;
+    const matchesStatus = statusFilter === 'all' || t.paymentStatus === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
@@ -39,9 +39,9 @@ const Tenants = () => {
       ),
     },
     {
-      key: 'status',
+      key: 'paymentStatus',
       label: 'Status',
-      render: (val) => <Badge status={val} label={val.charAt(0).toUpperCase() + val.slice(1)} />,
+      render: (val) => val ? <Badge status={val} label={val.charAt(0).toUpperCase() + val.slice(1)} /> : null,
     },
     {
       key: 'unitName',

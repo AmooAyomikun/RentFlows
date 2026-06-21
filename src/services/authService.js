@@ -3,6 +3,9 @@ import { mockDelay, lsGet, lsSet } from './mockUtils';
 
 const LS_KEY = 'rf_session';
 
+const LS_USERS_KEY = 'rf_users';
+const getUsers = () => lsGet(LS_USERS_KEY, [currentUserData.landlord, currentUserData.tenant]);
+
 /**
  * Returns the current session from localStorage, or null if not logged in.
  */
@@ -19,19 +22,12 @@ export const login = async ({ email, password }) => {
     throw new Error('Password is required.');
   }
 
-  const landlordEmail = currentUserData.landlord.email;
-  const tenantEmail = currentUserData.tenant.email;
-
-  if (email === landlordEmail) {
-    const user = { ...currentUserData.landlord };
-    lsSet(LS_KEY, user);
-    return user;
-  }
-
-  if (email === tenantEmail) {
-    const user = { ...currentUserData.tenant };
-    lsSet(LS_KEY, user);
-    return user;
+  const users = getUsers();
+  const foundUser = users.find(u => u.email === email);
+  
+  if (foundUser) {
+    lsSet(LS_KEY, foundUser);
+    return foundUser;
   }
 
   // Accept any @landlord.com or @tenant.com for demo convenience
@@ -68,6 +64,8 @@ export const signup = async (data) => {
     role,
   };
 
+  const users = getUsers();
+  lsSet(LS_USERS_KEY, [...users, user]);
   lsSet(LS_KEY, user);
   return user;
 };

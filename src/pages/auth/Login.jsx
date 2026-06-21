@@ -87,7 +87,7 @@ const Login = () => {
             variant="outline"
             size="sm"
             onClick={async () => {
-              const u = await login({ email: 'landlord@demo.com', password: 'demo123' });
+              const u = await login({ email: 'demo@landlord.com', password: 'demo123' });
               setUser(u);
               navigate('/landlord/dashboard');
             }}
@@ -98,7 +98,7 @@ const Login = () => {
             variant="outline"
             size="sm"
             onClick={async () => {
-              const u = await login({ email: 'tenant@demo.com', password: 'demo123' });
+              const u = await login({ email: 'demo@tenant.com', password: 'demo123' });
               setUser(u);
               navigate('/tenant/dashboard');
             }}

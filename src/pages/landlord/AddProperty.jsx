@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { Building2, MapPin, ArrowLeft } from 'lucide-react';
+import { createProperty } from '../../services/propertyService';
 import { toast } from 'sonner';
 import Input from '../../components/ui/Input';
 import { Textarea } from '../../components/ui/Input';
@@ -33,10 +34,13 @@ const AddProperty = () => {
   });
 
   const onSubmit = async (data) => {
-    // Mock save logic - in a real app this would hit the propertyService
-    await new Promise(resolve => setTimeout(resolve, 800));
-    toast.success('Property created successfully');
-    navigate('/landlord/properties');
+    try {
+      await createProperty(data);
+      toast.success('Property created successfully');
+      navigate('/landlord/properties');
+    } catch (err) {
+      toast.error('Failed to create property');
+    }
   };
 
   const breadcrumbs = [

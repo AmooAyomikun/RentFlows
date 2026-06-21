@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Building2, MapPin, Plus, MoreVertical, Edit2, Trash2, Home, Users
 } from 'lucide-react';
-import { getPropertyById } from '../../services/propertyService';
+import { getPropertyById, deleteProperty } from '../../services/propertyService';
 import { getUnits } from '../../services/unitService';
+import { useNavigate } from 'react-router-dom';
 import { formatCurrency } from '../../utils/formatCurrency';
 import Badge from '../../components/ui/Badge';
 import Button from '../../components/ui/Button';
@@ -19,7 +20,9 @@ import { ContentCardSkeleton } from '../../components/ui/SkeletonLoader';
 
 const PropertyDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { data: property, isLoading: loadingProp } = useQuery({
     queryKey: ['property', id],
@@ -165,11 +168,19 @@ const PropertyDetail = () => {
       <ConfirmDialog
         isOpen={deleteConfirmOpen}
         onClose={() => setDeleteConfirmOpen(false)}
-        onConfirm={() => {
-          // Mock delete logic
-          setDeleteConfirmOpen(false);
-          // navigate back
+        onConfirm={async () => {
+          try {
+            setIsDeleting(true);
+            await deleteProperty(id);
+            setDeleteConfirmOpen(false);
+            navigate('/landlord/properties');
+          } catch (err) {
+            console.error(err);
+          } finally {
+            setIsDeleting(false);
+          }
         }}
+        isSubmitting={isDeleting}
         title="Delete Property"
         message={`Are you sure you want to delete ${property.name}? This action cannot be undone.`}
         confirmText="Delete"
