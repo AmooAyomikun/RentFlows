@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, MessageCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -29,7 +29,8 @@ const subjectOptions = [
 const contactInfo = [
   { icon: Mail, label: 'Email', value: 'hello@rentflow.ng', href: 'mailto:hello@rentflow.ng' },
   { icon: Phone, label: 'Phone', value: '+234 800 000 0000', href: 'tel:+23480000000' },
-  { icon: MapPin, label: 'Address', value: 'Lagos, Nigeria', href: null },
+  { icon: MessageCircle, label: 'WhatsApp', value: '+234 800 000 0001', href: 'https://wa.me/2348000000001' },
+  { icon: MapPin, label: 'Office', value: '12 Admiralty Way, Lekki Phase 1, Lagos, Nigeria', href: null },
 ];
 
 const Contact = () => {
@@ -87,9 +88,12 @@ const Contact = () => {
                 </div>
               ))}
 
-              <div className="bg-primary/8 border border-primary/20 rounded-lg p-4">
-                <p className="text-sm font-semibold text-primary mb-1">Enterprise enquiries</p>
-                <p className="text-xs text-muted">Managing 20+ properties? Email our sales team at <a href="mailto:sales@rentflow.ng" className="text-primary hover:underline">sales@rentflow.ng</a></p>
+              <div className="bg-primary/8 border border-primary/20 rounded-lg p-4 space-y-4">
+                <div>
+                  <p className="text-sm font-semibold text-primary mb-1">Enterprise enquiries</p>
+                  <p className="text-xs text-muted">Managing 150+ units? Let's talk about custom pricing and onboarding.</p>
+                </div>
+                <Button variant="primary" size="sm" className="w-full">Book a Demo</Button>
               </div>
             </motion.div>
 

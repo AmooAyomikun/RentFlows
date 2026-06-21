@@ -9,9 +9,9 @@ import Accordion from '../../components/ui/Accordion';
 const plans = [
   {
     name: 'Starter',
-    monthlyPrice: 3000,
-    annualPrice: 2400,
-    desc: 'Perfect for individual landlords with 1–5 properties.',
+    monthlyPrice: 1000,
+    annualPrice: 800,
+    desc: 'Perfect for individual landlords with up to 50 units.',
     features: [
       { text: 'Unlimited tenants per property', included: true },
       { text: 'Online rent collection', included: true },
@@ -28,9 +28,9 @@ const plans = [
   },
   {
     name: 'Growth',
-    monthlyPrice: 8000,
-    annualPrice: 6400,
-    desc: 'For growing landlords who want more automation and reporting.',
+    monthlyPrice: 2500,
+    annualPrice: 2000,
+    desc: 'For growing portfolios that need more automation and reporting.',
     features: [
       { text: 'Everything in Starter', included: true },
       { text: 'Bulk SMS reminders', included: true },
@@ -49,7 +49,7 @@ const plans = [
     name: 'Enterprise',
     monthlyPrice: null,
     annualPrice: null,
-    desc: 'For portfolios of 20+ properties with custom needs.',
+    desc: 'For portfolios of 150+ units with custom needs.',
     features: [
       { text: 'Everything in Growth', included: true },
       { text: 'API access', included: true },
@@ -92,7 +92,7 @@ const Pricing = () => {
             Simple, transparent pricing.
           </motion.h1>
           <motion.p className="text-white/60 text-lg mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.1 } }}>
-            Priced per property. Tenants always pay nothing.
+            Priced per unit. Tenants always pay nothing.
           </motion.p>
 
           {/* Billing toggle */}
@@ -160,7 +160,7 @@ const Pricing = () => {
                             <span className="font-mono text-3xl font-bold text-charcoal">
                               ₦{(annual ? plan.annualPrice : plan.monthlyPrice).toLocaleString()}
                             </span>
-                            <span className="text-muted text-sm"> /property/month</span>
+                            <span className="text-muted text-sm"> /unit/month</span>
                           </motion.div>
                         </AnimatePresence>
                       ) : (

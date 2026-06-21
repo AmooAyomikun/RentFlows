@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { CreditCard, Download, Filter, Search } from 'lucide-react';
 import { getPayments, getPaymentSummary } from '../../services/paymentService';
@@ -10,6 +11,7 @@ import { formatCurrency } from '../../utils/formatCurrency';
 import { formatDate } from '../../utils/formatDate';
 
 const Payments = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
@@ -134,7 +136,7 @@ const Payments = () => {
         ) : filtered.length === 0 ? (
           <EmptyState title="No payments found" icon={CreditCard} />
         ) : (
-          <DataTable columns={columns} data={filtered} keyExtractor={(row) => row.id} />
+          <DataTable columns={columns} data={filtered} keyExtractor={(row) => row.id} onRowClick={(row) => navigate(`/landlord/payments/${row.id}`)} />
         )}
       </Card>
     </div>

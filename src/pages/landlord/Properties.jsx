@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Plus, Search, MapPin, Building2, ChevronRight } from 'lucide-react';
 import { getProperties } from '../../services/propertyService';
+import { getPropertyPhoto } from '../../utils/propertyPhotos';
 import Button from '../../components/ui/Button';
 import EmptyState from '../../components/ui/EmptyState';
 import { ContentCardSkeleton } from '../../components/ui/SkeletonLoader';
@@ -77,10 +78,14 @@ const Properties = () => {
             <motion.div key={property.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
               <Link to={`/landlord/properties/${property.id}`} className="block h-full group">
                 <Card hoverable className="h-full flex flex-col p-0 overflow-hidden border-border/80 group-hover:border-primary/30 transition-colors">
-                  {/* Image placeholder */}
-                  <div className="h-32 bg-gradient-to-br from-primary/10 to-primary/5 border-b border-border flex items-center justify-center relative">
-                    <Building2 size={32} className="text-primary/30 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
-                    <div className="absolute top-3 right-3">
+                  {/* Image or placeholder */}
+                  <div className="h-32 bg-gradient-to-br from-primary/10 to-primary/5 border-b border-border flex items-center justify-center relative overflow-hidden">
+                    {getPropertyPhoto(property.id) ? (
+                      <img src={getPropertyPhoto(property.id)} alt={property.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    ) : (
+                      <Building2 size={32} className="text-primary/30 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
+                    )}
+                    <div className="absolute top-3 right-3 z-10">
                       <Badge
                         status={property.occupiedUnits === property.totalUnits ? 'occupied' : 'vacant'}
                         label={`${property.occupiedUnits}/${property.totalUnits} Units`}

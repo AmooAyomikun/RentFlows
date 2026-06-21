@@ -18,6 +18,7 @@ import { getNotifications } from '../../services/notificationService';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { timeAgo } from '../../utils/formatDate';
 import useAuthStore from '../../store/authStore';
+import { getPropertyPhoto } from '../../utils/propertyPhotos';
 
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };
 const fadeUp = {
@@ -205,8 +206,12 @@ const LandlordDashboard = () => {
             {properties.slice(0, 3).map((p) => (
               <Link key={p.id} to={`/landlord/properties/${p.id}`}>
                 <Card hoverable padding={false} className="overflow-hidden">
-                  <div className="h-28 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                    <Building2 size={28} className="text-primary/50" aria-hidden="true" />
+                  <div className="h-28 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center relative overflow-hidden">
+                    {getPropertyPhoto(p.id) ? (
+                      <img src={getPropertyPhoto(p.id)} alt={p.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                    ) : (
+                      <Building2 size={28} className="text-primary/50" aria-hidden="true" />
+                    )}
                   </div>
                   <div className="p-4">
                     <h3 className="font-semibold text-charcoal text-sm mb-1 truncate">{p.name}</h3>

@@ -415,6 +415,53 @@ const Home = () => {
         </div>
       </section>
 
+      {/* ─── Dual Path Section ─── */}
+      <section className="section-py bg-charcoal text-white" aria-label="Dual Path">
+        <div className="max-w-marketing mx-auto px-6">
+          <motion.div
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent/90 mb-3">Two Sides, One Platform</p>
+            <h2 className="font-display text-white mb-4">Built for Landlords. Loved by Tenants.</h2>
+            <p className="text-white/70 max-w-lg mx-auto">RentFlow serves both sides of the rental equation. See how we help you.</p>
+          </motion.div>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors"
+            >
+              <Building2 size={40} className="text-accent mb-6" />
+              <h3 className="text-2xl font-display font-semibold mb-3">For Landlords</h3>
+              <ul className="space-y-3 mb-8 text-white/80">
+                <li className="flex items-center gap-2"><CheckCircle size={16} className="text-accent"/> Collect rent automatically</li>
+                <li className="flex items-center gap-2"><CheckCircle size={16} className="text-accent"/> Get insights on portfolio revenue</li>
+                <li className="flex items-center gap-2"><CheckCircle size={16} className="text-accent"/> Stop tracking payments on WhatsApp</li>
+              </ul>
+              <Button variant="accent" onClick={() => navigate('/for-landlords')}>Explore Landlord Features</Button>
+            </motion.div>
+            
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors"
+            >
+              <UserPlus size={40} className="text-primary mb-6" />
+              <h3 className="text-2xl font-display font-semibold mb-3">For Tenants</h3>
+              <ul className="space-y-3 mb-8 text-white/80">
+                <li className="flex items-center gap-2"><CheckCircle size={16} className="text-primary"/> Pay securely with card or transfer</li>
+                <li className="flex items-center gap-2"><CheckCircle size={16} className="text-primary"/> Get instant PDF receipts</li>
+                <li className="flex items-center gap-2"><CheckCircle size={16} className="text-primary"/> Report maintenance issues easily</li>
+              </ul>
+              <Button className="bg-primary hover:bg-primary/90 text-white border-none" onClick={() => navigate('/for-tenants')}>Explore Tenant Features</Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── Testimonials — with apartment photo background ─── */}
       <section
         className="section-py relative overflow-hidden"

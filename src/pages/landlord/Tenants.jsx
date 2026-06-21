@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Search, Mail, UserPlus, Filter } from 'lucide-react';
 import { getTenants } from '../../services/tenantService';
@@ -10,6 +11,7 @@ import Avatar from '../../components/ui/Avatar';
 import { formatDate } from '../../utils/formatDate';
 
 const Tenants = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
@@ -64,7 +66,7 @@ const Tenants = () => {
       render: () => (
         <div className="flex justify-end gap-2">
           <Button variant="ghost" size="sm" className="h-8 w-8 p-0"><Mail size={14} /></Button>
-          <Button variant="outline" size="sm">View</Button>
+          <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); navigate(`/landlord/tenants/${row.id}`); }}>View</Button>
         </div>
       ),
     },
@@ -111,6 +113,7 @@ const Tenants = () => {
           data={filtered}
           loading={isLoading}
           keyExtractor={(row) => row.id}
+          onRowClick={(row) => navigate(`/landlord/tenants/${row.id}`)}
           emptyMessage="No tenants found matching your criteria."
         />
       </Card>

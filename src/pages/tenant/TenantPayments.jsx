@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { CreditCard, Download, ExternalLink, Calendar as CalIcon } from 'lucide-react';
 import { getTenantPayments } from '../../services/tenantService';
@@ -11,7 +11,7 @@ import { formatCurrency } from '../../utils/formatCurrency';
 import { formatDate } from '../../utils/formatDate';
 
 const TenantPayments = () => {
-  const [payModalOpen, setPayModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const { data: payments = [], isLoading } = useQuery({
     queryKey: ['tenant-payments'],
@@ -59,7 +59,7 @@ const TenantPayments = () => {
           <h1 className="font-display font-bold text-2xl text-charcoal">Payments</h1>
           <p className="text-sm text-muted">View your payment history and download receipts.</p>
         </div>
-        <Button leftIcon={<CreditCard size={16} />} onClick={() => setPayModalOpen(true)}>Pay Rent</Button>
+        <Button leftIcon={<CreditCard size={16} />} onClick={() => navigate('/tenant/pay-rent')}>Pay Rent</Button>
       </div>
 
       <div className="grid md:grid-cols-3 gap-5">
@@ -111,19 +111,6 @@ const TenantPayments = () => {
         </div>
       </div>
 
-      {/* Mock Pay Modal Placeholder */}
-      {payModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <Card className="w-full max-w-md animate-in fade-in zoom-in-95">
-            <h2 className="font-display font-semibold text-xl mb-4">Make a Payment</h2>
-            <p className="text-sm text-muted mb-6">Payment gateway simulation. In a real app, this would load Paystack.</p>
-            <div className="flex justify-end gap-3">
-              <Button variant="outline" onClick={() => setPayModalOpen(false)}>Cancel</Button>
-              <Button onClick={() => setPayModalOpen(false)}>Simulate Payment</Button>
-            </div>
-          </Card>
-        </div>
-      )}
     </div>
   );
 };
