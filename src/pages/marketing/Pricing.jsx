@@ -67,11 +67,11 @@ const plans = [
 ];
 
 const faqItems = [
-  { id: 'f1', question: 'Is there a free trial?', answer: 'Yes — every plan comes with a 14-day free trial, no credit card required. You can add properties and invite tenants during the trial.' },
-  { id: 'f2', question: 'What is the transaction fee?', answer: 'We charge a transparent 0.5% fee on each rent collected. This is clearly shown on every receipt. There are no hidden charges.' },
-  { id: 'f3', question: 'Can I switch plans?', answer: 'Yes, you can upgrade or downgrade at any time. Upgrades are effective immediately; downgrades take effect at the end of your billing period.' },
-  { id: 'f4', question: 'Do tenants pay anything?', answer: 'No. RentFlow is free for tenants. They can pay rent, download receipts, and log maintenance requests at no cost.' },
-  { id: 'f5', question: 'What payment methods do you accept?', answer: 'Card payments (Visa/Mastercard), bank transfers and Paystack wallet — all major methods used in Nigeria.' },
+  { id: 'f1', question: 'Is there a free trial?', answer: 'Yes. Every plan includes a 14-day free trial with no credit card required. You can add units and invite tenants immediately.' },
+  { id: 'f2', question: 'What are the transaction fees?', answer: 'We charge a flat 0.5% fee per successful rent payment. This is automatically deducted during the payout. There are no hidden processing fees.' },
+  { id: 'f3', question: 'Can I switch or cancel my plan?', answer: 'Yes, you can upgrade, downgrade, or cancel at any time. Upgrades are prorated immediately; downgrades take effect at the end of your billing cycle.' },
+  { id: 'f4', question: 'Do tenants pay to use the platform?', answer: 'No. The tenant portal is 100% free. Tenants can pay rent, submit maintenance tickets, and download PDF receipts at no cost.' },
+  { id: 'f5', question: 'What payment methods are supported?', answer: 'Tenants can pay via Credit/Debit Card, direct Bank Transfer, or Paystack. Funds settle to your account in 24 hours.' },
 ];
 
 const Pricing = () => {
