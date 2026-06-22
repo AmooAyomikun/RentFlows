@@ -103,24 +103,6 @@ const Footer = () => (
         ))}
       </div>
 
-      {/* Bottom bar */}
-      <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-xs text-sidebar-text/40">
-          © {new Date().getFullYear()} RentFlow. All rights reserved. Built with ❤️ for Africa.
-        </p>
-        <div className="flex items-center gap-4">
-          {socials.map(({ icon: Icon, label, href }) => (
-            <a
-              key={label}
-              href={href}
-              aria-label={label}
-              className="text-sidebar-text/40 hover:text-white transition-colors"
-            >
-              <Icon size={16} aria-hidden="true" />
-            </a>
-          ))}
-        </div>
-      </div>
     </div>
   </footer>
 );

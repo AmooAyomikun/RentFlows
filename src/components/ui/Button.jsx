@@ -38,6 +38,10 @@ const Button = forwardRef(
         'border border-border text-body bg-transparent hover:bg-warm active:scale-[0.98] disabled:opacity-40',
       accent:
         'bg-accent text-white hover:bg-accent/90 active:scale-[0.98] disabled:opacity-40',
+      white:
+        'bg-white text-primary hover:bg-warm active:scale-[0.98] disabled:opacity-40',
+      whiteOutline:
+        'border border-white/20 text-white bg-transparent hover:bg-white/10 active:scale-[0.98] disabled:opacity-40',
     };
 
     const sizes = {

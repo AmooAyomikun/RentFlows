@@ -6,11 +6,14 @@ import Button from '../ui/Button';
 import useAuthStore from '../../store/authStore';
 
 const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
   { label: 'Features', href: '/features' },
+  { label: 'Solutions', href: '/solutions' },
   { label: 'For Landlords', href: '/for-landlords' },
   { label: 'For Tenants', href: '/for-tenants' },
+  { label: 'Resources', href: '/resources' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'About', href: '/about' },
 ];
 
 /**
@@ -46,7 +49,7 @@ const Navbar = () => {
         role="banner"
       >
         <div className="max-w-marketing mx-auto px-6">
-          <div className="flex items-center justify-between h-16 lg:h-18">
+          <div className="flex items-center justify-between h-12 lg:h-14">
             {/* Logo */}
             <Link
               to="/"
@@ -58,14 +61,14 @@ const Navbar = () => {
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1" aria-label="Main navigation">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.href}
                   to={link.href}
                   className={({ isActive }) =>
                     [
-                      'px-3.5 py-2 text-sm font-medium rounded transition-colors duration-150',
+                      'px-1.5 xl:px-2 py-1.5 text-[12px] xl:text-[13px] font-medium rounded transition-colors duration-150',
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
                       isActive
                         ? 'text-primary bg-primary/6'
