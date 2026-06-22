@@ -44,16 +44,16 @@ const Navbar = () => {
           'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
           scrolled || mobileOpen
             ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-border/60'
-            : 'bg-transparent',
+            : 'bg-white border-b border-border/60',
         ].join(' ')}
         role="banner"
       >
         <div className="max-w-marketing mx-auto px-6">
-          <div className="flex items-center justify-between h-12 lg:h-14">
+          <div className="flex items-center justify-between h-[72px]">
             {/* Logo */}
             <Link
               to="/"
-              className="flex items-center gap-2.5 font-display font-bold text-xl text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
+              className="flex items-center gap-3 font-display font-bold text-2xl text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
               aria-label="RentFlow — Go to homepage"
             >
               <LogoMark />
@@ -68,7 +68,7 @@ const Navbar = () => {
                   to={link.href}
                   className={({ isActive }) =>
                     [
-                      'px-1.5 xl:px-2 py-1.5 text-[12px] xl:text-[13px] font-medium rounded transition-colors duration-150',
+                      'px-3 py-2 text-[14px] xl:text-[15px] font-medium rounded transition-colors duration-150',
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
                       isActive
                         ? 'text-primary bg-primary/6'
@@ -82,20 +82,21 @@ const Navbar = () => {
             </nav>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-4">
               {isAuthenticated ? (
                 <Button
-                  size="sm"
+                  size="md"
+                  className="!h-[44px] !px-5 !text-[14px]"
                   onClick={() => navigate(dashboardPath)}
                 >
                   Go to Dashboard
                 </Button>
               ) : (
                 <>
-                  <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>
+                  <Button variant="ghost" size="md" className="!h-[44px] !px-5 !text-[14px] hover:bg-primary/5 hover:no-underline" onClick={() => navigate('/login')}>
                     Log In
                   </Button>
-                  <Button size="sm" onClick={() => navigate('/signup')}>
+                  <Button size="md" className="!h-[44px] !px-5 !text-[14px]" onClick={() => navigate('/signup')}>
                     Get Started
                   </Button>
                 </>
@@ -110,7 +111,7 @@ const Navbar = () => {
               aria-expanded={mobileOpen}
               aria-controls="mobile-drawer"
             >
-              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+              {mobileOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
@@ -130,7 +131,7 @@ const Navbar = () => {
             />
             <motion.div
               id="mobile-drawer"
-              className="fixed top-16 left-0 right-0 z-30 bg-white border-b border-border shadow-lg lg:hidden"
+              className="fixed top-[72px] left-0 right-0 z-30 bg-white border-b border-border shadow-lg lg:hidden"
               initial={{ y: -8, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -8, opacity: 0 }}
@@ -181,7 +182,7 @@ const Navbar = () => {
 
 /** RentFlow brand mark SVG */
 const LogoMark = () => (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+  <svg width="32" height="32" viewBox="0 0 28 28" fill="none" aria-hidden="true">
     <rect width="28" height="28" rx="6" fill="#0B4F45" />
     <path
       d="M8 20V12l6-4 6 4v8"

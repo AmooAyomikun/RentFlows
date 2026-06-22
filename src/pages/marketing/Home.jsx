@@ -17,11 +17,6 @@ const fadeUp = {
   }),
 };
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
 /** Trust Logos */
 const trustLogos = ['ShelterHQ', 'LagosLiving', 'PropertyPro', 'EstateManagers', 'Haven', 'PrimeShelter', 'Oakwood', 'TerraFirma'];
 
@@ -141,20 +136,30 @@ const Home = () => {
 
   return (
     <div className="bg-white overflow-hidden">
-      {/* ─── Dark SaaS Hero (No scroll-animations to prevent invisible content) ─── */}
-      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-24 px-6 bg-[#1A1A1A] overflow-hidden" aria-label="Hero">
-        <div className="absolute inset-0 pointer-events-none opacity-40">
-          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-primary/20 blur-[120px] rounded-full" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#C75B30]/10 blur-[100px] rounded-full" />
+      
+      {/* ─── Dribbble-Style Hero (100vh) ─── */}
+      <section 
+        className="relative px-6 bg-charcoal overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24" 
+        aria-label="Hero"
+      >
+        <div className="absolute inset-0 pointer-events-none opacity-30">
+          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/20 blur-[150px] rounded-full translate-x-1/3 -translate-y-1/3" />
+          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#C75B30]/15 blur-[120px] rounded-full -translate-x-1/3 translate-y-1/3" />
         </div>
         
-        <div className="max-w-marketing mx-auto relative z-10">
+        <div className="max-w-marketing mx-auto w-full relative z-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            
             {/* Left Content */}
             <div className="max-w-xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-[11px] font-medium tracking-wide mb-4">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                Next-Gen Property Management
+              </div>
+              
               <h1 
-                className="font-display text-white mb-6 leading-[1.1] tracking-tight"
-                style={{ fontSize: 'clamp(40px, 5vw, 64px)' }}
+                className="font-display text-white mb-4 leading-[1.1] tracking-tight"
+                style={{ fontSize: 'clamp(38px, 4.5vw, 52px)' }}
               >
                 Collect Rent,<br />
                 Manage Tenants, and<br />
@@ -162,118 +167,138 @@ const Home = () => {
                 Place
               </h1>
               
-              <p className="text-white/70 text-base md:text-lg mb-10 leading-relaxed">
+              <p className="text-white/70 text-sm md:text-base mb-6 leading-relaxed max-w-lg">
                 Replace notebooks, spreadsheets, and WhatsApp with a modern rent management platform built for landlords and tenants. High performance tooling for clarity amidst high-density data.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <Button 
                   size="lg" 
                   className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20"
-                  rightIcon={<ArrowRight size={18} />}
                   onClick={() => navigate('/signup')}
                 >
                   Get Started
                 </Button>
                 <Button 
                   size="lg" 
-                  variant="outline"
+                  variant="whiteOutline"
                   className="rounded-full px-8 border-white/20 text-white hover:bg-white/10"
                   onClick={() => navigate('/services')}
                 >
                   Explore Services
                 </Button>
               </div>
-            </div>
 
-            {/* Right Hero Graphic - Captivating Image */}
-            <div className="relative w-full aspect-[4/3] rounded-3xl shadow-2xl overflow-hidden group border border-white/10">
-              <img 
-                src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200" 
-                alt="Modern luxury property"
-                className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-[2s] ease-out"
-              />
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#1A1A1A]/80 via-[#1A1A1A]/20 to-transparent" />
-              
-              {/* Subtle overlay elements for context */}
-              <div className="absolute bottom-6 left-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-2xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-success/20 rounded-full flex items-center justify-center border border-success/30">
-                    <CheckCircle className="text-success" size={20} />
-                  </div>
-                  <div>
-                    <p className="text-white font-bold text-sm">Rent Collected</p>
-                    <p className="text-success text-xs font-medium">+₦1,200,000</p>
-                  </div>
+              {/* Trusted By inline badge */}
+              <div className="flex items-center gap-4">
+                <span className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">Trusted by</span>
+                <div className="flex gap-4">
+                  <span className="text-white/60 font-display font-bold text-sm tracking-tight opacity-70">ShelterHQ</span>
+                  <span className="text-white/60 font-display font-bold text-sm tracking-tight opacity-70">LagosLiving</span>
+                  <span className="text-white/60 font-display font-bold text-sm tracking-tight opacity-70">TerraFirma</span>
                 </div>
               </div>
+            </div>
+
+            {/* Right Hero Graphic - Dribbble Composition */}
+            <div className="relative w-full max-h-[360px] md:max-h-[420px] aspect-[4/3] flex items-center justify-center mt-10 lg:mt-0">
+              {/* Subtle Image Glow */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-primary/30 blur-[120px] rounded-full" />
+              
+              {/* Main Rounded Image */}
+              <div className="relative z-10 w-[80%] h-[80%] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <img 
+                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200" 
+                  alt="Modern luxury property"
+                  className="w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-[3s] ease-out"
+                />
+                {/* Internal gradient to make badges pop */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-charcoal/90 via-transparent to-transparent opacity-80" />
+              </div>
+
+              {/* Floating Badge 1 - Top Right */}
+              <motion.div 
+                className="absolute top-[5%] right-[0%] z-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl flex items-center gap-4"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+              >
+                <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/20">
+                  <Building2 className="text-white" size={24} />
+                </div>
+                <div>
+                  <p className="text-white/60 text-[11px] font-medium uppercase tracking-wider mb-0.5">Active Properties</p>
+                  <p className="text-white font-display font-bold text-xl">1,425 Units</p>
+                </div>
+              </motion.div>
+
+              {/* Floating Badge 2 - Bottom Left */}
+              <motion.div 
+                className="absolute bottom-[10%] left-[0%] z-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl flex items-center gap-4"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+              >
+                <div className="w-12 h-12 bg-success/20 rounded-full flex items-center justify-center border border-success/30">
+                  <CheckCircle className="text-success" size={24} />
+                </div>
+                <div>
+                  <p className="text-white/60 text-[11px] font-medium uppercase tracking-wider mb-0.5">Rent Collected</p>
+                  <div className="flex items-baseline gap-2">
+                    <p className="text-white font-display font-bold text-2xl">+₦4.2M</p>
+                    <span className="text-success text-[10px] font-bold bg-success/10 px-1.5 py-0.5 rounded">↑ 12%</span>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── Scrolling Trust Strip ─── */}
-      <section className="bg-charcoal border-t border-white/5 py-8 overflow-hidden" aria-label="Trusted companies">
-        <div className="flex whitespace-nowrap animate-shimmer" style={{ animationDuration: '30s', animationTimingFunction: 'linear' }}>
-          {[...trustLogos, ...trustLogos].map((logo, i) => (
-            <div key={i} className="inline-flex items-center gap-10 px-10">
-              <span className="text-white/40 font-display font-bold text-xl tracking-tight opacity-50 hover:opacity-100 transition-opacity cursor-default">
-                {logo}
-              </span>
-              <span className="text-white/10 text-xs">✦</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ─── Bento Box Features (Ultra Compact) ─── */}
-      <section className="py-20 bg-warm" aria-label="Features Bento">
-        <div className="max-w-marketing mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* ─── Bento Box Features ─── */}
+      <section className="py-8 md:py-12 bg-warm" aria-label="Features Bento">
+        <div className="max-w-marketing mx-auto px-6 w-full">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
             
             {/* Hero Bento Box (Dark) */}
             <motion.div 
-              className="lg:col-span-2 bg-charcoal rounded-2xl p-5 md:p-6 text-white relative overflow-hidden flex flex-col justify-between min-h-[160px]"
+              className="lg:col-span-2 bg-charcoal rounded-xl p-4 text-white relative overflow-hidden flex flex-col justify-between min-h-[150px]"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
             >
-              <div className="relative z-10 max-w-sm">
-                <h2 className="font-display text-xl md:text-2xl mb-3 leading-tight text-white">
+              <div className="relative z-10 max-w-md">
+                <h2 className="font-display text-xl md:text-2xl mb-2 leading-tight text-white">
                   Property software that handles it all.
                 </h2>
-                <Button variant="primary" className="bg-primary hover:bg-primary-dark text-white rounded-full px-4 py-1 text-[10px] h-auto" rightIcon={<ArrowRight size={12}/>}>
+                <Button variant="primary" className="bg-primary hover:bg-primary-dark text-white rounded-full px-5 py-2 text-[11px] h-auto" rightIcon={<ArrowRight size={14}/>}>
                   SEE ALL FEATURES
                 </Button>
               </div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-tl from-primary/40 to-transparent rounded-tl-full blur-xl" />
+              <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-gradient-to-tl from-primary/40 to-transparent rounded-tl-full blur-2xl" />
             </motion.div>
 
             {/* Top Right Box */}
             <motion.div 
-              className="bg-white rounded-2xl p-4 border border-border flex flex-col justify-center min-h-[140px]"
+              className="bg-white rounded-xl p-4 border border-border flex flex-col justify-center min-h-[150px]"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
             >
-              <div className="w-8 h-8 bg-warm rounded-md flex items-center justify-center mb-3">
+              <div className="w-8 h-8 bg-warm rounded-lg flex items-center justify-center mb-3">
                 {(() => {
                   const Icon = bentoFeatures[0].icon;
                   return <Icon size={16} strokeWidth={1.5} className="text-charcoal" />;
                 })()}
               </div>
               <h3 className="font-display font-bold text-sm mb-1 text-charcoal">{bentoFeatures[0].title}</h3>
-              <p className="text-body text-[11px] leading-relaxed line-clamp-2">{bentoFeatures[0].desc}</p>
+              <p className="text-body text-[11px] leading-relaxed line-clamp-3">{bentoFeatures[0].desc}</p>
             </motion.div>
 
             {/* Bottom 3 Boxes */}
             {bentoFeatures.slice(1).map((feature, idx) => (
               <motion.div 
                 key={idx}
-                className="bg-white rounded-2xl p-4 border border-border min-h-[140px] flex flex-col justify-center"
+                className="bg-white rounded-xl p-4 border border-border min-h-[150px] flex flex-col justify-center"
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 + (idx * 0.1) }}
               >
-                <div className="w-8 h-8 bg-warm rounded-md flex items-center justify-center mb-3">
+                <div className="w-8 h-8 bg-warm rounded-lg flex items-center justify-center mb-3">
                   <feature.icon size={16} strokeWidth={1.5} className="text-charcoal" />
                 </div>
                 <h3 className="font-display font-bold text-sm mb-1 text-charcoal">{feature.title}</h3>
-                <p className="text-body text-[11px] leading-relaxed line-clamp-2">{feature.desc}</p>
+                <p className="text-body text-[11px] leading-relaxed line-clamp-3">{feature.desc}</p>
               </motion.div>
             ))}
 
@@ -281,19 +306,19 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── Split Section 1 (Landlord focus) ─── */}
-      <section className="py-20 bg-white" aria-label="Landlord Features">
-        <div className="max-w-marketing mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      {/* ─── Split Section 1 ─── */}
+      <section className="py-8 md:py-12 bg-white" aria-label="Landlord Features">
+        <div className="max-w-marketing mx-auto px-6 w-full">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Image Box */}
             <motion.div 
-              className="relative w-full aspect-[4/3] bg-warm rounded-2xl border border-border overflow-hidden"
+              className="relative w-full h-[260px] md:h-[320px] bg-warm rounded-2xl border border-border overflow-hidden shadow-2xl"
               initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
             >
               <img 
                 src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800" 
                 alt="Manage Properties" 
-                className="absolute inset-0 object-cover w-full h-full opacity-90 mix-blend-multiply transition-transform hover:scale-105 duration-700"
+                className="absolute inset-0 object-cover w-full h-full opacity-90 transition-transform hover:scale-105 duration-[2s] ease-out"
               />
             </motion.div>
 
@@ -301,17 +326,17 @@ const Home = () => {
             <motion.div 
               initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
             >
-              <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-4 leading-tight">
+              <h2 className="font-display text-2xl md:text-3xl text-charcoal mb-4 leading-tight">
                 Manage all your properties in one place
               </h2>
-              <p className="text-body text-sm md:text-base mb-6 leading-relaxed">
+              <p className="text-body text-sm md:text-base mb-4 leading-relaxed max-w-lg">
                 Centralize your operations. From tenant communication to tracking utility bills, RentFlow provides a single unified dashboard to monitor your real estate portfolio, minimizing manual data entry and human error.
               </p>
               <ul className="space-y-3">
                 {['No hidden setup fees.', '100% data security. Guaranteed.', 'No training or maintenance needed.'].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm text-charcoal font-medium">
-                    <div className="w-5 h-5 rounded-full bg-charcoal flex items-center justify-center shrink-0">
-                      <CheckCircle size={12} className="text-white" />
+                  <li key={i} className="flex items-center gap-3 text-sm md:text-base text-charcoal font-medium">
+                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <CheckCircle size={14} className="text-primary" />
                     </div>
                     {item}
                   </li>
@@ -322,25 +347,25 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── Split Section 2 (Tenant focus) ─── */}
-      <section className="py-20 bg-warm" aria-label="Tenant Features">
-        <div className="max-w-marketing mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      {/* ─── Split Section 2 ─── */}
+      <section className="py-8 md:py-12 bg-warm" aria-label="Tenant Features">
+        <div className="max-w-marketing mx-auto px-6 w-full">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Text Left */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="order-2 lg:order-1"
             >
-              <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-4 leading-tight">
+              <h2 className="font-display text-2xl md:text-3xl text-charcoal mb-3 leading-tight">
                 Pay rent, on time every time, effortlessly
               </h2>
-              <p className="text-body text-sm md:text-base mb-6 leading-relaxed">
+              <p className="text-body text-sm md:text-base mb-4 leading-relaxed max-w-lg">
                 Empower your tenants with flexible payment options. Avoid late fees and penalties, and capture every early payment discount with automated reminders, flexible payment gateways, and immediate PDF receipts.
               </p>
               <Button 
                 variant="outline" 
-                className="border-charcoal text-charcoal hover:bg-charcoal hover:text-white rounded-full px-5 py-2 text-sm h-auto"
-                rightIcon={<ArrowRight size={14}/>}
+                className="border-charcoal text-charcoal hover:bg-charcoal hover:text-white rounded-full px-6 py-2.5 text-sm h-auto"
+                rightIcon={<ArrowRight size={16}/>}
               >
                 LEARN MORE
               </Button>
@@ -348,69 +373,69 @@ const Home = () => {
 
             {/* Image Box */}
             <motion.div 
-              className="relative order-1 lg:order-2 w-full aspect-[4/3] bg-white rounded-2xl border border-border overflow-hidden"
+              className="relative order-1 lg:order-2 w-full h-[260px] md:h-[320px] bg-white rounded-2xl border border-border overflow-hidden shadow-2xl"
               initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
             >
               <img 
                 src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800" 
                 alt="Pay rent seamlessly" 
-                className="absolute inset-0 object-cover w-full h-full opacity-90 mix-blend-multiply transition-transform hover:scale-105 duration-700"
+                className="absolute inset-0 object-cover w-full h-full opacity-90 transition-transform hover:scale-105 duration-[2s] ease-out"
               />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ─── Dark Timeline (4 Steps) ─── */}
-      <section className="relative py-20 bg-charcoal text-white overflow-hidden" aria-label="Steps Timeline">
-        <div className="max-w-marketing mx-auto px-6 relative z-10">
+      {/* ─── Timeline ─── */}
+      <section className="relative py-8 md:py-12 bg-charcoal text-white overflow-hidden" aria-label="Steps Timeline">
+        <div className="max-w-marketing mx-auto px-6 relative z-10 w-full">
           <motion.div 
-            className="max-w-2xl mb-12"
+            className="max-w-3xl mb-6"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           >
-            <h2 className="font-display text-3xl md:text-4xl mb-4 leading-tight text-white">
+            <h2 className="font-display text-2xl md:text-3xl mb-2 leading-tight text-white">
               The 4 steps route to better rental management. <span className="text-white/50">Smarter renting for faster growth.</span>
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {steps.map((step, idx) => (
               <motion.div 
                 key={idx}
-                className={`bg-white/5 border border-white/10 backdrop-blur-md rounded-xl p-5 hover:bg-white/10 transition-colors ${idx === 1 ? 'md:-translate-y-4' : ''}`}
+                className={`bg-white/5 border border-white/10 backdrop-blur-md rounded-xl p-4 hover:bg-white/10 transition-colors ${idx % 2 !== 0 ? 'lg:-translate-y-6' : ''}`}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}
               >
-                <div className="font-mono text-xs text-white/40 mb-4 border-b border-white/10 pb-2 inline-block">
+                <div className="font-mono text-sm text-white/40 mb-4 border-b border-white/10 pb-2 inline-block">
                   {step.num}
                 </div>
-                <h3 className="font-display font-bold text-sm mb-2 text-white">{step.title}</h3>
-                <p className="text-[11px] text-white/60 leading-relaxed">{step.desc}</p>
+                <h3 className="font-display font-bold text-base mb-2 text-white">{step.title}</h3>
+                <p className="text-xs text-white/60 leading-relaxed">{step.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── Dark Testimonials (Bento Grid) - Ultra Compact ─── */}
-      <section className="py-20 bg-white" aria-label="Testimonials">
-        <div className="max-w-marketing mx-auto px-6 text-center">
+      {/* ─── Testimonials ─── */}
+      <section className="py-8 md:py-12 bg-white" aria-label="Testimonials">
+        <div className="max-w-marketing mx-auto px-6 text-center w-full">
           <motion.h2 
-            className="font-display text-3xl md:text-4xl text-charcoal mb-10 max-w-xl mx-auto leading-tight"
+            className="font-display text-2xl md:text-3xl text-charcoal mb-4 max-w-2xl mx-auto leading-tight"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           >
             Clients trust us and our exclusive service
           </motion.h2>
 
-          <div className="grid md:grid-cols-3 gap-6 text-left">
+          <div className="grid md:grid-cols-3 gap-3 text-left">
             {testimonials.map((t, idx) => (
               <motion.div 
                 key={idx}
-                className="relative bg-[#1A1D1C] rounded-2xl p-5 flex flex-col justify-between min-h-[180px] overflow-hidden border border-[#272B2A] shadow-xl"
+                className="relative bg-[#1A1D1C] rounded-2xl p-5 flex flex-col justify-between min-h-[200px] overflow-hidden border border-[#272B2A] shadow-2xl"
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}
               >
                 {/* Subtle Hexagon Pattern Background */}
                 <div 
-                  className="absolute inset-0 opacity-[0.05] pointer-events-none"
+                  className="absolute inset-0 opacity-[0.03] pointer-events-none"
                   style={{ 
                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='103.923' viewBox='0 0 60 103.923' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32zm0 103.923L0 86.603V51.96l30 17.32 30-17.32v34.643zM30 69.283l30-17.32v34.64l-30 17.32-30-17.32v-34.64z' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E")`,
                     backgroundSize: '40px'
@@ -422,7 +447,7 @@ const Home = () => {
                   <svg width="20" height="16" viewBox="0 0 32 28" fill="none" className="mb-3">
                     <path d="M0 0h10v16l-4 12H0l4-12H0V0zm18 0h10v16l-4 12h-6l4-12h-6V0z" fill="#10b981"/>
                   </svg>
-                  <p className="text-[#a0a3a2] text-xs leading-relaxed font-body">
+                  <p className="text-[#a0a3a2] text-xs md:text-sm leading-relaxed font-body">
                     {t.quote}
                   </p>
                 </div>
@@ -433,7 +458,7 @@ const Home = () => {
                   </div>
                   <div>
                     <p className="font-bold text-white text-[11px]">{t.name}</p>
-                    <p className="text-[9px] font-semibold tracking-widest text-[#10b981]">{t.title}</p>
+                    <p className="text-[9px] font-semibold tracking-widest text-[#10b981] uppercase mt-0.5">{t.title}</p>
                   </div>
                 </div>
               </motion.div>
@@ -442,118 +467,23 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── Stats / Why Choose Us ─── */}
-      <section className="py-20 bg-white" aria-label="Stats">
-        <div className="max-w-marketing mx-auto px-6">
-          <div className="flex flex-col md:flex-row gap-12 items-center">
-            <div className="w-full md:w-1/2">
-              <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-4 leading-tight">
-                Why Choose RentFlow?
-              </h2>
-              <p className="text-body text-sm md:text-base mb-8 leading-relaxed">
-                We believe in creating solutions that deliver real value. Our platform works relentlessly to empower landlords and property managers through innovative automation, giving you more time to focus on scaling your business.
-              </p>
-              <div className="grid grid-cols-2 gap-6">
-                {stats.slice(0, 2).map((s, i) => (
-                  <div key={i}>
-                    <h3 className="font-display text-3xl md:text-4xl font-bold text-primary mb-1">{s.value}</h3>
-                    <p className="font-bold text-sm text-charcoal mb-0.5">{s.label}</p>
-                    <p className="text-xs text-muted">{s.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="w-full md:w-1/2 relative">
-              <div className="aspect-square bg-warm rounded-full absolute -inset-8 -z-10 blur-3xl opacity-50" />
-              <img 
-                src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800" 
-                alt="Happy customer" 
-                className="rounded-2xl shadow-xl object-cover w-full aspect-video"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Pricing - Ultra Compact ─── */}
-      <section className="py-20 bg-warm" aria-label="Pricing">
-        <div className="max-w-marketing mx-auto px-6 text-center">
-          <h2 className="font-display text-3xl md:text-4xl text-charcoal mb-4 leading-tight">
-            Choose the Plan that Suits You
-          </h2>
-          <p className="text-body text-sm md:text-base max-w-xl mx-auto mb-10">
-            Simple, transparent pricing that scales automatically with your property portfolio. No hidden fees or surprise charges.
-          </p>
-          <div className="grid md:grid-cols-3 gap-6 text-left">
-            {pricingPlans.map((plan, i) => (
-              <div key={i} className={`rounded-2xl p-5 border transition-transform hover:-translate-y-1 ${plan.isPopular ? 'bg-charcoal text-white border-charcoal shadow-xl' : 'bg-white border-border'}`}>
-                {plan.isPopular && <div className="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full inline-block mb-3">MOST POPULAR</div>}
-                <h3 className={`font-display text-lg font-bold mb-1 ${plan.isPopular ? 'text-white' : 'text-charcoal'}`}>{plan.name}</h3>
-                <p className={`text-[11px] mb-4 min-h-[30px] ${plan.isPopular ? 'text-white/70' : 'text-muted'}`}>{plan.desc}</p>
-                <div className="mb-5">
-                  <span className={`font-display text-2xl font-bold ${plan.isPopular ? 'text-white' : 'text-charcoal'}`}>{plan.price}</span>
-                  {plan.interval && <span className={`text-[11px] ${plan.isPopular ? 'text-white/70' : 'text-muted'}`}>{plan.interval}</span>}
-                </div>
-                <Button 
-                  size="sm"
-                  variant={plan.isPopular ? 'primary' : 'outline'} 
-                  className={`w-full rounded-full mb-5 py-1.5 text-xs h-auto ${plan.isPopular ? 'bg-primary hover:bg-primary-dark text-white border-none' : 'border-border text-charcoal hover:bg-warm'}`}
-                >
-                  Get Started
-                </Button>
-                <ul className="space-y-2">
-                  {plan.features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-2 text-[11px]">
-                      <CheckCircle size={12} className={plan.isPopular ? 'text-primary' : 'text-success'} />
-                      <span className={plan.isPopular ? 'text-white/90' : 'text-charcoal font-medium'}>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FAQs ─── */}
-      <section className="py-20 bg-white" aria-label="FAQ">
-        <div className="max-w-2xl mx-auto px-6">
-          <h2 className="font-display text-2xl md:text-3xl text-charcoal mb-8 text-center">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border border-border rounded-xl p-4 bg-warm hover:bg-white transition-colors cursor-pointer group">
-                <div className="flex justify-between items-center">
-                  <h4 className="font-bold text-sm text-charcoal group-hover:text-primary transition-colors">{faq.q}</h4>
-                  <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-sm shrink-0">
-                    <span className="text-primary font-bold text-xs">+</span>
-                  </div>
-                </div>
-                {i === 0 && <p className="text-xs text-body mt-3 leading-relaxed border-t border-border pt-3">{faq.a}</p>}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── CTA Banner ─── */}
-      <section className="py-20 bg-white" aria-label="Call to Action">
-        <div className="max-w-marketing mx-auto px-6">
-          <div className="bg-gradient-to-br from-primary to-primary-dark rounded-3xl p-8 text-center text-white relative overflow-hidden shadow-xl">
-            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3" />
-            <div className="relative z-10 max-w-xl mx-auto">
-              <h2 className="font-display text-3xl md:text-4xl mb-4 leading-tight text-white">
+      {/* ─── Footer Section CTA ─── */}
+      <section className="py-8 md:py-12 bg-warm" aria-label="Call to Action">
+        <div className="max-w-marketing mx-auto px-6 w-full">
+          <div className="bg-gradient-to-br from-charcoal to-[#1A1D1C] rounded-2xl p-4 lg:p-8 text-center text-white relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <h2 className="font-display text-2xl md:text-4xl mb-2 leading-tight text-white">
                 Ready to transform your property management?
               </h2>
-              <p className="text-sm text-white/80 mb-8 leading-relaxed">
+              <p className="text-sm md:text-base text-white/80 mb-6 leading-relaxed">
                 Join thousands of modern landlords across Africa using RentFlow to save time, reduce stress, and get paid faster.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button size="md" variant="white" className="rounded-full px-6 shadow-xl text-sm">
+                <Button size="lg" className="rounded-full px-6 shadow-xl bg-primary hover:bg-primary-dark">
                   Create Free Account
                 </Button>
-                <Button size="md" variant="whiteOutline" className="rounded-full px-6 text-sm">
+                <Button size="lg" variant="whiteOutline" className="rounded-full px-6 text-white border-white/20 hover:bg-white/10">
                   Book a Demo
                 </Button>
               </div>
