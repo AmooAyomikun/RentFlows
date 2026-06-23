@@ -142,6 +142,7 @@ const Home = () => {
         className="relative bg-charcoal overflow-hidden py-12 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px]" 
         aria-label="Hero"
       >
+        {/* Subtle background accents */}
         <div className="absolute inset-0 pointer-events-none opacity-30">
           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/20 blur-[150px] rounded-full translate-x-1/3 -translate-y-1/3" />
           <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#C75B30]/15 blur-[120px] rounded-full -translate-x-1/3 translate-y-1/3" />
@@ -152,29 +153,39 @@ const Home = () => {
             
             {/* Left Content */}
             <div className="max-w-xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-[11px] font-medium tracking-wide mb-4">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <motion.div 
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-[11px] font-medium tracking-wide mb-6"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              >
+                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 Next-Gen Property Management
-              </div>
+              </motion.div>
               
-              <h1 
-                className="font-display text-white mb-4 leading-[1.1] tracking-tight"
-                style={{ fontSize: 'clamp(38px, 4.5vw, 52px)' }}
+              <motion.h1 
+                className="font-display text-white mb-5 leading-[1.1] tracking-tight font-bold"
+                style={{ fontSize: 'clamp(36px, 4.5vw, 52px)' }}
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
               >
                 Collect Rent,<br />
                 Manage Tenants, and<br />
                 Properties in One<br />
                 Place
-              </h1>
+              </motion.h1>
               
-              <p className="text-white/70 text-sm md:text-base mb-6 leading-relaxed max-w-lg">
+              <motion.p 
+                className="text-white/70 text-sm md:text-base mb-8 leading-relaxed max-w-lg"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+              >
                 Replace notebooks, spreadsheets, and WhatsApp with a modern rent management platform built for landlords and tenants. High performance tooling for clarity amidst high-density data.
-              </p>
+              </motion.p>
               
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4 mb-10"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+              >
                 <Button 
                   size="lg" 
-                  className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20"
+                  className="rounded-full px-8 bg-primary hover:bg-primary-dark text-white shadow-xl shadow-primary/20"
                   onClick={() => navigate('/signup')}
                 >
                   Get Started
@@ -187,63 +198,65 @@ const Home = () => {
                 >
                   Explore Services
                 </Button>
-              </div>
+              </motion.div>
 
               {/* Trusted By inline badge */}
-              <div className="flex items-center gap-4">
+              <motion.div 
+                className="flex flex-col gap-3"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+              >
                 <span className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">Trusted by</span>
-                <div className="flex gap-4">
-                  <span className="text-white/60 font-display font-bold text-sm tracking-tight opacity-70">ShelterHQ</span>
-                  <span className="text-white/60 font-display font-bold text-sm tracking-tight opacity-70">LagosLiving</span>
-                  <span className="text-white/60 font-display font-bold text-sm tracking-tight opacity-70">TerraFirma</span>
+                <div className="flex flex-wrap gap-6 items-center">
+                  {['ShelterHQ', 'LagosLiving', 'TerraFirma', 'Oakwood'].map((logo, idx) => (
+                    <span key={idx} className="text-white/60 font-display font-bold text-sm tracking-tight opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
+                      {logo}
+                    </span>
+                  ))}
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Right Hero Graphic - Dribbble Composition */}
-            <div className="relative w-full max-h-[360px] md:max-h-[420px] aspect-[4/3] flex items-center justify-center mt-10 lg:mt-0">
-              {/* Subtle Image Glow */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-primary/30 blur-[120px] rounded-full" />
+            <div className="relative w-full max-h-[400px] aspect-[4/3] flex items-center justify-center mt-10 lg:mt-0">
               
               {/* Main Rounded Image */}
-              <div className="relative z-10 w-[80%] h-[80%] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200" 
-                  alt="Modern luxury property"
-                  className="w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-[3s] ease-out"
-                />
-                {/* Internal gradient to make badges pop */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-charcoal/90 via-transparent to-transparent opacity-80" />
-              </div>
-
-              {/* Floating Badge 1 - Top Right */}
               <motion.div 
-                className="absolute top-[5%] right-[0%] z-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl flex items-center gap-4"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+                className="relative z-10 w-[85%] h-[85%] rounded-[30px] overflow-hidden shadow-2xl"
+                initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}
               >
-                <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/20">
-                  <Building2 className="text-white" size={24} />
-                </div>
-                <div>
-                  <p className="text-white/60 text-[11px] font-medium uppercase tracking-wider mb-0.5">Active Properties</p>
-                  <p className="text-white font-display font-bold text-xl">1,425 Units</p>
+                <img 
+                  src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1200" 
+                  alt="Modern luxury property"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-[3s] ease-out"
+                />
+              </motion.div>
+
+              {/* Floating Badge 1 - Top Left */}
+              <motion.div 
+                className="absolute top-[0%] left-[0%] z-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-xl flex flex-col gap-1 min-w-[140px]"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+              >
+                <p className="text-white/60 text-[10px] uppercase font-medium tracking-wide">Active Properties</p>
+                <p className="text-white font-display font-bold text-2xl">1,425 Units</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Building2 className="text-primary" size={12} />
+                  </div>
+                  <span className="text-white/80 text-[11px] font-medium">+12 this week</span>
                 </div>
               </motion.div>
 
-              {/* Floating Badge 2 - Bottom Left */}
+              {/* Floating Badge 2 - Bottom Right */}
               <motion.div 
-                className="absolute bottom-[10%] left-[0%] z-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl flex items-center gap-4"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+                className="absolute bottom-[5%] right-[-5%] z-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-3 shadow-xl flex items-center gap-3"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
               >
-                <div className="w-12 h-12 bg-success/20 rounded-full flex items-center justify-center border border-success/30">
-                  <CheckCircle className="text-success" size={24} />
+                <div className="w-10 h-10 bg-success/20 rounded-full flex items-center justify-center border border-success/30">
+                  <CheckCircle className="text-success" size={20} />
                 </div>
                 <div>
-                  <p className="text-white/60 text-[11px] font-medium uppercase tracking-wider mb-0.5">Rent Collected</p>
-                  <div className="flex items-baseline gap-2">
-                    <p className="text-white font-display font-bold text-2xl">+₦4.2M</p>
-                    <span className="text-success text-[10px] font-bold bg-success/10 px-1.5 py-0.5 rounded">↑ 12%</span>
-                  </div>
+                  <p className="text-white font-display font-bold text-sm">Rent Secured</p>
+                  <p className="text-white/60 text-[10px] uppercase tracking-wider">100% on-time</p>
                 </div>
               </motion.div>
             </div>
