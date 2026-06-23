@@ -252,17 +252,17 @@ const Home = () => {
       </section>
 
       {/* ─── Bento Box Features ─── */}
-      <section className="py-12 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-warm snap-start scroll-mt-[72px]" aria-label="Features Bento">
-        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-warm snap-start scroll-mt-[72px]" aria-label="Features Bento">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
             
             {/* Hero Bento Box (Dark) */}
             <motion.div 
-              className="lg:col-span-2 bg-charcoal rounded-2xl p-6 lg:p-8 text-white relative overflow-hidden flex flex-col justify-between min-h-[280px]"
+              className="lg:col-span-2 bg-charcoal rounded-2xl p-5 lg:p-6 text-white relative overflow-hidden flex flex-col justify-between min-h-[220px]"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
             >
               <div className="relative z-10 max-w-lg">
-                <h2 className="font-display text-2xl md:text-3xl lg:text-4xl mb-3 leading-tight text-white font-bold">
+                <h2 className="font-display text-xl md:text-2xl lg:text-3xl mb-2 leading-tight text-white font-bold">
                   Property software that handles it all.
                 </h2>
                 <Button variant="primary" className="bg-primary hover:bg-primary-dark text-white rounded-full px-6 py-3 text-sm h-auto shadow-xl" rightIcon={<ArrowRight size={18}/>}>
@@ -274,31 +274,32 @@ const Home = () => {
 
             {/* Top Right Box */}
             <motion.div 
-              className="bg-white rounded-2xl p-6 lg:p-8 text-charcoal border border-border flex flex-col justify-between min-h-[220px]"
+              className="bg-white rounded-2xl p-5 lg:p-6 text-charcoal border border-border flex flex-col justify-between min-h-[180px]"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
             >
-              <div className="w-12 h-12 bg-warm rounded-xl flex items-center justify-center mb-4">
-                {(() => {
-                  const Icon = bentoFeatures[0].icon;
-                  return <Icon size={24} strokeWidth={1.5} className="text-primary" />;
-                })()}
+              <div className="w-10 h-10 bg-warm rounded-xl flex items-center justify-center mb-3">
+                <FileText size={18} className="text-primary" />
               </div>
-              <h3 className="font-display font-bold text-lg mb-2 text-charcoal">{bentoFeatures[0].title}</h3>
-              <p className="text-body text-sm leading-relaxed">{bentoFeatures[0].desc}</p>
+              <div>
+                <h3 className="font-display font-bold text-sm md:text-base mb-1">Easy Invoicing & Receipts</h3>
+                <p className="text-body text-[11px] md:text-xs leading-relaxed">Automate recurring invoices and save time. Get paid on time with instant PDF generation.</p>
+              </div>
             </motion.div>
 
             {/* Bottom 3 Boxes */}
             {bentoFeatures.slice(1).map((feature, idx) => (
               <motion.div 
                 key={idx}
-                className="bg-white rounded-2xl p-6 lg:p-8 border border-border min-h-[220px] flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
+                className="bg-white rounded-2xl p-5 lg:p-6 border border-border min-h-[180px] flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 + (idx * 0.1) }}
               >
-                <div className="w-12 h-12 bg-warm rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <feature.icon size={24} strokeWidth={1.5} className="text-primary" />
+                <div className="w-10 h-10 bg-warm rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <feature.icon size={18} className="text-primary" />
                 </div>
-                <h3 className="font-display font-bold text-lg mb-2 text-charcoal">{feature.title}</h3>
-                <p className="text-body text-sm leading-relaxed">{feature.desc}</p>
+                <div>
+                  <h3 className="font-display font-bold text-sm md:text-base mb-1">{feature.title}</h3>
+                  <p className="text-body text-[11px] md:text-xs leading-relaxed">{feature.desc}</p>
+                </div>
               </motion.div>
             ))}
 
