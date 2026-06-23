@@ -265,9 +265,9 @@ const Home = () => {
       </section>
 
       {/* ─── Manage on the go ─── */}
-      <section className="py-16 lg:py-24 bg-warm" aria-label="Mobile Management">
-        <div className="max-w-marketing mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px] bg-warm" aria-label="Mobile Management">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-6 lg:gap-8 items-center">
             {/* Image Left */}
             <motion.div 
               className="relative w-full aspect-[4/5] max-h-[600px] flex justify-center"
@@ -346,59 +346,147 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── 4 Steps to Effortless Management ─── */}
-      <section className="py-16 lg:py-24 bg-white border-t border-border" aria-label="4 Steps">
-        <div className="max-w-marketing mx-auto px-6">
-          <motion.div 
-            className="text-center max-w-2xl mx-auto mb-12"
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          >
-            <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal mb-3 font-bold">
-              4 Steps to Effortless Management
-            </h2>
-            <p className="text-body text-sm md:text-base">
-              Our proven onboarding completely eliminates the stress of transitioning. It's fast, simple, and straightforward.
-            </p>
-          </motion.div>
+{/* ΓöÇΓöÇΓöÇ Split Section 1 ΓöÇΓöÇΓöÇ */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-white snap-start scroll-mt-[72px]" aria-label="Landlord Features">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+            {/* Image Box */}
+            <motion.div 
+              className="relative w-full h-[240px] md:h-[320px] lg:h-[45vh] lg:max-h-[360px] bg-warm rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl border border-charcoal/5"
+              initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800" 
+                alt="Modern property" 
+                className="absolute inset-0 object-cover w-full h-full opacity-90 transition-transform hover:scale-105 duration-[2s] ease-out"
+              />
+            </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { num: '01', title: 'Connect', desc: 'Add your properties and sync your bank account.', active: false },
-              { num: '02', title: 'Automate', desc: 'Set rent amounts, cycles, and late fees.', active: true },
-              { num: '03', title: 'Monitor', desc: 'Invite tenants. They onboard and start paying.', active: false },
-              { num: '04', title: 'Scale', desc: 'Grow your portfolio with perfect records.', active: false }
-            ].map((step, idx) => (
-              <motion.div 
-                key={idx}
-                className={`rounded-[24px] p-6 lg:p-8 flex flex-col justify-between min-h-[240px] transition-all duration-300 ${
-                  step.active ? 'bg-primary text-white shadow-2xl lg:scale-110 relative z-10' : 'bg-warm text-charcoal border border-border hover:bg-white hover:shadow-lg'
-                }`}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}
-              >
-                <div className="flex justify-between items-start mb-8">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${step.active ? 'bg-white/10 border border-white/20' : 'bg-white border border-border shadow-sm'}`}>
-                    {idx === 0 && <UserPlus size={20} className={step.active ? 'text-white' : 'text-primary'} />}
-                    {idx === 1 && <Wrench size={20} className={step.active ? 'text-white' : 'text-primary'} />}
-                    {idx === 2 && <BarChart3 size={20} className={step.active ? 'text-white' : 'text-primary'} />}
-                    {idx === 3 && <TrendingUp size={20} className={step.active ? 'text-white' : 'text-primary'} />}
-                  </div>
-                  <span className={`font-display font-bold text-xl ${step.active ? 'text-white/40' : 'text-body/30'}`}>{step.num}</span>
-                </div>
-                <div>
-                  <h3 className="font-display font-bold text-lg mb-2">{step.title}</h3>
-                  <p className={`text-sm leading-relaxed ${step.active ? 'text-white/80' : 'text-body'}`}>{step.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+            {/* Text Box */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+            >
+              <h2 className="font-display text-2xl md:text-3xl text-charcoal mb-2 leading-tight">
+                Manage all your properties in one place
+              </h2>
+              <p className="text-body text-xs md:text-sm mb-4 leading-relaxed max-w-lg">
+                Centralize your operations. From tenant communication to tracking utility bills, RentFlow provides a single unified dashboard to monitor your real estate portfolio, minimizing manual data entry and human error.
+              </p>
+              <ul className="space-y-2 lg:space-y-3">
+                {['No hidden setup fees.', '100% data security. Guaranteed.', 'No training or maintenance needed.'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-xs md:text-sm text-charcoal font-medium">
+                    <div className="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <CheckCircle size={12} className="text-primary" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ─── Engineered for Operations ─── */}
-      <section className="py-16 lg:py-24 bg-warm" aria-label="Engineered for Operations">
-        <div className="max-w-marketing mx-auto px-6">
+{/* ΓöÇΓöÇΓöÇ Split Section 2 ΓöÇΓöÇΓöÇ */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-warm snap-start scroll-mt-[72px]" aria-label="Tenant Features">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+            {/* Text Left */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+              className="order-2 lg:order-1"
+            >
+              <h2 className="font-display text-2xl md:text-3xl text-charcoal mb-2 leading-tight">
+                Pay rent, on time every time, effortlessly
+              </h2>
+              <p className="text-body text-xs md:text-sm mb-4 leading-relaxed max-w-lg">
+                Empower your tenants with flexible payment options. Avoid late fees and penalties, and capture every early payment discount with automated reminders, flexible payment gateways, and immediate PDF receipts.
+              </p>
+              <Button 
+                variant="outline" 
+                className="border-charcoal text-charcoal hover:bg-charcoal hover:text-white rounded-full px-5 py-2 text-xs md:text-sm h-auto"
+                rightIcon={<ArrowRight size={14}/>}
+              >
+                LEARN MORE
+              </Button>
+            </motion.div>
+
+            {/* Image Box */}
+            <motion.div 
+              className="relative order-1 lg:order-2 w-full h-[240px] md:h-[320px] lg:h-[45vh] lg:max-h-[360px] bg-white rounded-2xl lg:rounded-3xl border border-border overflow-hidden shadow-2xl"
+              initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800" 
+                alt="Pay rent seamlessly" 
+                className="absolute inset-0 object-cover w-full h-full opacity-90 transition-transform hover:scale-105 duration-[2s] ease-out"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+{/* ΓöÇΓöÇΓöÇ Bento Box Features ΓöÇΓöÇΓöÇ */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-warm snap-start scroll-mt-[72px]" aria-label="Features Bento">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+            
+            {/* Hero Bento Box (Dark) */}
+            <motion.div 
+              className="lg:col-span-2 bg-charcoal rounded-2xl p-5 lg:p-6 text-white relative overflow-hidden flex flex-col justify-between min-h-[220px]"
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            >
+              <div className="relative z-10 max-w-lg">
+                <h2 className="font-display text-xl md:text-2xl lg:text-3xl mb-2 leading-tight text-white font-bold">
+                  Property software that handles it all.
+                </h2>
+                <Button variant="primary" className="bg-primary hover:bg-primary-dark text-white rounded-full px-6 py-3 text-sm h-auto shadow-xl" rightIcon={<ArrowRight size={18}/>}>
+                  SEE ALL FEATURES
+                </Button>
+              </div>
+              <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-gradient-to-tl from-primary/50 to-transparent rounded-tl-full blur-3xl" />
+            </motion.div>
+
+            {/* Top Right Box */}
+            <motion.div 
+              className="bg-white rounded-2xl p-5 lg:p-6 text-charcoal border border-border flex flex-col justify-between min-h-[180px]"
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
+            >
+              <div className="w-10 h-10 bg-warm rounded-xl flex items-center justify-center mb-3">
+                <FileText size={18} className="text-primary" />
+              </div>
+              <div>
+                <h3 className="font-display font-bold text-sm md:text-base mb-1">Easy Invoicing & Receipts</h3>
+                <p className="text-body text-[11px] md:text-xs leading-relaxed">Automate recurring invoices and save time. Get paid on time with instant PDF generation.</p>
+              </div>
+            </motion.div>
+
+            {/* Bottom 3 Boxes */}
+            {bentoFeatures.slice(1).map((feature, idx) => (
+              <motion.div 
+                key={idx}
+                className="bg-white rounded-2xl p-5 lg:p-6 border border-border min-h-[180px] flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 + (idx * 0.1) }}
+              >
+                <div className="w-10 h-10 bg-warm rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <feature.icon size={18} className="text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-sm md:text-base mb-1">{feature.title}</h3>
+                  <p className="text-body text-[11px] md:text-xs leading-relaxed">{feature.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+
+          </div>
+        </div>
+      </section>
+
+{/* ─── Engineered for Operations ─── */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px] bg-warm" aria-label="Engineered for Operations">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
           <motion.div 
-            className="text-center max-w-2xl mx-auto mb-12"
+            className="text-center max-w-2xl mx-auto mb-6"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           >
             <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal mb-3 font-bold">
@@ -434,13 +522,13 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── Visual Maintenance Routing ─── */}
-      <section className="py-16 lg:py-24 bg-white" aria-label="Maintenance">
-        <div className="max-w-marketing mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+{/* ─── Visual Maintenance Routing ─── */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px] bg-white" aria-label="Maintenance">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
             {/* Left Box */}
             <motion.div 
-              className="bg-warm rounded-[32px] p-8 lg:p-12 overflow-hidden relative"
+              className="bg-warm rounded-[24px] p-6 lg:p-8 overflow-hidden relative"
               initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
             >
               <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal mb-4 font-bold leading-tight">
@@ -503,14 +591,14 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── Works with your existing stack ─── */}
-      <section className="py-16 lg:py-24 bg-white" aria-label="Integrations">
-        <div className="max-w-marketing mx-auto px-6 text-center">
+{/* ─── Works with your existing stack ─── */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px] bg-white" aria-label="Integrations">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal mb-3 font-bold">
               Works with your existing stack
             </h2>
-            <p className="text-body text-sm md:text-base max-w-xl mx-auto mb-12">
+            <p className="text-body text-sm md:text-base max-w-xl mx-auto mb-6">
               Connect RentFlow to your favorite accounting and payment gateways.
             </p>
           </motion.div>
@@ -538,11 +626,11 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── RentFlow vs. The Old Way ─── */}
-      <section className="py-16 lg:py-24 bg-white" aria-label="Comparison">
-        <div className="max-w-marketing mx-auto px-6">
+{/* ─── RentFlow vs. The Old Way ─── */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px] bg-white" aria-label="Comparison">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
           <motion.div 
-            className="text-center mb-12"
+            className="text-center mb-6"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           >
             <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal mb-3 font-bold">
@@ -587,14 +675,14 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── Your data, fortified ─── */}
-      <section className="py-16 lg:py-24 bg-white" aria-label="Security">
-        <div className="max-w-marketing mx-auto px-6">
+{/* ─── Your data, fortified ─── */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px] bg-white" aria-label="Security">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
           <motion.div 
-            className="bg-warm rounded-[32px] p-8 lg:p-16 border border-border/50 shadow-sm"
+            className="bg-warm rounded-[24px] p-6 lg:p-8 border border-border/50 shadow-sm"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           >
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
               <div>
                 <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal mb-4 font-bold leading-tight">
                   Your data, fortified
@@ -632,7 +720,85 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── Testimonials ─── */}
+{/* ΓöÇΓöÇΓöÇ Timeline ΓöÇΓöÇΓöÇ */}
+      <section className="relative py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-charcoal text-white overflow-hidden snap-start scroll-mt-[72px]" aria-label="Steps Timeline">
+        <div className="max-w-marketing mx-auto px-6 relative z-10 w-full my-auto">
+          <motion.div 
+            className="max-w-3xl mb-4 lg:mb-6"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          >
+            <h2 className="font-display text-xl md:text-2xl lg:text-3xl mb-1 leading-tight text-white">
+              The 4 steps route to better rental management. <span className="text-white/50">Smarter renting for faster growth.</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-4 gap-3 lg:gap-4 mt-4 lg:mt-6">
+            {steps.map((step, index) => (
+              <motion.div 
+                key={index}
+                className="bg-[#1A1D1C] rounded-2xl p-4 lg:p-5 text-white border border-white/5 shadow-xl relative"
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 * index }}
+              >
+                <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center mb-3 lg:mb-4">
+                  <span className="text-primary font-display font-bold text-xs lg:text-sm">{step.num}</span>
+                </div>
+                <h3 className="font-display text-base md:text-lg mb-1">{step.title}</h3>
+                <p className="text-white/60 text-xs lg:text-sm leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+{/* ─── 4 Steps to Effortless Management ─── */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px] bg-white border-t border-border" aria-label="4 Steps">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
+          <motion.div 
+            className="text-center max-w-2xl mx-auto mb-6"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          >
+            <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal mb-3 font-bold">
+              4 Steps to Effortless Management
+            </h2>
+            <p className="text-body text-sm md:text-base">
+              Our proven onboarding completely eliminates the stress of transitioning. It's fast, simple, and straightforward.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { num: '01', title: 'Connect', desc: 'Add your properties and sync your bank account.', active: false },
+              { num: '02', title: 'Automate', desc: 'Set rent amounts, cycles, and late fees.', active: true },
+              { num: '03', title: 'Monitor', desc: 'Invite tenants. They onboard and start paying.', active: false },
+              { num: '04', title: 'Scale', desc: 'Grow your portfolio with perfect records.', active: false }
+            ].map((step, idx) => (
+              <motion.div 
+                key={idx}
+                className={`rounded-[24px] p-6 lg:p-8 flex flex-col justify-between min-h-[200px] transition-all duration-300 ${
+                  step.active ? 'bg-primary text-white shadow-2xl lg:scale-110 relative z-10' : 'bg-warm text-charcoal border border-border hover:bg-white hover:shadow-lg'
+                }`}
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}
+              >
+                <div className="flex justify-between items-start mb-8">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${step.active ? 'bg-white/10 border border-white/20' : 'bg-white border border-border shadow-sm'}`}>
+                    {idx === 0 && <UserPlus size={20} className={step.active ? 'text-white' : 'text-primary'} />}
+                    {idx === 1 && <Wrench size={20} className={step.active ? 'text-white' : 'text-primary'} />}
+                    {idx === 2 && <BarChart3 size={20} className={step.active ? 'text-white' : 'text-primary'} />}
+                    {idx === 3 && <TrendingUp size={20} className={step.active ? 'text-white' : 'text-primary'} />}
+                  </div>
+                  <span className={`font-display font-bold text-xl ${step.active ? 'text-white/40' : 'text-body/30'}`}>{step.num}</span>
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-lg mb-2">{step.title}</h3>
+                  <p className={`text-sm leading-relaxed ${step.active ? 'text-white/80' : 'text-body'}`}>{step.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+{/* ΓöÇΓöÇΓöÇ Testimonials ΓöÇΓöÇΓöÇ */}
       <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-white snap-start scroll-mt-[72px]" aria-label="Testimonials">
         <div className="max-w-marketing mx-auto px-6 text-center w-full my-auto">
           <motion.h2 
@@ -682,10 +848,10 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── Latest Insights ─── */}
-      <section className="py-16 lg:py-24 bg-white" aria-label="Insights">
-        <div className="max-w-marketing mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-12">
+{/* ─── Latest Insights ─── */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px] bg-white" aria-label="Insights">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-6">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal mb-2 font-bold">
                 Latest Insights
@@ -729,10 +895,10 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── Common Questions ─── */}
-      <section className="py-16 lg:py-24 bg-warm" aria-label="FAQ">
-        <div className="max-w-marketing mx-auto px-6">
-          <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+{/* ─── Common Questions ─── */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px] bg-warm" aria-label="FAQ">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
+          <motion.div className="text-center mb-6" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal mb-3 font-bold">
               Common Questions
             </h2>
@@ -765,9 +931,34 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ─── Final CTA ─── */}
-      <section className="py-16 lg:py-24 bg-white" aria-label="Call to Action">
-        <div className="max-w-marketing mx-auto px-6 text-center">
+{/* ΓöÇΓöÇΓöÇ Footer Section CTA ΓöÇΓöÇΓöÇ */}
+      <section className="py-12 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-warm snap-start scroll-mt-[72px]" aria-label="Call to Action">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
+          <div className="bg-gradient-to-br from-charcoal to-[#1A1D1C] rounded-2xl p-6 lg:p-8 text-center text-white relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <h2 className="font-display text-2xl md:text-4xl mb-2 leading-tight text-white">
+                Ready to transform your property management?
+              </h2>
+              <p className="text-sm md:text-base text-white/80 mb-6 leading-relaxed">
+                Join thousands of modern landlords across Africa using RentFlow to save time, reduce stress, and get paid faster.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button size="lg" className="rounded-full px-6 shadow-xl bg-primary hover:bg-primary-dark">
+                  Create Free Account
+                </Button>
+                <Button size="lg" variant="whiteOutline" className="rounded-full px-6 text-white border-white/20 hover:bg-white/10">
+                  Book a Demo
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+{/* ─── Final CTA ─── */}
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px] bg-white" aria-label="Call to Action">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-charcoal mb-4 leading-tight tracking-tight max-w-3xl mx-auto">
               Stop Tracking Rent in Notebooks.
