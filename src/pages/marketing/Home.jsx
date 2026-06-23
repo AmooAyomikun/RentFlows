@@ -139,7 +139,7 @@ const Home = () => {
       
       {/* ─── Dribbble-Style Hero (100vh) ─── */}
       <section 
-        className="relative px-6 bg-charcoal overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24" 
+        className="relative bg-charcoal overflow-hidden py-12 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col snap-start scroll-mt-[72px]" 
         aria-label="Hero"
       >
         <div className="absolute inset-0 pointer-events-none opacity-30">
@@ -147,8 +147,8 @@ const Home = () => {
           <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#C75B30]/15 blur-[120px] rounded-full -translate-x-1/3 translate-y-1/3" />
         </div>
         
-        <div className="max-w-marketing mx-auto w-full relative z-10">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="max-w-marketing mx-auto px-6 w-full relative z-10 my-auto lg:py-8">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             {/* Left Content */}
             <div className="max-w-xl">
@@ -252,53 +252,53 @@ const Home = () => {
       </section>
 
       {/* ─── Bento Box Features ─── */}
-      <section className="py-8 md:py-12 bg-warm" aria-label="Features Bento">
-        <div className="max-w-marketing mx-auto px-6 w-full">
+      <section className="py-12 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-warm snap-start scroll-mt-[72px]" aria-label="Features Bento">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
             
             {/* Hero Bento Box (Dark) */}
             <motion.div 
-              className="lg:col-span-2 bg-charcoal rounded-xl p-4 text-white relative overflow-hidden flex flex-col justify-between min-h-[150px]"
+              className="lg:col-span-2 bg-charcoal rounded-2xl p-6 lg:p-8 text-white relative overflow-hidden flex flex-col justify-between min-h-[280px]"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
             >
-              <div className="relative z-10 max-w-md">
-                <h2 className="font-display text-xl md:text-2xl mb-2 leading-tight text-white">
+              <div className="relative z-10 max-w-lg">
+                <h2 className="font-display text-2xl md:text-3xl lg:text-4xl mb-3 leading-tight text-white font-bold">
                   Property software that handles it all.
                 </h2>
-                <Button variant="primary" className="bg-primary hover:bg-primary-dark text-white rounded-full px-5 py-2 text-[11px] h-auto" rightIcon={<ArrowRight size={14}/>}>
+                <Button variant="primary" className="bg-primary hover:bg-primary-dark text-white rounded-full px-6 py-3 text-sm h-auto shadow-xl" rightIcon={<ArrowRight size={18}/>}>
                   SEE ALL FEATURES
                 </Button>
               </div>
-              <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-gradient-to-tl from-primary/40 to-transparent rounded-tl-full blur-2xl" />
+              <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-gradient-to-tl from-primary/50 to-transparent rounded-tl-full blur-3xl" />
             </motion.div>
 
             {/* Top Right Box */}
             <motion.div 
-              className="bg-white rounded-xl p-4 border border-border flex flex-col justify-center min-h-[150px]"
+              className="bg-white rounded-2xl p-6 lg:p-8 text-charcoal border border-border flex flex-col justify-between min-h-[220px]"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
             >
-              <div className="w-8 h-8 bg-warm rounded-lg flex items-center justify-center mb-3">
+              <div className="w-12 h-12 bg-warm rounded-xl flex items-center justify-center mb-4">
                 {(() => {
                   const Icon = bentoFeatures[0].icon;
-                  return <Icon size={16} strokeWidth={1.5} className="text-charcoal" />;
+                  return <Icon size={24} strokeWidth={1.5} className="text-primary" />;
                 })()}
               </div>
-              <h3 className="font-display font-bold text-sm mb-1 text-charcoal">{bentoFeatures[0].title}</h3>
-              <p className="text-body text-[11px] leading-relaxed line-clamp-3">{bentoFeatures[0].desc}</p>
+              <h3 className="font-display font-bold text-lg mb-2 text-charcoal">{bentoFeatures[0].title}</h3>
+              <p className="text-body text-sm leading-relaxed">{bentoFeatures[0].desc}</p>
             </motion.div>
 
             {/* Bottom 3 Boxes */}
             {bentoFeatures.slice(1).map((feature, idx) => (
               <motion.div 
                 key={idx}
-                className="bg-white rounded-xl p-4 border border-border min-h-[150px] flex flex-col justify-center"
+                className="bg-white rounded-2xl p-6 lg:p-8 border border-border min-h-[220px] flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 + (idx * 0.1) }}
               >
-                <div className="w-8 h-8 bg-warm rounded-lg flex items-center justify-center mb-3">
-                  <feature.icon size={16} strokeWidth={1.5} className="text-charcoal" />
+                <div className="w-12 h-12 bg-warm rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <feature.icon size={24} strokeWidth={1.5} className="text-primary" />
                 </div>
-                <h3 className="font-display font-bold text-sm mb-1 text-charcoal">{feature.title}</h3>
-                <p className="text-body text-[11px] leading-relaxed line-clamp-3">{feature.desc}</p>
+                <h3 className="font-display font-bold text-lg mb-2 text-charcoal">{feature.title}</h3>
+                <p className="text-body text-sm leading-relaxed">{feature.desc}</p>
               </motion.div>
             ))}
 
@@ -307,36 +307,36 @@ const Home = () => {
       </section>
 
       {/* ─── Split Section 1 ─── */}
-      <section className="py-8 md:py-12 bg-white" aria-label="Landlord Features">
-        <div className="max-w-marketing mx-auto px-6 w-full">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-white snap-start scroll-mt-[72px]" aria-label="Landlord Features">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
             {/* Image Box */}
             <motion.div 
-              className="relative w-full h-[260px] md:h-[320px] bg-warm rounded-2xl border border-border overflow-hidden shadow-2xl"
+              className="relative w-full h-[240px] md:h-[320px] lg:h-[45vh] lg:max-h-[360px] bg-warm rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl border border-charcoal/5"
               initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
             >
               <img 
                 src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800" 
-                alt="Manage Properties" 
+                alt="Modern property" 
                 className="absolute inset-0 object-cover w-full h-full opacity-90 transition-transform hover:scale-105 duration-[2s] ease-out"
               />
             </motion.div>
 
-            {/* Text Right */}
+            {/* Text Box */}
             <motion.div 
               initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
             >
-              <h2 className="font-display text-2xl md:text-3xl text-charcoal mb-4 leading-tight">
+              <h2 className="font-display text-2xl md:text-3xl text-charcoal mb-2 leading-tight">
                 Manage all your properties in one place
               </h2>
-              <p className="text-body text-sm md:text-base mb-4 leading-relaxed max-w-lg">
+              <p className="text-body text-xs md:text-sm mb-4 leading-relaxed max-w-lg">
                 Centralize your operations. From tenant communication to tracking utility bills, RentFlow provides a single unified dashboard to monitor your real estate portfolio, minimizing manual data entry and human error.
               </p>
-              <ul className="space-y-3">
+              <ul className="space-y-2 lg:space-y-3">
                 {['No hidden setup fees.', '100% data security. Guaranteed.', 'No training or maintenance needed.'].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm md:text-base text-charcoal font-medium">
-                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <CheckCircle size={14} className="text-primary" />
+                  <li key={i} className="flex items-center gap-3 text-xs md:text-sm text-charcoal font-medium">
+                    <div className="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <CheckCircle size={12} className="text-primary" />
                     </div>
                     {item}
                   </li>
@@ -348,24 +348,24 @@ const Home = () => {
       </section>
 
       {/* ─── Split Section 2 ─── */}
-      <section className="py-8 md:py-12 bg-warm" aria-label="Tenant Features">
-        <div className="max-w-marketing mx-auto px-6 w-full">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-warm snap-start scroll-mt-[72px]" aria-label="Tenant Features">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
             {/* Text Left */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="order-2 lg:order-1"
             >
-              <h2 className="font-display text-2xl md:text-3xl text-charcoal mb-3 leading-tight">
+              <h2 className="font-display text-2xl md:text-3xl text-charcoal mb-2 leading-tight">
                 Pay rent, on time every time, effortlessly
               </h2>
-              <p className="text-body text-sm md:text-base mb-4 leading-relaxed max-w-lg">
+              <p className="text-body text-xs md:text-sm mb-4 leading-relaxed max-w-lg">
                 Empower your tenants with flexible payment options. Avoid late fees and penalties, and capture every early payment discount with automated reminders, flexible payment gateways, and immediate PDF receipts.
               </p>
               <Button 
                 variant="outline" 
-                className="border-charcoal text-charcoal hover:bg-charcoal hover:text-white rounded-full px-6 py-2.5 text-sm h-auto"
-                rightIcon={<ArrowRight size={16}/>}
+                className="border-charcoal text-charcoal hover:bg-charcoal hover:text-white rounded-full px-5 py-2 text-xs md:text-sm h-auto"
+                rightIcon={<ArrowRight size={14}/>}
               >
                 LEARN MORE
               </Button>
@@ -373,7 +373,7 @@ const Home = () => {
 
             {/* Image Box */}
             <motion.div 
-              className="relative order-1 lg:order-2 w-full h-[260px] md:h-[320px] bg-white rounded-2xl border border-border overflow-hidden shadow-2xl"
+              className="relative order-1 lg:order-2 w-full h-[240px] md:h-[320px] lg:h-[45vh] lg:max-h-[360px] bg-white rounded-2xl lg:rounded-3xl border border-border overflow-hidden shadow-2xl"
               initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
             >
               <img 
@@ -387,29 +387,29 @@ const Home = () => {
       </section>
 
       {/* ─── Timeline ─── */}
-      <section className="relative py-8 md:py-12 bg-charcoal text-white overflow-hidden" aria-label="Steps Timeline">
-        <div className="max-w-marketing mx-auto px-6 relative z-10 w-full">
+      <section className="relative py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-charcoal text-white overflow-hidden snap-start scroll-mt-[72px]" aria-label="Steps Timeline">
+        <div className="max-w-marketing mx-auto px-6 relative z-10 w-full my-auto">
           <motion.div 
-            className="max-w-3xl mb-6"
+            className="max-w-3xl mb-4 lg:mb-6"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           >
-            <h2 className="font-display text-2xl md:text-3xl mb-2 leading-tight text-white">
+            <h2 className="font-display text-xl md:text-2xl lg:text-3xl mb-1 leading-tight text-white">
               The 4 steps route to better rental management. <span className="text-white/50">Smarter renting for faster growth.</span>
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {steps.map((step, idx) => (
+          <div className="grid md:grid-cols-4 gap-3 lg:gap-4 mt-4 lg:mt-6">
+            {steps.map((step, index) => (
               <motion.div 
-                key={idx}
-                className={`bg-white/5 border border-white/10 backdrop-blur-md rounded-xl p-4 hover:bg-white/10 transition-colors ${idx % 2 !== 0 ? 'lg:-translate-y-6' : ''}`}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}
+                key={index}
+                className="bg-[#1A1D1C] rounded-2xl p-4 lg:p-5 text-white border border-white/5 shadow-xl relative"
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 * index }}
               >
-                <div className="font-mono text-sm text-white/40 mb-4 border-b border-white/10 pb-2 inline-block">
-                  {step.num}
+                <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center mb-3 lg:mb-4">
+                  <span className="text-primary font-display font-bold text-xs lg:text-sm">{step.num}</span>
                 </div>
-                <h3 className="font-display font-bold text-base mb-2 text-white">{step.title}</h3>
-                <p className="text-xs text-white/60 leading-relaxed">{step.desc}</p>
+                <h3 className="font-display text-base md:text-lg mb-1">{step.title}</h3>
+                <p className="text-white/60 text-xs lg:text-sm leading-relaxed">{step.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -417,16 +417,15 @@ const Home = () => {
       </section>
 
       {/* ─── Testimonials ─── */}
-      <section className="py-8 md:py-12 bg-white" aria-label="Testimonials">
-        <div className="max-w-marketing mx-auto px-6 text-center w-full">
+      <section className="py-8 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-white snap-start scroll-mt-[72px]" aria-label="Testimonials">
+        <div className="max-w-marketing mx-auto px-6 text-center w-full my-auto">
           <motion.h2 
-            className="font-display text-2xl md:text-3xl text-charcoal mb-4 max-w-2xl mx-auto leading-tight"
+            className="font-display text-xl md:text-2xl lg:text-3xl text-charcoal mb-4 max-w-2xl mx-auto leading-tight"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           >
             Clients trust us and our exclusive service
           </motion.h2>
-
-          <div className="grid md:grid-cols-3 gap-3 text-left">
+          <div className="grid md:grid-cols-3 gap-3 text-left mt-6">
             {testimonials.map((t, idx) => (
               <motion.div 
                 key={idx}
@@ -468,9 +467,9 @@ const Home = () => {
       </section>
 
       {/* ─── Footer Section CTA ─── */}
-      <section className="py-8 md:py-12 bg-warm" aria-label="Call to Action">
-        <div className="max-w-marketing mx-auto px-6 w-full">
-          <div className="bg-gradient-to-br from-charcoal to-[#1A1D1C] rounded-2xl p-4 lg:p-8 text-center text-white relative overflow-hidden shadow-2xl">
+      <section className="py-12 lg:py-0 lg:min-h-[calc(100vh-72px)] flex flex-col bg-warm snap-start scroll-mt-[72px]" aria-label="Call to Action">
+        <div className="max-w-marketing mx-auto px-6 w-full my-auto lg:py-8">
+          <div className="bg-gradient-to-br from-charcoal to-[#1A1D1C] rounded-2xl p-6 lg:p-8 text-center text-white relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
             <div className="relative z-10 max-w-2xl mx-auto">
               <h2 className="font-display text-2xl md:text-4xl mb-2 leading-tight text-white">

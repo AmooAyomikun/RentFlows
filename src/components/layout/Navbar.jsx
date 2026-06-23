@@ -53,22 +53,22 @@ const Navbar = () => {
             {/* Logo */}
             <Link
               to="/"
-              className="flex items-center gap-3 font-display font-bold text-2xl text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
+              className="flex items-center gap-3 font-display font-bold text-2xl text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded shrink-0"
               aria-label="RentFlow — Go to homepage"
             >
               <LogoMark />
               <span>RentFlow</span>
             </Link>
 
-            {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1" aria-label="Main navigation">
+            {/* Desktop Navigation */}
+            <nav className="hidden xl:flex items-center gap-0.5" aria-label="Main navigation">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.href}
                   to={link.href}
                   className={({ isActive }) =>
                     [
-                      'px-3 py-2 text-[14px] xl:text-[15px] font-medium rounded transition-colors duration-150',
+                      'px-2 py-1.5 text-[12px] whitespace-nowrap font-medium rounded transition-colors duration-150',
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
                       isActive
                         ? 'text-primary bg-primary/6'
@@ -82,7 +82,7 @@ const Navbar = () => {
             </nav>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="hidden xl:flex items-center gap-4 shrink-0">
               {isAuthenticated ? (
                 <Button
                   size="md"
@@ -105,7 +105,7 @@ const Navbar = () => {
 
             {/* Mobile hamburger */}
             <button
-              className="lg:hidden p-2 text-charcoal rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="xl:hidden p-2 text-charcoal rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
@@ -131,7 +131,7 @@ const Navbar = () => {
             />
             <motion.div
               id="mobile-drawer"
-              className="fixed top-[72px] left-0 right-0 z-30 bg-white border-b border-border shadow-lg lg:hidden"
+              className="fixed top-[72px] left-0 right-0 z-30 bg-white border-b border-border shadow-lg xl:hidden"
               initial={{ y: -8, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -8, opacity: 0 }}
