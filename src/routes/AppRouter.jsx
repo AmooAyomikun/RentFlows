@@ -22,7 +22,7 @@ import Blog from '../pages/marketing/Blog';
 import BlogPost from '../pages/marketing/BlogPost';
 import Contact from '../pages/marketing/Contact';
 import PrivacyPolicy, { TermsOfService } from '../pages/marketing/Legal';
-
+import Solutions from '../pages/marketing/Solutions';
 // Auth Pages
 import Login from '../pages/auth/Login';
 import Signup from '../pages/auth/Signup';
@@ -91,6 +91,7 @@ const AppRouter = () => {
         <Route element={<MarketingLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/features" element={<Features />} />
+          <Route path="/solutions" element={<Solutions />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/for-landlords" element={<ForLandlords />} />
           <Route path="/for-tenants" element={<ForTenants />} />

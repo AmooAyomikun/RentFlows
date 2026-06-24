@@ -2,8 +2,13 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
   Building2, CreditCard, FileText, Clock, Wrench, BarChart3,
-  CheckCircle, ArrowRight, TrendingUp, AlertCircle, Wifi
+  CheckCircle, ArrowRight, TrendingUp, AlertCircle, Wifi,
+  ShieldCheck, Zap, Smartphone, MessageSquare, BarChart,
+  Banknote, Landmark, Receipt
 } from 'lucide-react';
+import portfolioImg from '../../assets/portfolio_architecture_1782337365729.png';
+import residentImg from '../../assets/resident_experience_1782337375877.png';
+import reportingImg from '../../assets/reporting_dashboard_1782337386277.png';
 import Button from '../../components/ui/Button';
 
 const fadeUp = {
@@ -137,6 +142,9 @@ const Features = () => (
       </div>
     </section>
 
+    {/* ─── NEW: Platform Overview ─── */}
+    <PlatformOverview />
+
     {/* ─── Feature sections ─── */}
     {features.map((feature, i) => {
       const isLeft = feature.image === 'left';
@@ -146,7 +154,7 @@ const Features = () => (
       return (
         <section
           key={feature.title}
-          className={`${bg} ${isHero ? 'py-24 lg:py-32' : 'section-py'}`}
+          className={`${bg} ${isHero ? 'py-16' : 'py-12'}`}
           aria-label={feature.title}
         >
           <div className="max-w-marketing mx-auto px-6">
@@ -197,6 +205,21 @@ const Features = () => (
         </section>
       );
     })}
+
+    {/* ─── NEW: Master Your Portfolio Architecture ─── */}
+    <PortfolioArchitecture />
+
+    {/* ─── NEW: Autonomous Financial Reconciliation ─── */}
+    <FinancialReconciliation />
+
+    {/* ─── NEW: Effortless Resident Experience ─── */}
+    <ResidentExperience />
+
+    {/* ─── NEW: Precision Reporting & Intelligence ─── */}
+    <PrecisionReporting />
+
+    {/* ─── NEW: Integrations Stack ─── */}
+    <IntegrationsStack />
 
     {/* ─── Comparison: RentFlow vs WhatsApp/Spreadsheets ─── */}
     <section className="section-py bg-charcoal" aria-label="Comparison">
@@ -272,7 +295,7 @@ const Features = () => (
     </section>
 
     {/* ─── CTA ─── */}
-    <section className="bg-gradient-warm py-24" aria-label="Call to action">
+    <section className="bg-gradient-warm py-16" aria-label="Call to action">
       <div className="max-w-marketing mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -298,6 +321,280 @@ const Features = () => (
       </div>
     </section>
   </>
+);
+
+// ─── NEW DESIGN COMPONENTS ────────────────────────────────────────────────────
+
+const PlatformOverview = () => (
+  <section className="bg-white py-16 border-b border-border" aria-label="Platform Overview">
+    <div className="max-w-marketing mx-auto px-6 text-center">
+      <motion.p className="text-xs font-semibold uppercase tracking-widest text-primary/80 mb-4" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+        A Global Standard Operating Engine
+      </motion.p>
+      <motion.h2 className="font-display text-charcoal mb-6" style={{ fontSize: 'clamp(32px, 4.5vw, 56px)' }} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+        Powering Every Dimension of <br className="hidden md:block" />
+        <span className="text-primary">Property Management</span>
+      </motion.h2>
+      <motion.p className="text-body text-lg max-w-2xl mx-auto mb-10" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+        Scale from a single unit to a global, multi-asset portfolio with RentFlow's high performance operational engine. Unrivaled financial, maintenance, and relationships in one unified ecosystem.
+      </motion.p>
+      <motion.div className="flex flex-col sm:flex-row gap-4 justify-center" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+        <Button size="lg" className="bg-charcoal text-white hover:bg-charcoal/90">Request Demo</Button>
+        <Button size="lg" variant="outline" className="border-border text-charcoal bg-white">Watch Overview</Button>
+      </motion.div>
+    </div>
+  </section>
+);
+
+const PortfolioArchitecture = () => (
+  <section className="bg-[#FAF7F2] py-16 section-py" aria-label="Master Your Portfolio Architecture">
+    <div className="max-w-marketing mx-auto px-6">
+      <motion.div className="grid lg:grid-cols-2 gap-16 items-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15 } } }}>
+        <motion.div variants={fadeUp}>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary/80 mb-3">Core Operating Infrastructure</p>
+          <h2 className="font-display text-charcoal text-4xl mb-6">Master Your Portfolio Architecture</h2>
+          <p className="text-body text-lg mb-10">Centralise every touchpoint of asset management. From digital lease execution to intelligent unit allocation, RentFlow automates the friction out of daily operations.</p>
+          
+          <div className="space-y-8">
+             <div className="flex gap-4">
+               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                 <Building2 size={20} className="text-primary" />
+               </div>
+               <div>
+                 <h4 className="font-bold text-charcoal mb-1">Unified Portfolio Tracking</h4>
+                 <p className="text-sm text-body">Cross-asset visibility with real-time occupancy reporting and performance metrics across multiple portfolios.</p>
+               </div>
+             </div>
+             <div className="flex gap-4">
+               <div className="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center shrink-0">
+                 <FileText size={20} className="text-success" />
+               </div>
+               <div>
+                 <h4 className="font-bold text-charcoal mb-1">End-to-End Digital Leases</h4>
+                 <p className="text-sm text-body">Automated lease generation and e-signatures. Templates that enforce standard policies for every new unit.</p>
+               </div>
+             </div>
+             <div className="flex gap-4">
+               <div className="w-10 h-10 rounded-xl bg-info/10 flex items-center justify-center shrink-0">
+                 <Wrench size={20} className="text-info" />
+               </div>
+               <div>
+                 <h4 className="font-bold text-charcoal mb-1">Unit & Repairs Management</h4>
+                 <p className="text-sm text-body">Track every unit's history from resolution to turnover. Predictive analytics identify unit decay trends before they happen.</p>
+               </div>
+             </div>
+          </div>
+        </motion.div>
+
+        <motion.div variants={{ hidden: { opacity: 0, x: 24 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6 } } }}>
+           <img src={portfolioImg} alt="Portfolio Architecture" className="w-full rounded-[2rem] shadow-2xl object-cover border-4 border-white" />
+        </motion.div>
+      </motion.div>
+    </div>
+  </section>
+);
+
+const FinancialReconciliation = () => (
+  <section className="bg-[#08211B] py-16 text-white relative overflow-hidden" aria-label="Autonomous Financial Reconciliation">
+    <div className="max-w-marketing mx-auto px-6 relative z-10">
+      <div className="text-center mb-12">
+        <motion.h2 className="font-display text-3xl md:text-4xl mb-4" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>Autonomous Financial Reconciliation</motion.h2>
+        <motion.p className="text-white/70 text-sm md:text-base max-w-2xl mx-auto" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+          Stop chasing rent. Our bank-grade financial engine automates collection, reconciliation, and reporting with 99.9% accuracy.
+        </motion.p>
+      </div>
+
+      <motion.div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}>
+        {/* Card 1 */}
+        <motion.div className="bg-[#135043] rounded-2xl p-6 flex flex-col" variants={fadeUp}>
+           <div className="w-10 h-10 flex items-center mb-4">
+              <Banknote size={24} className="text-white/80" />
+           </div>
+           <h3 className="text-base font-bold mb-2">Instant Rent Collection</h3>
+           <p className="text-white/60 text-xs mb-8 flex-1 leading-relaxed">ACH, credit, and digital wallet support with automated late fee triggers and payment reminders.</p>
+           {/* Mini UI element */}
+           <div className="mt-auto">
+              <div className="flex justify-between items-center text-[10px] mb-1.5 font-semibold text-white/80">
+                <span>Collection Rate</span>
+                <span>98.4%</span>
+              </div>
+              <div className="w-full h-1 bg-black/20 rounded-full overflow-hidden"><div className="w-[98.4%] h-full bg-[#E5F5E3] rounded-full"></div></div>
+           </div>
+        </motion.div>
+
+        {/* Card 2 */}
+        <motion.div className="bg-[#135043] rounded-2xl p-6 flex flex-col" variants={fadeUp}>
+           <div className="w-10 h-10 flex items-center mb-4">
+              <Landmark size={24} className="text-white/80" />
+           </div>
+           <h3 className="text-base font-bold mb-2">Bank-Grade Reconciliation</h3>
+           <p className="text-white/60 text-xs mb-8 flex-1 leading-relaxed">Direct bank feeds with intelligent ledger matching. Auto-reconcile thousands of transactions in seconds.</p>
+           {/* Mini UI element */}
+           <div className="mt-auto space-y-2 text-[10px]">
+             <div className="flex justify-between items-center border-b border-black/10 pb-1.5">
+                <span className="text-white/60">Batch : TDL_582</span>
+                <span className="text-[#36D399] font-bold tracking-wider">MATCHED</span>
+             </div>
+             <div className="flex justify-between items-center border-b border-black/10 pb-1.5">
+                <span className="text-white/60">Batch : TDL_583</span>
+                <span className="text-[#36D399] font-bold tracking-wider">MATCHED</span>
+             </div>
+             <div className="flex justify-between items-center">
+                <span className="text-white/60">Batch : TDL_584</span>
+                <span className="text-[#FBBD23] font-bold tracking-wider">PENDING</span>
+             </div>
+           </div>
+        </motion.div>
+
+        {/* Card 3 */}
+        <motion.div className="bg-[#135043] rounded-2xl p-6 flex flex-col" variants={fadeUp}>
+           <div className="w-10 h-10 flex items-center mb-4">
+              <Receipt size={24} className="text-white/80" />
+           </div>
+           <h3 className="text-base font-bold mb-2">Automated Payouts</h3>
+           <p className="text-white/60 text-xs mb-8 flex-1 leading-relaxed">Programmatic owner distributions and vendor payments. Set your rules and let the platform handle the wires.</p>
+           {/* Mini UI element */}
+           <div className="mt-auto flex gap-1.5">
+              <div className="w-6 h-6 rounded-full bg-white/30"></div>
+              <div className="w-6 h-6 rounded-full bg-white/30"></div>
+              <div className="w-6 h-6 rounded-full bg-white/30"></div>
+              <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[8px] font-bold text-white/80">+12</div>
+           </div>
+        </motion.div>
+      </motion.div>
+    </div>
+  </section>
+);
+
+const ResidentExperience = () => (
+  <section className="bg-warm py-16" aria-label="Effortless Resident Experience as a Standard">
+    <div className="max-w-marketing mx-auto px-6">
+      <motion.div className="grid lg:grid-cols-2 gap-16 items-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15 } } }}>
+        <motion.div className="order-2 lg:order-1 flex justify-center" variants={{ hidden: { opacity: 0, x: -24 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6 } } }}>
+           <img src={residentImg} alt="Resident Experience App" className="w-full max-w-[320px] rounded-[2.5rem] shadow-2xl object-cover border-[6px] border-charcoal" />
+        </motion.div>
+
+        <motion.div className="order-1 lg:order-2" variants={fadeUp}>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary/80 mb-3">Community Management</p>
+          <h2 className="font-display text-charcoal text-4xl mb-6">Effortless Resident Experience as a Standard</h2>
+          
+          <div className="space-y-8 mt-10">
+             <div className="flex gap-4">
+               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                 <Smartphone size={20} className="text-primary" />
+               </div>
+               <div>
+                 <h4 className="font-bold text-charcoal mb-1">Integrated Tenant Portal</h4>
+                 <p className="text-sm text-body">A custom branded mobile experience for rent payments, lease documents, and communication history.</p>
+               </div>
+             </div>
+             <div className="flex gap-4">
+               <div className="w-10 h-10 rounded-xl bg-info/10 flex items-center justify-center shrink-0">
+                 <Wrench size={20} className="text-info" />
+               </div>
+               <div>
+                 <h4 className="font-bold text-charcoal mb-1">Intelligent Maintenance</h4>
+                 <p className="text-sm text-body">Resident-reported issues instantly ping your preferred vendor pool with priority status tagging for fast resolution.</p>
+               </div>
+             </div>
+             <div className="flex gap-4">
+               <div className="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center shrink-0">
+                 <MessageSquare size={20} className="text-success" />
+               </div>
+               <div>
+                 <h4 className="font-bold text-charcoal mb-1">Centralized Communication</h4>
+                 <p className="text-sm text-body">Announcements, lease expiries, and direct messaging in a single inbox beyond email and WhatsApp.</p>
+               </div>
+             </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </div>
+  </section>
+);
+
+const PrecisionReporting = () => (
+  <section className="bg-[#FAF7F2] py-16" aria-label="Precision Reporting & Intelligence">
+    <div className="max-w-marketing mx-auto px-6">
+      <div className="mb-12">
+        <motion.h2 className="font-display text-charcoal text-4xl mb-4" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>Precision Reporting & Intelligence</motion.h2>
+        <motion.p className="text-body text-lg max-w-2xl" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+          Don't just collect data—command it. Our analytics engine translates raw property metrics into actionable investment strategies.
+        </motion.p>
+      </div>
+
+      <motion.div className="grid md:grid-cols-[2fr_1fr] gap-6 mb-6" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}>
+        <motion.div className="bg-charcoal rounded-2xl p-6 md:p-8 flex flex-col justify-between overflow-hidden" variants={fadeUp}>
+           <div className="mb-6 relative z-10">
+             <h3 className="text-white font-bold text-xl mb-1">Portfolio ROI Tracking</h3>
+             <p className="text-white/50 text-sm">Revenue vs Expenses (Year-to-Date)</p>
+           </div>
+           {/* Image Mockup */}
+           <div className="rounded-xl overflow-hidden mt-4 relative w-full h-48 md:h-64 border border-white/10">
+              <img src={reportingImg} alt="Reporting Dashboard" className="absolute inset-0 w-full h-full object-cover object-top" />
+           </div>
+        </motion.div>
+
+        <motion.div className="bg-[#1C3E3A] rounded-2xl p-6 md:p-8 flex flex-col items-center justify-center text-center" variants={fadeUp}>
+           <h3 className="text-white/80 font-semibold mb-6">Avg. On-Time Payments</h3>
+           <div className="text-6xl font-display text-white mb-4">98%</div>
+           <div className="flex gap-1 justify-center">
+             <div className="w-1.5 h-8 bg-warning rounded-full"></div>
+             <div className="w-1.5 h-12 bg-warning rounded-full"></div>
+             <div className="w-1.5 h-6 bg-warning/40 rounded-full"></div>
+             <div className="w-1.5 h-10 bg-warning rounded-full"></div>
+             <div className="w-1.5 h-4 bg-warning/40 rounded-full"></div>
+           </div>
+        </motion.div>
+      </motion.div>
+
+      <motion.div className="grid md:grid-cols-[1fr_2fr] gap-6" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}>
+        <motion.div className="bg-white rounded-2xl p-6 border border-border" variants={fadeUp}>
+           <h3 className="text-charcoal font-bold mb-6">Regional Distribution</h3>
+           <div className="space-y-4">
+             <div>
+               <div className="flex justify-between text-xs mb-1.5 font-medium"><span className="text-charcoal">Lagos Island</span><span className="text-charcoal">45%</span></div>
+               <div className="w-full h-1.5 bg-border rounded-full overflow-hidden"><div className="w-[45%] h-full bg-charcoal rounded-full"></div></div>
+             </div>
+             <div>
+               <div className="flex justify-between text-xs mb-1.5 font-medium"><span className="text-charcoal">Abuja (FCT)</span><span className="text-charcoal">30%</span></div>
+               <div className="w-full h-1.5 bg-border rounded-full overflow-hidden"><div className="w-[30%] h-full bg-primary rounded-full"></div></div>
+             </div>
+             <div>
+               <div className="flex justify-between text-xs mb-1.5 font-medium"><span className="text-charcoal">Port Harcourt</span><span className="text-charcoal">25%</span></div>
+               <div className="w-full h-1.5 bg-border rounded-full overflow-hidden"><div className="w-[25%] h-full bg-error rounded-full"></div></div>
+             </div>
+           </div>
+        </motion.div>
+
+        <motion.div className="bg-white rounded-2xl p-6 border border-border flex items-center justify-between" variants={fadeUp}>
+           <div>
+             <h3 className="text-charcoal font-bold mb-2">Automated Compliance</h3>
+             <p className="text-body text-sm max-w-md">Real-time monitoring of local tax shifts, insurance renewals, and safety certifications across all assets.</p>
+           </div>
+           <div className="hidden sm:flex gap-4 shrink-0">
+             <div className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-success"><CheckCircle size={20} /></div>
+             <div className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-info"><FileText size={20} /></div>
+           </div>
+        </motion.div>
+      </motion.div>
+    </div>
+  </section>
+);
+
+const IntegrationsStack = () => (
+  <section className="bg-white py-12 border-y border-border overflow-hidden" aria-label="Integrations">
+    <div className="max-w-marketing mx-auto px-6 text-center">
+      <p className="text-xs font-semibold uppercase tracking-widest text-muted mb-8">Connects to your existing stack</p>
+      <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+         <span className="font-display font-bold text-xl text-charcoal">QuickBooks</span>
+         <span className="font-display font-bold text-xl text-charcoal">Stripe</span>
+         <span className="font-display font-bold text-xl text-charcoal">Salesforce</span>
+         <span className="font-display font-bold text-xl text-charcoal">Plaid</span>
+         <span className="font-display font-bold text-xl text-charcoal">DocuSign</span>
+      </div>
+    </div>
+  </section>
 );
 
 // ─── Specific Mockup Components ────────────────────────────────────────────────
