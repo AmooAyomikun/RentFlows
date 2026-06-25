@@ -50,7 +50,7 @@ const Solutions = () => {
           <img src={solutionsHeroBg} alt="Hero Background" className="w-full h-full object-cover object-center opacity-40 mix-blend-overlay" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0B4F45]/90 to-[#0A3D36]/60" />
         </div>
-        <div className="relative z-10 max-w-marketing mx-auto px-6 w-full">
+        <div className="relative z-10 max-w-[1100px] mx-auto px-[24px] w-full">
           <motion.div className="max-w-3xl" initial="hidden" animate="visible" variants={fadeUp}>
             <p className="text-[12px] md:text-sm font-bold uppercase tracking-widest text-[#D35400] mb-4">Built Around Your Needs, Before You Need Them</p>
             <h1 className="font-display text-white text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
@@ -73,7 +73,7 @@ const Solutions = () => {
 
       {/* 2. For the Independent Landlord */}
       <section id="independent" className="py-20 md:py-24 bg-[#FDFBF7]" aria-label="Independent Landlord">
-        <div className="max-w-marketing mx-auto px-6">
+        <div className="max-w-[1100px] mx-auto px-[24px]">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <motion.div className="flex-1" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center text-red-400 mb-5">
@@ -120,7 +120,7 @@ const Solutions = () => {
 
       {/* 3. Bank-Grade Infrastructure */}
       <section className="py-20 md:py-24 bg-[#EBE9E4]" aria-label="Bank-Grade Infrastructure">
-        <div className="max-w-marketing mx-auto px-6 text-center">
+        <div className="max-w-[1100px] mx-auto px-[24px] text-center">
           <motion.p className="text-[11px] md:text-xs font-bold text-[#D35400] uppercase tracking-widest mb-3" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>UNCOMPROMISING SAFETY</motion.p>
           <motion.h2 className="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Bank-Grade Infrastructure</motion.h2>
           <motion.p className="text-body text-base md:text-lg max-w-2xl mx-auto mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -148,7 +148,7 @@ const Solutions = () => {
 
       {/* 4. For Professional Managers */}
       <section className="py-20 md:py-24 bg-[#FDFBF7]" aria-label="Professional Managers">
-        <div className="max-w-marketing mx-auto px-6">
+        <div className="max-w-[1100px] mx-auto px-[24px]">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <motion.div 
               className="flex-1 order-2 lg:order-1 rounded-2xl overflow-hidden shadow-xl border border-border/60 w-full bg-white"
@@ -188,7 +188,7 @@ const Solutions = () => {
 
       {/* 5. The Growth Journey */}
       <section className="py-20 md:py-24 bg-[#FDFBF7] border-t border-border/40" aria-label="Growth Journey">
-        <div className="max-w-marketing mx-auto px-6">
+        <div className="max-w-[1100px] mx-auto px-[24px]">
           <div className="text-center mb-16">
             <motion.h2 className="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>The Growth Journey</motion.h2>
             <motion.p className="text-body text-base md:text-lg max-w-2xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -248,7 +248,7 @@ const Solutions = () => {
 
       {/* 6. For Institutional Investors */}
       <section className="py-20 md:py-28 bg-[#0B4F45] text-white" aria-label="Institutional Investors">
-        <div className="max-w-marketing mx-auto px-6">
+        <div className="max-w-[1100px] mx-auto px-[24px]">
           <div className="text-center mb-16">
             <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-primary-100 mb-5 mx-auto">
               <TrendingUp size={16} />
@@ -346,7 +346,7 @@ const Solutions = () => {
 
       {/* 8. The RentFlow Process */}
       <section className="py-20 md:py-24 bg-[#FDFBF7]" aria-label="Process">
-        <div className="max-w-marketing mx-auto px-6">
+        <div className="max-w-[1100px] mx-auto px-[24px]">
           <div className="text-center mb-14">
             <motion.h2 className="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>The RentFlow Process</motion.h2>
             <motion.p className="text-body text-base md:text-lg max-w-2xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>

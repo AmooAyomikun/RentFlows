@@ -59,10 +59,10 @@ const ForLandlords = () => {
               <div className="inline-block bg-[#FFF0E6] text-[#8D3B1E] text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-[16px]">
                 Made for modern landlords
               </div>
-              <h1 className="font-display text-charcoal text-3xl md:text-4xl lg:text-[44px] mb-[16px] leading-[1.15] tracking-tight">
+              <h1 className="font-display text-charcoal text-display-sm lg:text-display mb-[16px] leading-[1.1] tracking-tight">
                 The Only Tool You Need to Manage Your Portfolio with <span className="text-[#8D3B1E]">Confidence.</span>
               </h1>
-              <p className="text-muted text-sm md:text-base mb-[24px] leading-relaxed max-w-lg">
+              <p className="text-muted text-body mb-[24px] leading-relaxed max-w-lg">
                 Move from manual bank alerts and WhatsApp chats to automated, professional property management. Designed for the high-performance landlord.
               </p>
               <div className="flex flex-wrap gap-[12px]">
@@ -91,10 +91,10 @@ const ForLandlords = () => {
       <section className="py-[60px] md:py-[80px] bg-[#FDFBF7]" aria-label="Stop Chasing Bank Alerts">
         <div className="max-w-[1000px] mx-auto px-[24px]">
           <div className="text-center mb-[40px]">
-            <motion.h2 className="text-[26px] md:text-[32px] font-display font-bold text-charcoal mb-[12px] tracking-tight" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+            <motion.h2 className="text-h2-sm lg:text-h2 font-display font-bold text-charcoal mb-[12px] tracking-tight" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               Stop Chasing Bank Alerts.
             </motion.h2>
-            <motion.p className="text-muted text-sm md:text-base max-w-xl mx-auto leading-relaxed" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+            <motion.p className="text-muted text-body max-w-xl mx-auto leading-relaxed" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               Managing properties shouldn't feel like a part-time job of cross-referencing bank statements and chasing screenshots on WhatsApp.
             </motion.p>
           </div>
@@ -106,17 +106,17 @@ const ForLandlords = () => {
                 <div className="w-10 h-10 bg-[#FDF2F0] rounded-xl flex items-center justify-center text-[#E05A47] mb-[20px]">
                   <AlertTriangle size={20} />
                 </div>
-                <h3 className="font-display font-bold text-base md:text-lg text-charcoal mb-[12px]">Current Chaos</h3>
+                <h3 className="font-display font-semibold text-h3-sm lg:text-h3 text-charcoal mb-[12px]">Current Chaos</h3>
                 <ul className="space-y-[12px] mb-[20px]">
-                  <li className="flex items-start gap-[10px] text-xs md:text-sm text-muted">
+                  <li className="flex items-start gap-[10px] text-small text-muted">
                     <X size={14} className="text-[#E05A47] mt-0.5 shrink-0" />
                     <span>Manual bank statement checks.</span>
                   </li>
-                  <li className="flex items-start gap-[10px] text-xs md:text-sm text-muted">
+                  <li className="flex items-start gap-[10px] text-small text-muted">
                     <X size={14} className="text-[#E05A47] mt-0.5 shrink-0" />
                     <span>No central paper trail.</span>
                   </li>
-                  <li className="flex items-start gap-[10px] text-xs md:text-sm text-muted">
+                  <li className="flex items-start gap-[10px] text-small text-muted">
                     <X size={14} className="text-[#E05A47] mt-0.5 shrink-0" />
                     <span>Stressful, disorganized tax season.</span>
                   </li>
@@ -127,9 +127,9 @@ const ForLandlords = () => {
                   <div className="w-4 h-4 rounded-full bg-[#10B981] flex items-center justify-center text-white shrink-0">
                     <Check size={10} className="stroke-[3]" />
                   </div>
-                  <span className="font-display font-bold text-[11px]">RentFlow Clarity</span>
+                  <span className="font-display font-bold text-micro uppercase tracking-wider">RentFlow Clarity</span>
                 </div>
-                <p className="text-[10px] text-white/80 leading-relaxed">Automated tracking, instant branded receipts, and tax-ready exports.</p>
+                <p className="text-micro text-white/80 leading-relaxed">Automated tracking, instant branded receipts, and tax-ready exports.</p>
               </div>
             </motion.div>
 
@@ -139,19 +139,19 @@ const ForLandlords = () => {
                 <div className="w-10 h-10 bg-[#E6F4EA] rounded-xl flex items-center justify-center text-[#137333] mb-[20px]">
                   <CreditCard size={20} />
                 </div>
-                <h3 className="font-display font-bold text-base md:text-lg text-charcoal mb-[12px]">Professional Payments</h3>
-                <p className="text-xs md:text-sm text-muted mb-[20px] leading-relaxed">Move away from "I've sent it" screenshots. Tenants pay through secure portals.</p>
+                <h3 className="font-display font-semibold text-h3-sm lg:text-h3 text-charcoal mb-[12px]">Professional Payments</h3>
+                <p className="text-small text-muted mb-[20px] leading-relaxed">Move away from "I've sent it" screenshots. Tenants pay through secure portals.</p>
               </div>
               
               <div className="bg-[#FDFBF7] border border-border/40 rounded-[16px] p-[16px] mt-[16px]">
                 <div className="flex items-center justify-between mb-[12px]">
-                  <span className="text-[11px] font-bold text-charcoal">Payment Link</span>
-                  <span className="text-[9px] font-bold bg-[#E6F4EA] text-[#137333] px-[8px] py-[2px] rounded-full uppercase tracking-wider">Active</span>
+                  <span className="text-small font-bold text-charcoal">Payment Link</span>
+                  <span className="text-micro font-bold bg-[#E6F4EA] text-[#137333] px-[8px] py-[2px] rounded-full uppercase tracking-wider">Active</span>
                 </div>
                 <div className="w-full bg-[#EBE9E4] h-[5px] rounded-full mb-[10px] overflow-hidden">
                   <div className="bg-[#D35400] h-full w-[20%] rounded-full"></div>
                 </div>
-                <div className="flex justify-between text-[9px] md:text-[10px] font-medium text-muted">
+                <div className="flex justify-between text-micro font-medium text-muted">
                   <span>20% Collected</span>
                   <span>Due: 5th of Month</span>
                 </div>
@@ -166,8 +166,8 @@ const ForLandlords = () => {
                   <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-[#A7F3D0] mb-[20px]">
                     <Shield size={20} />
                   </div>
-                  <h3 className="font-display font-bold text-base md:text-lg text-white mb-[12px]">Digital Governance</h3>
-                  <p className="text-xs md:text-sm text-white/70 mb-[20px] leading-relaxed">Every payment, maintenance request, and communication is logged and legally defensible.</p>
+                  <h3 className="font-display font-semibold text-h3-sm lg:text-h3 text-white mb-[12px]">Digital Governance</h3>
+                  <p className="text-small text-white/70 mb-[20px] leading-relaxed">Every payment, maintenance request, and communication is logged and legally defensible.</p>
                 </div>
                 
                 <div className="space-y-[10px] mt-[16px]">
@@ -175,13 +175,13 @@ const ForLandlords = () => {
                     <div className="w-4 h-4 rounded-full bg-[#10B981]/20 flex items-center justify-center text-[#A7F3D0] shrink-0">
                       <Check size={10} className="stroke-[3]" />
                     </div>
-                    <span className="text-[11px] font-medium text-white">Tenancy agreement Signed</span>
+                    <span className="text-small font-medium text-white">Tenancy agreement Signed</span>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-[16px] p-[12px] flex items-center gap-[10px]">
                     <div className="w-4 h-4 rounded-full bg-[#10B981]/20 flex items-center justify-center text-[#A7F3D0] shrink-0">
                       <Check size={10} className="stroke-[3]" />
                     </div>
-                    <span className="text-[11px] font-medium text-white">Annual Statement Generated</span>
+                    <span className="text-small font-medium text-white">Annual Statement Generated</span>
                   </div>
                 </div>
               </div>
@@ -201,33 +201,33 @@ const ForLandlords = () => {
             </motion.div>
             
             <motion.div className="flex-1 w-full" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-              <h2 className="font-display font-bold text-[26px] md:text-[32px] text-charcoal mb-[12px] tracking-tight leading-tight">
+              <h2 className="font-display font-bold text-h2-sm lg:text-h2 text-charcoal mb-[12px] tracking-tight leading-tight">
                 Everything you need in one powerful hub.
               </h2>
-              <p className="text-muted text-sm md:text-base mb-[28px] leading-relaxed max-w-xl">
+              <p className="text-muted text-body mb-[28px] leading-relaxed max-w-xl">
                 Built specifically for the African real estate context, RentFlow bridges the gap between bank silos and tenant needs.
               </p>
               
               <div className="grid sm:grid-cols-2 gap-x-[32px] gap-y-[20px]">
                 <div>
                   <CreditCard size={18} className="text-[#8D3B1E] mb-[10px]" />
-                  <h4 className="font-display font-bold text-charcoal text-[14px] mb-[4px]">Online Rent Collection</h4>
-                  <p className="text-[12px] text-muted leading-relaxed">Secure payments via card or direct bank transfer with 99.9% uptime.</p>
+                  <h4 className="font-display font-semibold text-charcoal text-h4-sm lg:text-h4 mb-[4px]">Online Rent Collection</h4>
+                  <p className="text-small text-muted leading-relaxed">Secure payments via card or direct bank transfer with 99.9% uptime.</p>
                 </div>
                 <div>
                   <FileText size={18} className="text-[#8D3B1E] mb-[10px]" />
-                  <h4 className="font-display font-bold text-charcoal text-[14px] mb-[4px]">Automated Receipts</h4>
-                  <p className="text-[12px] text-muted leading-relaxed">Professional PDF receipts are generated and emailed the moment rent hits your account.</p>
+                  <h4 className="font-display font-semibold text-charcoal text-h4-sm lg:text-h4 mb-[4px]">Automated Receipts</h4>
+                  <p className="text-small text-muted leading-relaxed">Professional PDF receipts are generated and emailed the moment rent hits your account.</p>
                 </div>
                 <div>
                   <Users size={18} className="text-[#8D3B1E] mb-[10px]" />
-                  <h4 className="font-display font-bold text-charcoal text-[14px] mb-[4px]">Tenant Screening</h4>
-                  <p className="text-[12px] text-muted leading-relaxed">Simple digital onboarding for new residents with background checks.</p>
+                  <h4 className="font-display font-semibold text-charcoal text-h4-sm lg:text-h4 mb-[4px]">Tenant Screening</h4>
+                  <p className="text-small text-muted leading-relaxed">Simple digital onboarding for new residents with background checks.</p>
                 </div>
                 <div>
                   <Wrench size={18} className="text-[#8D3B1E] mb-[10px]" />
-                  <h4 className="font-display font-bold text-charcoal text-[14px] mb-[4px]">Maintenance Tracking</h4>
-                  <p className="text-[12px] text-muted leading-relaxed">A centralized dashboard to manage and track all repair requests.</p>
+                  <h4 className="font-display font-semibold text-charcoal text-h4-sm lg:text-h4 mb-[4px]">Maintenance Tracking</h4>
+                  <p className="text-small text-muted leading-relaxed">A centralized dashboard to manage and track all repair requests.</p>
                 </div>
               </div>
             </motion.div>
@@ -240,13 +240,13 @@ const ForLandlords = () => {
         <Quote size={200} className="absolute left-1/2 -translate-x-1/2 top-4 text-white/5 pointer-events-none" />
         <div className="max-w-[800px] mx-auto px-[24px] relative z-10">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-            <p className="text-white font-display text-lg md:text-xl lg:text-2xl italic leading-relaxed mb-[24px]">
+            <p className="text-white font-display text-h3-sm lg:text-h3 italic leading-relaxed mb-[24px]">
               "Since switching to RentFlow, I've stopped waking up to bank alerts and tenant WhatsApp messages. Everything is automated. It literally saved me 10 hours a week on administration alone. I can finally focus on acquiring my next property instead of chasing rent for the current ones."
             </p>
             <div className="flex flex-col items-center justify-center">
               <img src={olumideProfile} alt="Olumide Adebayo" className="w-[50px] h-[50px] rounded-full object-cover border-2 border-white/20 mb-[12px]" />
-              <h5 className="text-white font-bold text-sm mb-[4px]">Olumide Adebayo</h5>
-              <p className="text-white/60 text-xs">Property Portfolio Manager, Lagos</p>
+              <h5 className="text-white font-bold text-body mb-[4px]">Olumide Adebayo</h5>
+              <p className="text-white/60 text-small">Property Portfolio Manager, Lagos</p>
             </div>
           </motion.div>
         </div>
@@ -256,8 +256,8 @@ const ForLandlords = () => {
       <section className="py-[60px] md:py-[80px] bg-[#FDFBF7]" aria-label="Pricing">
         <div className="max-w-[1000px] mx-auto px-[24px]">
           <div className="text-center mb-[32px]">
-            <motion.h2 className="text-2xl md:text-3xl font-display font-bold text-charcoal mb-[10px]" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Ready to scale your portfolio?</motion.h2>
-            <motion.p className="text-muted text-sm" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Start small, grow big. Our pricing scales with you.</motion.p>
+            <motion.h2 className="text-h2-sm lg:text-h2 font-display font-bold text-charcoal mb-[10px]" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Ready to scale your portfolio?</motion.h2>
+            <motion.p className="text-muted text-body" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Start small, grow big. Our pricing scales with you.</motion.p>
           </div>
           
           <motion.div 
@@ -267,18 +267,18 @@ const ForLandlords = () => {
             <div className="absolute top-0 left-0 w-full bg-[#8D3B1E] text-white text-[10px] font-bold uppercase tracking-widest py-1.5">
               Most Popular For Landlords
             </div>
-            <h3 className="font-display font-bold text-xl text-charcoal mt-[20px] mb-[8px]">Landlord Starter</h3>
+            <h3 className="font-display font-bold text-h3-sm lg:text-h3 text-charcoal mt-[20px] mb-[8px]">Landlord Starter</h3>
             <div className="flex items-center justify-center gap-1 mb-[12px]">
-              <span className="text-3xl font-display font-bold text-charcoal">$0</span>
-              <span className="text-muted text-xs">/month</span>
+              <span className="text-display-sm lg:text-display font-display font-bold text-charcoal">$0</span>
+              <span className="text-muted text-small">/month</span>
             </div>
-            <p className="text-xs text-muted mb-[20px] pb-[20px] border-b border-border/40">Perfect for independent landlords with up to 5 units.</p>
+            <p className="text-small text-muted mb-[20px] pb-[20px] border-b border-border/40">Perfect for independent landlords with up to 5 units.</p>
             
             <ul className="space-y-[12px] mb-[24px] text-left max-w-[220px] mx-auto">
-              <li className="flex items-center gap-[10px] text-xs text-muted"><Check size={14} className="text-charcoal shrink-0" /> Manage up to 5 units</li>
-              <li className="flex items-center gap-[10px] text-xs text-muted"><Check size={14} className="text-charcoal shrink-0" /> Automated digital receipts</li>
-              <li className="flex items-center gap-[10px] text-xs text-muted"><Check size={14} className="text-charcoal shrink-0" /> Basic tenant screening</li>
-              <li className="flex items-center gap-[10px] text-xs text-muted"><Check size={14} className="text-charcoal shrink-0" /> Monthly financial reports</li>
+              <li className="flex items-center gap-[10px] text-small text-muted"><Check size={14} className="text-charcoal shrink-0" /> Manage up to 5 units</li>
+              <li className="flex items-center gap-[10px] text-small text-muted"><Check size={14} className="text-charcoal shrink-0" /> Automated digital receipts</li>
+              <li className="flex items-center gap-[10px] text-small text-muted"><Check size={14} className="text-charcoal shrink-0" /> Basic tenant screening</li>
+              <li className="flex items-center gap-[10px] text-small text-muted"><Check size={14} className="text-charcoal shrink-0" /> Monthly financial reports</li>
             </ul>
             
             <Button className="w-full bg-[#0B4F45] hover:bg-[#083b33] text-white mb-[10px] py-[10px]">Create Free Account</Button>
@@ -311,19 +311,18 @@ const ForLandlords = () => {
         <div className="max-w-marketing mx-auto px-6">
           <div className="max-w-2xl">
             <motion.p
-              className="text-accent text-sm font-semibold uppercase tracking-widest mb-4"
+              className="text-accent text-micro uppercase tracking-widest mb-4"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             >
               For Landlords
             </motion.p>
             <motion.h1
-              className="font-display text-white mb-6"
-              style={{ fontSize: 'clamp(36px, 5vw, 64px)', letterSpacing: '-0.02em' }}
+              className="font-display text-white mb-6 text-display-sm lg:text-display font-bold leading-tight"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             >
               Run your rental business like a pro.
             </motion.h1>
-            <motion.p className="text-white/70 text-lg mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.15 } }}>
+            <motion.p className="text-white/70 text-body mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.15 } }}>
               Stop chasing rent on WhatsApp. Start collecting it on RentFlow — with receipts, reminders and full financial visibility built in.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.25 } }}>
@@ -338,7 +337,7 @@ const ForLandlords = () => {
       {/* Original What you get */}
       <section className="py-[60px] md:py-[80px] bg-warm" aria-label="Original Landlord features">
         <div className="max-w-[1000px] mx-auto px-[24px]">
-          <h2 className="font-display text-charcoal text-center mb-[32px] text-2xl md:text-3xl font-bold">Additional Landlord Features</h2>
+          <h2 className="font-display font-bold text-charcoal text-center mb-[32px] text-h2-sm lg:text-h2">Additional Landlord Features</h2>
           <div className="grid sm:grid-cols-2 gap-[20px] md:gap-[24px]">
             {perks.map((p, i) => (
               <motion.div key={p.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
@@ -349,8 +348,8 @@ const ForLandlords = () => {
                       <p.icon size={22} className="text-primary" aria-hidden="true" />
                     </div>
                   </div>
-                  <h3 className="font-display font-semibold text-charcoal text-base mb-[8px]">{p.title}</h3>
-                  <p className="text-xs md:text-sm text-muted">{p.desc}</p>
+                  <h3 className="font-display font-semibold text-charcoal text-h3-sm lg:text-h3 mb-[8px]">{p.title}</h3>
+                  <p className="text-small text-muted">{p.desc}</p>
                 </Card>
               </motion.div>
             ))}
@@ -373,9 +372,9 @@ const ForLandlords = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-accent/90 mb-[12px]">Scale freely</p>
-            <h2 className="font-display text-white text-2xl md:text-3xl font-bold mb-[16px]">One dashboard. Any number of properties.</h2>
-            <p className="text-white/70 text-xs md:text-sm max-w-xl mx-auto mb-[24px]">Whether you manage 1 duplex or a 50-unit portfolio across multiple cities, RentFlow shows you everything in one place.</p>
+            <p className="text-micro font-medium uppercase tracking-widest text-accent/90 mb-[12px]">Scale freely</p>
+            <h2 className="font-display font-bold text-white text-h2-sm lg:text-h2 mb-[16px]">One dashboard. Any number of properties.</h2>
+            <p className="text-white/70 text-small max-w-xl mx-auto mb-[24px]">Whether you manage 1 duplex or a 50-unit portfolio across multiple cities, RentFlow shows you everything in one place.</p>
           </motion.div>
           <motion.div
             className="grid grid-cols-3 md:grid-cols-5 gap-[12px] max-w-lg mx-auto"
@@ -387,7 +386,7 @@ const ForLandlords = () => {
             {['Lekki', 'GRA', 'Wuse', 'Enugu', '+More'].map((loc) => (
               <div key={loc} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-[12px] text-center hover:bg-white/15 transition-colors">
                 <Building2 size={16} className="text-white/80 mx-auto mb-[4px]" aria-hidden="true" />
-                <p className="text-[11px] font-medium text-white/90">{loc}</p>
+                <p className="text-micro font-medium text-white/90">{loc}</p>
               </div>
             ))}
           </motion.div>
@@ -397,7 +396,7 @@ const ForLandlords = () => {
       {/* Original FAQ */}
       <section className="py-[60px] md:py-[80px] bg-white" aria-label="Landlord FAQ">
         <div className="max-w-[760px] mx-auto px-[24px]">
-          <h2 className="font-display text-charcoal text-center text-2xl md:text-3xl font-bold mb-[32px]">Common landlord questions.</h2>
+          <h2 className="font-display font-bold text-charcoal text-center text-h2-sm lg:text-h2 mb-[32px]">Common landlord questions.</h2>
           <Accordion items={faqItems} />
         </div>
       </section>
