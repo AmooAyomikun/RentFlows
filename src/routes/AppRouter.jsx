@@ -23,6 +23,7 @@ import BlogPost from '../pages/marketing/BlogPost';
 import Contact from '../pages/marketing/Contact';
 import PrivacyPolicy, { TermsOfService } from '../pages/marketing/Legal';
 import Solutions from '../pages/marketing/Solutions';
+import Resources from '../pages/marketing/Resources';
 // Auth Pages
 import Login from '../pages/auth/Login';
 import Signup from '../pages/auth/Signup';
@@ -92,6 +93,7 @@ const AppRouter = () => {
           <Route path="/" element={<Home />} />
           <Route path="/features" element={<Features />} />
           <Route path="/solutions" element={<Solutions />} />
+          <Route path="/resources" element={<Resources />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/for-landlords" element={<ForLandlords />} />
           <Route path="/for-tenants" element={<ForTenants />} />
