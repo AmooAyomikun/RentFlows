@@ -8,6 +8,12 @@ import { LogoMark } from './Navbar';
  */
 const AuthLayout = () => {
   const location = useLocation();
+  const isFullPage = ['/login', '/signup'].includes(location.pathname);
+
+  if (isFullPage) {
+    return <Outlet />;
+  }
+
   const isSignup = location.pathname === '/signup';
 
   return (
