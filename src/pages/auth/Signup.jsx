@@ -138,7 +138,7 @@ const Signup = () => {
                 Join 2,000+ Leaders
               </span>
               <span className="text-[11px] text-white/70 leading-normal">
-                Join property professionals managing over $14B in global real estate assets today.
+                Join property professionals managing over ₦500B in African real estate assets today.
               </span>
             </div>
           </motion.div>

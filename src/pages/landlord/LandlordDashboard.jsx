@@ -27,7 +27,7 @@ const recentActivities = [
   {
     id: 1,
     title: 'Rent Received: Unit 4B',
-    desc: 'Sarah Jenkins paid $2,400 via ACH.',
+    desc: 'Simisola Alabi paid ₦2,450,000 via Bank Transfer.',
     time: '10 mins ago',
     icon: DollarSign,
     iconBg: 'bg-emerald-100 text-emerald-700',
@@ -35,7 +35,7 @@ const recentActivities = [
   {
     id: 2,
     title: 'New Maintenance Request',
-    desc: 'Leaking faucet reported in 12A Oakwood.',
+    desc: 'Leaking faucet reported in 12A Lekki Palms.',
     time: '2 hours ago',
     icon: Wrench,
     iconBg: 'bg-orange-100 text-orange-600',
@@ -51,7 +51,7 @@ const recentActivities = [
   {
     id: 4,
     title: 'Work Order Completed',
-    desc: 'HVAC repair finished at Sunset Villas.',
+    desc: 'HVAC repair finished at Banana Island Lofts.',
     time: 'Yesterday',
     icon: CheckCircle2,
     iconBg: 'bg-gray-100 text-gray-600',
@@ -61,12 +61,12 @@ const recentActivities = [
 const fallbackPropertiesData = [
   {
     id: 'prop-1',
-    name: 'Oakwood Residences',
-    address: '1244 Oakwood Ave, Seattle',
+    name: 'Victoria Island Towers',
+    address: 'Adeola Odeku St, Victoria Island, Lagos',
     type: 'Multi-family',
     units: 48,
     occupancy: 96,
-    revenue: '$115,200',
+    revenue: '₦115,200,000',
     status: '+ Excellent',
     statusBg: 'bg-emerald-100 text-emerald-800',
     barBg: 'bg-[#0B4F45]',
@@ -74,12 +74,12 @@ const fallbackPropertiesData = [
   },
   {
     id: 'prop-2',
-    name: 'Pine Plaza Commercial',
-    address: '8000 Pine Drive, Portland',
+    name: 'Lekki Palms Mall',
+    address: 'Admiralty Way, Lekki Phase 1, Lagos',
     type: 'Commercial',
     units: 12,
     occupancy: 100,
-    revenue: '$48,500',
+    revenue: '₦48,500,000',
     status: '+ Excellent',
     statusBg: 'bg-emerald-100 text-emerald-800',
     barBg: 'bg-[#0B4F45]',
@@ -87,12 +87,12 @@ const fallbackPropertiesData = [
   },
   {
     id: 'prop-3',
-    name: 'Sunset Villas',
-    address: '302 Sunset Blvd, Austin',
+    name: 'Banana Island Lofts',
+    address: 'Banana Island, Ikoyi, Lagos',
     type: 'Multi-family',
     units: 24,
     occupancy: 82,
-    revenue: '$34,200',
+    revenue: '₦34,200,000',
     status: '! Attention',
     statusBg: 'bg-amber-100 text-amber-800',
     barBg: 'bg-amber-500',
@@ -101,15 +101,15 @@ const fallbackPropertiesData = [
 ];
 
 const outstandingRentData = [
-  { id: 1, name: 'John Doe', unit: 'Oakwood 12B', amount: '$1,200', overdue: '15 days', alert: 'text-rose-600' },
-  { id: 2, name: 'Alice Smith', unit: 'Sunset Villas 4A', amount: '$950', overdue: '8 days', alert: 'text-amber-600' },
-  { id: 3, name: 'Bob Johnson', unit: 'Pine Plaza Suite 3', amount: '$2,100', overdue: '32 days', alert: 'text-rose-600' },
+  { id: 1, name: 'Chinedu Okafor', unit: 'Victoria Island 12B', amount: '₦1,200,000', overdue: '15 days', alert: 'text-rose-600' },
+  { id: 2, name: 'Amina Yusuf', unit: 'Banana Island 4A', amount: '₦950,000', overdue: '8 days', alert: 'text-amber-600' },
+  { id: 3, name: 'Babatunde Johnson', unit: 'Lekki Palms Suite 3', amount: '₦2,100,000', overdue: '32 days', alert: 'text-rose-600' },
 ];
 
 const recentPaymentsData = [
-  { id: 1, date: 'Oct 24', name: 'Sarah Jenkins', unit: 'Oakwood 4B', amount: '$2,400', status: 'Completed', statusBg: 'bg-emerald-100 text-emerald-700' },
-  { id: 2, date: 'Oct 23', name: 'Michael Chang', unit: 'Sunset Villas 12C', amount: '$1,850', status: 'Pending', statusBg: 'bg-amber-100 text-amber-700' },
-  { id: 3, date: 'Oct 23', name: 'Emma Watson', unit: 'Oakwood 9A', amount: '$2,100', status: 'Completed', statusBg: 'bg-emerald-100 text-emerald-700' },
+  { id: 1, date: 'Oct 24', name: 'Simisola Alabi', unit: 'Victoria Island 4B', amount: '₦2,400,000', status: 'Completed', statusBg: 'bg-emerald-100 text-emerald-700' },
+  { id: 2, date: 'Oct 23', name: 'Musa Rano', unit: 'Banana Island 12C', amount: '₦1,850,000', status: 'Pending', statusBg: 'bg-amber-100 text-amber-700' },
+  { id: 3, date: 'Oct 23', name: 'Emeka Watson', unit: 'Victoria Island 9A', amount: '₦2,100,000', status: 'Completed', statusBg: 'bg-emerald-100 text-emerald-700' },
 ];
 
 const LandlordDashboard = () => {
@@ -129,7 +129,7 @@ const LandlordDashboard = () => {
         type: p.type || 'Apartment',
         units: p.totalUnits || 8,
         occupancy: p.totalUnits ? Math.round((p.occupiedUnits / p.totalUnits) * 100) : 88,
-        revenue: `$${Math.round((p.monthlyRevenue || 2800000) / 100).toLocaleString()}`,
+        revenue: `₦${(p.monthlyRevenue || 2800000).toLocaleString()}`,
         status: idx === 2 ? '! Attention' : '+ Excellent',
         statusBg: idx === 2 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800',
         barBg: idx === 2 ? 'bg-amber-500' : 'bg-[#0B4F45]',
@@ -167,7 +167,7 @@ const LandlordDashboard = () => {
             </div>
           </div>
           <div className="my-1">
-            <h2 className="text-xl font-black text-gray-900 tracking-tight">$124,500</h2>
+            <h2 className="text-xl font-black text-gray-900 tracking-tight">₦124.5M</h2>
           </div>
           <div className="flex items-center gap-1.5 text-[11px] font-semibold">
             <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-emerald-100/80 text-emerald-700 font-bold text-[10px]">
@@ -234,7 +234,7 @@ const LandlordDashboard = () => {
             </span>
           </div>
           <div className="text-[10px] text-gray-400 font-medium truncate">
-            $2,450 outstanding. <Link to="/landlord/payments" className="text-[#072F29] hover:underline font-bold">Remind</Link>
+            ₦2,450,000 outstanding. <Link to="/landlord/payments" className="text-[#072F29] hover:underline font-bold">Remind</Link>
           </div>
         </div>
       </div>
@@ -270,10 +270,10 @@ const LandlordDashboard = () => {
                 <BarChart data={revenueChartData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }} barSize={30}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                   <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 500 }} dy={6} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 500 }} tickFormatter={(val) => `$${val / 1000}k`} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 500 }} tickFormatter={(val) => `₦${val / 1000}M`} />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#fff', borderRadius: '10px', border: '1px solid #e5e7eb', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', fontSize: '11px' }}
-                    formatter={(val) => [`$${val.toLocaleString()}`, '']}
+                    formatter={(val) => [`₦${val.toLocaleString()}`, '']}
                   />
                   <Legend
                     verticalAlign="bottom"
@@ -299,7 +299,7 @@ const LandlordDashboard = () => {
             <div className="flex items-center justify-between pb-2.5 border-b border-gray-100">
               <div>
                 <span className="text-[11px] text-gray-400 font-medium">Net Income</span>
-                <h4 className="text-xl font-black text-gray-900 mt-0.5">$82,430</h4>
+                <h4 className="text-xl font-black text-gray-900 mt-0.5">₦82.43M</h4>
               </div>
               <div className="relative w-9 h-9 flex items-center justify-center">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
@@ -315,7 +315,7 @@ const LandlordDashboard = () => {
                   <span className="flex items-center gap-1 text-emerald-700">
                     <ArrowDownLeft size={13} /> Inflow
                   </span>
-                  <span className="text-gray-900">$124,500</span>
+                  <span className="text-gray-900">₦124.5M</span>
                 </div>
                 <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
                   <div className="bg-[#072F29] h-full rounded-full w-[85%]" />
@@ -327,7 +327,7 @@ const LandlordDashboard = () => {
                   <span className="flex items-center gap-1 text-rose-600">
                     <ArrowUpRight size={13} /> Outflow
                   </span>
-                  <span className="text-gray-900">$42,070</span>
+                  <span className="text-gray-900">₦42.07M</span>
                 </div>
                 <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
                   <div className="bg-[#C75B30] h-full rounded-full w-[35%]" />
@@ -562,11 +562,11 @@ const LandlordDashboard = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-xs text-gray-900 leading-snug">Leaking faucet in kitchen</h4>
-                  <span className="text-[10px] text-gray-400 block mt-0.5">Oakwood 12A</span>
+                  <span className="text-[10px] text-gray-400 block mt-0.5">Victoria Island 12A</span>
                 </div>
                 <div className="flex items-center gap-2 pt-1 border-t border-gray-50">
-                  <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[8px] font-bold text-gray-600">JD</div>
-                  <span className="text-[10px] text-gray-600 font-medium">John Doe</span>
+                  <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[8px] font-bold text-gray-600">CO</div>
+                  <span className="text-[10px] text-gray-600 font-medium">Chinedu Okafor</span>
                 </div>
               </div>
 
@@ -578,11 +578,11 @@ const LandlordDashboard = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-xs text-gray-900 leading-snug">Broken window blind</h4>
-                  <span className="text-[10px] text-gray-400 block mt-0.5">Sunset Villas 4A</span>
+                  <span className="text-[10px] text-gray-400 block mt-0.5">Banana Island 4A</span>
                 </div>
                 <div className="flex items-center gap-2 pt-1 border-t border-gray-50">
-                  <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[8px] font-bold text-gray-600">AS</div>
-                  <span className="text-[10px] text-gray-600 font-medium">Alice Smith</span>
+                  <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[8px] font-bold text-gray-600">AY</div>
+                  <span className="text-[10px] text-gray-600 font-medium">Amina Yusuf</span>
                 </div>
               </div>
             </div>
@@ -603,11 +603,11 @@ const LandlordDashboard = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-xs text-gray-900 leading-snug">HVAC not cooling</h4>
-                  <span className="text-[10px] text-gray-400 block mt-0.5">Pine Plaza Suite 2</span>
+                  <span className="text-[10px] text-gray-400 block mt-0.5">Lekki Palms Suite 2</span>
                 </div>
                 <div className="flex items-center gap-2 pt-1 border-t border-gray-50">
-                  <div className="w-4 h-4 rounded-full bg-[#072F29]/10 flex items-center justify-center text-[8px] font-bold text-[#072F29]">BB</div>
-                  <span className="text-[10px] text-[#072F29] font-bold">Bob the Builder (Assigned)</span>
+                  <div className="w-4 h-4 rounded-full bg-[#072F29]/10 flex items-center justify-center text-[8px] font-bold text-[#072F29]">SA</div>
+                  <span className="text-[10px] text-[#072F29] font-bold">Segun Adebayo (Assigned)</span>
                 </div>
               </div>
             </div>
@@ -628,7 +628,7 @@ const LandlordDashboard = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-xs text-gray-900 leading-snug line-through text-gray-500">Fix loose railing</h4>
-                  <span className="text-[10px] text-gray-400 block mt-0.5">Oakwood 2C</span>
+                  <span className="text-[10px] text-gray-400 block mt-0.5">Victoria Island 2C</span>
                 </div>
                 <div className="flex items-center gap-1.5 pt-1 border-t border-gray-50 text-[10px] text-gray-400 font-medium">
                   <CheckCircle2 size={13} className="text-emerald-600 flex-shrink-0" />

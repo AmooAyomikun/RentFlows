@@ -86,7 +86,7 @@ const AddProperty = () => {
               <label className="text-xs font-bold text-gray-800 mb-2 block">Property Name</label>
               <input
                 type="text"
-                placeholder="e.g. Sunset Heights Apartment Complex"
+                placeholder="e.g. Victoria Island Luxury Towers"
                 value={propName}
                 onChange={(e) => setPropName(e.target.value)}
                 className="w-full rounded-xl border border-gray-300 p-3.5 text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-[#072F29]/20 focus:outline-none font-medium box-border"
@@ -100,7 +100,7 @@ const AddProperty = () => {
                 <MapPin size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                 <input
                   type="text"
-                  placeholder="123 Real Estate Way"
+                  placeholder="123 Ademola Adetokunbo Way, Victoria Island"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   className="w-full rounded-xl border border-gray-300 p-3.5 pl-10 text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-[#072F29]/20 focus:outline-none font-medium box-border"
@@ -114,7 +114,7 @@ const AddProperty = () => {
                 <label className="text-xs font-bold text-gray-800 mb-2 block">City</label>
                 <input
                   type="text"
-                  placeholder="Austin"
+                  placeholder="Lagos"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   className="w-full rounded-xl border border-gray-300 p-3.5 text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-[#072F29]/20 focus:outline-none font-medium box-border"

@@ -88,7 +88,7 @@ const Properties = () => {
             </div>
           </div>
           <div>
-            <div className="!text-2xl sm:!text-3xl !font-black !text-gray-900 !mt-3 !mb-0 !tracking-tight">$14.2M</div>
+            <div className="!text-2xl sm:!text-3xl !font-black !text-gray-900 !mt-3 !mb-0 !tracking-tight">₦14.2B</div>
             <div className="flex items-center gap-1 !text-xs !font-bold !text-emerald-600 !mt-2 !mb-0">
               <TrendingUp size={13} /> +2.4% from last quarter
             </div>
@@ -241,7 +241,7 @@ const Properties = () => {
                       <div className="border-l border-gray-100 pl-2.5">
                         <div className="!text-[9px] !font-bold !tracking-wider !text-gray-400 !uppercase !mb-0">REVENUE/MO</div>
                         <div className="!text-xs sm:!text-sm !font-bold !text-gray-800 !mt-0.5 !mb-0 font-mono">
-                          ${(property.monthlyRevenue / 1000).toFixed(1)}k
+                          ₦{(property.monthlyRevenue / 1000000).toFixed(1)}M
                         </div>
                       </div>
 
@@ -332,7 +332,7 @@ const Properties = () => {
 
                     <div className="text-left sm:text-right">
                       <div className="!text-[9px] !font-bold !tracking-wider !text-gray-400 !uppercase !mb-0">REVENUE</div>
-                      <div className="!text-xs sm:!text-sm !font-bold !text-gray-800 font-mono !m-0">${(property.monthlyRevenue / 1000).toFixed(1)}k/mo</div>
+                      <div className="!text-xs sm:!text-sm !font-bold !text-gray-800 font-mono !m-0">₦{(property.monthlyRevenue / 1000000).toFixed(1)}M/mo</div>
                     </div>
 
                     <div className="text-left sm:text-right">

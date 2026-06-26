@@ -49,9 +49,9 @@ const landlordFeedItems = [
     time: '2m ago',
     icon: Banknote,
     iconBg: 'bg-teal-50 text-teal-800',
-    bodyPrefix: 'Tenant Sarah Jenkins has successfully processed the monthly rent payment of ',
-    bodyBold: '$3,250.00',
-    bodySuffix: ' via ACH.',
+    bodyPrefix: 'Tenant Simisola Alabi has successfully processed the monthly rent payment of ',
+    bodyBold: '₦3,250,000',
+    bodySuffix: ' via NIBSS Bank Transfer.',
     actions: [
       { label: 'View Receipt', type: 'primary', route: '/landlord/payments' },
       { label: 'Dismiss', type: 'ghost' },
@@ -63,7 +63,7 @@ const landlordFeedItems = [
     time: '1h ago',
     icon: Wrench,
     iconBg: 'bg-rose-50 text-rose-600',
-    body: 'Unit 12C at "The Pinnacle Heights" has reported a water leak in the master bathroom. High priority service ticket created.',
+    body: 'Unit 12C at "Victoria Island Towers" has reported a water leak in the master bathroom. High priority service ticket created.',
     actions: [
       { label: 'Assign Contractor', type: 'accent', route: '/landlord/maintenance' },
       { label: 'Call Tenant', type: 'outline' },
@@ -75,7 +75,7 @@ const landlordFeedItems = [
     time: '4h ago',
     icon: FileText,
     iconBg: 'bg-emerald-50 text-emerald-700',
-    body: 'The lease for Unit 881 at "Oakwood Residency" expires in 60 days. Renewal documents have been sent to the resident.',
+    body: 'The lease for Unit 881 at "Lekki Residency" expires in 60 days. Renewal documents have been sent to the resident.',
     actions: [
       { label: 'Review Terms', type: 'secondary', route: '/landlord/tenants' },
     ]
@@ -86,15 +86,15 @@ const landlordFeedItems = [
     time: '8h ago',
     icon: Server,
     iconBg: 'bg-gray-100 text-gray-700',
-    body: "We're performing scheduled maintenance tonight at 02:00 AM EST. Real-time bank sync may be delayed for 30 minutes.",
+    body: "We're performing scheduled maintenance tonight at 02:00 AM WAT. Real-time bank sync may be delayed for 30 minutes.",
     linkText: 'Learn more about v2.4 updates',
   },
   {
     id: 'l5',
-    title: 'Marcus Chen mentioned you',
+    title: 'Tunde Bakare mentioned you',
     time: '1d ago',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
-    quote: '"@admin, please check the occupancy report for the West Wing. The numbers seem to be lagging behind our Q3 projections."',
+    quote: '"@admin, please check the occupancy report for the Victoria Island block. The numbers seem to be lagging behind our Q3 projections."',
     actions: [
       { label: 'Reply', type: 'primary' },
       { label: 'Open Thread', type: 'ghost' },

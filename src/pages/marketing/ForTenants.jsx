@@ -89,7 +89,7 @@ const ForTenants = () => {
                   <div className="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center text-success"><Check size={16} className="stroke-[3]" /></div>
                   <div>
                     <p className="text-[10px] text-muted font-bold uppercase tracking-wider">Rent Paid</p>
-                    <p className="font-display font-bold text-charcoal text-small">+$1,200</p>
+                    <p className="font-display font-bold text-charcoal text-small">+₦1,200,000</p>
                   </div>
                 </div>
               </div>

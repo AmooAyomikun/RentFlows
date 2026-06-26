@@ -6,34 +6,34 @@ import {
 
 const leaderboardProperties = [
   {
-    name: 'The Obsidian Suites',
-    location: 'Downtown Financial Dist.',
+    name: 'Victoria Island Luxury Towers',
+    location: 'Victoria Island, Lagos',
     occupancy: 98,
-    revenue: '$842,000',
+    revenue: '₦842,000,000',
     noiMargin: '72.4%',
     roi: '12.2%',
   },
   {
-    name: 'Riverfront Heights',
-    location: 'North Waterfront',
+    name: 'Lekki Palms Villas',
+    location: 'Lekki Phase 1, Lagos',
     occupancy: 92,
-    revenue: '$615,000',
+    revenue: '₦615,000,000',
     noiMargin: '68.1%',
     roi: '9.8%',
   },
   {
-    name: 'Azure Terrace Villas',
-    location: 'West Hills Estate',
+    name: 'Banana Island Lofts',
+    location: 'Ikoyi, Lagos',
     occupancy: 100,
-    revenue: '$528,000',
+    revenue: '₦528,000,000',
     noiMargin: '75.2%',
     roi: '11.4%',
   },
   {
-    name: 'Metropolitan Lofts',
-    location: 'Arts District',
+    name: 'Maitama Heights Townhomes',
+    location: 'Maitama, Abuja',
     occupancy: 85,
-    revenue: '$492,000',
+    revenue: '₦492,000,000',
     noiMargin: '62.8%',
     roi: '8.1%',
   },
@@ -90,7 +90,7 @@ const Reports = () => {
               <TrendingUp size={18} />
             </div>
           </div>
-          <p className="text-3xl font-display font-black text-gray-900 tracking-tight my-3 m-0">$2.48M</p>
+          <p className="text-3xl font-display font-black text-gray-900 tracking-tight my-3 m-0">₦2.48B</p>
           <div className="flex items-baseline text-xs m-0">
             <span className="font-black text-emerald-600">+12.4%</span>
             <span className="text-gray-400 font-medium ml-1">vs last year</span>
@@ -105,7 +105,7 @@ const Reports = () => {
               <Wallet size={18} />
             </div>
           </div>
-          <p className="text-3xl font-display font-black text-gray-900 tracking-tight my-3 m-0">$1.92M</p>
+          <p className="text-3xl font-display font-black text-gray-900 tracking-tight my-3 m-0">₦1.92B</p>
           <div className="flex items-baseline text-xs m-0">
             <span className="font-black text-emerald-600">+8.1%</span>
             <span className="text-gray-400 font-medium ml-1">vs last year</span>
@@ -120,7 +120,7 @@ const Reports = () => {
               <FileSpreadsheet size={18} />
             </div>
           </div>
-          <p className="text-3xl font-display font-black text-gray-900 tracking-tight my-3 m-0">$560K</p>
+          <p className="text-3xl font-display font-black text-gray-900 tracking-tight my-3 m-0">₦560M</p>
           <div className="flex items-baseline text-xs m-0">
             <span className="font-black text-rose-600">-4.2%</span>
             <span className="text-gray-400 font-medium ml-1">optimization target met</span>
@@ -188,7 +188,7 @@ const Reports = () => {
               
               <div className="flex flex-col items-center justify-center z-10 bg-white w-24 h-24">
                 <span className="text-xs text-gray-400 font-bold">Total</span>
-                <span className="text-xl font-display font-black text-gray-900 tracking-tight mt-0.5">$560K</span>
+                <span className="text-xl font-display font-black text-gray-900 tracking-tight mt-0.5">₦560M</span>
               </div>
             </div>
           </div>

@@ -7,17 +7,17 @@ import { toast } from 'sonner';
 const managedProperties = [
   {
     id: 'mp1',
-    name: 'The Vanguard Residences',
-    location: 'Upper East Side, NY',
+    name: 'Victoria Island Towers',
+    location: 'Victoria Island, Lagos',
     tag: 'LUXURY RESIDENTIAL',
     img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80',
     stat1Label: 'UNITS', stat1Val: '42',
-    stat2Label: 'YIELD', stat2Val: '5.2%',
+    stat2Label: 'YIELD', stat2Val: '14.2%',
   },
   {
     id: 'mp2',
-    name: 'Summit Tech Plaza',
-    location: 'Palo Alto, CA',
+    name: 'Lekki Tech Plaza',
+    location: 'Lekki Phase 1, Lagos',
     tag: 'COMMERCIAL',
     img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80',
     stat1Label: 'SQFT', stat1Val: '120K',
@@ -25,8 +25,8 @@ const managedProperties = [
   },
   {
     id: 'mp3',
-    name: 'Old Town Lofts',
-    location: 'Austin, TX',
+    name: 'Maitama Lofts',
+    location: 'Maitama, Abuja',
     tag: 'MIXED-USE',
     img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80',
     stat1Label: 'UNITS', stat1Val: '18',
@@ -34,12 +34,12 @@ const managedProperties = [
   },
   {
     id: 'mp4',
-    name: 'Azure Bay Estates',
-    location: 'Miami, FL',
+    name: 'Banana Island Estates',
+    location: 'Ikoyi, Lagos',
     tag: 'LUXURY RESIDENTIAL',
     img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80',
     stat1Label: 'UNITS', stat1Val: '12',
-    stat2Label: 'YIELD', stat2Val: '6.1%',
+    stat2Label: 'YIELD', stat2Val: '16.1%',
   },
 ];
 
@@ -69,12 +69,12 @@ const LandlordProfile = () => {
           <div className="flex flex-col sm:flex-row sm:items-end gap-6">
             <img
               src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80"
-              alt="Alex Vanguard"
+              alt="Chief Oladapo Adewale"
               className="w-32 h-32 rounded-2xl border-4 border-white shadow-md object-cover bg-white"
             />
             <div className="pb-2">
               <div className="flex items-center gap-3 flex-wrap">
-                <h1 className="text-2xl sm:text-[32px] font-display font-extrabold text-gray-900 tracking-tight m-0">Alex Vanguard</h1>
+                <h1 className="text-2xl sm:text-[32px] font-display font-extrabold text-gray-900 tracking-tight m-0">Chief Oladapo Adewale</h1>
                 <span className="bg-[#E77D53] text-white rounded-full px-3 py-1 text-xs font-bold inline-flex items-center gap-1 shadow-2xs">
                   <CheckCircle2 size={13} strokeWidth={3} />
                   <span>Verified</span>
@@ -85,7 +85,7 @@ const LandlordProfile = () => {
 
           <div className="pb-2 shrink-0">
             <button
-              onClick={() => toast.success('Message sent to Alex Vanguard')}
+              onClick={() => toast.success('Message sent to Chief Oladapo Adewale')}
               className="bg-[#E77D53] hover:bg-[#d66d43] text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-xl shadow-sm inline-flex items-center gap-2 transition-all active:scale-[0.98] cursor-pointer border-none"
             >
               <Mail size={16} />
@@ -106,7 +106,7 @@ const LandlordProfile = () => {
         {/* Metric 2 */}
         <div className="lg:border-r border-gray-100 pr-4">
           <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Portfolio Value</span>
-          <p className="text-lg sm:text-xl font-display font-extrabold text-gray-900 m-0">$84.5M</p>
+          <p className="text-lg sm:text-xl font-display font-extrabold text-gray-900 m-0">₦84.5B</p>
         </div>
 
         {/* Metric 3 */}
@@ -136,10 +136,10 @@ const LandlordProfile = () => {
             <h2 className="text-base font-bold text-gray-900 m-0 mb-4">Professional Bio</h2>
             <div className="text-xs sm:text-sm text-gray-600 leading-relaxed font-medium space-y-3.5">
               <p className="m-0">
-                Alex Vanguard is a distinguished asset manager specializing in high-yield residential and commercial property portfolios. With over 15 years of industry expertise, he has pioneered a data-driven approach to tenant retention and operational efficiency.
+                Chief Oladapo Adewale is a distinguished asset manager specializing in high-yield luxury residential and commercial property portfolios across prime African commercial hubs. With over 15 years of industry expertise, he has pioneered a data-driven approach to tenant retention.
               </p>
               <p className="m-0">
-                Under his management, properties consistently outperform market occupancy benchmarks while maintaining a premium standard of maintenance and concierge-level service.
+                Under his management, properties across Victoria Island, Ikoyi, and Maitama consistently outperform market occupancy benchmarks while maintaining a premium standard of maintenance and 24/7 power management.
               </p>
             </div>
           </div>
@@ -162,7 +162,7 @@ const LandlordProfile = () => {
             <div>
               <h3 className="text-sm font-bold text-white m-0 mb-1.5">2023 Top Performer</h3>
               <p className="text-xs text-white/80 leading-relaxed m-0 font-medium">
-                Awarded for achieving 99.2% occupancy across a multi-state commercial portfolio.
+                Awarded for achieving 99.2% occupancy across prime commercial real estate in Nigeria.
               </p>
             </div>
             {/* Background watermark */}

@@ -10,11 +10,11 @@ const initialTransactions = [
     date: 'Oct 12, 2023',
     tenantInitials: 'JH',
     tenantBg: 'bg-teal-100 text-teal-800',
-    tenantName: 'Julianne H.',
-    propertyUnit: 'Harbor View Oaks / 402B',
-    method: 'ACH Transfer',
+    tenantName: 'Jumoke H.',
+    propertyUnit: 'Victoria Island Towers / 402B',
+    method: 'Bank Transfer',
     methodIcon: Landmark,
-    amount: '$2,850.00',
+    amount: '₦2,850,000',
     status: 'SUCCESS',
     statusBg: 'bg-emerald-100 text-emerald-700',
   },
@@ -23,24 +23,24 @@ const initialTransactions = [
     date: 'Oct 11, 2023',
     tenantInitials: 'RM',
     tenantBg: 'bg-orange-100 text-orange-800',
-    tenantName: 'Robert Miller',
-    propertyUnit: 'Skyline Heights / 12A',
-    method: 'Credit Card',
+    tenantName: 'Rotimi Mohammed',
+    propertyUnit: 'Lekki Palms Villas / 12A',
+    method: 'Card Payment',
     methodIcon: CreditCard,
-    amount: '$3,420.00',
+    amount: '₦3,420,000',
     status: 'PROCESSING',
     statusBg: 'bg-amber-100 text-amber-700',
   },
   {
     id: 'tx3',
     date: 'Oct 10, 2023',
-    tenantInitials: 'SC',
+    tenantInitials: 'SA',
     tenantBg: 'bg-teal-100 text-teal-800',
-    tenantName: 'Sarah Chen',
-    propertyUnit: 'Pine Crest Apt / G2',
-    method: 'ACH Transfer',
+    tenantName: 'Simisola Alabi',
+    propertyUnit: 'Ikeja City Mall / G2',
+    method: 'Bank Transfer',
     methodIcon: Landmark,
-    amount: '$1,950.00',
+    amount: '₦1,950,000',
     status: 'SUCCESS',
     statusBg: 'bg-emerald-100 text-emerald-700',
   },
@@ -49,11 +49,11 @@ const initialTransactions = [
     date: 'Oct 09, 2023',
     tenantInitials: 'TW',
     tenantBg: 'bg-rose-100 text-rose-800',
-    tenantName: 'Thomas Wright',
-    propertyUnit: 'Harbor View Oaks / 204C',
-    method: 'Credit Card',
+    tenantName: 'Tunde Williams',
+    propertyUnit: 'Victoria Island Towers / 204C',
+    method: 'Card Payment',
     methodIcon: CreditCard,
-    amount: '$2,100.00',
+    amount: '₦2,100,000',
     status: 'FAILED',
     statusBg: 'bg-rose-100 text-rose-700',
   },
@@ -62,11 +62,11 @@ const initialTransactions = [
     date: 'Oct 08, 2023',
     tenantInitials: 'LD',
     tenantBg: 'bg-gray-100 text-gray-800',
-    tenantName: 'Lukas Dorn',
-    propertyUnit: 'Emerald Lake / 501',
-    method: 'Cash Deposit',
+    tenantName: 'Lekan Danjuma',
+    propertyUnit: 'Banana Island Lofts / 501',
+    method: 'Bank Transfer',
     methodIcon: Banknote,
-    amount: '$1,750.00',
+    amount: '₦1,750,000',
     status: 'SUCCESS',
     statusBg: 'bg-emerald-100 text-emerald-700',
   },
@@ -114,7 +114,7 @@ const Payments = () => {
               <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">+12.5%</span>
             </div>
             <p className="text-[10px] font-bold text-gray-400 tracking-wider uppercase mt-4 mb-1">Total Revenue (MTD)</p>
-            <p className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">$142,400</p>
+            <p className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">₦142.4M</p>
           </div>
           <div className="mt-3 pt-1">
             <svg className="w-full h-8 overflow-visible" viewBox="0 0 140 30">
@@ -133,7 +133,7 @@ const Payments = () => {
               <span className="bg-rose-100 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded-full">-3.2%</span>
             </div>
             <p className="text-[10px] font-bold text-gray-400 tracking-wider uppercase mt-4 mb-1">Outstanding Rent</p>
-            <p className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">$8,250</p>
+            <p className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">₦8.25M</p>
           </div>
           <div className="mt-3 pt-1">
             <svg className="w-full h-8 overflow-visible" viewBox="0 0 140 30">
@@ -171,7 +171,7 @@ const Payments = () => {
               <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">+8.1%</span>
             </div>
             <p className="text-[10px] font-bold text-gray-400 tracking-wider uppercase mt-4 mb-1">Net Cash Flow</p>
-            <p className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">$92,100</p>
+            <p className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">₦92.1M</p>
           </div>
           <div className="mt-3 pt-1">
             <svg className="w-full h-8 overflow-visible" viewBox="0 0 140 30">

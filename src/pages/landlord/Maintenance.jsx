@@ -17,7 +17,7 @@ const kanbanColumns = [
       tagBg: 'bg-rose-50 text-rose-600',
       code: '#M-2041',
       title: 'Broken Main Pipe',
-      location: 'Vila Toscana • Unit 4B',
+      location: 'Victoria Island Towers • Unit 4B',
       avatarText: 'UN',
       avatarBg: 'bg-slate-800 text-white',
       footerRight: 'Added 2h ago',
@@ -34,9 +34,9 @@ const kanbanColumns = [
       tagBg: 'bg-emerald-50 text-emerald-700',
       code: '#M-1995',
       title: 'HVAC Seasonal Cleaning',
-      location: 'Lakeview Apartments • Amenity Center',
+      location: 'Lekki Palms Villas • Amenity Center',
       contractorImg: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80',
-      contractorName: 'Mike Henderson',
+      contractorName: 'Segun Adebayo',
       footerRight: 'Working',
       footerRightStyle: 'text-teal-700 italic font-bold',
       borderLeft: 'border-l-4 border-emerald-500',
@@ -53,9 +53,9 @@ const kanbanColumns = [
       tagBg: 'bg-gray-100 text-gray-600',
       code: '#M-1990',
       title: 'Smart Lock Installation',
-      location: 'City View Lofts • Unit 302',
+      location: 'Banana Island Lofts • Unit 302',
       doneIcon: true,
-      doneText: 'Done by Alex P.',
+      doneText: 'Done by Tunde B.',
       footerRight: 'Oct 12',
     }
   }
@@ -63,7 +63,7 @@ const kanbanColumns = [
 
 const topProviders = [
   {
-    name: 'Precision Plumbing',
+    name: 'Precision Plumbing Lagos',
     jobs: 'Completed: 142 Jobs',
     rating: '4.9',
     response: '1.8h response',
@@ -71,7 +71,7 @@ const topProviders = [
     icon: Wrench,
   },
   {
-    name: 'VoltMaster Electrical',
+    name: 'VoltMaster Electrical Lagos',
     jobs: 'Completed: 88 Jobs',
     rating: '4.7',
     response: '2.4h response',
@@ -79,7 +79,7 @@ const topProviders = [
     icon: Zap,
   },
   {
-    name: 'EcoChill HVAC',
+    name: 'EcoChill HVAC Abuja',
     jobs: 'Completed: 56 Jobs',
     rating: '4.5',
     response: '3.1h response',
@@ -92,7 +92,7 @@ const recentActivity = [
   {
     id: 'act1',
     date: 'Oct 24, 09:12 AM',
-    property: 'Vila Toscana',
+    property: 'Victoria Island Towers',
     unit: 'Unit 4B',
     category: 'Plumbing',
     catIcon: '💧',
@@ -103,7 +103,7 @@ const recentActivity = [
   {
     id: 'act2',
     date: 'Oct 23, 04:30 PM',
-    property: 'Lakeview Apts',
+    property: 'Lekki Palms Villas',
     unit: 'Lobby',
     category: 'Electrical',
     catIcon: '⚡',
@@ -114,7 +114,7 @@ const recentActivity = [
   {
     id: 'act3',
     date: 'Oct 23, 11:15 AM',
-    property: 'Rosewood Estate',
+    property: 'Maitama Heights',
     unit: 'Unit 12',
     category: 'General',
     catIcon: '🔧',
@@ -125,7 +125,7 @@ const recentActivity = [
   {
     id: 'act4',
     date: 'Oct 22, 02:45 PM',
-    property: 'City View Lofts',
+    property: 'Banana Island Lofts',
     unit: 'Unit 302',
     category: 'Security',
     catIcon: '🛡️',
@@ -193,7 +193,7 @@ const Maintenance = () => {
           </div>
           <div>
             <p className="text-xs font-bold text-gray-800 m-0 mb-1">Maintenance Costs</p>
-            <p className="text-3xl font-display font-black text-gray-900 m-0 tracking-tight">$12,450.00</p>
+            <p className="text-3xl font-display font-black text-gray-900 m-0 tracking-tight">₦12,450,000</p>
           </div>
         </div>
 

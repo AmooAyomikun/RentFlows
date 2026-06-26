@@ -269,7 +269,7 @@ const ForLandlords = () => {
             </div>
             <h3 className="font-display font-bold text-h3-sm lg:text-h3 text-charcoal mt-[20px] mb-[8px]">Landlord Starter</h3>
             <div className="flex items-center justify-center gap-1 mb-[12px]">
-              <span className="text-display-sm lg:text-display font-display font-bold text-charcoal">$0</span>
+              <span className="text-display-sm lg:text-display font-display font-bold text-charcoal">₦0</span>
               <span className="text-muted text-small">/month</span>
             </div>
             <p className="text-small text-muted mb-[20px] pb-[20px] border-b border-border/40">Perfect for independent landlords with up to 5 units.</p>
