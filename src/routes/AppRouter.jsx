@@ -44,6 +44,7 @@ import Maintenance from '../pages/landlord/Maintenance';
 import MaintenanceDetail from '../pages/landlord/MaintenanceDetail';
 import Reports from '../pages/landlord/Reports';
 import Settings from '../pages/landlord/Settings';
+import LandlordProfile from '../pages/landlord/LandlordProfile';
 
 // Tenant Pages
 import TenantDashboard from '../pages/tenant/TenantDashboard';
@@ -142,6 +143,7 @@ const AppRouter = () => {
           <Route path="reports" element={<Reports />} />
           <Route path="notifications" element={<Notifications role="landlord" />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="profile" element={<LandlordProfile />} />
         </Route>
 
         {/* Tenant Routes */}

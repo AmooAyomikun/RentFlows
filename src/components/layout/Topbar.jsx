@@ -93,8 +93,8 @@ const Topbar = ({ title }) => {
 
           <div className="h-8 w-px bg-gray-200 hidden sm:block" />
 
-          {/* User profile matching screenshot: Oripio Studio / Asset Manager */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/landlord/settings')}>
+          {/* User profile */}
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/landlord/profile')}>
             <div className="text-right hidden md:block">
               <div className="text-xs font-black text-gray-900 leading-none">{user?.name || 'Oripio Studio'}</div>
               <div className="text-[9px] font-bold text-gray-400 tracking-wider mt-1">Asset Manager</div>
