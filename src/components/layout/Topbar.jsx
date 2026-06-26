@@ -13,13 +13,24 @@ const Topbar = ({ title }) => {
   const location = useLocation();
 
   let placeholder = 'Search transactions, properties, or tenants...';
+  let centerTitle = null;
   if (location.pathname.includes('maintenance')) placeholder = 'Search maintenance requests...';
   else if (location.pathname.includes('tenants')) placeholder = 'Search tenant directory...';
   else if (location.pathname.includes('properties')) placeholder = 'Search properties...';
+  else if (location.pathname.includes('reports')) {
+    placeholder = 'Search portfolios...';
+    centerTitle = 'Asset Dashboard';
+  }
 
   return (
-    <div className="w-full flex flex-col flex-shrink-0">
-      <header className="flex items-center justify-between pt-5 pb-4 bg-transparent gap-4">
+    <div className="w-full flex flex-col flex-shrink-0 relative">
+      <header className="flex items-center justify-between pt-5 pb-4 bg-transparent gap-4 relative">
+        {/* Center page title matching screenshot */}
+        {centerTitle && (
+          <div className="hidden lg:block font-display font-extrabold text-xl text-gray-900 absolute left-1/2 -translate-x-1/2 pointer-events-none tracking-tight">
+            {centerTitle}
+          </div>
+        )}
         {/* Left side: Mobile menu + Global search input */}
         <div className="flex items-center gap-3 flex-1 max-w-[420px]">
           <button
