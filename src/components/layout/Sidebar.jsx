@@ -4,20 +4,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Building2, Users, CreditCard,
   Wrench, BarChart3, Bell, Settings, ChevronLeft,
-  ChevronRight, LogOut, Plus, HelpCircle, X
+  ChevronRight, Plus, X
 } from 'lucide-react';
 import { LogoMark } from './Navbar';
 import useAuthStore from '../../store/authStore';
 import useUIStore from '../../store/uiStore';
-import { logout } from '../../services/authService';
 
-const navItems = [
+const mainNavItems = [
   { href: '/landlord/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/landlord/properties', icon: Building2, label: 'Properties' },
   { href: '/landlord/tenants', icon: Users, label: 'Tenants' },
   { href: '/landlord/payments', icon: CreditCard, label: 'Payments' },
   { href: '/landlord/maintenance', icon: Wrench, label: 'Maintenance' },
   { href: '/landlord/reports', icon: BarChart3, label: 'Reports' },
+];
+
+const bottomNavItems = [
   { href: '/landlord/settings', icon: Settings, label: 'Settings' },
   { href: '/landlord/notifications', icon: Bell, label: 'Notifications' },
 ];
@@ -27,30 +29,22 @@ const navItems = [
  */
 const Sidebar = () => {
   const { sidebarCollapsed, toggleSidebar, mobileSidebarOpen, setMobileSidebarOpen } = useUIStore();
-  const { user, clearUser } = useAuthStore();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await logout();
-    clearUser();
-    navigate('/login');
-  };
 
   const SidebarContent = ({ onClose }) => (
     <div className="flex flex-col h-full bg-[#072F29] text-[#FAF7F2] overflow-hidden">
       {/* Branding header */}
-      <div className={`flex items-center justify-between px-4 pt-4 pb-2 flex-shrink-0 ${sidebarCollapsed ? 'justify-center px-2' : ''}`}>
+      <div className={`flex items-center justify-between px-4 pt-5 pb-3 flex-shrink-0 ${sidebarCollapsed ? 'justify-center px-2' : ''}`}>
         {!sidebarCollapsed && (
-          <Link to="/landlord/dashboard" className="flex items-center gap-2.5 min-w-0" aria-label="RentFlow dashboard">
+          <Link to="/landlord/dashboard" className="flex items-center gap-2.5 min-w-0" aria-label="EstatePro dashboard">
             <LogoMark />
             <div className="flex flex-col flex-shrink-0">
-              <span className="font-display font-black text-base leading-none text-white tracking-tight">RentFlow</span>
-              <span className="!text-[9px] !font-bold !tracking-[0.15em] text-[#FAF7F2]/60 uppercase !mt-1 block">PREMIUM LANDLORD</span>
+              <span className="font-display font-black text-base leading-none text-white tracking-tight">EstatePro</span>
+              <span className="!text-[10px] !font-medium text-[#FAF7F2]/60 !mt-1 block">Asset Management</span>
             </div>
           </Link>
         )}
         {sidebarCollapsed && (
-          <Link to="/landlord/dashboard" aria-label="RentFlow dashboard">
+          <Link to="/landlord/dashboard" aria-label="EstatePro dashboard">
             <LogoMark />
           </Link>
         )}
@@ -58,7 +52,7 @@ const Sidebar = () => {
         <button
           onClick={onClose || toggleSidebar}
           aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          className="hidden lg:flex items-center justify-center w-6 h-6 rounded text-white/50 hover:text-white hover:bg-white/10 transition-colors ml-1 flex-shrink-0"
+          className="hidden lg:flex items-center justify-center w-6 h-6 rounded text-white/50 hover:text-white hover:bg-white/10 transition-colors ml-1 flex-shrink-0 cursor-pointer"
         >
           {sidebarCollapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
         </button>
@@ -70,9 +64,22 @@ const Sidebar = () => {
         )}
       </div>
 
+      {/* Top CTA Button matching screenshot */}
+      <div className="px-3 pb-2 flex-shrink-0">
+        <Link
+          to="/landlord/properties/new"
+          onClick={onClose}
+          className={`flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-xl bg-[#C75B30] hover:bg-[#b5522b] !text-white !font-bold !text-xs shadow-sm transition-all active:scale-[0.98] ${sidebarCollapsed ? 'px-0 w-9 h-9 mx-auto' : ''}`}
+          title="New Property"
+        >
+          <Plus size={16} strokeWidth={2.5} />
+          {!sidebarCollapsed && <span>New Property</span>}
+        </Link>
+      </div>
+
       {/* Primary nav list */}
       <nav className="flex-1 px-3 py-1 space-y-0.5 overflow-y-auto" aria-label="Landlord navigation">
-        {navItems.map(({ href, icon: Icon, label }) => (
+        {mainNavItems.map(({ href, icon: Icon, label }) => (
           <NavLink
             key={href}
             to={href}
@@ -105,48 +112,39 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      {/* Bottom actions */}
-      <div className="p-2.5 mt-auto border-t border-white/10 space-y-1.5 flex-shrink-0">
-        {!sidebarCollapsed ? (
-          <Link
-            to="/landlord/properties/new"
+      {/* Bottom nav items exactly matching screenshot */}
+      <div className="p-2.5 mt-auto space-y-0.5 flex-shrink-0">
+        {bottomNavItems.map(({ href, icon: Icon, label }) => (
+          <NavLink
+            key={href}
+            to={href}
             onClick={onClose}
-            className="flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-xl bg-[#FCECE7] hover:bg-[#f7dfd5] text-[#9A3B1B] font-bold text-xs shadow-sm transition-all active:scale-[0.98]"
+            className={({ isActive }) =>
+              [
+                'relative flex items-center gap-2.5 px-3 py-1.5 rounded-xl transition-all duration-150 text-xs font-medium group overflow-hidden',
+                isActive
+                  ? 'bg-white/10 text-white font-semibold'
+                  : 'text-[#FAF7F2]/70 hover:text-white hover:bg-white/5',
+                sidebarCollapsed ? 'justify-center px-0 py-2' : '',
+              ].join(' ')
+            }
+            title={sidebarCollapsed ? label : undefined}
           >
-            <Plus size={15} strokeWidth={2.5} />
-            Add Property
-          </Link>
-        ) : (
-          <Link
-            to="/landlord/properties/new"
-            onClick={onClose}
-            title="Add Property"
-            className="flex items-center justify-center w-9 h-9 mx-auto rounded-xl bg-[#FCECE7] hover:bg-[#f7dfd5] text-[#9A3B1B] shadow-sm transition-all"
-          >
-            <Plus size={16} strokeWidth={2.5} />
-          </Link>
-        )}
-
-        <div className="space-y-0.5">
-          <Link
-            to="/resources"
-            onClick={onClose}
-            className={`flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-[#FAF7F2]/70 hover:text-white hover:bg-white/5 transition-colors text-xs font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
-            title={sidebarCollapsed ? "Help Center" : undefined}
-          >
-            <HelpCircle size={16} className="text-[#FAF7F2]/60" />
-            {!sidebarCollapsed && <span>Help Center</span>}
-          </Link>
-
-          <button
-            onClick={handleLogout}
-            className={`flex items-center gap-2.5 w-full px-3 py-1.5 rounded-xl text-[#FAF7F2]/70 hover:text-white hover:bg-white/5 transition-colors text-xs font-medium text-left ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
-            title={sidebarCollapsed ? "Logout" : undefined}
-          >
-            <LogOut size={16} className="text-[#FAF7F2]/60" />
-            {!sidebarCollapsed && <span>Logout</span>}
-          </button>
-        </div>
+            {({ isActive }) => (
+              <>
+                {isActive && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-4 bg-[#C75B30] rounded-r" aria-hidden="true" />
+                )}
+                <Icon
+                  size={17}
+                  aria-hidden="true"
+                  className={isActive ? 'text-white' : 'text-[#FAF7F2]/60 group-hover:text-white transition-colors'}
+                />
+                {!sidebarCollapsed && <span>{label}</span>}
+              </>
+            )}
+          </NavLink>
+        ))}
       </div>
     </div>
   );

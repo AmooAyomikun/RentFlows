@@ -36,7 +36,7 @@ import LandlordDashboard from '../pages/landlord/LandlordDashboard';
 import Properties from '../pages/landlord/Properties';
 import AddProperty from '../pages/landlord/AddProperty';
 import PropertyDetail from '../pages/landlord/PropertyDetail';
-import Tenants from '../pages/landlord/Tenants';
+import Tenants from '../pages/landlord/Tenants'; // Force reload
 import TenantDetail from '../pages/landlord/TenantDetail';
 import Payments from '../pages/landlord/Payments';
 import PaymentDetail from '../pages/landlord/PaymentDetail';
