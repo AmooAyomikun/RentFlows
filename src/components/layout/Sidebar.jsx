@@ -9,6 +9,7 @@ import {
 import { LogoMark } from './Navbar';
 import useAuthStore from '../../store/authStore';
 import useUIStore from '../../store/uiStore';
+import { logout as authLogout } from '../../services/authService';
 
 const mainNavItems = [
   { href: '/landlord/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -25,8 +26,16 @@ const mainNavItems = [
  * Landlord dashboard sidebar — fixed left, replicating exact design screenshot.
  */
 const Sidebar = () => {
+  const navigate = useNavigate();
   const { sidebarCollapsed, toggleSidebar, mobileSidebarOpen, setMobileSidebarOpen } = useUIStore();
-  const { logout } = useAuthStore();
+  const { clearUser } = useAuthStore();
+
+  const handleLogout = async () => {
+    setMobileSidebarOpen(false);
+    await authLogout();
+    clearUser();
+    navigate('/login');
+  };
 
   const SidebarContent = ({ onClose }) => (
     <div className="flex flex-col h-full bg-[#072F29] text-[#FAF7F2] overflow-hidden">
@@ -121,7 +130,7 @@ const Sidebar = () => {
           </Link>
 
           <button
-            onClick={() => { if (logout) logout(); }}
+            onClick={handleLogout}
             className={`w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#FAF7F2]/70 hover:text-white hover:bg-white/5 transition-colors cursor-pointer ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
             title="Logout"
           >
