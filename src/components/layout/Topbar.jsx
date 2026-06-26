@@ -20,6 +20,10 @@ const Topbar = ({ title }) => {
   else if (location.pathname.includes('reports')) {
     placeholder = 'Search portfolios...';
     centerTitle = 'Asset Dashboard';
+  } else if (location.pathname.includes('notifications')) {
+    placeholder = 'Search transactions...';
+  } else if (location.pathname.includes('settings')) {
+    placeholder = 'Search settings...';
   }
 
   return (
