@@ -1,13 +1,20 @@
 import propertiesData from '../mocks/properties.json';
 import { mockDelay, lsGet, lsSet } from './mockUtils';
 
-const LS_KEY = 'rf_properties';
+const LS_KEY = 'rf_properties_design_exact_v1';
 
-const getAll = () => lsGet(LS_KEY, propertiesData);
+const getAll = () => {
+  const cached = lsGet(LS_KEY, null);
+  if (!cached || !cached.some((p) => p.name === 'Sunset Heights Apartments')) {
+    save(propertiesData);
+    return propertiesData;
+  }
+  return cached;
+};
 const save = (data) => lsSet(LS_KEY, data);
 
 export const getProperties = async () => {
-  await mockDelay();
+  await mockDelay(100, 200);
   return getAll();
 };
 

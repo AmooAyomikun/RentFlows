@@ -45,7 +45,7 @@ const Sidebar = () => {
             <LogoMark />
             <div className="flex flex-col flex-shrink-0">
               <span className="font-display font-black text-base leading-none text-white tracking-tight">RentFlow</span>
-              <span className="text-[10px] font-medium text-[#FAF7F2]/60 mt-0.5 block">Premium Landlord</span>
+              <span className="!text-[9px] !font-bold !tracking-[0.15em] text-[#FAF7F2]/60 uppercase !mt-1 block">PREMIUM LANDLORD</span>
             </div>
           </Link>
         )}
@@ -111,7 +111,7 @@ const Sidebar = () => {
           <Link
             to="/landlord/properties/new"
             onClick={onClose}
-            className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-[#C75B30] hover:bg-[#b5522b] text-white font-bold text-xs shadow-[0_4px_20px_rgba(199,91,48,0.3)] transition-all active:scale-[0.98]"
+            className="flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-xl bg-[#FCECE7] hover:bg-[#f7dfd5] text-[#9A3B1B] font-bold text-xs shadow-sm transition-all active:scale-[0.98]"
           >
             <Plus size={15} strokeWidth={2.5} />
             Add Property
@@ -121,7 +121,7 @@ const Sidebar = () => {
             to="/landlord/properties/new"
             onClick={onClose}
             title="Add Property"
-            className="flex items-center justify-center w-9 h-9 mx-auto rounded-xl bg-[#C75B30] hover:bg-[#b5522b] text-white shadow-md transition-all"
+            className="flex items-center justify-center w-9 h-9 mx-auto rounded-xl bg-[#FCECE7] hover:bg-[#f7dfd5] text-[#9A3B1B] shadow-sm transition-all"
           >
             <Plus size={16} strokeWidth={2.5} />
           </Link>

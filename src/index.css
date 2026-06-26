@@ -35,12 +35,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-h1 { font-size: clamp(36px, 5vw, 56px); letter-spacing: -0.02em; }
-h2 { font-size: clamp(28px, 3.5vw, 40px); letter-spacing: -0.01em; }
-h3 { font-size: clamp(22px, 2.5vw, 28px); font-weight: 600; }
-h4 { font-size: clamp(18px, 2vw, 20px); font-weight: 600; }
+h1:not([class*="text-"]) { font-size: clamp(36px, 5vw, 56px); letter-spacing: -0.02em; }
+h2:not([class*="text-"]) { font-size: clamp(28px, 3.5vw, 40px); letter-spacing: -0.01em; }
+h3:not([class*="text-"]) { font-size: clamp(22px, 2.5vw, 28px); font-weight: 600; }
+h4:not([class*="text-"]) { font-size: clamp(18px, 2vw, 20px); font-weight: 600; }
 
-p { margin: 0 0 1em; }
+p:not([class*="m"]) { margin: 0 0 1em; }
 p:last-child { margin-bottom: 0; }
 
 /* Mono font for numbers/data */

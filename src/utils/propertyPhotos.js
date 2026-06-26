@@ -3,10 +3,14 @@
  * Using specific photo IDs so they're consistent (not random).
  */
 export const PROPERTY_PHOTOS = {
-  'prop-1': 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
-  'prop-2': 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80',
-  'prop-3': 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80',
-  'prop-4': 'https://images.unsplash.com/photo-1516156008625-3a9d6067fab5?w=800&q=80',
+  'prop-1': 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
+  'prop-2': 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80',
+  'prop-3': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
+  'prop-4': 'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=800&q=80',
+  'prop-5': 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80',
+  'prop-6': 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80',
+  'prop-7': 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
+  'prop-8': 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
 };
 
 /**
