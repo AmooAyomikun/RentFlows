@@ -1,263 +1,645 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import {
   Building2, Users, CreditCard, AlertTriangle,
-  Wrench, TrendingUp, ArrowRight, Bell
+  Wrench, TrendingUp, ArrowRight, Bell, Calendar,
+  Wallet, DollarSign, CheckCircle2, ArrowDownLeft,
+  ArrowUpRight, FileText, Search, Filter, MoreVertical,
+  Plus, Clock
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import StatCard from '../../components/ui/StatCard';
-import Card from '../../components/ui/Card';
-import Badge from '../../components/ui/Badge';
-import Button from '../../components/ui/Button';
-import { StatCardSkeleton } from '../../components/ui/SkeletonLoader';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { getProperties } from '../../services/propertyService';
-import { getPaymentSummary, getRevenueTrend } from '../../services/paymentService';
-import { getMaintenanceSnapshot } from '../../services/maintenanceService';
-import { getNotifications } from '../../services/notificationService';
-import { formatCurrency } from '../../utils/formatCurrency';
-import { timeAgo } from '../../utils/formatDate';
-import useAuthStore from '../../store/authStore';
 import { getPropertyPhoto } from '../../utils/propertyPhotos';
 
-const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
-};
+const revenueChartData = [
+  { month: 'Jan', Residential: 30000, Commercial: 20000 },
+  { month: 'Feb', Residential: 36000, Commercial: 21000 },
+  { month: 'Mar', Residential: 38000, Commercial: 36000 },
+  { month: 'Apr', Residential: 48000, Commercial: 20000 },
+  { month: 'May', Residential: 75000, Commercial: 26000 },
+  { month: 'Jun', Residential: 75000, Commercial: 19000 },
+  { month: 'Jul', Residential: 96000, Commercial: 18000 },
+];
+
+const recentActivities = [
+  {
+    id: 1,
+    title: 'Rent Received: Unit 4B',
+    desc: 'Sarah Jenkins paid $2,400 via ACH.',
+    time: '10 mins ago',
+    icon: DollarSign,
+    iconBg: 'bg-emerald-100 text-emerald-700',
+  },
+  {
+    id: 2,
+    title: 'New Maintenance Request',
+    desc: 'Leaking faucet reported in 12A Oakwood.',
+    time: '2 hours ago',
+    icon: Wrench,
+    iconBg: 'bg-orange-100 text-orange-600',
+  },
+  {
+    id: 3,
+    title: 'Lease Ending Soon',
+    desc: 'Unit 7C lease expires in 45 days.',
+    time: 'Yesterday',
+    icon: FileText,
+    iconBg: 'bg-purple-100 text-purple-600',
+  },
+  {
+    id: 4,
+    title: 'Work Order Completed',
+    desc: 'HVAC repair finished at Sunset Villas.',
+    time: 'Yesterday',
+    icon: CheckCircle2,
+    iconBg: 'bg-gray-100 text-gray-600',
+  },
+];
+
+const fallbackPropertiesData = [
+  {
+    id: 'prop-1',
+    name: 'Oakwood Residences',
+    address: '1244 Oakwood Ave, Seattle',
+    type: 'Multi-family',
+    units: 48,
+    occupancy: 96,
+    revenue: '$115,200',
+    status: '+ Excellent',
+    statusBg: 'bg-emerald-100 text-emerald-800',
+    barBg: 'bg-[#0B4F45]',
+    coverImage: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80',
+  },
+  {
+    id: 'prop-2',
+    name: 'Pine Plaza Commercial',
+    address: '8000 Pine Drive, Portland',
+    type: 'Commercial',
+    units: 12,
+    occupancy: 100,
+    revenue: '$48,500',
+    status: '+ Excellent',
+    statusBg: 'bg-emerald-100 text-emerald-800',
+    barBg: 'bg-[#0B4F45]',
+    coverImage: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80',
+  },
+  {
+    id: 'prop-3',
+    name: 'Sunset Villas',
+    address: '302 Sunset Blvd, Austin',
+    type: 'Multi-family',
+    units: 24,
+    occupancy: 82,
+    revenue: '$34,200',
+    status: '! Attention',
+    statusBg: 'bg-amber-100 text-amber-800',
+    barBg: 'bg-amber-500',
+    coverImage: 'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=600&q=80',
+  },
+];
+
+const outstandingRentData = [
+  { id: 1, name: 'John Doe', unit: 'Oakwood 12B', amount: '$1,200', overdue: '15 days', alert: 'text-rose-600' },
+  { id: 2, name: 'Alice Smith', unit: 'Sunset Villas 4A', amount: '$950', overdue: '8 days', alert: 'text-amber-600' },
+  { id: 3, name: 'Bob Johnson', unit: 'Pine Plaza Suite 3', amount: '$2,100', overdue: '32 days', alert: 'text-rose-600' },
+];
+
+const recentPaymentsData = [
+  { id: 1, date: 'Oct 24', name: 'Sarah Jenkins', unit: 'Oakwood 4B', amount: '$2,400', status: 'Completed', statusBg: 'bg-emerald-100 text-emerald-700' },
+  { id: 2, date: 'Oct 23', name: 'Michael Chang', unit: 'Sunset Villas 12C', amount: '$1,850', status: 'Pending', statusBg: 'bg-amber-100 text-amber-700' },
+  { id: 3, date: 'Oct 23', name: 'Emma Watson', unit: 'Oakwood 9A', amount: '$2,100', status: 'Completed', statusBg: 'bg-emerald-100 text-emerald-700' },
+];
 
 const LandlordDashboard = () => {
-  const { user } = useAuthStore();
-  const firstName = user?.name?.split(' ')[0] || 'there';
+  const [chartPeriod, setChartPeriod] = useState('Monthly');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const { data: properties = [], isLoading: loadingProps } = useQuery({ queryKey: ['properties'], queryFn: getProperties });
-  const { data: paymentSummary, isLoading: loadingPay } = useQuery({ queryKey: ['payment-summary'], queryFn: getPaymentSummary });
-  const { data: maintenance, isLoading: loadingMaint } = useQuery({ queryKey: ['maintenance-snapshot'], queryFn: getMaintenanceSnapshot });
-  const { data: revenueTrend = [], isLoading: loadingTrend } = useQuery({ queryKey: ['revenue-trend'], queryFn: () => getRevenueTrend(7) });
-  const { data: notifications = [] } = useQuery({ queryKey: ['notifications'], queryFn: () => getNotifications({ type: 'all' }) });
+  const { data: properties = [] } = useQuery({
+    queryKey: ['properties'],
+    queryFn: getProperties,
+  });
 
-  const totalUnits = properties.reduce((s, p) => s + (p.totalUnits || 0), 0);
-  const occupiedUnits = properties.reduce((s, p) => s + (p.occupiedUnits || 0), 0);
+  const displayProps = properties && properties.length > 0
+    ? properties.slice(0, 3).map((p, idx) => ({
+        id: p.id,
+        name: p.name,
+        address: p.address || 'Lekki Phase 1',
+        type: p.type || 'Apartment',
+        units: p.totalUnits || 8,
+        occupancy: p.totalUnits ? Math.round((p.occupiedUnits / p.totalUnits) * 100) : 88,
+        revenue: `$${Math.round((p.monthlyRevenue || 2800000) / 100).toLocaleString()}`,
+        status: idx === 2 ? '! Attention' : '+ Excellent',
+        statusBg: idx === 2 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800',
+        barBg: idx === 2 ? 'bg-amber-500' : 'bg-[#0B4F45]',
+        coverImage: p.coverImage || getPropertyPhoto(idx),
+      }))
+    : fallbackPropertiesData;
 
-  const unreadNotifs = notifications.filter(n => !n.isRead).slice(0, 4);
-  const recentPayments = []; // populated from payments mock via quick join
-
-  const loading = loadingProps || loadingPay;
+  const filteredProps = displayProps.filter(p =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.address.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="space-y-6">
-      {/* Greeting */}
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+    <div className="space-y-5 font-sans text-gray-900 pb-8">
+      {/* Overview header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h1 className="font-display text-2xl font-bold text-charcoal">
-            Good {getGreeting()}, {firstName}! 👋
-          </h1>
-          <p className="text-muted text-sm mt-0.5">Here's what's happening with your portfolio.</p>
+          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Overview</h1>
+          <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">Welcome back, here's what's happening with your properties today.</p>
         </div>
-        <Link to="/landlord/properties/new">
-          <Button size="sm" leftIcon={<Building2 size={15} />}>Add property</Button>
-        </Link>
-      </motion.div>
-
-      {/* Stat cards */}
-      <motion.div
-        className="grid grid-cols-2 lg:grid-cols-4 gap-4"
-        initial="hidden"
-        animate="visible"
-        variants={stagger}
-      >
-        {loading ? (
-          Array.from({ length: 4 }).map((_, i) => <StatCardSkeleton key={i} />)
-        ) : (
-          <>
-            <motion.div variants={fadeUp}>
-              <StatCard title="Total Properties" value={properties.length} icon={Building2} color="bg-primary/10" iconColor="text-primary" />
-            </motion.div>
-            <motion.div variants={fadeUp}>
-              <StatCard title="Revenue (MTD)" value={paymentSummary?.collected || 0} icon={CreditCard} isCurrency color="bg-success/10" iconColor="text-success" trend={4.2} />
-            </motion.div>
-            <motion.div variants={fadeUp}>
-              <StatCard title="Occupied / Total" value={occupiedUnits} icon={Users} color="bg-info/10" iconColor="text-info" />
-            </motion.div>
-            <motion.div variants={fadeUp}>
-              <StatCard title="Overdue Payments" value={paymentSummary?.overdue || 0} icon={AlertTriangle} isCurrency color="bg-error/10" iconColor="text-error" />
-            </motion.div>
-          </>
-        )}
-      </motion.div>
-
-      {/* Charts + Activity row */}
-      <div className="grid lg:grid-cols-3 gap-5">
-        {/* Revenue chart */}
-        <motion.div
-          className="lg:col-span-2"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Card>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="font-display font-semibold text-charcoal">Revenue Trend</h2>
-              <Link to="/landlord/reports" className="text-xs text-primary hover:underline flex items-center gap-1">
-                Full report <ArrowRight size={12} aria-hidden="true" />
-              </Link>
-            </div>
-            {loadingTrend ? (
-              <div className="skeleton h-48 rounded" />
-            ) : (
-              <ResponsiveContainer width="100%" height={200}>
-                <AreaChart data={revenueTrend}>
-                  <defs>
-                    <linearGradient id="rentGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#0B4F45" stopOpacity={0.2} />
-                      <stop offset="95%" stopColor="#0B4F45" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#E5E1DA" vertical={false} />
-                  <XAxis dataKey="month" tick={{ fontSize: 11, fill: '#8A8A72' }} axisLine={false} tickLine={false} />
-                  <YAxis tickFormatter={(v) => `₦${(v / 1000000).toFixed(1)}M`} tick={{ fontSize: 11, fill: '#8A8A72' }} axisLine={false} tickLine={false} />
-                  <Tooltip
-                    formatter={(v) => [formatCurrency(v), 'Revenue']}
-                    contentStyle={{ border: '1px solid #E5E1DA', borderRadius: 6, fontSize: 12 }}
-                  />
-                  <Area type="monotone" dataKey="revenue" stroke="#0B4F45" strokeWidth={2} fill="url(#rentGrad)" dot={false} activeDot={{ r: 4 }} />
-                </AreaChart>
-              </ResponsiveContainer>
-            )}
-          </Card>
-        </motion.div>
-
-        {/* Quick stats sidebar */}
-        <motion.div className="space-y-4" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
-          {/* Maintenance snapshot */}
-          <Card>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-charcoal text-sm">Maintenance</h2>
-              <Link to="/landlord/maintenance" className="text-xs text-primary hover:underline">View all</Link>
-            </div>
-            {loadingMaint ? <div className="skeleton h-16 rounded" /> : (
-              <div className="grid grid-cols-3 gap-2 text-center">
-                {[
-                  { label: 'New', value: maintenance?.received || 0, color: 'text-muted' },
-                  { label: 'In Progress', value: maintenance?.in_progress || 0, color: 'text-accent' },
-                  { label: 'Resolved', value: maintenance?.resolved || 0, color: 'text-success' },
-                ].map((s) => (
-                  <div key={s.label} className="bg-warm rounded p-2">
-                    <p className={`font-mono font-bold text-lg ${s.color}`}>{s.value}</p>
-                    <p className="text-xs text-muted mt-0.5">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </Card>
-
-          {/* Occupancy ring */}
-          <Card>
-            <h2 className="font-semibold text-charcoal text-sm mb-3">Occupancy</h2>
-            <div className="flex items-center gap-3">
-              <OccupancyRing pct={totalUnits > 0 ? Math.round((occupiedUnits / totalUnits) * 100) : 0} />
-              <div className="text-xs text-muted space-y-1">
-                <div className="flex items-center gap-1.5"><span className="w-2 h-2 bg-primary rounded-full" aria-hidden="true" />{occupiedUnits} occupied</div>
-                <div className="flex items-center gap-1.5"><span className="w-2 h-2 bg-border rounded-full" aria-hidden="true" />{totalUnits - occupiedUnits} vacant</div>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
+        <button className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-gray-200/80 text-xs font-bold text-gray-700 shadow-sm sm:self-start hover:bg-gray-50 transition-colors">
+          <Calendar size={14} className="text-gray-400" />
+          <span>Oct 24, 2023</span>
+        </button>
       </div>
 
-      {/* Recent notifications */}
-      {unreadNotifs.length > 0 && (
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-          <Card>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <Bell size={16} className="text-accent" aria-hidden="true" />
-                <h2 className="font-semibold text-charcoal text-sm">Recent Alerts</h2>
-                <span className="text-xs bg-accent/10 text-accent px-1.5 py-0.5 rounded-full">{unreadNotifs.length}</span>
-              </div>
-              <Link to="/landlord/notifications" className="text-xs text-primary hover:underline">All notifications</Link>
+      {/* Top KPI Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        {/* Total Revenue */}
+        <div className="bg-white rounded-xl p-3.5 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between min-h-[96px]">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold tracking-wider text-gray-400 uppercase">Total Revenue</span>
+            <div className="w-6 h-6 rounded-lg bg-gray-50 flex items-center justify-center text-gray-600">
+              <Wallet size={14} />
             </div>
-            <ul className="divide-y divide-border">
-              {unreadNotifs.map((n) => (
-                <li key={n.id} className="py-2.5 flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0" aria-hidden="true" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-charcoal font-medium truncate">{n.title}</p>
-                    <p className="text-xs text-muted truncate">{n.message}</p>
-                  </div>
-                  <span className="text-xs text-muted flex-shrink-0 mt-0.5">{timeAgo(n.createdAt)}</span>
-                </li>
-              ))}
-            </ul>
-          </Card>
-        </motion.div>
-      )}
-
-      {/* Properties quick view */}
-      {properties.length > 0 && (
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-display font-semibold text-charcoal">Your Properties</h2>
-            <Link to="/landlord/properties" className="text-xs text-primary hover:underline flex items-center gap-1">
-              View all <ArrowRight size={12} aria-hidden="true" />
-            </Link>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {properties.slice(0, 3).map((p) => (
-              <Link key={p.id} to={`/landlord/properties/${p.id}`}>
-                <Card hoverable padding={false} className="overflow-hidden">
-                  <div className="h-28 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center relative overflow-hidden">
-                    {getPropertyPhoto(p.id) ? (
-                      <img src={getPropertyPhoto(p.id)} alt={p.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-                    ) : (
-                      <Building2 size={28} className="text-primary/50" aria-hidden="true" />
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-charcoal text-sm mb-1 truncate">{p.name}</h3>
-                    <p className="text-xs text-muted truncate mb-2">{p.address}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-muted">{p.occupiedUnits}/{p.totalUnits} units</span>
-                      <Badge status={p.occupiedUnits === p.totalUnits ? 'occupied' : 'vacant'} label={p.occupiedUnits === p.totalUnits ? 'Full' : 'Has vacancies'} />
+          <div className="my-1">
+            <h2 className="text-xl font-black text-gray-900 tracking-tight">$124,500</h2>
+          </div>
+          <div className="flex items-center gap-1.5 text-[11px] font-semibold">
+            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-emerald-100/80 text-emerald-700 font-bold text-[10px]">
+              <TrendingUp size={10} /> 12.5%
+            </span>
+            <span className="text-gray-400 font-medium text-[10px]">vs last month</span>
+          </div>
+        </div>
+
+        {/* Occupancy Rate */}
+        <div className="bg-white rounded-xl p-3.5 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between min-h-[96px]">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold tracking-wider text-gray-400 uppercase">Occupancy Rate</span>
+            <div className="w-6 h-6 rounded-lg bg-gray-50 flex items-center justify-center text-gray-600">
+              <Building2 size={14} />
+            </div>
+          </div>
+          <div className="my-1">
+            <h2 className="text-xl font-black text-gray-900 tracking-tight">94%</h2>
+          </div>
+          <div className="flex items-center gap-2.5 text-[10px] text-gray-500 font-medium">
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#072F29]" /> Occupied: 112
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-gray-200" /> Vacant: 8
+            </span>
+          </div>
+        </div>
+
+        {/* Maintenance */}
+        <div className="bg-white rounded-xl p-3.5 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between min-h-[96px]">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold tracking-wider text-gray-400 uppercase">Maintenance</span>
+            <div className="w-6 h-6 rounded-lg bg-amber-50 flex items-center justify-center text-[#C75B30]">
+              <Wrench size={14} />
+            </div>
+          </div>
+          <div className="my-1 flex items-baseline justify-between">
+            <h2 className="text-xl font-black text-gray-900 tracking-tight">14</h2>
+            <div className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C75B30]" />
+              <span className="text-[11px] font-bold text-[#C75B30]">High Priority</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between text-[10px] font-medium text-gray-400 pt-1 border-t border-gray-100">
+            <span>Avg Resolution</span>
+            <span className="text-gray-700 font-bold">1.2 Days</span>
+          </div>
+        </div>
+
+        {/* Collection Rate */}
+        <div className="bg-white rounded-xl p-3.5 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between min-h-[96px]">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold tracking-wider text-gray-400 uppercase">Collection Rate</span>
+            <div className="w-6 h-6 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+              <DollarSign size={14} />
+            </div>
+          </div>
+          <div className="my-1 flex items-baseline justify-between">
+            <h2 className="text-xl font-black text-gray-900 tracking-tight">98.2%</h2>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-rose-100/80 text-rose-700 font-bold text-[10px]">
+              -0.5%
+            </span>
+          </div>
+          <div className="text-[10px] text-gray-400 font-medium truncate">
+            $2,450 outstanding. <Link to="/landlord/payments" className="text-[#072F29] hover:underline font-bold">Remind</Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Upper Section: Portfolio Revenue Chart (8 cols) vs Cash Flow & Recent Activity (4 cols) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+        {/* Left: Portfolio Revenue Bar Chart */}
+        <div className="lg:col-span-8 flex flex-col">
+          <div className="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col flex-1">
+            <div className="flex items-center justify-between pb-3 flex-shrink-0">
+              <div>
+                <h3 className="text-sm sm:text-base font-black text-gray-900">Portfolio Revenue</h3>
+                <p className="text-[11px] text-gray-400 font-medium mt-0.5">Monthly trends across property types</p>
+              </div>
+              <div className="bg-gray-100/80 p-0.5 rounded-xl flex items-center text-[11px] font-bold">
+                <button
+                  onClick={() => setChartPeriod('Monthly')}
+                  className={`px-2.5 py-1 rounded-lg transition-all ${chartPeriod === 'Monthly' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                >
+                  Monthly
+                </button>
+                <button
+                  onClick={() => setChartPeriod('Quarterly')}
+                  className={`px-2.5 py-1 rounded-lg transition-all ${chartPeriod === 'Quarterly' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                >
+                  Quarterly
+                </button>
+              </div>
+            </div>
+
+            <div className="w-full flex-1 min-h-[220px] pt-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={revenueChartData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }} barSize={30}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                  <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 500 }} dy={6} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 500 }} tickFormatter={(val) => `$${val / 1000}k`} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: '#fff', borderRadius: '10px', border: '1px solid #e5e7eb', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', fontSize: '11px' }}
+                    formatter={(val) => [`$${val.toLocaleString()}`, '']}
+                  />
+                  <Legend
+                    verticalAlign="bottom"
+                    align="center"
+                    iconType="circle"
+                    iconSize={7}
+                    wrapperStyle={{ paddingTop: '10px', fontSize: '10px', fontWeight: 600, color: '#4b5563' }}
+                  />
+                  <Bar dataKey="Commercial" stackId="a" fill="#A7F3D0" radius={[0, 0, 3, 3]} />
+                  <Bar dataKey="Residential" stackId="a" fill="#072F29" radius={[3, 3, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Cash Flow Card + Recent Activity Card */}
+        <div className="lg:col-span-4 flex flex-col gap-4">
+          {/* Cash Flow Card */}
+          <div className="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex-shrink-0">
+            <h3 className="text-sm sm:text-base font-black text-gray-900 pb-2.5">Cash Flow</h3>
+
+            <div className="flex items-center justify-between pb-2.5 border-b border-gray-100">
+              <div>
+                <span className="text-[11px] text-gray-400 font-medium">Net Income</span>
+                <h4 className="text-xl font-black text-gray-900 mt-0.5">$82,430</h4>
+              </div>
+              <div className="relative w-9 h-9 flex items-center justify-center">
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                  <path className="text-gray-100" strokeWidth="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path className="text-[#072F29]" strokeDasharray="75, 100" strokeWidth="3.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="pt-2.5 space-y-2.5">
+              <div>
+                <div className="flex items-center justify-between text-[11px] font-bold mb-1">
+                  <span className="flex items-center gap-1 text-emerald-700">
+                    <ArrowDownLeft size={13} /> Inflow
+                  </span>
+                  <span className="text-gray-900">$124,500</span>
+                </div>
+                <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-[#072F29] h-full rounded-full w-[85%]" />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between text-[11px] font-bold mb-1">
+                  <span className="flex items-center gap-1 text-rose-600">
+                    <ArrowUpRight size={13} /> Outflow
+                  </span>
+                  <span className="text-gray-900">$42,070</span>
+                </div>
+                <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-[#C75B30] h-full rounded-full w-[35%]" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Recent Activity Card */}
+          <div className="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex-1 flex flex-col justify-between">
+            <div className="flex items-center justify-between pb-2.5">
+              <h3 className="text-sm sm:text-base font-black text-gray-900">Recent Activity</h3>
+              <Link to="/landlord/notifications" className="text-xs font-bold text-[#072F29] hover:underline">View All</Link>
+            </div>
+
+            <div className="space-y-2.5 divide-y divide-gray-100 flex-1 flex flex-col justify-center">
+              {recentActivities.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.id} className={`flex gap-3 ${index > 0 ? 'pt-2.5' : ''}`}>
+                    <div className={`w-7 h-7 rounded-lg ${item.iconBg} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                      <Icon size={13} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="text-xs font-bold text-gray-900 leading-snug truncate">{item.title}</h4>
+                      <p className="text-[10px] text-gray-500 font-medium mt-0.5 leading-tight truncate">{item.desc}</p>
+                      <span className="text-[9px] font-semibold text-gray-400 block mt-0.5">{item.time}</span>
                     </div>
                   </div>
-                </Card>
-              </Link>
-            ))}
+                );
+              })}
+            </div>
           </div>
-        </motion.div>
-      )}
+        </div>
+      </div>
+
+      {/* Full Width Section: Top Performing Properties Table (NO scrolling!) */}
+      <div className="w-full">
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden">
+          <div className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-gray-100">
+            <h3 className="text-sm sm:text-base font-black text-gray-900">Top Performing Properties</h3>
+
+            <div className="flex items-center gap-2">
+              <div className="relative flex items-center bg-gray-50 border border-gray-200/80 rounded-xl h-8 px-2.5 w-48 focus-within:bg-white focus-within:border-gray-300 transition-all">
+                <Search size={13} className="text-gray-400 mr-1.5 flex-shrink-0" />
+                <input
+                  type="text"
+                  placeholder="Filter..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-transparent text-xs text-gray-800 placeholder-gray-400 focus:outline-none"
+                />
+              </div>
+
+              <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-gray-200/80 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold transition-colors shadow-sm">
+                <Filter size={12} className="text-gray-500" />
+                <span>Filter</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="w-full overflow-hidden">
+            <table className="w-full text-left border-collapse table-fixed">
+              <thead>
+                <tr className="border-b border-gray-100 bg-gray-50/50 text-[10px] font-bold text-gray-400 tracking-wider uppercase">
+                  <th className="py-2.5 px-5 w-[32%]">Property Name</th>
+                  <th className="py-2.5 px-4 w-[14%]">Type</th>
+                  <th className="py-2.5 px-4 w-[12%]">Units</th>
+                  <th className="py-2.5 px-4 w-[18%]">Occupancy</th>
+                  <th className="py-2.5 px-4 w-[14%]">Monthly Revenue</th>
+                  <th className="py-2.5 px-4 w-[10%]">Status</th>
+                  <th className="py-2.5 pr-4 w-[6%]" />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 text-xs font-medium text-gray-700">
+                {filteredProps.map((prop) => (
+                  <tr key={prop.id} className="hover:bg-gray-50/80 transition-colors">
+                    <td className="py-3 px-5 overflow-hidden">
+                      <Link to={`/landlord/properties/${prop.id}`} className="flex items-center gap-3 group">
+                        <img src={prop.coverImage} alt={prop.name} className="w-8 h-8 rounded-lg object-cover flex-shrink-0 bg-gray-100" />
+                        <div className="min-w-0 flex-1">
+                          <span className="font-bold text-gray-900 group-hover:text-[#072F29] transition-colors block text-xs truncate">{prop.name}</span>
+                          <span className="text-[10px] text-gray-400 block truncate mt-0.5">{prop.address}</span>
+                        </div>
+                      </Link>
+                    </td>
+                    <td className="py-3 px-4 text-gray-500 font-medium truncate text-xs">{prop.type}</td>
+                    <td className="py-3 px-4 font-bold text-gray-900 text-xs">{prop.units}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center justify-between mb-1 text-[10px] font-bold text-gray-900">
+                        <span>{prop.occupancy}%</span>
+                      </div>
+                      <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                        <div className={`h-full rounded-full ${prop.barBg}`} style={{ width: `${prop.occupancy}%` }} />
+                      </div>
+                    </td>
+                    <td className="py-3 px-4 font-black text-gray-900 text-xs">{prop.revenue}</td>
+                    <td className="py-3 px-4">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold truncate ${prop.statusBg}`}>
+                        {prop.status}
+                      </span>
+                    </td>
+                    <td className="py-3 pr-4 text-right">
+                      <button className="p-1 text-gray-400 hover:text-gray-700 rounded transition-colors">
+                        <MoreVertical size={15} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="p-3 border-t border-gray-100 text-center bg-gray-50/30">
+            <Link to="/landlord/properties" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#072F29] hover:underline">
+              <span>View Full Property List</span>
+              <ArrowRight size={13} />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* NEW SECTION FROM DESIGN: Outstanding Rent & Recent Payments Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-2">
+        {/* Outstanding Rent Table Card */}
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
+          <div className="p-4 flex items-center justify-between border-b border-gray-100">
+            <h3 className="text-sm sm:text-base font-black text-gray-900">Outstanding Rent</h3>
+            <Link to="/landlord/payments" className="text-xs font-bold text-[#072F29] hover:underline">View All</Link>
+          </div>
+
+          <div className="w-full overflow-hidden flex-1">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-gray-100 bg-gray-50/50 text-[10px] font-bold text-gray-400 tracking-wider uppercase">
+                  <th className="py-2.5 px-4">Tenant / Unit</th>
+                  <th className="py-2.5 px-4">Amount</th>
+                  <th className="py-2.5 px-4">Days Overdue</th>
+                  <th className="py-2.5 pr-4 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 text-xs">
+                {outstandingRentData.map((row) => (
+                  <tr key={row.id} className="hover:bg-gray-50/70 transition-colors">
+                    <td className="py-3 px-4">
+                      <span className="font-bold text-gray-900 block truncate">{row.name}</span>
+                      <span className="text-[10px] text-gray-400 block truncate mt-0.5">{row.unit}</span>
+                    </td>
+                    <td className={`py-3 px-4 font-black ${row.alert}`}>{row.amount}</td>
+                    <td className={`py-3 px-4 font-bold text-[11px] ${row.alert}`}>{row.overdue}</td>
+                    <td className="py-3 pr-4 text-right">
+                      <button className="px-2.5 py-1 rounded-lg bg-white border border-gray-200/80 text-[10px] font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
+                        Remind
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Recent Payments Table Card */}
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
+          <div className="p-4 flex items-center justify-between border-b border-gray-100">
+            <h3 className="text-sm sm:text-base font-black text-gray-900">Recent Payments</h3>
+            <Link to="/landlord/payments" className="text-xs font-bold text-[#072F29] hover:underline">View All</Link>
+          </div>
+
+          <div className="w-full overflow-hidden flex-1">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-gray-100 bg-gray-50/50 text-[10px] font-bold text-gray-400 tracking-wider uppercase">
+                  <th className="py-2.5 px-4">Date</th>
+                  <th className="py-2.5 px-4">Tenant / Unit</th>
+                  <th className="py-2.5 px-4">Amount</th>
+                  <th className="py-2.5 pr-4 text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 text-xs">
+                {recentPaymentsData.map((row) => (
+                  <tr key={row.id} className="hover:bg-gray-50/70 transition-colors">
+                    <td className="py-3 px-4 text-gray-500 font-semibold text-[11px]">{row.date}</td>
+                    <td className="py-3 px-4">
+                      <span className="font-bold text-gray-900 block truncate">{row.name}</span>
+                      <span className="text-[10px] text-gray-400 block truncate mt-0.5">{row.unit}</span>
+                    </td>
+                    <td className="py-3 px-4 font-black text-gray-900">{row.amount}</td>
+                    <td className="py-3 pr-4 text-right">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold ${row.statusBg}`}>
+                        {row.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* NEW SECTION FROM DESIGN: Maintenance Board Kanban Section */}
+      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] mt-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
+          <div>
+            <h3 className="text-sm sm:text-base font-black text-gray-900">Maintenance Board</h3>
+            <p className="text-xs text-gray-400 font-medium mt-0.5">Track ongoing service requests across all properties</p>
+          </div>
+          <Link
+            to="/landlord/maintenance"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#072F29] hover:bg-[#0a3f37] text-white text-xs font-bold transition-all shadow-sm self-start"
+          >
+            <Plus size={14} />
+            <span>New Request</span>
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+          {/* Column 1: Received */}
+          <div className="bg-gray-50/80 rounded-xl p-3 border border-gray-100/80 flex flex-col gap-3">
+            <div className="flex items-center justify-between px-1">
+              <span className="font-bold text-xs text-gray-700">Received</span>
+              <span className="w-5 h-5 rounded-full bg-gray-200/80 text-gray-700 font-bold text-[10px] flex items-center justify-center">2</span>
+            </div>
+
+            <div className="space-y-2.5 flex-1">
+              {/* Card 1 */}
+              <div className="bg-white p-3 rounded-xl border border-gray-200/70 shadow-sm space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="bg-rose-100 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded-md">High Priority</span>
+                  <span className="text-[10px] text-gray-400 font-medium">2h ago</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-gray-900 leading-snug">Leaking faucet in kitchen</h4>
+                  <span className="text-[10px] text-gray-400 block mt-0.5">Oakwood 12A</span>
+                </div>
+                <div className="flex items-center gap-2 pt-1 border-t border-gray-50">
+                  <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[8px] font-bold text-gray-600">JD</div>
+                  <span className="text-[10px] text-gray-600 font-medium">John Doe</span>
+                </div>
+              </div>
+
+              {/* Card 2 */}
+              <div className="bg-white p-3 rounded-xl border border-gray-200/70 shadow-sm space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-md">Medium</span>
+                  <span className="text-[10px] text-gray-400 font-medium">1d ago</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-gray-900 leading-snug">Broken window blind</h4>
+                  <span className="text-[10px] text-gray-400 block mt-0.5">Sunset Villas 4A</span>
+                </div>
+                <div className="flex items-center gap-2 pt-1 border-t border-gray-50">
+                  <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[8px] font-bold text-gray-600">AS</div>
+                  <span className="text-[10px] text-gray-600 font-medium">Alice Smith</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 2: In Progress */}
+          <div className="bg-gray-50/80 rounded-xl p-3 border border-gray-100/80 flex flex-col gap-3">
+            <div className="flex items-center justify-between px-1">
+              <span className="font-bold text-xs text-gray-700">In Progress</span>
+              <span className="w-5 h-5 rounded-full bg-gray-200/80 text-gray-700 font-bold text-[10px] flex items-center justify-center">1</span>
+            </div>
+
+            <div className="space-y-2.5 flex-1">
+              <div className="bg-white p-3 rounded-xl border border-gray-200/70 shadow-sm space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="bg-rose-100 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded-md">High Priority</span>
+                  <span className="text-[10px] text-gray-400 font-medium">4h ago</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-gray-900 leading-snug">HVAC not cooling</h4>
+                  <span className="text-[10px] text-gray-400 block mt-0.5">Pine Plaza Suite 2</span>
+                </div>
+                <div className="flex items-center gap-2 pt-1 border-t border-gray-50">
+                  <div className="w-4 h-4 rounded-full bg-[#072F29]/10 flex items-center justify-center text-[8px] font-bold text-[#072F29]">BB</div>
+                  <span className="text-[10px] text-[#072F29] font-bold">Bob the Builder (Assigned)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 3: Resolved */}
+          <div className="bg-gray-50/80 rounded-xl p-3 border border-gray-100/80 flex flex-col gap-3">
+            <div className="flex items-center justify-between px-1">
+              <span className="font-bold text-xs text-gray-700">Resolved (Last 7d)</span>
+              <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px] flex items-center justify-center">3</span>
+            </div>
+
+            <div className="space-y-2.5 flex-1">
+              <div className="bg-white p-3 rounded-xl border border-gray-200/70 shadow-sm space-y-2.5 opacity-80">
+                <div className="flex items-center justify-between">
+                  <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-md">Resolved</span>
+                  <span className="text-[10px] text-gray-400 font-medium">Yesterday</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-gray-900 leading-snug line-through text-gray-500">Fix loose railing</h4>
+                  <span className="text-[10px] text-gray-400 block mt-0.5">Oakwood 2C</span>
+                </div>
+                <div className="flex items-center gap-1.5 pt-1 border-t border-gray-50 text-[10px] text-gray-400 font-medium">
+                  <CheckCircle2 size={13} className="text-emerald-600 flex-shrink-0" />
+                  <span>Closed Yesterday</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  );
-};
-
-const getGreeting = () => {
-  const h = new Date().getHours();
-  if (h < 12) return 'morning';
-  if (h < 17) return 'afternoon';
-  return 'evening';
-};
-
-const OccupancyRing = ({ pct }) => {
-  const r = 28;
-  const circ = 2 * Math.PI * r;
-  const filled = (pct / 100) * circ;
-
-  return (
-    <svg width={72} height={72} viewBox="0 0 72 72" role="img" aria-label={`${pct}% occupancy`}>
-      <circle cx={36} cy={36} r={r} fill="none" stroke="#E5E1DA" strokeWidth={6} />
-      <circle
-        cx={36} cy={36} r={r} fill="none"
-        stroke="#0B4F45" strokeWidth={6}
-        strokeDasharray={`${filled} ${circ - filled}`}
-        strokeLinecap="round"
-        transform="rotate(-90 36 36)"
-        style={{ transition: 'stroke-dasharray 0.8s ease' }}
-      />
-      <text x={36} y={40} textAnchor="middle" className="font-mono font-bold" style={{ fontSize: 14, fill: '#2D2D2A', fontFamily: 'JetBrains Mono, monospace' }}>
-        {pct}%
-      </text>
-    </svg>
   );
 };
 

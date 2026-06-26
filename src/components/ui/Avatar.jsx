@@ -45,7 +45,7 @@ const Avatar = ({ name = '', src, size = 'md', status, className = '' }) => {
   const initials = getInitials(name);
 
   return (
-    <div className={`relative inline-flex flex-shrink-0 ${className}`}>
+    <div className={`relative inline-flex flex-shrink-0 rounded-full ${className}`}>
       {src ? (
         <img
           src={src}

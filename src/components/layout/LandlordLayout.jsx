@@ -12,29 +12,29 @@ const LandlordLayout = ({ title }) => {
   const { sidebarCollapsed } = useUIStore();
 
   return (
-    <div className="min-h-screen bg-warm flex">
+    <div className="min-h-screen bg-[#FAF7F2] flex font-sans text-gray-900">
       <Sidebar />
 
       {/* Main content shifts right based on sidebar width */}
       <div
         className={[
-          'flex flex-col flex-1 min-w-0 transition-[margin-left] duration-300 ease-out',
-          'lg:ml-[240px]',
-          sidebarCollapsed ? 'lg:ml-[68px]' : 'lg:ml-[240px]',
+          'flex flex-col flex-1 min-w-0 transition-[margin-left] duration-300 ease-out min-h-screen',
+          'lg:ml-[230px]',
+          sidebarCollapsed ? 'lg:ml-[72px]' : 'lg:ml-[230px]',
         ].join(' ')}
       >
-        <Topbar title={title} />
+        <div className="px-6 lg:px-8 max-w-[1400px] mx-auto w-full flex flex-col flex-1">
+          <Topbar title={title} />
 
-        <motion.main
-          className="flex-1 overflow-auto"
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="p-4 lg:p-6 max-w-dashboard mx-auto">
+          <motion.main
+            className="flex-1 pt-1 pb-8"
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             <Outlet />
-          </div>
-        </motion.main>
+          </motion.main>
+        </div>
       </div>
     </div>
   );

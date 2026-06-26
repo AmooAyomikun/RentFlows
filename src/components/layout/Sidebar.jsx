@@ -4,10 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Building2, Users, CreditCard,
   Wrench, BarChart3, Bell, Settings, ChevronLeft,
-  ChevronRight, LogOut, Menu, X
+  ChevronRight, LogOut, Plus, HelpCircle, X
 } from 'lucide-react';
 import { LogoMark } from './Navbar';
-import Avatar from '../ui/Avatar';
 import useAuthStore from '../../store/authStore';
 import useUIStore from '../../store/uiStore';
 import { logout } from '../../services/authService';
@@ -19,16 +18,12 @@ const navItems = [
   { href: '/landlord/payments', icon: CreditCard, label: 'Payments' },
   { href: '/landlord/maintenance', icon: Wrench, label: 'Maintenance' },
   { href: '/landlord/reports', icon: BarChart3, label: 'Reports' },
-];
-
-const bottomItems = [
-  { href: '/landlord/notifications', icon: Bell, label: 'Notifications' },
   { href: '/landlord/settings', icon: Settings, label: 'Settings' },
+  { href: '/landlord/notifications', icon: Bell, label: 'Notifications' },
 ];
 
 /**
- * Landlord dashboard sidebar — fixed left, collapsible to icon-only.
- * Forest Teal Dark background (sidebar-bg).
+ * Landlord dashboard sidebar — fixed left, replicating exact design.
  */
 const Sidebar = () => {
   const { sidebarCollapsed, toggleSidebar, mobileSidebarOpen, setMobileSidebarOpen } = useUIStore();
@@ -42,13 +37,16 @@ const Sidebar = () => {
   };
 
   const SidebarContent = ({ onClose }) => (
-    <div className="flex flex-col h-full sidebar-bg text-sidebar-text">
-      {/* Logo / collapse toggle */}
-      <div className={`flex items-center justify-between px-4 h-16 border-b border-white/10 flex-shrink-0 ${sidebarCollapsed ? 'justify-center' : ''}`}>
+    <div className="flex flex-col h-full bg-[#072F29] text-[#FAF7F2] overflow-hidden">
+      {/* Branding header */}
+      <div className={`flex items-center justify-between px-4 pt-4 pb-2 flex-shrink-0 ${sidebarCollapsed ? 'justify-center px-2' : ''}`}>
         {!sidebarCollapsed && (
-          <Link to="/landlord/dashboard" className="flex items-center gap-2.5" aria-label="RentFlow dashboard">
+          <Link to="/landlord/dashboard" className="flex items-center gap-2.5 min-w-0" aria-label="RentFlow dashboard">
             <LogoMark />
-            <span className="font-display font-bold text-base text-white">RentFlow</span>
+            <div className="flex flex-col flex-shrink-0">
+              <span className="font-display font-black text-base leading-none text-white tracking-tight">RentFlow</span>
+              <span className="text-[10px] font-medium text-[#FAF7F2]/60 mt-0.5 block">Premium Landlord</span>
+            </div>
           </Link>
         )}
         {sidebarCollapsed && (
@@ -60,20 +58,20 @@ const Sidebar = () => {
         <button
           onClick={onClose || toggleSidebar}
           aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          className="hidden lg:flex items-center justify-center w-7 h-7 rounded text-sidebar-text/60 hover:text-white hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          className="hidden lg:flex items-center justify-center w-6 h-6 rounded text-white/50 hover:text-white hover:bg-white/10 transition-colors ml-1 flex-shrink-0"
         >
-          {sidebarCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+          {sidebarCollapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
         </button>
         {/* Mobile close */}
         {onClose && (
-          <button onClick={onClose} aria-label="Close menu" className="lg:hidden text-sidebar-text/60 hover:text-white">
+          <button onClick={onClose} aria-label="Close menu" className="lg:hidden text-white/60 hover:text-white flex-shrink-0">
             <X size={20} />
           </button>
         )}
       </div>
 
-      {/* Primary nav */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto" aria-label="Landlord navigation">
+      {/* Primary nav list */}
+      <nav className="flex-1 px-3 py-1 space-y-0.5 overflow-y-auto" aria-label="Landlord navigation">
         {navItems.map(({ href, icon: Icon, label }) => (
           <NavLink
             key={href}
@@ -81,22 +79,24 @@ const Sidebar = () => {
             onClick={onClose}
             className={({ isActive }) =>
               [
-                'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-150 text-sm font-medium group',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white',
+                'relative flex items-center gap-2.5 px-3 py-1.5 rounded-xl transition-all duration-150 text-xs font-medium group overflow-hidden',
                 isActive
-                  ? 'bg-white/12 text-white'
-                  : 'text-sidebar-text/70 hover:text-white hover:bg-white/8',
-                sidebarCollapsed ? 'justify-center' : '',
+                  ? 'bg-white/10 text-white font-semibold'
+                  : 'text-[#FAF7F2]/70 hover:text-white hover:bg-white/5',
+                sidebarCollapsed ? 'justify-center px-0 py-2' : '',
               ].join(' ')
             }
             title={sidebarCollapsed ? label : undefined}
           >
             {({ isActive }) => (
               <>
+                {isActive && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-4 bg-[#C75B30] rounded-r" aria-hidden="true" />
+                )}
                 <Icon
-                  size={20}
+                  size={17}
                   aria-hidden="true"
-                  className={isActive ? 'text-accent' : 'text-sidebar-text/60 group-hover:text-white'}
+                  className={isActive ? 'text-white' : 'text-[#FAF7F2]/60 group-hover:text-white transition-colors'}
                 />
                 {!sidebarCollapsed && <span>{label}</span>}
               </>
@@ -105,43 +105,46 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      {/* Bottom items */}
-      <div className="px-3 py-3 border-t border-white/10 space-y-0.5">
-        {bottomItems.map(({ href, icon: Icon, label }) => (
-          <NavLink
-            key={href}
-            to={href}
+      {/* Bottom actions */}
+      <div className="p-2.5 mt-auto border-t border-white/10 space-y-1.5 flex-shrink-0">
+        {!sidebarCollapsed ? (
+          <Link
+            to="/landlord/properties/new"
             onClick={onClose}
-            className={({ isActive }) =>
-              [
-                'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-sm font-medium',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white',
-                isActive ? 'bg-white/12 text-white' : 'text-sidebar-text/70 hover:text-white hover:bg-white/8',
-                sidebarCollapsed ? 'justify-center' : '',
-              ].join(' ')
-            }
-            title={sidebarCollapsed ? label : undefined}
+            className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-[#C75B30] hover:bg-[#b5522b] text-white font-bold text-xs shadow-[0_4px_20px_rgba(199,91,48,0.3)] transition-all active:scale-[0.98]"
           >
-            <Icon size={20} aria-hidden="true" />
-            {!sidebarCollapsed && label}
-          </NavLink>
-        ))}
+            <Plus size={15} strokeWidth={2.5} />
+            Add Property
+          </Link>
+        ) : (
+          <Link
+            to="/landlord/properties/new"
+            onClick={onClose}
+            title="Add Property"
+            className="flex items-center justify-center w-9 h-9 mx-auto rounded-xl bg-[#C75B30] hover:bg-[#b5522b] text-white shadow-md transition-all"
+          >
+            <Plus size={16} strokeWidth={2.5} />
+          </Link>
+        )}
 
-        {/* User menu */}
-        <div className={`flex items-center gap-3 px-3 py-2.5 mt-2 rounded-lg border-t border-white/10 pt-3 ${sidebarCollapsed ? 'justify-center' : ''}`}>
-          <Avatar name={user?.name} size="sm" />
-          {!sidebarCollapsed && (
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium text-white truncate">{user?.name}</p>
-              <p className="text-xs text-sidebar-text/50 truncate">{user?.businessName || user?.email}</p>
-            </div>
-          )}
+        <div className="space-y-0.5">
+          <Link
+            to="/resources"
+            onClick={onClose}
+            className={`flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-[#FAF7F2]/70 hover:text-white hover:bg-white/5 transition-colors text-xs font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
+            title={sidebarCollapsed ? "Help Center" : undefined}
+          >
+            <HelpCircle size={16} className="text-[#FAF7F2]/60" />
+            {!sidebarCollapsed && <span>Help Center</span>}
+          </Link>
+
           <button
             onClick={handleLogout}
-            aria-label="Log out"
-            className="text-sidebar-text/50 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded p-1"
+            className={`flex items-center gap-2.5 w-full px-3 py-1.5 rounded-xl text-[#FAF7F2]/70 hover:text-white hover:bg-white/5 transition-colors text-xs font-medium text-left ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
+            title={sidebarCollapsed ? "Logout" : undefined}
           >
-            <LogOut size={15} aria-hidden="true" />
+            <LogOut size={16} className="text-[#FAF7F2]/60" />
+            {!sidebarCollapsed && <span>Logout</span>}
           </button>
         </div>
       </div>
@@ -152,7 +155,7 @@ const Sidebar = () => {
     <>
       {/* Desktop sidebar */}
       <motion.aside
-        className={`hidden lg:flex flex-col fixed left-0 top-0 bottom-0 z-30 transition-[width] duration-300 ease-out ${sidebarCollapsed ? 'w-[68px]' : 'w-[240px]'}`}
+        className={`hidden lg:flex flex-col fixed left-0 top-0 bottom-0 z-30 transition-[width] duration-300 ease-out bg-[#072F29] border-r border-white/5 ${sidebarCollapsed ? 'w-[72px]' : 'w-[230px]'}`}
         aria-label="Sidebar navigation"
       >
         <SidebarContent />
@@ -163,7 +166,7 @@ const Sidebar = () => {
         {mobileSidebarOpen && (
           <>
             <motion.div
-              className="fixed inset-0 z-40 bg-charcoal/50 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -171,10 +174,10 @@ const Sidebar = () => {
               aria-hidden="true"
             />
             <motion.aside
-              className="fixed left-0 top-0 bottom-0 z-50 w-[240px] lg:hidden"
-              initial={{ x: -240 }}
+              className="fixed left-0 top-0 bottom-0 z-50 w-[230px] lg:hidden shadow-2xl"
+              initial={{ x: -230 }}
               animate={{ x: 0 }}
-              exit={{ x: -240 }}
+              exit={{ x: -230 }}
               transition={{ type: 'tween', duration: 0.25 }}
               aria-label="Mobile sidebar navigation"
             >
