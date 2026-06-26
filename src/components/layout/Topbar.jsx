@@ -1,4 +1,4 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Menu, Search, Bell, Grid } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import useUIStore from '../../store/uiStore';
@@ -10,6 +10,12 @@ const Topbar = ({ title }) => {
   const { user } = useAuthStore();
   const { setMobileSidebarOpen } = useUIStore();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  let placeholder = 'Search transactions, properties, or tenants...';
+  if (location.pathname.includes('maintenance')) placeholder = 'Search maintenance requests...';
+  else if (location.pathname.includes('tenants')) placeholder = 'Search tenant directory...';
+  else if (location.pathname.includes('properties')) placeholder = 'Search properties...';
 
   return (
     <div className="w-full flex flex-col flex-shrink-0">
@@ -29,9 +35,9 @@ const Topbar = ({ title }) => {
             <Search size={16} className="text-gray-400 mr-2.5 flex-shrink-0" aria-hidden="true" />
             <input
               type="text"
-              placeholder="Search transactions, properties, or tenants..."
+              placeholder={placeholder}
               className="w-full bg-transparent text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none"
-              aria-label="Search transactions, properties, or tenants"
+              aria-label={placeholder}
             />
           </div>
         </div>
@@ -72,15 +78,15 @@ const Topbar = ({ title }) => {
 
           <div className="h-8 w-px bg-gray-200 hidden sm:block" />
 
-          {/* User profile matching screenshot: Alex Vanguard / ASSET MANAGER */}
+          {/* User profile matching screenshot: Oripio Studio / Asset Manager */}
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/landlord/settings')}>
             <div className="text-right hidden md:block">
-              <div className="text-xs font-black text-gray-900 leading-none">Alex Vanguard</div>
-              <div className="text-[9px] font-bold text-gray-400 tracking-wider mt-1">ASSET MANAGER</div>
+              <div className="text-xs font-black text-gray-900 leading-none">{user?.name || 'Oripio Studio'}</div>
+              <div className="text-[9px] font-bold text-gray-400 tracking-wider mt-1">Asset Manager</div>
             </div>
             <img
               src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80"
-              alt="Alex Vanguard"
+              alt="Oripio Studio"
               className="w-9 h-9 rounded-full object-cover border border-gray-200 shadow-2xs"
             />
           </div>
