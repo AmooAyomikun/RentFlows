@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, CreditCard, FileText, Wrench, BarChart3, CheckCircle, Star, Building2, UserPlus, Mail, Wallet, Bell, LayoutDashboard, Shield, TrendingUp, Search, FileSpreadsheet, Calculator, DollarSign, MessageSquare, CheckCircle2, XCircle, Send } from 'lucide-react';
+import { ArrowRight, CreditCard, FileText, Wrench, BarChart3, CheckCircle, Star, Building2, UserPlus, Mail, Wallet, Bell, LayoutDashboard, Shield, TrendingUp, Search, FileSpreadsheet, Calculator, DollarSign, MessageSquare, CheckCircle2, XCircle, Send, Play, ChevronRight, Activity } from 'lucide-react';
 import Button from '../../components/ui/Button';
 
 // Animation variants
@@ -133,134 +133,193 @@ const Home = () => {
   return (
     <div className="bg-white overflow-hidden">
       
-      {/* ─── Dribbble-Style Hero (100vh) ─── */}
-      <section 
-        className="relative bg-charcoal overflow-hidden py-8 md:py-12 lg:py-12 flex flex-col" 
+      {/* ─────────────────────────────────────────────────────────────
+          HERO — Real photo background, editorial split layout
+         ───────────────────────────────────────────────────────────── */}
+      <section
+        className="relative w-full min-h-screen overflow-hidden flex flex-col"
         aria-label="Hero"
       >
-        {/* Subtle background accents */}
-        <div className="absolute inset-0 pointer-events-none opacity-30">
-          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/20 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3" />
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#C75B30]/15 blur-[120px] rounded-full -translate-x-1/3 translate-y-1/3" />
+        {/* ── Full-bleed background photo ── */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&q=85&w=1920"
+            alt="Modern property"
+            className="w-full h-full object-cover object-center"
+          />
+          {/* Left-to-right dark gradient overlay for text legibility */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#071A16]/95 via-[#071A16]/80 to-[#071A16]/35" />
+          {/* Bottom fade */}
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#071A16]/60 to-transparent" />
         </div>
-        
-        <div className="max-w-marketing mx-auto px-4 w-full relative z-10 my-auto ">
-          <div className="grid lg:grid-cols-2 gap-3 lg:gap-3 items-center">
-            
-            {/* Left Content */}
-            <div className="max-w-xl">
-              <motion.div 
-                className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-[11px] font-medium tracking-wide mb-4"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              >
-                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                Next-Gen Property Management
-              </motion.div>
-              
-              <motion.h1 
-                className="font-display text-white mb-5 leading-[1.1] tracking-tight font-bold"
-                style={{ fontSize: 'clamp(36px, 4.5vw, 52px)' }}
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-              >
-                Collect Rent,<br />
-                Manage Tenants, and<br />
-                Properties in One<br />
-                Place
-              </motion.h1>
-              
-              <motion.p 
-                className="text-white/70 text-small md:text-micro mb-3 leading-relaxed max-w-lg"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              >
-                Replace notebooks, spreadsheets, and WhatsApp with a modern rent management platform built for landlords and tenants. High performance tooling for clarity amidst high-density data.
-              </motion.p>
-              
-              <motion.div 
-                className="flex flex-col overflow-hidden sm:flex-row gap-3 mb-4"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-              >
-                <Button 
-                  size="lg" 
-                  className="rounded-full px-4 bg-primary hover:bg-primary-dark text-white shadow-xl shadow-primary/20"
-                  onClick={() => navigate('/signup')}
+
+        {/* ── Nav spacer ── */}
+        <div className="h-20 shrink-0" />
+
+        {/* ── Main content ── */}
+        <div className="relative z-10 flex-1 flex items-center">
+          <div className="max-w-[1280px] mx-auto px-6 w-full py-16 lg:py-12">
+            <div className="grid lg:grid-cols-[1fr_1fr] gap-12 xl:gap-20 items-center">
+
+              {/* ── LEFT: Copy ── */}
+              <div>
+                {/* Category tag */}
+                <motion.div
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B4F45]/80 border border-[#C75B30]/40 text-white text-[11px] font-bold tracking-[0.15em] uppercase mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(199,91,48,0.15)]"
+                  initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
                 >
-                  Get Started
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="whiteOutline"
-                  className="rounded-full px-4 border-white/20 text-white hover:bg-white/10"
-                  onClick={() => navigate('/services')}
+                  <span className="w-2 h-2 rounded-full bg-[#C75B30] animate-pulse" />
+                  Property Management Platform
+                </motion.div>
+
+                {/* Headline */}
+                <motion.h1
+                  className="font-display text-white font-black leading-[1.08] tracking-tight mb-5"
+                  style={{ fontSize: 'clamp(38px, 5vw, 64px)' }}
+                  initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.08 }}
                 >
-                  Explore Services
-                </Button>
-              </motion.div>
+                  The Smarter Way<br />
+                  to Manage Rent<br />
+                  <span className="text-[#C75B30]">in Africa.</span>
+                </motion.h1>
 
-              {/* Trusted By inline badge */}
-              <motion.div 
-                className="flex flex-col overflow-hidden gap-3"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-              >
-                <span className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">Trusted by</span>
-                <div className="flex flex-wrap gap-3 items-center">
-                  {['ShelterHQ', 'LagosLiving', 'TerraFirma', 'Oakwood'].map((logo, idx) => (
-                    <span key={idx} className="text-white/60 font-display font-bold text-small tracking-tight opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
-                      {logo}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
+                {/* Sub-copy */}
+                <motion.p
+                  className="text-white/75 text-base md:text-lg leading-relaxed mb-8 max-w-[480px]"
+                  initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.16 }}
+                >
+                  Stop chasing rent through WhatsApp. RentFlow gives landlords and tenants one professional platform to collect payments, track maintenance, and manage leases — all in one place.
+                </motion.p>
 
-            {/* Right Hero Graphic - Dribbble Composition */}
-            <div className="relative w-full max-h-[200px] md:h-[240px] aspect-[4/3] flex items-center justify-center mt-4 lg:mt-0">
-              
-              {/* Main Rounded Image */}
-              <motion.div 
-                className="relative z-10 w-[85%] h-[85%] rounded-[30px] overflow-hidden shadow-2xl"
-                initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}
-              >
-                <img 
-                  src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1200" 
-                  alt="Modern luxury property"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-[3s] ease-out"
-                />
-              </motion.div>
+                {/* CTAs */}
+                <motion.div
+                  className="flex flex-wrap gap-3.5 mb-10"
+                  initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.24 }}
+                >
+                  <button
+                    onClick={() => navigate('/signup')}
+                    className="inline-flex items-center gap-2.5 px-7 py-4 rounded-xl bg-[#0B4F45] hover:bg-[#073A33] text-white font-bold text-sm tracking-wide transition-all duration-200 shadow-[0_8px_30px_rgba(11,79,69,0.4)] active:scale-[0.98] cursor-pointer border border-white/10"
+                  >
+                    Get Started Free
+                    <ArrowRight size={16} className="text-[#E79868]" />
+                  </button>
+                  <button
+                    onClick={() => navigate('/features')}
+                    className="inline-flex items-center gap-2 px-7 py-4 rounded-xl border border-[#C75B30]/45 text-white hover:bg-[#C75B30]/15 font-semibold text-sm tracking-wide transition-all duration-200 active:scale-[0.98] cursor-pointer backdrop-blur-md"
+                  >
+                    See Features
+                  </button>
+                </motion.div>
 
-              {/* Floating Badge 1 - Top Left */}
-              <motion.div 
-                className="absolute top-[0%] left-[0%] z-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-3 shadow-xl flex flex-col overflow-hidden gap-1 min-w-[140px]"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-              >
-                <p className="text-white/60 text-[10px] uppercase font-medium tracking-wide">Active Properties</p>
-                <p className="text-white font-display font-bold text-small">1,425 Units</p>
-                <div className="flex items-center gap-3 mt-1">
-                  <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center">
-                    <Building2 className="text-primary w-3 h-3" />
+                {/* Social proof row */}
+                <motion.div
+                  className="flex items-center gap-5"
+                  initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.32 }}
+                >
+                  {/* Avatar stack */}
+                  <div className="flex -space-x-2">
+                    {[
+                      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=48&h=48&fit=crop&crop=face&auto=format',
+                      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=48&h=48&fit=crop&crop=face&auto=format',
+                      'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=48&h=48&fit=crop&crop=face&auto=format',
+                    ].map((src, i) => (
+                      <img key={i} src={src} alt="Landlord" className="w-9 h-9 rounded-full border-2 border-[#C75B30]/40 object-cover" />
+                    ))}
                   </div>
-                  <span className="text-white/80 text-[11px] font-medium">+12 this week</span>
+                  <div>
+                    <div className="flex items-center gap-1 mb-0.5">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={11} className="text-[#C75B30] fill-[#C75B30]" />
+                      ))}
+                    </div>
+                    <p className="text-white/65 text-xs">
+                      Trusted by <span className="text-white font-semibold">2,400+ landlords</span> across Africa
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* ── RIGHT: Product screenshot ── */}
+              <motion.div
+                className="relative hidden lg:flex items-center justify-center"
+                initial={{ opacity: 0, x: 24, y: 8 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {/* Glow behind the screenshot */}
+                <div className="absolute inset-0 bg-[#C75B30]/15 blur-[70px] rounded-3xl scale-90" />
+
+                {/* Laptop screenshot */}
+                <div className="relative z-10 w-full max-w-[540px] rounded-2xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.6)] border border-white/10">
+                  <img
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000"
+                    alt="RentFlow dashboard"
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Subtle reflection */}
+                  <div className="absolute inset-0 bg-gradient-to-tl from-[#0B4F45]/10 via-transparent to-white/5 pointer-events-none" />
                 </div>
+
+                {/* Floating badge: Payment confirmed */}
+                <motion.div
+                  className="absolute -bottom-4 -left-6 bg-white rounded-xl px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.25)] flex items-center gap-3 z-20 border border-[#FAF7F2]"
+                  initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
+                >
+                  <div className="w-8 h-8 bg-[#C75B30]/15 rounded-full flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 size={16} className="text-[#C75B30]" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold text-gray-900 leading-none mb-0.5">Rent Received</p>
+                    <p className="text-[10px] text-gray-500">₦850,000 · Unit 4B</p>
+                  </div>
+                </motion.div>
+
+                {/* Floating badge: Properties */}
+                <motion.div
+                  className="absolute -top-4 -right-4 bg-[#C75B30] rounded-xl px-4 py-3 shadow-[0_12px_30px_rgba(199,91,48,0.4)] flex items-center gap-2.5 z-20"
+                  initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
+                >
+                  <Building2 size={16} className="text-white/90" />
+                  <div>
+                    <p className="text-white font-bold text-sm leading-none">1,425 Units</p>
+                    <p className="text-white/75 text-[10px]">managed today</p>
+                  </div>
+                </motion.div>
               </motion.div>
 
-              {/* Floating Badge 2 - Bottom Right */}
-              <motion.div 
-                className="absolute bottom-[5%] right-[-5%] z-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-3 shadow-xl flex items-center gap-3"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-              >
-                <div className="w-6 h-6 bg-success/20 rounded-full flex items-center justify-center border border-success/30">
-                  <CheckCircle className="text-success" className="w-2 h-2" />
-                </div>
-                <div>
-                  <p className="text-white font-display font-bold text-small">Rent Secured</p>
-                  <p className="text-white/60 text-[10px] uppercase tracking-wider">100% on-time</p>
-                </div>
-              </motion.div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Bottom: 3 stat chips anchored to footer of hero ── */}
+        <div className="relative z-10 border-t border-white/10 bg-[#071A16]/50 backdrop-blur-sm">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="grid grid-cols-3 divide-x divide-white/10">
+              {[
+                { value: '₦180M+', label: 'Rent Processed', icon: TrendingUp },
+                { value: '2,400+', label: 'Active Landlords', icon: Building2 },
+                { value: '98%', label: 'On-Time Payments', icon: CheckCircle2 },
+              ].map((stat, i) => (
+                <motion.div
+                  key={i}
+                  className="flex items-center gap-3 px-4 py-5 md:px-6"
+                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }}
+                >
+                  <div className="w-8 h-8 rounded-lg bg-[#C75B30]/15 border border-[#C75B30]/30 flex items-center justify-center flex-shrink-0">
+                    <stat.icon size={14} className="text-[#E79868]" />
+                  </div>
+                  <div>
+                    <p className="text-white font-display font-black text-lg leading-none tracking-tight">{stat.value}</p>
+                    <p className="text-white/50 text-[11px] mt-0.5">{stat.label}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
+
       {/* ─── Manage on the go ─── */}
+
       <section className="py-8 md:py-12 lg:py-12 bg-warm" aria-label="Mobile Management">
         <div className="max-w-marketing mx-auto px-4 w-full">
           <div className="grid lg:grid-cols-2 gap-3 lg:gap-3 lg:gap-3 items-center">
