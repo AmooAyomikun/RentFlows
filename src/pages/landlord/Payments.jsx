@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   Banknote, Send, Download, ChevronDown, Filter, MoreVertical,
-  CreditCard, Landmark, Wallet
+  CreditCard, Landmark, Wallet, Calendar, Sliders
 } from 'lucide-react';
 
 const initialTransactions = [
