@@ -43,17 +43,17 @@ const Solutions = () => {
   ];
 
   return (
-    <div className="w-full bg-[#FDFBF7]">
+    <div className="w-full bg-white overflow-x-hidden">
       {/* 1. Hero Section */}
-      <section className="relative py-24 md:py-32 bg-charcoal flex items-center min-h-[60vh] overflow-hidden" aria-label="Hero">
+      <section className="relative py-24 md:py-32 bg-charcoal flex items-center min-h-[65vh] overflow-hidden" aria-label="Hero">
         <div className="absolute inset-0 z-0">
-          <img src={solutionsHeroBg} alt="Hero Background" className="w-full h-full object-cover object-center opacity-40 mix-blend-overlay" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0B4F45]/90 to-[#0A3D36]/60" />
+          <img src={solutionsHeroBg} alt="Hero Background" className="w-full h-full object-cover object-center opacity-30 mix-blend-overlay" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#071A16]/95 via-[#071A16]/82 to-[#071A16]/40" />
         </div>
-        <div className="relative z-10 max-w-[1100px] mx-auto px-[24px] w-full">
+        <div className="relative z-10 max-w-marketing mx-auto px-6 w-full">
           <motion.div className="max-w-3xl" initial="hidden" animate="visible" variants={fadeUp}>
-            <p className="text-[12px] md:text-sm font-bold uppercase tracking-widest text-[#D35400] mb-4">Built Around Your Needs, Before You Need Them</p>
-            <h1 className="font-display text-white text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
+            <span className="text-micro font-bold text-accent tracking-[0.12em] uppercase mb-4 block">Built Around Your Needs, Before You Need Them</span>
+            <h1 className="font-display text-white font-black leading-[1.08] tracking-tight mb-6" style={{ fontSize: 'clamp(36px, 5vw, 60px)' }}>
               Property Management Solutions for Every Scale
             </h1>
             <p className="text-white/80 text-base md:text-lg max-w-2xl mb-8 leading-relaxed">
@@ -72,8 +72,8 @@ const Solutions = () => {
       </section>
 
       {/* 2. For the Independent Landlord */}
-      <section id="independent" className="py-20 md:py-24 bg-[#FDFBF7]" aria-label="Independent Landlord">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
+      <section id="independent" className="py-20 md:py-24 bg-warm" aria-label="Independent Landlord">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <motion.div className="flex-1" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center text-red-400 mb-5">
@@ -119,8 +119,8 @@ const Solutions = () => {
       </section>
 
       {/* 3. Bank-Grade Infrastructure */}
-      <section className="py-20 md:py-24 bg-[#EBE9E4]" aria-label="Bank-Grade Infrastructure">
-        <div className="max-w-[1100px] mx-auto px-[24px] text-center">
+      <section className="py-20 md:py-24 bg-white" aria-label="Bank-Grade Infrastructure">
+        <div className="max-w-marketing mx-auto px-6 w-full text-center">
           <motion.p className="text-[11px] md:text-xs font-bold text-[#D35400] uppercase tracking-widest mb-3" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>UNCOMPROMISING SAFETY</motion.p>
           <motion.h2 className="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Bank-Grade Infrastructure</motion.h2>
           <motion.p className="text-body text-base md:text-lg max-w-2xl mx-auto mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -147,8 +147,8 @@ const Solutions = () => {
       </section>
 
       {/* 4. For Professional Managers */}
-      <section className="py-20 md:py-24 bg-[#FDFBF7]" aria-label="Professional Managers">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
+      <section className="py-20 md:py-24 bg-warm" aria-label="Professional Managers">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <motion.div 
               className="flex-1 order-2 lg:order-1 rounded-2xl overflow-hidden shadow-xl border border-border/60 w-full bg-white"
@@ -187,8 +187,8 @@ const Solutions = () => {
       </section>
 
       {/* 5. The Growth Journey */}
-      <section className="py-20 md:py-24 bg-[#FDFBF7] border-t border-border/40" aria-label="Growth Journey">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
+      <section className="py-20 md:py-24 bg-white border-t border-border" aria-label="Growth Journey">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="text-center mb-16">
             <motion.h2 className="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>The Growth Journey</motion.h2>
             <motion.p className="text-body text-base md:text-lg max-w-2xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -248,7 +248,7 @@ const Solutions = () => {
 
       {/* 6. For Institutional Investors */}
       <section className="py-20 md:py-28 bg-[#0B4F45] text-white" aria-label="Institutional Investors">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="text-center mb-16">
             <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-primary-100 mb-5 mx-auto">
               <TrendingUp size={16} />
@@ -312,8 +312,8 @@ const Solutions = () => {
       </section>
 
       {/* 7. Seamless Ecosystem Connectivity */}
-      <section className="py-20 md:py-24 bg-[#EBE9E4]" aria-label="Ecosystem">
-        <div className="max-w-[800px] mx-auto px-6 text-center">
+      <section className="py-20 md:py-24 bg-warm" aria-label="Ecosystem">
+        <div className="max-w-marketing mx-auto px-6 w-full text-center">
           <motion.h2 className="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Seamless Ecosystem Connectivity</motion.h2>
           <motion.p className="text-body text-base md:text-lg max-w-2xl mx-auto mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
             RentFlow doesn't exist in a vacuum. We connect with the tools you already rely on to create a unified management architecture.
@@ -345,8 +345,8 @@ const Solutions = () => {
       </section>
 
       {/* 8. The RentFlow Process */}
-      <section className="py-20 md:py-24 bg-[#FDFBF7]" aria-label="Process">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
+      <section className="py-20 md:py-24 bg-white" aria-label="Process">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="text-center mb-14">
             <motion.h2 className="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>The RentFlow Process</motion.h2>
             <motion.p className="text-body text-base md:text-lg max-w-2xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -374,8 +374,8 @@ const Solutions = () => {
       </section>
 
       {/* 9. FAQ Section */}
-      <section className="py-20 md:py-24 bg-[#EBE9E4]" aria-label="FAQ">
-        <div className="max-w-[800px] mx-auto px-6">
+      <section className="py-20 md:py-24 bg-warm" aria-label="FAQ">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="text-center mb-12">
             <motion.h2 className="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Frequently Asked Questions</motion.h2>
             <motion.p className="text-body text-base md:text-lg" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Common inquiries regarding our platform and security.</motion.p>
@@ -420,30 +420,48 @@ const Solutions = () => {
       </section>
 
       {/* 10. CTA */}
-      <section className="py-24 md:py-32 bg-[#FDFBF7] text-center" aria-label="Call to Action">
-        <div className="max-w-[800px] mx-auto px-6">
-          <motion.h2 
-            className="text-4xl md:text-5xl font-display font-bold text-charcoal mb-6"
+      <section className="py-20 md:py-24 bg-white" aria-label="Call to Action">
+        <div className="max-w-marketing mx-auto px-6 w-full">
+          <motion.div
+            className="bg-[#0B4F45] rounded-3xl px-10 py-16 md:px-16 md:py-20 text-center text-white relative overflow-hidden shadow-2xl"
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
           >
-            Ready to modernize your operations?
-          </motion.h2>
-          <motion.p 
-            className="text-body text-lg md:text-xl max-w-2xl mx-auto mb-10"
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-          >
-            Join 500+ top asset managers who scale their portfolios with RentFlow.
-          </motion.p>
-          <motion.div 
-            className="flex flex-col sm:flex-row justify-center gap-4"
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-          >
-            <Button size="lg" className="!bg-[#0B4F45] text-white hover:!bg-[#093a33] md:w-auto w-full" onClick={() => navigate('/signup')}>
-              Start Free Trial
-            </Button>
-            <Button variant="outline" size="lg" className="text-charcoal border-charcoal/20 hover:bg-warm bg-white md:w-auto w-full" onClick={() => navigate('/contact')}>
-              Contact Sales
-            </Button>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#073A33]/80 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute top-[-20%] right-[-10%] w-[350px] h-[350px] bg-[#C75B30]/15 rounded-full blur-[80px] pointer-events-none" />
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <span className="text-[#E79868] text-micro font-bold tracking-[0.15em] uppercase mb-4 block">
+                Join 500+ top asset managers
+              </span>
+              <motion.h2
+                className="font-display font-bold text-h3 md:text-h2-sm text-white mb-5 leading-tight"
+                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+              >
+                Ready to modernize your operations?
+              </motion.h2>
+              <motion.p
+                className="text-white/70 text-body mb-8 leading-relaxed max-w-xl mx-auto"
+                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+              >
+                Join 500+ top asset managers who scale their portfolios with RentFlow.
+              </motion.p>
+              <motion.div
+                className="flex flex-col sm:flex-row justify-center gap-4"
+                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+              >
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="px-8 py-3.5 rounded-xl bg-[#C75B30] hover:bg-[#A94A24] text-white font-bold text-sm cursor-pointer transition-all shadow-lg"
+                >
+                  Start Free Trial
+                </button>
+                <button
+                  onClick={() => navigate('/contact')}
+                  className="px-8 py-3.5 rounded-xl border-2 border-white/25 text-white hover:bg-white/10 font-semibold text-sm cursor-pointer transition-all backdrop-blur-md"
+                >
+                  Contact Sales
+                </button>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>

@@ -95,8 +95,10 @@ const sectionBgs = ['bg-white', 'bg-warm', 'bg-[#F0EDE7]'];
 const Features = () => (
   <>
     {/* ─── Header ─── */}
-    <section className="bg-charcoal py-20 pb-16" aria-label="Features header">
-      <div className="max-w-marketing mx-auto px-6">
+    <section className="bg-charcoal py-24 md:py-28 relative overflow-hidden" aria-label="Features header">
+      <div className="absolute top-[-20%] right-[-5%] w-[500px] h-[500px] bg-[#0B4F45]/20 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[-20%] left-[-5%] w-[400px] h-[400px] bg-[#C75B30]/10 rounded-full blur-[80px] pointer-events-none" />
+      <div className="max-w-marketing mx-auto px-6 w-full relative z-10">
         <div className="text-center mb-12">
           <motion.p
             className="text-xs font-semibold uppercase tracking-widest text-accent/90 mb-4"

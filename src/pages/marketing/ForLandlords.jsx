@@ -46,41 +46,52 @@ const ForLandlords = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full bg-[#FDFBF7]">
-      {/* =====================================================================
+    <div className="w-full bg-white overflow-x-hidden">
+      {/* ══════════════════════════════════════════════════════════════
           NEW SECTIONS FROM DESIGN MOCKUP
-          ===================================================================== */}
+          ══════════════════════════════════════════════════════════════ */}
           
       {/* 1. New Hero */}
-      <section className="relative pt-[60px] pb-[40px] md:pt-[80px] md:pb-[60px] overflow-hidden" aria-label="New Landlord hero">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
-          <div className="flex flex-col lg:flex-row items-center gap-[32px] lg:gap-[48px]">
+      <section className="relative pt-24 pb-16 md:pt-28 md:pb-20 overflow-hidden bg-charcoal" aria-label="New Landlord hero">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#071A16]/95 via-[#071A16]/82 to-[#071A16]/40" />
+        </div>
+        <div className="relative z-10 max-w-marketing mx-auto px-6 w-full">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
             <motion.div className="flex-1 w-full max-w-2xl lg:max-w-xl" initial="hidden" animate="visible" variants={fadeUp}>
-              <div className="inline-block bg-[#FFF0E6] text-[#8D3B1E] text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-[16px]">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0B4F45]/80 border border-[#C75B30]/40 text-white text-[11px] font-bold tracking-[0.15em] uppercase mb-7 backdrop-blur-md">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C75B30] animate-pulse" />
                 Made for modern landlords
               </div>
-              <h1 className="font-display text-charcoal text-display-sm lg:text-display mb-[16px] leading-[1.1] tracking-tight">
-                The Only Tool You Need to Manage Your Portfolio with <span className="text-[#8D3B1E]">Confidence.</span>
+              <h1 className="font-display text-white font-black leading-[1.08] tracking-tight mb-6" style={{ fontSize: 'clamp(36px, 5vw, 60px)' }}>
+                The Only Tool You Need to Manage Your Portfolio with <span className="text-[#C75B30]">Confidence.</span>
               </h1>
-              <p className="text-muted text-body mb-[24px] leading-relaxed max-w-lg">
+              <p className="text-white/75 text-base md:text-lg mb-8 leading-relaxed max-w-lg">
                 Move from manual bank alerts and WhatsApp chats to automated, professional property management. Designed for the high-performance landlord.
               </p>
-              <div className="flex flex-wrap gap-[12px]">
-                <Button size="lg" className="bg-[#8D3B1E] hover:bg-[#732f17] text-white border-none" onClick={() => navigate('/signup?role=landlord')}>
-                  Start for Free
-                </Button>
-                <Button size="lg" variant="outline" className="bg-[#EBE9E4] hover:bg-[#dfdddc] border-none text-charcoal" onClick={() => {}}>
-                  <Play size={18} className="mr-2" /> See How It Works
-                </Button>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() => navigate('/signup?role=landlord')}
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-[#0B4F45] hover:bg-[#073A33] text-white font-bold text-sm tracking-wide transition-all duration-200 shadow-[0_8px_30px_rgba(11,79,69,0.4)] cursor-pointer border border-white/10"
+                >
+                  Start for Free <ArrowRight size={16} className="text-[#E79868]" />
+                </button>
+                <button
+                  onClick={() => {}}
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/30 text-white hover:bg-white/10 font-semibold text-sm transition-all cursor-pointer backdrop-blur-md"
+                >
+                  <Play size={16} /> See How It Works
+                </button>
               </div>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               className="flex-1 w-full max-w-[440px] lg:max-w-[500px]"
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
             >
               <div className="relative w-full mx-auto">
-                <img src={landlordHeroMockup} alt="RentFlow Dashboard Mockup" className="w-full h-auto object-contain drop-shadow-2xl" />
+                <div className="absolute inset-0 bg-[#C75B30]/12 blur-[80px] rounded-3xl scale-90 pointer-events-none" />
+                <img src={landlordHeroMockup} alt="RentFlow Dashboard Mockup" className="relative z-10 w-full h-auto object-contain drop-shadow-2xl" />
               </div>
             </motion.div>
           </div>
@@ -88,18 +99,19 @@ const ForLandlords = () => {
       </section>
 
       {/* 2. Stop Chasing Bank Alerts */}
-      <section className="py-[60px] md:py-[80px] bg-[#FDFBF7]" aria-label="Stop Chasing Bank Alerts">
-        <div className="max-w-[1000px] mx-auto px-[24px]">
-          <div className="text-center mb-[40px]">
-            <motion.h2 className="text-h2-sm lg:text-h2 font-display font-bold text-charcoal mb-[12px] tracking-tight" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+      <section className="py-20 md:py-24 bg-warm" aria-label="Stop Chasing Bank Alerts">
+        <div className="max-w-marketing mx-auto px-6 w-full">
+          <div className="text-center mb-12">
+            <motion.span className="text-micro font-bold text-accent tracking-[0.12em] uppercase" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>The Problem</motion.span>
+            <motion.h2 className="font-display text-h2-sm md:text-h2 text-charcoal mt-2 mb-3 font-bold tracking-tight leading-tight" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               Stop Chasing Bank Alerts.
             </motion.h2>
-            <motion.p className="text-muted text-body max-w-xl mx-auto leading-relaxed" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+            <motion.p className="text-body text-muted max-w-xl mx-auto leading-relaxed" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               Managing properties shouldn't feel like a part-time job of cross-referencing bank statements and chasing screenshots on WhatsApp.
             </motion.p>
           </div>
 
-          <motion.div className="grid md:grid-cols-3 gap-[20px] md:gap-[24px]" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+          <motion.div className="grid md:grid-cols-3 gap-5 md:gap-6" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             {/* Card 1: Current Chaos */}
             <motion.div className="bg-white rounded-[24px] p-[24px] md:p-[28px] shadow-sm flex flex-col justify-between h-full border border-border/30" variants={fadeUp}>
               <div>
@@ -191,9 +203,9 @@ const ForLandlords = () => {
       </section>
 
       {/* 3. Everything you need in one powerful hub */}
-      <section className="py-[60px] md:py-[80px] bg-[#FDFBF7] border-t border-border/20" aria-label="Features Hub">
-        <div className="max-w-[1050px] mx-auto px-[24px]">
-          <div className="flex flex-col lg:flex-row items-center gap-[32px] lg:gap-[64px]">
+      <section className="py-20 md:py-24 bg-white border-t border-border" aria-label="Features Hub">
+        <div className="max-w-marketing mx-auto px-6 w-full">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
             <motion.div className="flex-1 w-full max-w-lg lg:max-w-xl mx-auto" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <div className="bg-[#0B4F45] rounded-[24px] p-[24px] sm:p-[32px] md:p-[40px] flex items-center justify-center aspect-[4/3] sm:aspect-square shadow-lg">
                 <img src={landlordLaptopHub} alt="RentFlow Web App on Laptop" className="w-full h-auto object-contain drop-shadow-2xl" />
@@ -236,9 +248,9 @@ const ForLandlords = () => {
       </section>
 
       {/* 4. Testimonial */}
-      <section className="py-[60px] md:py-[80px] bg-[#0B4F45] text-center relative overflow-hidden" aria-label="Testimonial">
-        <Quote size={200} className="absolute left-1/2 -translate-x-1/2 top-4 text-white/5 pointer-events-none" />
-        <div className="max-w-[800px] mx-auto px-[24px] relative z-10">
+      <section className="py-20 md:py-24 bg-[#0B4F45] text-center relative overflow-hidden" aria-label="Testimonial">
+        <Quote size={200} className="absolute left-1/2 -translate-x-1/2 top-4 text-white/5 pointer-events-none z-0" />
+        <div className="max-w-marketing mx-auto px-6 w-full relative z-10">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
             <p className="text-white font-display text-h3-sm lg:text-h3 italic leading-relaxed mb-[24px]">
               "Since switching to RentFlow, I've stopped waking up to bank alerts and tenant WhatsApp messages. Everything is automated. It literally saved me 10 hours a week on administration alone. I can finally focus on acquiring my next property instead of chasing rent for the current ones."
@@ -253,8 +265,8 @@ const ForLandlords = () => {
       </section>
 
       {/* 5. Pricing Teaser */}
-      <section className="py-[60px] md:py-[80px] bg-[#FDFBF7]" aria-label="Pricing">
-        <div className="max-w-[1000px] mx-auto px-[24px]">
+      <section className="py-20 md:py-24 bg-warm" aria-label="Pricing">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="text-center mb-[32px]">
             <motion.h2 className="text-h2-sm lg:text-h2 font-display font-bold text-charcoal mb-[10px]" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Ready to scale your portfolio?</motion.h2>
             <motion.p className="text-muted text-body" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Start small, grow big. Our pricing scales with you.</motion.p>
@@ -288,18 +300,41 @@ const ForLandlords = () => {
       </section>
 
       {/* 6. Final Banner CTA */}
-      <section className="py-[40px] px-[20px] bg-[#FDFBF7]" aria-label="CTA Banner">
-        <motion.div 
-          className="max-w-[900px] mx-auto bg-gradient-to-br from-[#8D3B1E] to-[#6a2a14] rounded-[24px] p-[32px] md:p-[48px] text-center shadow-2xl"
-          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-        >
-          <h2 className="font-display font-bold text-white text-2xl md:text-3xl lg:text-4xl mb-[12px]">Join 2,000+ landlords managing ₦15B in rent.</h2>
-          <p className="text-white/80 text-xs md:text-sm max-w-2xl mx-auto mb-[24px]">Experience the peace of mind that comes with professional automation.</p>
-          <div className="flex flex-col sm:flex-row justify-center gap-[12px]">
-            <Button size="lg" className="bg-white text-[#8D3B1E] hover:bg-gray-100 border-none">Get Started Now</Button>
-            <Button size="lg" variant="outline" className="text-white border-white/30 hover:bg-white/10">Talk to Sales</Button>
-          </div>
-        </motion.div>
+      <section className="py-20 md:py-24 bg-white" aria-label="CTA Banner">
+        <div className="max-w-marketing mx-auto px-6 w-full">
+          <motion.div
+            className="bg-[#0B4F45] rounded-3xl px-10 py-16 md:px-16 md:py-20 text-center text-white relative overflow-hidden shadow-2xl"
+            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+          >
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#073A33]/80 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute top-[-20%] right-[-10%] w-[350px] h-[350px] bg-[#C75B30]/15 rounded-full blur-[80px] pointer-events-none" />
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <span className="text-[#E79868] text-micro font-bold tracking-[0.15em] uppercase mb-4 block">
+                Join 2,000+ successful landlords
+              </span>
+              <h2 className="font-display font-bold text-h3 md:text-h2-sm text-white mb-5 leading-tight">
+                Join 2,000+ landlords managing ₦15B in rent.
+              </h2>
+              <p className="text-white/70 text-body mb-8 leading-relaxed">
+                Experience the peace of mind that comes with professional automation.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="px-8 py-3.5 rounded-xl bg-white text-[#0B4F45] font-bold text-sm cursor-pointer hover:bg-white/90 transition-all shadow-lg"
+                >
+                  Get Started Now
+                </button>
+                <button
+                  onClick={() => navigate('/contact')}
+                  className="px-8 py-3.5 rounded-xl border-2 border-white/25 text-white hover:bg-white/10 font-semibold text-sm cursor-pointer transition-all backdrop-blur-md"
+                >
+                  Talk to Sales
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* =====================================================================

@@ -13,7 +13,7 @@ import Button from '../../components/ui/Button';
 // Real Unsplash images — African property management context
 const IMG_HERO_MOCKUP      = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=85&w=900';  // laptop analytics
 const IMG_PROPERTIES       = 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=900';  // modern apartment block
-const IMG_MOBILE           = 'https://images.unsplash.com/photo-1512941937938-f7b40e8c6b6a?auto=format&fit=crop&q=80&w=700';  // phone in hand
+const IMG_MOBILE           = 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=700';  // person using phone / mobile app
 const IMG_ANALYTICS        = 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=900';  // financial documents/laptop
 const IMG_BLOG_1           = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=700';  // property keys
 const IMG_BLOG_2           = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=700';  // dashboard screen
@@ -755,27 +755,40 @@ const Home = () => {
             {testimonials.map((t, i) => (
               <motion.div
                 key={i}
-                className="bg-[#1A1D1C] rounded-2xl p-6 flex flex-col border border-[#2A2D2C] shadow-xl relative overflow-hidden"
+                className="bg-white rounded-2xl p-7 flex flex-col border border-border shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden group cursor-default"
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
               >
+                {/* Subtle top accent bar */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0B4F45] via-[#C75B30] to-[#0B4F45] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                {/* Decorative large quote mark */}
+                <div className="absolute top-4 right-5 font-display font-black text-[80px] leading-none text-[#0B4F45]/6 select-none pointer-events-none">
+                  &ldquo;
+                </div>
+
                 {/* Stars */}
-                <div className="flex gap-0.5 mb-4">
+                <div className="flex gap-1 mb-4">
                   {[...Array(t.stars)].map((_, si) => (
                     <Star key={si} size={13} className="text-[#C75B30] fill-[#C75B30]" />
                   ))}
                 </div>
 
                 {/* Quote */}
-                <p className="text-[#9ca3a0] text-small leading-relaxed flex-1 mb-6">
-                  "{t.quote}"
+                <p className="text-body text-small leading-relaxed flex-1 mb-6 relative z-10">
+                  &ldquo;{t.quote}&rdquo;
                 </p>
 
                 {/* Author */}
-                <div className="flex items-center gap-3 pt-4 border-t border-white/8">
-                  <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0 border-2 border-white/10 grayscale" />
+                <div className="flex items-center gap-3 pt-4 border-t border-border">
+                  <div className="relative flex-shrink-0">
+                    <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover border-2 border-[#0B4F45]/20" />
+                    <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#1E9E6A] rounded-full border-2 border-white flex items-center justify-center">
+                      <CheckCircle2 size={7} className="text-white" />
+                    </div>
+                  </div>
                   <div>
-                    <p className="font-bold text-white text-small">{t.name}</p>
-                    <p className="text-[10px] font-semibold tracking-widest text-[#1E9E6A] uppercase mt-0.5">{t.title}</p>
+                    <p className="font-bold text-charcoal text-small">{t.name}</p>
+                    <p className="text-[10px] font-semibold tracking-wider text-[#0B4F45] uppercase mt-0.5">{t.title}</p>
                   </div>
                 </div>
               </motion.div>
@@ -802,45 +815,82 @@ const Home = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
             {pricingPlans.map((plan, i) => (
               <motion.div
                 key={i}
-                className={`rounded-2xl p-8 border relative flex flex-col ${plan.isPopular ? 'bg-[#0B4F45] border-[#0B4F45] shadow-[0_20px_60px_rgba(11,79,69,0.3)]' : 'bg-white border-border shadow-sm hover:shadow-md transition-shadow'}`}
+                className={`rounded-2xl border relative flex flex-col overflow-hidden ${plan.isPopular ? 'md:-mt-4' : ''}`}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
               >
-                {plan.isPopular && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#C75B30] text-white text-[10px] font-black uppercase tracking-widest px-4 py-1 rounded-full">
-                    Most Popular
-                  </span>
-                )}
-                <div className="mb-6">
-                  <h3 className={`font-display font-bold text-h4 mb-1 ${plan.isPopular ? 'text-white' : 'text-charcoal'}`}>{plan.name}</h3>
-                  <p className={`text-small mb-4 ${plan.isPopular ? 'text-white/65' : 'text-muted'}`}>{plan.desc}</p>
-                  <div className="flex items-end gap-1">
-                    <span className={`font-display font-black text-h2 leading-none ${plan.isPopular ? 'text-white' : 'text-charcoal'}`}>{plan.price}</span>
-                    {plan.interval && <span className={`text-small mb-1 ${plan.isPopular ? 'text-white/60' : 'text-muted'}`}>{plan.interval}</span>}
+                {plan.isPopular ? (
+                  <>
+                    {/* Popular banner */}
+                    <div className="bg-[#C75B30] px-8 py-2 flex items-center justify-center gap-1.5">
+                      <Zap size={11} className="text-white" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-white">Most Popular</span>
+                    </div>
+                    <div className="p-8 bg-[#0B4F45] flex flex-col flex-1 border-[#0B4F45] shadow-[0_24px_80px_rgba(11,79,69,0.35)]">
+                      <div className="absolute top-0 right-0 w-40 h-40 bg-[#C75B30]/10 rounded-full blur-3xl pointer-events-none" />
+                      <div className="mb-6 relative z-10">
+                        <h3 className="font-display font-bold text-h4 mb-1 text-white">{plan.name}</h3>
+                        <p className="text-small mb-4 text-white/65">{plan.desc}</p>
+                        <div className="flex items-end gap-1">
+                          <span className="font-display font-black text-h2 leading-none text-white">{plan.price}</span>
+                          {plan.interval && <span className="text-small mb-1 text-white/60">{plan.interval}</span>}
+                        </div>
+                      </div>
+                      <ul className="space-y-3 mb-8 flex-1 relative z-10">
+                        {plan.features.map((f, fi) => (
+                          <li key={fi} className="flex items-center gap-2.5 text-small text-white/85">
+                            <CheckCircle2 size={15} className="text-[#E79868]" />
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                      <button
+                        onClick={() => navigate('/signup')}
+                        className="relative z-10 w-full py-3.5 rounded-xl font-bold text-sm cursor-pointer transition-all bg-white text-[#0B4F45] hover:bg-white/90 shadow-[0_4px_14px_rgba(255,255,255,0.15)]"
+                      >
+                        {plan.cta}
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="p-8 bg-white border-border shadow-sm hover:shadow-md transition-shadow flex flex-col flex-1">
+                    <div className="mb-6">
+                      <h3 className="font-display font-bold text-h4 mb-1 text-charcoal">{plan.name}</h3>
+                      <p className="text-small mb-4 text-muted">{plan.desc}</p>
+                      <div className="flex items-end gap-1">
+                        <span className="font-display font-black text-h2 leading-none text-charcoal">{plan.price}</span>
+                        {plan.interval && <span className="text-small mb-1 text-muted">{plan.interval}</span>}
+                      </div>
+                    </div>
+                    <ul className="space-y-3 mb-8 flex-1">
+                      {plan.features.map((f, fi) => (
+                        <li key={fi} className="flex items-center gap-2.5 text-small text-body">
+                          <CheckCircle2 size={15} className="text-[#0B4F45]" />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      onClick={() => navigate('/signup')}
+                      className="w-full py-3 rounded-xl font-bold text-sm cursor-pointer transition-all bg-[#0B4F45] text-white hover:bg-[#073A33]"
+                    >
+                      {plan.cta}
+                    </button>
                   </div>
-                </div>
-
-                <ul className="space-y-3 mb-8 flex-1">
-                  {plan.features.map((f, fi) => (
-                    <li key={fi} className={`flex items-center gap-2.5 text-small ${plan.isPopular ? 'text-white/85' : 'text-body'}`}>
-                      <CheckCircle2 size={15} className={plan.isPopular ? 'text-[#E79868]' : 'text-[#0B4F45]'} />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
-                <button
-                  onClick={() => navigate('/signup')}
-                  className={`w-full py-3 rounded-xl font-bold text-sm cursor-pointer transition-all ${plan.isPopular ? 'bg-white text-[#0B4F45] hover:bg-white/90' : 'bg-[#0B4F45] text-white hover:bg-[#073A33]'}`}
-                >
-                  {plan.cta}
-                </button>
+                )}
               </motion.div>
             ))}
           </div>
+
+          <motion.p
+            className="text-center text-small text-muted mt-8"
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+          >
+            All plans include a <strong className="text-charcoal">14-day free trial</strong>. No credit card required to start.
+          </motion.p>
         </div>
       </section>
 
