@@ -26,7 +26,7 @@ const PaintRollerIcon = ({ size = 20, className = "" }) => (
 const TenantLease = () => {
   return (
     <div className="space-y-6 w-full text-[#1E293B]">
-      {/* Page Title & Subtitle */}
+      {/* Page Title & Subtitle matching design mockup exactly */}
       <div>
         <h1 className="font-display font-black text-2xl sm:text-3xl text-[#1E293B] tracking-tight">
           Lease Agreement
@@ -36,22 +36,25 @@ const TenantLease = () => {
         </p>
       </div>
 
-      {/* Grid Layout: Financial Summary (2 cols) & Timeline (1 col) aligned side-by-side */}
+      {/* Main 2-Column vs 1-Column Grid Layout matching mockup aspect ratios exactly */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
-        {/* Left Column (2 spans) */}
+        {/* Left Column (Takes up 2 spans on desktop) */}
         <div className="lg:col-span-2 space-y-6 min-w-0">
           
           {/* Main Property/Lease Card */}
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-6 relative overflow-hidden">
+            {/* Left accent bar */}
             <div className="absolute left-0 top-0 bottom-0 w-2.5 bg-[#FF8C5A]" />
             
+            {/* Property Image */}
             <img 
               src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&auto=format&fit=crop&q=80" 
               alt="The Residences at Emerald Creek" 
               className="w-full sm:w-48 h-36 rounded-xl object-cover shrink-0 shadow-2xs ml-1" 
             />
 
+            {/* Property Info */}
             <div className="flex-1 min-w-0">
               <div className="bg-[#E6F2EF] text-[#04332C] text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#04332C]" />
@@ -90,7 +93,7 @@ const TenantLease = () => {
             </div>
 
             <div className="overflow-x-auto">
-              <div className="min-w-[500px]">
+              <div className="min-w-[480px]">
                 <div className="bg-[#F8F6F0] px-6 py-2.5 grid grid-cols-12 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                   <div className="col-span-4">TERM TYPE</div>
                   <div className="col-span-5">DETAILS</div>
@@ -141,77 +144,9 @@ const TenantLease = () => {
             </div>
           </div>
 
-          {/* Full Lease Agreement PDF Card - Clean flex row without rigid restrictions */}
-          <div className="flex flex-row items-center justify-between p-4 bg-white rounded-xl border border-gray-100 shadow-sm gap-4 overflow-hidden">
-            <div className="flex items-center gap-3.5 flex-1 min-w-0">
-              <div className="w-12 h-12 rounded-xl bg-[#F3EFEA] flex items-center justify-center text-gray-700 shrink-0 relative shadow-2xs">
-                <FileText size={24} strokeWidth={2} />
-                <span className="absolute bottom-1 font-black text-[7px] bg-gray-800 text-white px-1 py-0.5 rounded leading-none">PDF</span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-black text-sm sm:text-base text-[#1E293B] leading-tight truncate">Full Lease Agreement.pdf</h3>
-                <p className="text-xs font-semibold text-gray-500 mt-0.5 truncate">Electronically signed on Aug 15, 2023 • 4.2 MB • 24 Pages</p>
-                <div className="flex items-center gap-3 mt-1.5 text-[9px] font-extrabold text-gray-400 uppercase tracking-wider overflow-hidden">
-                  <span className="inline-flex items-center gap-1 shrink-0">
-                    <CheckCircle2 size={12} className="text-green-600" />
-                    VERIFIED SIGNATURE
-                  </span>
-                  <span className="inline-flex items-center gap-1 shrink-0">
-                    <Lock size={12} className="text-gray-400" />
-                    ENCRYPTED STORAGE
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.5 shrink-0">
-              <button 
-                onClick={() => toast.info('Opening lease document inline...')}
-                className="px-3.5 py-2 rounded-lg bg-[#E6F2EF] hover:bg-[#d5ebe5] text-[#04332C] font-extrabold text-xs tracking-wider inline-flex items-center justify-center gap-1.5 transition-all cursor-pointer uppercase whitespace-nowrap"
-              >
-                <Eye size={15} strokeWidth={2.2} />
-                <span className="hidden sm:inline">View Online</span>
-              </button>
-              <button 
-                onClick={() => toast.success('Downloading Full Lease Agreement.pdf...')}
-                className="px-4 py-2 rounded-lg bg-[#9B3A0E] hover:bg-[#86310b] text-white font-extrabold text-xs tracking-wider inline-flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-[0.98] cursor-pointer uppercase whitespace-nowrap"
-              >
-                <Download size={15} strokeWidth={2.2} />
-                <span>Download</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Bottom Policies Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-2">
-              <PawIcon size={20} className="text-[#04332C]" />
-              <h4 className="font-black text-sm text-[#1E293B]">Pet Policy</h4>
-              <p className="text-xs text-gray-600 leading-relaxed font-medium">
-                Domestic cats and dogs under 40lbs permitted. Max 2 pets.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-2">
-              <Car size={20} className="text-[#04332C]" strokeWidth={2.2} />
-              <h4 className="font-black text-sm text-[#1E293B]">Parking Terms</h4>
-              <p className="text-xs text-gray-600 leading-relaxed font-medium">
-                Allocated Stall #42 in Basement Level 1. Guest parking for 24h.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-2">
-              <PaintRollerIcon size={20} className="text-[#04332C]" />
-              <h4 className="font-black text-sm text-[#1E293B]">Alterations</h4>
-              <p className="text-xs text-gray-600 leading-relaxed font-medium">
-                Painting or permanent changes require written manager consent.
-              </p>
-            </div>
-          </div>
-
         </div>
 
-        {/* Right Column (1 span) */}
+        {/* Right Column (Takes up 1 span on desktop) */}
         <div className="space-y-6 min-w-0">
           
           {/* Property Manager Card */}
@@ -312,6 +247,77 @@ const TenantLease = () => {
             </div>
           </div>
 
+        </div>
+      </div>
+
+      {/* Full-Width Section below 2-column grid matching exact mockup hierarchy */}
+      <div className="space-y-6 pt-2">
+        {/* Full Lease Agreement PDF Card - Full Width Flex Row with clustered elements on left and split edge action buttons on right */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 bg-white rounded-xl border border-gray-100 shadow-sm gap-4">
+          <div className="flex items-center gap-4 flex-1 min-w-0">
+            <div className="w-14 h-14 rounded-xl bg-[#F3EFEA] flex items-center justify-center text-gray-700 shrink-0 relative shadow-2xs">
+              <FileText size={26} strokeWidth={2} />
+              <span className="absolute bottom-1 font-black text-[7px] bg-gray-800 text-white px-1.5 py-0.5 rounded leading-none">PDF</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-black text-sm sm:text-base text-[#1E293B] leading-tight truncate">Full Lease Agreement.pdf</h3>
+              <p className="text-xs font-semibold text-gray-500 mt-0.5 truncate">Electronically signed on Aug 15, 2023 • 4.2 MB • 24 Pages</p>
+              <div className="flex flex-wrap items-center gap-4 mt-2 text-[10px] font-extrabold text-gray-400 uppercase tracking-wider">
+                <span className="inline-flex items-center gap-1.5 shrink-0">
+                  <CheckCircle2 size={13} className="text-green-600" />
+                  VERIFIED SIGNATURE
+                </span>
+                <span className="inline-flex items-center gap-1.5 shrink-0">
+                  <Lock size={13} className="text-gray-400" />
+                  ENCRYPTED STORAGE
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0 w-full sm:w-auto justify-end">
+            <button 
+              onClick={() => toast.info('Opening lease document inline...')}
+              className="flex-1 sm:flex-none px-4 py-2.5 rounded-lg bg-[#E6F2EF] hover:bg-[#d5ebe5] text-[#04332C] font-extrabold text-xs tracking-wider inline-flex items-center justify-center gap-2 transition-all cursor-pointer uppercase whitespace-nowrap"
+            >
+              <Eye size={16} strokeWidth={2.2} />
+              <span>View Online</span>
+            </button>
+            <button 
+              onClick={() => toast.success('Downloading Full Lease Agreement.pdf...')}
+              className="flex-1 sm:flex-none px-5 py-2.5 rounded-lg bg-[#9B3A0E] hover:bg-[#86310b] text-white font-extrabold text-xs tracking-wider inline-flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98] cursor-pointer uppercase whitespace-nowrap"
+            >
+              <Download size={16} strokeWidth={2.2} />
+              <span>Download Full Lease</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Bottom Policies Grid - 3 equal columns spanning full width */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-2.5">
+            <PawIcon size={22} className="text-[#04332C]" />
+            <h4 className="font-black text-sm text-[#1E293B]">Pet Policy</h4>
+            <p className="text-xs text-gray-600 leading-relaxed font-medium">
+              Domestic cats and dogs under 40lbs permitted. Max 2 pets.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-2.5">
+            <Car size={22} className="text-[#04332C]" strokeWidth={2.2} />
+            <h4 className="font-black text-sm text-[#1E293B]">Parking Terms</h4>
+            <p className="text-xs text-gray-600 leading-relaxed font-medium">
+              Allocated Stall #42 in Basement Level 1. Guest parking for 24h.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-2.5">
+            <PaintRollerIcon size={22} className="text-[#04332C]" />
+            <h4 className="font-black text-sm text-[#1E293B]">Alterations</h4>
+            <p className="text-xs text-gray-600 leading-relaxed font-medium">
+              Painting or permanent changes require written manager consent.
+            </p>
+          </div>
         </div>
       </div>
 

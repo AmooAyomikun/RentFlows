@@ -3,7 +3,7 @@ import { NavLink, useNavigate, Link, Outlet, useLocation } from 'react-router-do
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, CreditCard, History, Receipt, FileText,
-  Wrench, User, Settings, LogOut, Menu, X, Bell, PlusCircle, HelpCircle, Search
+  Wrench, User, Settings, LogOut, Menu, X, Bell, PlusCircle, HelpCircle, Search, AlertCircle
 } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import useUIStore from '../../store/uiStore';
@@ -27,6 +27,7 @@ const tenantNavItems = [
   { href: '/tenant/payments', icon: History, label: 'PAYMENT HISTORY' },
   { href: '/tenant/receipts', icon: Receipt, label: 'RECEIPTS' },
   { href: '/tenant/maintenance', icon: Wrench, label: 'MAINTENANCE' },
+  { href: '/tenant/report-issue', icon: AlertCircle, label: 'REPORT ISSUE' },
   { href: '/tenant/lease', icon: FileText, label: 'LEASE DETAILS' },
   { href: '/tenant/profile', icon: User, label: 'PROFILE' },
 ];
@@ -98,6 +99,14 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
       >
         <Settings size={17} />
         <span>Settings</span>
+      </Link>
+
+      <Link
+        to="/tenant/pay-rent"
+        onClick={onClose}
+        className="mt-3 block w-full py-3 px-4 rounded-xl bg-[#F97316] hover:bg-[#ea580c] text-white font-extrabold text-xs tracking-wider text-center shadow-md transition-all uppercase"
+      >
+        Make Payment
       </Link>
     </div>
   </div>
@@ -203,6 +212,13 @@ const TenantLayout = () => {
                 className="w-10 h-10 rounded-full object-cover shadow-xs ring-2 ring-white cursor-pointer ml-0.5"
                 onClick={() => navigate('/tenant/settings')}
               />
+
+              <button
+                onClick={() => navigate('/tenant/pay-rent')}
+                className="hidden sm:inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-[#04332C] hover:bg-[#064e43] text-white font-extrabold text-xs tracking-wider uppercase transition-all shadow-sm cursor-pointer ml-1"
+              >
+                Make Payment
+              </button>
             </div>
           </header>
 
