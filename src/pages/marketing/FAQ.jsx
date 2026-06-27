@@ -52,27 +52,67 @@ const FAQ = () => {
 
   return (
     <>
-      <section className="bg-charcoal py-20" aria-label="FAQ header">
-        <div className="max-w-marketing mx-auto px-6 text-center">
-          <motion.h1 className="font-display text-white mb-6" style={{ fontSize: 'clamp(36px, 5vw, 60px)' }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            Frequently asked questions.
+      <section className="bg-gradient-to-b from-[#051310] via-[#092B23] to-[#071E18] py-20 md:py-32 relative overflow-hidden text-center" aria-label="FAQ header">
+        <div className="absolute top-[-20%] left-[20%] w-[450px] h-[450px] bg-[#0B4F45]/35 rounded-full blur-[130px] pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[10%] w-[350px] h-[350px] bg-[#C75B30]/25 rounded-full blur-[110px] pointer-events-none" />
+
+        <div className="max-w-marketing mx-auto px-6 relative z-10">
+          <motion.div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#E79868] text-xs font-bold tracking-widest uppercase mb-5 shadow-lg backdrop-blur-md"
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+          >
+            Instant Answers · Knowledge Base
+          </motion.div>
+          <motion.h1
+            className="font-display text-white font-black tracking-tight leading-[1.08] mb-4"
+            style={{ fontSize: 'clamp(38px, 5.5vw, 62px)' }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          >
+            Everything You Need to <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E79868] via-white to-[#C75B30]">Know.</span>
           </motion.h1>
-          <motion.div className="max-w-md mx-auto relative" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.1 } }}>
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" aria-hidden="true" />
+          <motion.p
+            className="text-white/75 text-base md:text-xl max-w-xl mx-auto mb-10 leading-relaxed"
+            initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.1 } }}
+          >
+            Clear, transparent details about our pricing, Nigerian banking settlements, security, and tenant receipts.
+          </motion.p>
+
+          <motion.div
+            className="max-w-xl mx-auto relative shadow-2xl"
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+          >
+            <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0B4F45]" aria-hidden="true" />
             <input
               type="search"
-              placeholder="Search questions…"
+              placeholder="Search questions (e.g. settlement, receipts, Paystack)..."
               aria-label="Search FAQ"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-11 pl-9 pr-4 text-sm bg-white rounded border border-white/20 text-charcoal placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full h-14 pl-12 pr-5 text-base bg-white rounded-2xl border-2 border-white/30 text-charcoal placeholder:text-muted focus:outline-none focus:ring-4 focus:ring-[#E79868]/40 shadow-xl transition-all"
             />
+          </motion.div>
+
+          {/* Popular search tags */}
+          <motion.div
+            className="flex flex-wrap justify-center items-center gap-2 mt-5 text-xs text-white/60"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }}
+          >
+            <span className="font-semibold text-white/80">Popular:</span>
+            {['Settlement speed', 'Free trial', 'NDPR Security', 'WhatsApp notices'].map((tag) => (
+              <button
+                key={tag}
+                onClick={() => setSearchQuery(tag.split(' ')[0])}
+                className="px-3 py-1 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 transition-colors cursor-pointer text-white/80"
+              >
+                {tag}
+              </button>
+            ))}
           </motion.div>
         </div>
       </section>
 
-      <section className="section-py bg-warm" aria-label="FAQ content">
-        <div className="max-w-marketing mx-auto px-6 max-w-3xl mx-auto">
+      <section className="py-20 md:py-24 bg-warm" aria-label="FAQ content">
+        <div className="max-w-marketing mx-auto px-6 max-w-4xl">
           {/* Category tabs */}
           {!searchQuery && (
             <div className="flex flex-wrap gap-2 mb-8 justify-center" role="tablist">

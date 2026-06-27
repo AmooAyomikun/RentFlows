@@ -51,19 +51,45 @@ const Contact = () => {
 
   return (
     <>
-      <section className="bg-charcoal py-20" aria-label="Contact header">
-        <div className="max-w-marketing mx-auto px-6 text-center">
-          <motion.h1 className="font-display text-white mb-4" style={{ fontSize: 'clamp(36px, 5vw, 60px)' }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            We'd love to hear from you.
+      <section className="bg-gradient-to-b from-[#061A15] via-[#0A2E25] to-[#071E18] py-20 md:py-28 relative overflow-hidden text-center" aria-label="Contact header">
+        <div className="absolute top-[-20%] right-[15%] w-[400px] h-[400px] bg-[#0B4F45]/30 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-[-10%] left-[10%] w-[350px] h-[350px] bg-[#C75B30]/20 rounded-full blur-[100px] pointer-events-none" />
+        
+        <div className="max-w-marketing mx-auto px-6 relative z-10">
+          <motion.div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#E79868] text-xs font-bold tracking-widest uppercase mb-5 shadow-lg backdrop-blur-md"
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            Live Support Active · ~15m Avg Response
+          </motion.div>
+          <motion.h1
+            className="font-display text-white font-black tracking-tight leading-[1.08] mb-4"
+            style={{ fontSize: 'clamp(38px, 5.5vw, 62px)' }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          >
+            We&apos;re Here to Help You <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E79868] via-white to-[#C75B30]">Succeed.</span>
           </motion.h1>
-          <motion.p className="text-white/60 text-lg" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.1 } }}>
-            Sales, support, partnerships — we're reachable by email, phone or this form.
+          <motion.p
+            className="text-white/75 text-base md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed"
+            initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.1 } }}
+          >
+            Whether you manage 1 unit or a 500-property portfolio across Africa, our dedicated team is ready to assist you by email, phone, or WhatsApp.
           </motion.p>
+
+          <motion.div
+            className="flex flex-wrap justify-center gap-3 pt-2 text-xs font-medium text-white/70"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          >
+            <span className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2">💬 WhatsApp Live Support</span>
+            <span className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2">🏢 Enterprise Onboarding Available</span>
+            <span className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2">📍 HQ: Lekki Phase 1, Lagos</span>
+          </motion.div>
         </div>
       </section>
 
-      <section className="section-py bg-warm" aria-label="Contact form and info">
-        <div className="max-w-marketing mx-auto px-6">
+      <section className="py-20 md:py-24 bg-warm" aria-label="Contact form and info">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="grid lg:grid-cols-3 gap-10">
             {/* Info panel */}
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6">

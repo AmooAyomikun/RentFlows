@@ -28,9 +28,40 @@ const staggerContainer = {
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
 };
 
+const solutionsTabs = [
+  {
+    title: "Independent Landlords",
+    badge: "1 - 20 Units",
+    headline: "Put your rental income on autopilot.",
+    desc: "Stop chasing bank transfers. Collect rent automatically, issue digital NDPR-compliant receipts, and track maintenance requests without WhatsApp drama.",
+    stats: "98% On-Time Collection",
+    ctaText: "Start Free Trial",
+    targetId: "independent"
+  },
+  {
+    title: "Property Managers",
+    badge: "20 - 150 Units",
+    headline: "Scale your portfolio without scaling headcount.",
+    desc: "Multi-owner accounting, automated tenant reminder cascades, vendor dispatch boards, and one-click financial CSV reports for your property clients.",
+    stats: "15+ Hrs Saved Weekly",
+    ctaText: "Explore Pro Features",
+    targetId: "professional"
+  },
+  {
+    title: "Institutional Portfolios",
+    badge: "150+ Units",
+    headline: "Enterprise-grade infrastructure & custom APIs.",
+    desc: "Custom ERP integrations, dedicated account managers, custom branded tenant apps, and custom SLA guarantees tailored for large real estate funds.",
+    stats: "99.9% Uptime SLA",
+    ctaText: "Contact Enterprise Sales",
+    targetId: "enterprise"
+  }
+];
+
 const Solutions = () => {
   const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState(null);
+  const [activeTab, setActiveTab] = useState(0);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -44,30 +75,96 @@ const Solutions = () => {
 
   return (
     <div className="w-full bg-white overflow-x-hidden">
-      {/* 1. Hero Section */}
-      <section className="relative py-24 md:py-32 bg-charcoal flex items-center min-h-[65vh] overflow-hidden" aria-label="Hero">
-        <div className="absolute inset-0 z-0">
-          <img src={solutionsHeroBg} alt="Hero Background" className="w-full h-full object-cover object-center opacity-30 mix-blend-overlay" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#071A16]/95 via-[#071A16]/82 to-[#071A16]/40" />
-        </div>
+      {/* 1. Hero Section — Interactive Segmented Control Showcase */}
+      <section className="relative py-20 md:py-28 bg-[#061714] overflow-hidden" aria-label="Hero">
+        {/* Glowing Background Elements */}
+        <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-[#0B4F45]/30 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[10%] w-[400px] h-[400px] bg-[#C75B30]/20 rounded-full blur-[120px] pointer-events-none animate-pulse" />
+
         <div className="relative z-10 max-w-marketing mx-auto px-6 w-full">
-          <motion.div className="max-w-3xl" initial="hidden" animate="visible" variants={fadeUp}>
-            <span className="text-micro font-bold text-accent tracking-[0.12em] uppercase mb-4 block">Built Around Your Needs, Before You Need Them</span>
-            <h1 className="font-display text-white font-black leading-[1.08] tracking-tight mb-6" style={{ fontSize: 'clamp(36px, 5vw, 60px)' }}>
-              Property Management Solutions for Every Scale
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#E79868] text-xs font-bold tracking-widest uppercase mb-4">
+              Tailored Architecture
+            </span>
+            <h1 className="font-display text-white font-black leading-[1.08] tracking-tight mb-4" style={{ fontSize: 'clamp(36px, 5vw, 58px)' }}>
+              Solutions Built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E79868] to-[#C75B30]">Your Exact Scale.</span>
             </h1>
-            <p className="text-white/80 text-base md:text-lg max-w-2xl mb-8 leading-relaxed">
-              From individual landlords to institutional portfolios, RentFlow provides the infrastructure to automate rent, manage tenants, and scale your real estate business.
+            <p className="text-white/70 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+              Select your portfolio scale below to see how RentFlow transforms your day-to-day real estate operations.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" variant="accent" className="bg-[#D35400] text-white hover:bg-[#D35400]/90 border-none" onClick={() => navigate('/signup')}>
-                Request Demo
-              </Button>
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/10" onClick={() => document.getElementById('independent').scrollIntoView({ behavior: 'smooth' })}>
-                View Features
-              </Button>
-            </div>
-          </motion.div>
+          </div>
+
+          {/* Segmented Control Tabs */}
+          <div className="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto p-1.5 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md mb-10">
+            {solutionsTabs.map((tab, idx) => (
+              <button
+                key={tab.title}
+                onClick={() => setActiveTab(idx)}
+                className={`flex-1 min-w-[160px] py-3 px-4 rounded-xl font-display font-bold text-sm transition-all duration-300 cursor-pointer ${
+                  activeTab === idx
+                    ? 'bg-[#0B4F45] text-white shadow-[0_4px_20px_rgba(11,79,69,0.5)] border border-white/20'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                {tab.title}
+              </button>
+            ))}
+          </div>
+
+          {/* Active Tab Preview Showcase Card */}
+          <div className="max-w-4xl mx-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.35 }}
+                className="bg-gradient-to-br from-white/[0.09] to-white/[0.03] border border-white/15 rounded-3xl p-8 md:p-12 backdrop-blur-2xl shadow-2xl relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#C75B30]/15 rounded-full blur-[80px] pointer-events-none" />
+                
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 relative z-10">
+                  <div className="max-w-xl">
+                    <span className="inline-block px-3 py-1 rounded-full bg-[#C75B30]/20 text-[#E79868] font-mono text-xs font-bold mb-4 border border-[#C75B30]/30">
+                      Portfolio Scale: {solutionsTabs[activeTab].badge}
+                    </span>
+                    <h3 className="font-display font-bold text-white text-2xl md:text-3xl mb-4 leading-tight">
+                      {solutionsTabs[activeTab].headline}
+                    </h3>
+                    <p className="text-white/70 text-sm md:text-base leading-relaxed mb-6">
+                      {solutionsTabs[activeTab].desc}
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <Button
+                        size="lg"
+                        className="bg-[#D35400] hover:bg-[#b04500] text-white border-none shadow-lg cursor-pointer"
+                        onClick={() => navigate('/signup')}
+                      >
+                        {solutionsTabs[activeTab].ctaText}
+                      </Button>
+                      <button
+                        onClick={() => document.getElementById(solutionsTabs[activeTab].targetId)?.scrollIntoView({ behavior: 'smooth' })}
+                        className="text-white/80 hover:text-white text-sm font-semibold underline underline-offset-4 cursor-pointer flex items-center gap-1.5"
+                      >
+                        Learn more <ArrowRight size={14} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="w-full md:w-auto shrink-0 bg-[#0B4F45]/60 border border-white/10 rounded-2xl p-6 text-center min-w-[200px]">
+                    <span className="text-white/50 text-xs uppercase tracking-wider block mb-1">Impact Metric</span>
+                    <span className="font-display font-black text-[#E79868] text-2xl md:text-3xl block mb-1">
+                      {solutionsTabs[activeTab].stats}
+                    </span>
+                    <span className="text-white/70 text-[11px] flex items-center justify-center gap-1 mt-2">
+                      <CheckCircle2 size={12} className="text-emerald-400" /> Guaranteed Results
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </section>
 

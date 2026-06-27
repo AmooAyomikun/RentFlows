@@ -54,37 +54,49 @@ const About = () => {
   return (
     <div className="bg-white overflow-x-hidden">
 
-      {/* ══ 1. HERO ══════════════════════════════════════════════════════ */}
-      <section className="relative py-24 md:py-32 bg-charcoal flex items-center min-h-[65vh] overflow-hidden" aria-label="Hero">
+      {/* ══ 1. HERO: Cinematic Vision Manifesto ════════════════════════════════ */}
+      <section className="relative py-24 md:py-36 bg-[#04120F] flex items-center min-h-[70vh] overflow-hidden text-center" aria-label="Hero">
+        {/* Background Image & Dynamic Overlay */}
         <div className="absolute inset-0 z-0">
-          <img src={aboutHeroBg} alt="Hero Background" className="w-full h-full object-cover object-center opacity-25" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#071A16]/95 via-[#071A16]/80 to-[#071A16]/40" />
+          <img src={aboutHeroBg} alt="Hero Background" className="w-full h-full object-cover object-center opacity-20 filter saturate-150 scale-105 animate-[pulse_10s_ease-in-out_infinite]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#04120F] via-[#04120F]/80 to-transparent" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#0B4F45_0%,transparent_65%)] opacity-30 mix-blend-screen" />
         </div>
 
         <div className="relative z-10 max-w-marketing mx-auto px-6 w-full">
-          <motion.div className="max-w-3xl" initial="hidden" animate="visible" variants={fadeUp}>
-            <span className="text-micro font-bold text-accent tracking-[0.12em] uppercase mb-5 block">Our Story</span>
-            <h1 className="font-display text-white font-black leading-[1.08] tracking-tight mb-6"
-              style={{ fontSize: 'clamp(36px, 5vw, 60px)' }}>
-              Modernizing the Way<br />Africa Manages Property.
+          <motion.div className="max-w-4xl mx-auto" initial="hidden" animate="visible" variants={fadeUp}>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/15 text-[#E79868] text-xs font-bold tracking-widest uppercase mb-6 shadow-2xl backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-[#D35400] animate-ping" />
+              The RentFlow Manifesto
+            </div>
+            <h1 className="font-display text-white font-black leading-[1.05] tracking-tight mb-8"
+              style={{ fontSize: 'clamp(40px, 6vw, 68px)' }}>
+              Re-Engineering Real Estate Infrastructure for <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E79868] via-white to-[#C75B30]">Africa.</span>
             </h1>
-            <p className="text-white/75 text-base md:text-lg max-w-2xl mb-8 leading-relaxed">
-              We're on a mission to bring transparency, efficiency, and intelligence to the property management
-              industry through cutting-edge technology and human-centric design.
+            <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
+              We started RentFlow because property management in major cities was broken—relying on paper receipts, WhatsApp disputes, and stressful manual follow-ups. We built the digital engine to fix it.
             </p>
-            <div className="flex flex-wrap gap-4">
+            
+            <div className="flex flex-wrap justify-center gap-4 mb-14">
               <button
                 onClick={() => navigate('/features')}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-[#0B4F45] hover:bg-[#073A33] text-white font-bold text-sm tracking-wide transition-all duration-200 shadow-[0_8px_30px_rgba(11,79,69,0.4)] cursor-pointer border border-white/10"
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-[#D35400] hover:bg-[#b04500] text-white font-bold text-base tracking-wide transition-all duration-200 shadow-[0_10px_35px_rgba(211,84,0,0.4)] cursor-pointer border border-white/10 transform hover:-translate-y-0.5"
               >
-                Explore Our Platform <ArrowRight size={16} className="text-[#E79868]" />
+                Discover Our Architecture <ArrowRight size={18} />
               </button>
               <button
                 onClick={() => navigate('/contact')}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/30 text-white hover:bg-white/10 font-semibold text-sm transition-all cursor-pointer backdrop-blur-md"
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-semibold text-base transition-all cursor-pointer border border-white/20 backdrop-blur-md"
               >
                 Contact Our Team
               </button>
+            </div>
+
+            {/* Floating Trust Pills Strip */}
+            <div className="flex flex-wrap justify-center gap-3 pt-6 border-t border-white/10 max-w-2xl mx-auto text-xs text-white/60 font-medium">
+              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/5 flex items-center gap-1.5">🌍 Active across Lagos, Abuja & PH</span>
+              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/5 flex items-center gap-1.5">🏢 2,400+ Portfolios Powered</span>
+              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/5 flex items-center gap-1.5">🔒 NDPR & CBN Tier-1 Compliant</span>
             </div>
           </motion.div>
         </div>

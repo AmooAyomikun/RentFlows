@@ -117,48 +117,84 @@ const Pricing = () => {
     <div className="bg-white overflow-x-hidden">
 
       {/* ══ 1. HEADER ════════════════════════════════════════════════════ */}
-      <section className="bg-charcoal py-24 md:py-28 relative overflow-hidden" aria-label="Pricing header">
-        <div className="absolute top-[-20%] right-[-5%] w-[500px] h-[500px] bg-[#0B4F45]/20 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-[-20%] left-[-5%] w-[400px] h-[400px] bg-[#C75B30]/10 rounded-full blur-[80px] pointer-events-none" />
-        <div className="max-w-marketing mx-auto px-6 w-full text-center relative z-10">
-          <motion.span
-            className="text-micro font-bold text-accent tracking-[0.12em] uppercase mb-4 block"
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-          >Pricing</motion.span>
-          <motion.h1
-            className="font-display text-white font-black leading-tight mb-4"
-            style={{ fontSize: 'clamp(36px, 5vw, 60px)' }}
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          >
-            Simple, transparent pricing.
-          </motion.h1>
-          <motion.p
-            className="text-white/60 text-lg mb-8 max-w-xl mx-auto"
-            initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.1 } }}
-          >
-            Priced per unit. Tenants always pay nothing. No hidden fees, no surprises.
-          </motion.p>
+      {/* ══ 1. HEADER: Dynamic Value Deck & ROI Hero ════════════════════════════ */}
+      <section className="bg-gradient-to-b from-[#091F1A] via-[#0D3128] to-[#0A261F] py-20 md:py-28 relative overflow-hidden" aria-label="Pricing header">
+        {/* Glowing Background Orbs */}
+        <div className="absolute top-[-20%] right-[10%] w-[550px] h-[550px] bg-[#0B4F45]/30 rounded-full blur-[140px] pointer-events-none animate-pulse" />
+        <div className="absolute bottom-[-10%] left-[5%] w-[450px] h-[450px] bg-[#C75B30]/25 rounded-full blur-[120px] pointer-events-none" />
+        
+        <div className="max-w-marketing mx-auto px-6 w-full relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#E79868] text-xs font-bold tracking-widest uppercase mb-6 shadow-xl backdrop-blur-md"
+              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              Transparent Portfolio Pricing
+            </motion.div>
+            <motion.h1
+              className="font-display text-white font-black leading-[1.08] tracking-tight mb-6"
+              style={{ fontSize: 'clamp(38px, 5.5vw, 62px)' }}
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            >
+              Predictable Plans.<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E79868] via-white to-[#C75B30]">Exponential ROI.</span>
+            </motion.h1>
+            <motion.p
+              className="text-white/75 text-base md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed"
+              initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.1 } }}
+            >
+              Pay strictly per unit managed. Tenants always use the app 100% free. No setup fees, no surprise invoices, cancel anytime.
+            </motion.p>
 
-          {/* Billing toggle */}
+            {/* Interactive Billing Toggle */}
+            <motion.div
+              className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-2xl p-2 shadow-2xl backdrop-blur-xl mb-12"
+              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            >
+              <button
+                onClick={() => setAnnual(false)}
+                className={`px-6 py-3 text-sm font-bold rounded-xl transition-all cursor-pointer ${!annual ? 'bg-[#0B4F45] text-white shadow-[0_4px_15px_rgba(11,79,69,0.5)] border border-white/20' : 'text-white/70 hover:text-white'}`}
+                aria-pressed={!annual}
+              >
+                Monthly Billing
+              </button>
+              <button
+                onClick={() => setAnnual(true)}
+                className={`px-6 py-3 text-sm font-bold rounded-xl transition-all flex items-center gap-2.5 cursor-pointer ${annual ? 'bg-[#D35400] text-white shadow-[0_4px_15px_rgba(211,84,0,0.5)] border border-white/20' : 'text-white/70 hover:text-white'}`}
+                aria-pressed={annual}
+              >
+                Annual Billing
+                <span className="bg-emerald-400 text-[#061714] text-[11px] px-2 py-0.5 rounded-full font-black uppercase tracking-wider animate-pulse">Save 20%</span>
+              </button>
+            </motion.div>
+          </div>
+
+          {/* Quick Value Deck Strip */}
           <motion.div
-            className="inline-flex items-center gap-3 bg-white/10 border border-white/20 rounded-xl p-1.5"
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto p-4 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl shadow-2xl"
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
           >
-            <button
-              onClick={() => setAnnual(false)}
-              className={`px-5 py-2.5 text-sm font-semibold rounded-lg transition-all ${!annual ? 'bg-white text-charcoal shadow-sm' : 'text-white/60 hover:text-white'}`}
-              aria-pressed={!annual}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setAnnual(true)}
-              className={`px-5 py-2.5 text-sm font-semibold rounded-lg transition-all flex items-center gap-2 ${annual ? 'bg-white text-charcoal shadow-sm' : 'text-white/60 hover:text-white'}`}
-              aria-pressed={annual}
-            >
-              Annual
-              <span className="bg-[#1E9E6A] text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">−20%</span>
-            </button>
+            <div className="flex items-center gap-3 p-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 font-bold">✓</div>
+              <div className="text-left">
+                <div className="font-display font-bold text-white text-sm">14-Day Free Trial</div>
+                <div className="text-xs text-white/60">Full pro features included</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 border-t sm:border-t-0 sm:border-l border-white/10">
+              <div className="w-10 h-10 rounded-xl bg-[#C75B30]/20 text-[#E79868] flex items-center justify-center shrink-0 font-bold">⚡</div>
+              <div className="text-left">
+                <div className="font-display font-bold text-white text-sm">Instant Paystack Setup</div>
+                <div className="text-xs text-white/60">Collect rent in 5 minutes</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 border-t sm:border-t-0 sm:border-l border-white/10">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 font-bold">🛡️</div>
+              <div className="text-left">
+                <div className="font-display font-bold text-white text-sm">Bank-Grade Vault</div>
+                <div className="text-xs text-white/60">NDPR compliant storage</div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>

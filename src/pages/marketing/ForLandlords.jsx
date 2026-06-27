@@ -51,50 +51,111 @@ const ForLandlords = () => {
           NEW SECTIONS FROM DESIGN MOCKUP
           ══════════════════════════════════════════════════════════════ */}
           
-      {/* 1. New Hero */}
-      <section className="relative pt-24 pb-16 md:pt-28 md:pb-20 overflow-hidden bg-charcoal" aria-label="New Landlord hero">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#071A16]/95 via-[#071A16]/82 to-[#071A16]/40" />
-        </div>
+      {/* 1. New Hero: Interactive Portfolio Command Center */}
+      <section className="relative pt-20 pb-24 md:pt-28 md:pb-32 overflow-hidden bg-gradient-to-b from-[#04120F] via-[#08221D] to-[#0A2D27]" aria-label="New Landlord hero">
+        {/* Dynamic Background Glows */}
+        <div className="absolute top-[-20%] left-[30%] w-[600px] h-[600px] bg-[#0B4F45]/30 rounded-full blur-[150px] pointer-events-none animate-pulse" />
+        <div className="absolute bottom-[0%] right-[10%] w-[500px] h-[500px] bg-[#C75B30]/20 rounded-full blur-[130px] pointer-events-none" />
+
         <div className="relative z-10 max-w-marketing mx-auto px-6 w-full">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-            <motion.div className="flex-1 w-full max-w-2xl lg:max-w-xl" initial="hidden" animate="visible" variants={fadeUp}>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0B4F45]/80 border border-[#C75B30]/40 text-white text-[11px] font-bold tracking-[0.15em] uppercase mb-7 backdrop-blur-md">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C75B30] animate-pulse" />
-                Made for modern landlords
-              </div>
-              <h1 className="font-display text-white font-black leading-[1.08] tracking-tight mb-6" style={{ fontSize: 'clamp(36px, 5vw, 60px)' }}>
-                The Only Tool You Need to Manage Your Portfolio with <span className="text-[#C75B30]">Confidence.</span>
-              </h1>
-              <p className="text-white/75 text-base md:text-lg mb-8 leading-relaxed max-w-lg">
-                Move from manual bank alerts and WhatsApp chats to automated, professional property management. Designed for the high-performance landlord.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => navigate('/signup?role=landlord')}
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-[#0B4F45] hover:bg-[#073A33] text-white font-bold text-sm tracking-wide transition-all duration-200 shadow-[0_8px_30px_rgba(11,79,69,0.4)] cursor-pointer border border-white/10"
-                >
-                  Start for Free <ArrowRight size={16} className="text-[#E79868]" />
-                </button>
-                <button
-                  onClick={() => {}}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/30 text-white hover:bg-white/10 font-semibold text-sm transition-all cursor-pointer backdrop-blur-md"
-                >
-                  <Play size={16} /> See How It Works
-                </button>
-              </div>
+          <div className="text-center max-w-4xl mx-auto mb-16">
+            <motion.div
+              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white text-[11px] font-bold tracking-[0.15em] uppercase mb-8 backdrop-blur-md shadow-2xl"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+            >
+              <span className="w-2 h-2 rounded-full bg-[#C75B30] animate-ping" />
+              Built for High-Performance Landlords
+            </motion.div>
+            <motion.h1
+              className="font-display text-white font-black leading-[1.08] tracking-tight mb-6"
+              style={{ fontSize: 'clamp(38px, 5.5vw, 64px)' }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55 }}
+            >
+              Control Your Rental Empire with <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E79868] via-white to-[#C75B30]">Total Precision.</span>
+            </motion.h1>
+            <motion.p
+              className="text-white/75 text-base md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.1 }}
+            >
+              Replace messy bank alerts, manual receipts, and unread WhatsApp messages with an automated command center designed to maximize cash flow and minimize stress.
+            </motion.p>
+            
+            <motion.div
+              className="flex flex-wrap justify-center gap-4 mb-14"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.2 }}
+            >
+              <button
+                onClick={() => navigate('/signup?role=landlord')}
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-[#D35400] hover:bg-[#b04500] text-white font-bold text-base tracking-wide transition-all duration-200 shadow-[0_10px_35px_rgba(211,84,0,0.4)] cursor-pointer border border-white/10 transform hover:-translate-y-0.5"
+              >
+                Launch Your Dashboard Free <ArrowRight size={18} />
+              </button>
+              <button
+                onClick={() => {}}
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-semibold text-base transition-all cursor-pointer border border-white/20 backdrop-blur-md"
+              >
+                <Play size={18} className="text-[#E79868]" /> Watch 2-Min Demo
+              </button>
             </motion.div>
 
+            {/* Live Command Deck Ticker */}
             <motion.div
-              className="flex-1 w-full max-w-[440px] lg:max-w-[500px]"
-              initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
+              className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto p-3 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl shadow-2xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.3 }}
             >
-              <div className="relative w-full mx-auto">
-                <div className="absolute inset-0 bg-[#C75B30]/12 blur-[80px] rounded-3xl scale-90 pointer-events-none" />
-                <img src={landlordHeroMockup} alt="RentFlow Dashboard Mockup" className="relative z-10 w-full h-auto object-contain drop-shadow-2xl" />
+              <div className="p-3 border-r border-white/10 last:border-none text-left">
+                <div className="flex items-center gap-1.5 text-emerald-400 text-xs font-bold mb-1">
+                  <Activity size={14} /> Live Revenue
+                </div>
+                <div className="font-display font-black text-white text-xl">₦14,850,000</div>
+                <div className="text-[10px] text-white/50">+12% vs last month</div>
+              </div>
+              <div className="p-3 border-r border-white/10 last:border-none text-left">
+                <div className="flex items-center gap-1.5 text-blue-400 text-xs font-bold mb-1">
+                  <Building2 size={14} /> Occupancy Rate
+                </div>
+                <div className="font-display font-black text-white text-xl">98.4%</div>
+                <div className="text-[10px] text-white/50">48 units active</div>
+              </div>
+              <div className="p-3 border-r border-white/10 last:border-none text-left">
+                <div className="flex items-center gap-1.5 text-amber-400 text-xs font-bold mb-1">
+                  <Clock size={14} /> Collection Speed
+                </div>
+                <div className="font-display font-black text-white text-xl">Instant</div>
+                <div className="text-[10px] text-white/50">Automated settlement</div>
+              </div>
+              <div className="p-3 text-left">
+                <div className="flex items-center gap-1.5 text-purple-400 text-xs font-bold mb-1">
+                  <Shield size={14} /> Dispute Defense
+                </div>
+                <div className="font-display font-black text-white text-xl">100% Audit</div>
+                <div className="text-[10px] text-white/50">NDPR bank vault</div>
               </div>
             </motion.div>
           </div>
+
+          {/* Hero Mockup Showcase */}
+          <motion.div
+            className="relative max-w-5xl mx-auto pt-4"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A2D27] via-transparent to-transparent z-20 pointer-events-none h-full w-full" />
+            <div className="relative z-10 rounded-3xl overflow-hidden border border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.6)] bg-white/5 p-2 md:p-4 backdrop-blur-md">
+              <img src={landlordHeroMockup} alt="RentFlow Dashboard Mockup" className="w-full h-auto rounded-2xl object-cover" />
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -334,105 +395,6 @@ const ForLandlords = () => {
               </div>
             </div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* =====================================================================
-          ORIGINAL SECTIONS FROM PREVIOUS DESIGN
-          ===================================================================== */}
-
-      {/* Original Hero (Optional - kept to fulfill "don't replace the ones before") */}
-      <section className="bg-charcoal py-24 hidden" aria-label="Original Landlord hero">
-        <div className="max-w-marketing mx-auto px-6">
-          <div className="max-w-2xl">
-            <motion.p
-              className="text-accent text-micro uppercase tracking-widest mb-4"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            >
-              For Landlords
-            </motion.p>
-            <motion.h1
-              className="font-display text-white mb-6 text-display-sm lg:text-display font-bold leading-tight"
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            >
-              Run your rental business like a pro.
-            </motion.h1>
-            <motion.p className="text-white/70 text-body mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.15 } }}>
-              Stop chasing rent on WhatsApp. Start collecting it on RentFlow — with receipts, reminders and full financial visibility built in.
-            </motion.p>
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.25 } }}>
-              <Button size="lg" variant="accent" rightIcon={<ArrowRight size={18} />} onClick={() => navigate('/signup?role=landlord')}>
-                List your first property free
-              </Button>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Original What you get */}
-      <section className="py-[60px] md:py-[80px] bg-warm" aria-label="Original Landlord features">
-        <div className="max-w-[1000px] mx-auto px-[24px]">
-          <h2 className="font-display font-bold text-charcoal text-center mb-[32px] text-h2-sm lg:text-h2">Additional Landlord Features</h2>
-          <div className="grid sm:grid-cols-2 gap-[20px] md:gap-[24px]">
-            {perks.map((p, i) => (
-              <motion.div key={p.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                <Card className="h-full group p-[24px]">
-                  <div className="relative mb-[16px] w-fit">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 blur-xl scale-150 opacity-60 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true" />
-                    <div className="relative bg-primary/10 w-12 h-12 rounded-xl flex items-center justify-center">
-                      <p.icon size={22} className="text-primary" aria-hidden="true" />
-                    </div>
-                  </div>
-                  <h3 className="font-display font-semibold text-charcoal text-h3-sm lg:text-h3 mb-[8px]">{p.title}</h3>
-                  <p className="text-small text-muted">{p.desc}</p>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Original Multi-property visual */}
-      <section className="relative py-[60px] md:py-[80px] overflow-hidden" aria-label="Multi-property management">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(/trust-bg.png)' }}
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-[#073A33]/85" aria-hidden="true" />
-
-        <div className="max-w-[900px] mx-auto px-[24px] text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-micro font-medium uppercase tracking-widest text-accent/90 mb-[12px]">Scale freely</p>
-            <h2 className="font-display font-bold text-white text-h2-sm lg:text-h2 mb-[16px]">One dashboard. Any number of properties.</h2>
-            <p className="text-white/70 text-small max-w-xl mx-auto mb-[24px]">Whether you manage 1 duplex or a 50-unit portfolio across multiple cities, RentFlow shows you everything in one place.</p>
-          </motion.div>
-          <motion.div
-            className="grid grid-cols-3 md:grid-cols-5 gap-[12px] max-w-lg mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.15 }}
-          >
-            {['Lekki', 'GRA', 'Wuse', 'Enugu', '+More'].map((loc) => (
-              <div key={loc} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-[12px] text-center hover:bg-white/15 transition-colors">
-                <Building2 size={16} className="text-white/80 mx-auto mb-[4px]" aria-hidden="true" />
-                <p className="text-micro font-medium text-white/90">{loc}</p>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Original FAQ */}
-      <section className="py-[60px] md:py-[80px] bg-white" aria-label="Landlord FAQ">
-        <div className="max-w-[760px] mx-auto px-[24px]">
-          <h2 className="font-display font-bold text-charcoal text-center text-h2-sm lg:text-h2 mb-[32px]">Common landlord questions.</h2>
-          <Accordion items={faqItems} />
         </div>
       </section>
     </div>

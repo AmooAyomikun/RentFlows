@@ -31,19 +31,50 @@ const Testimonials = () => {
 
   return (
     <>
-      <section className="bg-charcoal py-20" aria-label="Testimonials header">
-        <div className="max-w-marketing mx-auto px-6 text-center">
-          <motion.h1 className="font-display text-white mb-4" style={{ fontSize: 'clamp(36px, 5vw, 60px)' }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            Real stories. Real results.
+      <section className="bg-gradient-to-b from-[#071915] via-[#0C3228] to-[#09221B] py-20 md:py-32 relative overflow-hidden text-center" aria-label="Testimonials header">
+        <div className="absolute top-[-20%] left-[30%] w-[450px] h-[450px] bg-[#0B4F45]/35 rounded-full blur-[130px] pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[20%] w-[350px] h-[350px] bg-[#C75B30]/25 rounded-full blur-[110px] pointer-events-none" />
+
+        <div className="max-w-marketing mx-auto px-6 relative z-10">
+          <motion.div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#E79868] text-xs font-bold tracking-widest uppercase mb-5 shadow-lg backdrop-blur-md"
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+          >
+            ⭐️ 4.9/5 Average Rating Across 2,400+ Portfolios
+          </motion.div>
+          <motion.h1
+            className="font-display text-white font-black tracking-tight leading-[1.08] mb-4"
+            style={{ fontSize: 'clamp(38px, 5.5vw, 62px)' }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          >
+            Real Stories. <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E79868] via-white to-[#C75B30]">Measurable Impact.</span>
           </motion.h1>
-          <motion.p className="text-white/60 text-lg" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.1 } }}>
-            From landlords managing portfolios to tenants finally getting receipts.
+          <motion.p
+            className="text-white/75 text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+            initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.1 } }}
+          >
+            Discover how African landlords slashed late payments by 40% and why residents love getting instant digital receipts.
           </motion.p>
+
+          <motion.div
+            className="flex flex-wrap justify-center gap-4 pt-2 text-xs font-medium text-white/75"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          >
+            <div className="px-4 py-2 rounded-xl bg-white/10 border border-white/15 backdrop-blur-md flex items-center gap-2">
+              <span className="font-bold text-emerald-400 text-sm">−40%</span> Late Payments Avg
+            </div>
+            <div className="px-4 py-2 rounded-xl bg-white/10 border border-white/15 backdrop-blur-md flex items-center gap-2">
+              <span className="font-bold text-[#E79868] text-sm">8 hrs/mo</span> Saved per Landlord
+            </div>
+            <div className="px-4 py-2 rounded-xl bg-white/10 border border-white/15 backdrop-blur-md flex items-center gap-2">
+              <span className="font-bold text-blue-400 text-sm">100%</span> Automated PDF Receipts
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      <section className="section-py bg-warm" aria-label="Testimonial grid">
-        <div className="max-w-marketing mx-auto px-6">
+      <section className="py-20 md:py-24 bg-warm" aria-label="Testimonial grid">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           {/* Filter chips */}
           <div className="flex gap-2 justify-center mb-10" role="group" aria-label="Filter testimonials">
             {['all', 'landlord', 'tenant'].map((f) => (

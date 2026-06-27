@@ -54,44 +54,88 @@ const ForTenants = () => {
           NEW SECTIONS FROM DESIGN MOCKUP
           ===================================================================== */}
           
-      {/* 1. Hero */}
-      <section className="relative pt-[60px] pb-[40px] md:pt-[100px] md:pb-[80px] bg-[#0B4F45] overflow-hidden" aria-label="Tenant Hero">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
-          <div className="flex flex-col lg:flex-row items-center gap-[40px] lg:gap-[60px]">
-            <motion.div className="flex-1 w-full" initial="hidden" animate="visible" variants={fadeUp}>
-              <div className="inline-block bg-[#D35400] text-white text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-[24px]">
-                FOR PROFESSIONALS / TENANTS
+      {/* 1. Hero: Dynamic Resident Lifestyle & Credit Builder Hub */}
+      <section className="relative py-20 md:py-28 bg-gradient-to-br from-[#0B4F45] via-[#0D5C50] to-[#062E28] overflow-hidden" aria-label="Tenant Hero">
+        {/* Ambient Decorative Light */}
+        <div className="absolute top-[-20%] right-[-10%] w-[550px] h-[550px] bg-[#D35400]/25 rounded-full blur-[140px] pointer-events-none animate-pulse" />
+        <div className="absolute bottom-[-20%] left-[10%] w-[450px] h-[450px] bg-emerald-400/15 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="max-w-marketing mx-auto px-6 w-full relative z-10">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            {/* Copy Side */}
+            <motion.div className="lg:col-span-7" initial="hidden" animate="visible" variants={fadeUp}>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-[#FFF0E6] text-[11px] font-bold tracking-[0.15em] uppercase mb-6 backdrop-blur-md shadow-lg">
+                <span className="w-2 h-2 rounded-full bg-[#D35400] animate-ping" />
+                Next-Gen Resident Portal
               </div>
-              <h1 className="font-display text-white text-display-sm lg:text-display mb-[20px] leading-tight font-bold tracking-tight">
-                Rent Smarter,<br/>Build Your Future.
+              <h1 className="font-display text-white font-black leading-[1.08] tracking-tight mb-6" style={{ fontSize: 'clamp(38px, 5.5vw, 62px)' }}>
+                Rent Smarter,<br />Build Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFF0E6] via-[#E79868] to-[#D35400]">Financial Future.</span>
               </h1>
-              <p className="text-white/80 text-body mb-[32px] leading-relaxed max-w-lg">
-                Experience rental living designed for the 21st century. Pay rent, build credit, and manage your lifestyle from one unified dashboard.
+              <p className="text-white/80 text-base md:text-xl mb-8 leading-relaxed max-w-xl">
+                Experience rental living built for the 21st century. Pay rent in 3 taps, generate instant official receipts, and automatically build your credit score with every payment.
               </p>
-              <div className="flex flex-wrap gap-[16px]">
-                <Button size="lg" className="bg-[#D35400] hover:bg-[#b04500] text-white border-none px-8" onClick={() => navigate('/signup?role=tenant')}>
-                  Create Account
+              
+              <div className="flex flex-wrap gap-4 mb-10">
+                <Button size="lg" className="bg-[#D35400] hover:bg-[#b04500] text-white border-none px-8 py-6 text-base rounded-2xl shadow-[0_10px_30px_rgba(211,84,0,0.4)] cursor-pointer transform hover:-translate-y-0.5 transition-all" onClick={() => navigate('/signup?role=tenant')}>
+                  Create Free Account <ArrowRight size={18} className="ml-2" />
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 px-8" onClick={() => {}}>
-                  How it works
+                <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-base rounded-2xl backdrop-blur-md cursor-pointer" onClick={() => {}}>
+                  Explore Tenant Perks
                 </Button>
+              </div>
+
+              {/* Quick Trust Highlights */}
+              <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/15 max-w-lg">
+                <div>
+                  <div className="font-display font-bold text-white text-lg">Instant PDF</div>
+                  <div className="text-[11px] text-white/60">Official bank receipts</div>
+                </div>
+                <div>
+                  <div className="font-display font-bold text-[#E79868] text-lg">+42 Pts Avg</div>
+                  <div className="text-[11px] text-white/60">Credit bureau reporting</div>
+                </div>
+                <div>
+                  <div className="font-display font-bold text-white text-lg">0₦ Fees</div>
+                  <div className="text-[11px] text-white/60">100% free for tenants</div>
+                </div>
               </div>
             </motion.div>
             
+            {/* Dynamic Interactive Visual Side */}
             <motion.div 
-              className="flex-1 w-full max-w-[400px] lg:max-w-[500px] mx-auto relative"
+              className="lg:col-span-5 relative flex justify-center"
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
             >
-              <div className="relative">
-                <div className="absolute inset-0 bg-white/5 rounded-[40px] -rotate-6 scale-105"></div>
-                <img src={residentExperienceImg} alt="Tenant Dashboard on Phone" className="relative z-10 w-full h-auto drop-shadow-2xl" />
-                <div className="absolute top-10 -right-6 z-20 bg-white rounded-xl shadow-xl p-3 flex items-center gap-3 animate-bounce">
-                  <div className="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center text-success"><Check size={16} className="stroke-[3]" /></div>
+              <div className="relative w-full max-w-[380px] sm:max-w-[420px]">
+                {/* Backdrop Glow Frame */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#D35400]/30 to-emerald-500/20 rounded-[48px] rotate-3 scale-105 blur-md"></div>
+                <img src={residentExperienceImg} alt="Tenant Dashboard on Phone" className="relative z-10 w-full h-auto drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)] rounded-[36px] border border-white/20" />
+                
+                {/* Floating Interactive Receipt Badge */}
+                <motion.div 
+                  className="absolute -top-6 -left-6 sm:-left-10 z-20 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-4 border border-border/50 flex items-center gap-3 max-w-[220px]"
+                  animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 shrink-0"><Check size={20} className="stroke-[3]" /></div>
                   <div>
-                    <p className="text-[10px] text-muted font-bold uppercase tracking-wider">Rent Paid</p>
-                    <p className="font-display font-bold text-charcoal text-small">+₦1,200,000</p>
+                    <p className="text-[10px] text-muted font-bold uppercase tracking-wider">Verified Payment</p>
+                    <p className="font-display font-black text-charcoal text-sm">₦1,200,000 Paid</p>
+                    <p className="text-[9px] text-emerald-600 font-semibold">Instant Receipt Generated</p>
                   </div>
-                </div>
+                </motion.div>
+
+                {/* Floating Credit Score Booster Badge */}
+                <motion.div 
+                  className="absolute -bottom-6 -right-6 sm:-right-8 z-20 bg-charcoal/95 text-white backdrop-blur-xl rounded-2xl shadow-2xl p-4 border border-white/15 flex items-center gap-3.5 max-w-[240px]"
+                  animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 1 }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-[#D35400] flex items-center justify-center text-white shrink-0 font-bold font-mono text-sm">+42</div>
+                  <div>
+                    <p className="text-[10px] text-[#E79868] font-bold uppercase tracking-wider">Credit Builder Pro</p>
+                    <p className="font-display font-bold text-white text-sm">Score Increasing</p>
+                    <p className="text-[9px] text-white/60">Reported to Equifax & CRC</p>
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           </div>
@@ -99,8 +143,8 @@ const ForTenants = () => {
       </section>
 
       {/* 2. Financial Empowerment */}
-      <section className="py-[60px] md:py-[100px] bg-[#F4F3F0]" aria-label="Financial Empowerment">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
+      <section className="py-20 md:py-24 bg-[#F4F3F0]" aria-label="Financial Empowerment">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="flex flex-col lg:flex-row items-center gap-[40px] lg:gap-[80px]">
             {/* Graphic side */}
             <motion.div className="flex-1 w-full max-w-[500px]" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -155,8 +199,8 @@ const ForTenants = () => {
       </section>
 
       {/* 3. The "Rent Day" Harmony */}
-      <section className="py-[60px] md:py-[100px] bg-[#EBE9E4]" aria-label="Rent Day Harmony">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
+      <section className="py-20 md:py-24 bg-[#EBE9E4]" aria-label="Rent Day Harmony">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="text-center mb-[60px]">
             <motion.h2 className="font-display font-bold text-charcoal text-h2-sm lg:text-h2 mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>The "Rent Day" Harmony</motion.h2>
             <motion.p className="text-body text-muted max-w-xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -184,8 +228,8 @@ const ForTenants = () => {
       </section>
 
       {/* 4. Everything in One Vault */}
-      <section className="py-[60px] md:py-[100px] bg-[#FDFBF7]" aria-label="Document Vault">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
+      <section className="py-20 md:py-24 bg-[#FDFBF7]" aria-label="Document Vault">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="flex flex-col lg:flex-row items-center gap-[60px] lg:gap-[100px]">
             {/* Text Side */}
             <motion.div className="flex-1 w-full" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -259,8 +303,8 @@ const ForTenants = () => {
       </section>
 
       {/* 5. Tenant Perks */}
-      <section className="py-[60px] md:py-[100px] bg-[#FDFBF7] border-t border-border/40" aria-label="Tenant Perks">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
+      <section className="py-20 md:py-24 bg-[#FDFBF7] border-t border-border/40" aria-label="Tenant Perks">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-[40px] gap-6">
             <div>
               <p className="text-[11px] font-bold text-[#D35400] uppercase tracking-widest mb-3">TENANT PERKS</p>
@@ -304,9 +348,9 @@ const ForTenants = () => {
       </section>
 
       {/* 6. More Than Just Four Walls */}
-      <section className="py-[80px] md:py-[120px] bg-[#0B4F45] relative overflow-hidden" aria-label="Community">
+      <section className="py-20 md:py-24 bg-[#0B4F45] relative overflow-hidden" aria-label="Community">
         <div className="absolute inset-0 bg-gradient-to-tr from-[#D35400]/20 to-transparent pointer-events-none"></div>
-        <div className="max-w-[1100px] mx-auto px-[24px] relative z-10">
+        <div className="max-w-marketing mx-auto px-6 w-full relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-[60px] lg:gap-[100px]">
             {/* Grid Side */}
             <motion.div className="flex-1 w-full grid grid-cols-2 gap-4" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
@@ -352,8 +396,8 @@ const ForTenants = () => {
       </section>
 
       {/* 7. Upgrade Your Rental Life (Comparison) */}
-      <section className="py-[80px] md:py-[100px] bg-[#FDFBF7]" aria-label="Comparison">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
+      <section className="py-20 md:py-24 bg-[#FDFBF7]" aria-label="Comparison">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="text-center mb-[40px]">
             <motion.h2 className="font-display font-bold text-charcoal text-h2-sm lg:text-h2 mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Upgrade Your Rental Life</motion.h2>
             <motion.p className="text-body text-muted max-w-xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -403,113 +447,25 @@ const ForTenants = () => {
       </section>
 
       {/* 8. CTA */}
-      <section className="py-[80px] md:py-[100px] bg-[#FDFBF7] text-center border-t border-border/40" aria-label="Call to Action">
-        <div className="max-w-[600px] mx-auto px-[24px]">
-          <motion.h2 className="font-display font-bold text-charcoal text-[36px] md:text-[48px] mb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>Ready to live better?</motion.h2>
-          <motion.p className="text-body text-muted mb-8 leading-relaxed" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-            Download the app today and transform how you interact with your home. If your landlord isn't on RentFlow yet, refer them and get a month of credit builder for free.
-          </motion.p>
-          <motion.div className="flex flex-col sm:flex-row justify-center gap-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-            <Button size="lg" className="bg-[#D35400] hover:bg-[#b04500] text-white border-none">Refer your Landlord</Button>
-            <Button size="lg" variant="outline" className="border-border text-charcoal hover:bg-warm bg-white">Download App</Button>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* =====================================================================
-          ORIGINAL SECTIONS
-          ===================================================================== */}
-          
-      <div className="border-t-[4px] border-border/30 mt-12"></div>
-      
-      {/* Original Hero */}
-      <section className="bg-charcoal py-24 hidden" aria-label="Original Tenant hero">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
-          <div className="max-w-2xl">
-            <motion.p className="text-accent text-micro font-semibold uppercase tracking-widest mb-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              For Tenants
+      <section className="py-20 md:py-24 bg-[#0B4F45] relative overflow-hidden text-center" aria-label="Call to Action">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#C75B30_0%,transparent_50%)] opacity-20 pointer-events-none" />
+        <div className="max-w-marketing mx-auto px-6 w-full relative z-10">
+          <div className="max-w-3xl mx-auto">
+            <motion.h2 className="font-display font-bold text-white text-[36px] md:text-[52px] mb-6 leading-tight" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+              Ready to Upgrade Your <span className="text-[#E79868]">Rental Experience?</span>
+            </motion.h2>
+            <motion.p className="text-white/80 text-lg mb-10 leading-relaxed" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+              Join thousands of residents paying rent effortlessly and building their financial profile. Refer your landlord today and get 3 months of Credit Builder Pro completely free.
             </motion.p>
-            <motion.h1 className="font-display text-white mb-6 text-display-sm lg:text-display font-bold" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              Pay rent. Get proof. Done.
-            </motion.h1>
-            <motion.p className="text-white/70 text-body mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.15 } }}>
-              No more bank alerts. No more "I'll send the screenshot later." Pay rent in three taps and download your official receipt immediately.
-            </motion.p>
-            <motion.p className="text-white/50 text-small" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.2 } }}>
-              Already have an invite? <button onClick={() => navigate('/login')} className="text-accent hover:underline">Log in here</button>
-            </motion.p>
+            <motion.div className="flex flex-col sm:flex-row justify-center gap-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+              <Button size="lg" className="bg-[#D35400] hover:bg-[#b04500] text-white border-none px-8 py-6 text-base rounded-2xl shadow-xl cursor-pointer" onClick={() => navigate('/signup?role=tenant')}>
+                Create Tenant Account <ArrowRight size={18} className="ml-2" />
+              </Button>
+              <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-base rounded-2xl backdrop-blur-md cursor-pointer" onClick={() => {}}>
+                Refer Your Landlord
+              </Button>
+            </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* Original 3-step payment visual */}
-      <section className="py-[60px] md:py-[80px] bg-warm" aria-label="How paying rent works">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
-          <h2 className="font-display text-charcoal text-center mb-12 text-h2-sm lg:text-h2 font-bold">How paying rent works.</h2>
-          <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {steps.map((step, i) => (
-              <motion.div key={step.num} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-primary text-white font-mono font-bold text-sm flex items-center justify-center mx-auto mb-4">
-                  {step.num}
-                </div>
-                <h3 className="font-display font-semibold text-charcoal text-h3-sm lg:text-h3 mb-2">{step.title}</h3>
-                <p className="text-small text-muted">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Original Trust section */}
-      <section className="py-[60px] md:py-[80px] bg-white" aria-label="Security and trust">
-        <div className="max-w-[1100px] mx-auto px-[24px]">
-          <h2 className="font-display text-charcoal text-center mb-4 text-h2-sm lg:text-h2 font-bold">Your money and data are safe with us.</h2>
-          <p className="text-body text-body text-center max-w-xl mx-auto mb-12">
-            We know that trusting a new platform with your rent payment is a big deal. Here's how we protect you.
-          </p>
-          <div className="grid md:grid-cols-3 gap-5">
-            {trustPoints.map((p, i) => (
-              <motion.div key={p.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                <Card className="h-full group p-[24px]">
-                  <div className="w-11 h-11 bg-success/10 rounded flex items-center justify-center mb-4">
-                    <p.icon size={22} className="text-success" aria-hidden="true" />
-                  </div>
-                  <h3 className="font-display font-semibold text-charcoal text-h3-sm lg:text-h3 mb-2">{p.title}</h3>
-                  <p className="text-small text-muted">{p.desc}</p>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Original Maintenance highlight */}
-      <section className="py-[60px] md:py-[80px] bg-warm" aria-label="Maintenance requests">
-        <div className="max-w-[1100px] mx-auto px-[24px] text-center max-w-xl mx-auto">
-          <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-5">
-            <Wrench size={26} className="text-accent" aria-hidden="true" />
-          </div>
-          <h2 className="font-display font-bold text-charcoal mb-4 text-h2-sm lg:text-h2">Report issues without the phone call.</h2>
-          <p className="text-body text-body mb-6 text-muted">
-            Something broken in your unit? Log a maintenance request with a photo and description. Track its status from received to resolved — no WhatsApp, no chasing.
-          </p>
-        </div>
-      </section>
-
-      {/* Original FAQ */}
-      <section className="py-[60px] md:py-[80px] bg-white" aria-label="Tenant FAQ">
-        <div className="max-w-[1100px] mx-auto px-[24px] max-w-2xl mx-auto">
-          <h2 className="font-display font-bold text-charcoal text-center mb-8 text-h2-sm lg:text-h2">Tenant questions, answered.</h2>
-          <Accordion items={faqItems} />
-        </div>
-      </section>
-
-      {/* Original CTA */}
-      <section className="bg-gradient-warm py-20" aria-label="Original CTA">
-        <div className="max-w-[1100px] mx-auto px-[24px] text-center">
-          <h2 className="font-display font-bold text-white mb-4 text-h2-sm lg:text-h2">Ask your landlord about RentFlow.</h2>
-          <p className="text-white/60 mb-8 text-body">Already have an account? Log in below.</p>
-          <Button size="lg" variant="accent" onClick={() => navigate('/login')}>Log in to your account</Button>
         </div>
       </section>
     </div>

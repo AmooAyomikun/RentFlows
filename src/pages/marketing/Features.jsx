@@ -94,50 +94,104 @@ const sectionBgs = ['bg-white', 'bg-warm', 'bg-[#F0EDE7]'];
 
 const Features = () => (
   <>
-    {/* ─── Header ─── */}
-    <section className="bg-charcoal py-24 md:py-28 relative overflow-hidden" aria-label="Features header">
-      <div className="absolute top-[-20%] right-[-5%] w-[500px] h-[500px] bg-[#0B4F45]/20 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[-20%] left-[-5%] w-[400px] h-[400px] bg-[#C75B30]/10 rounded-full blur-[80px] pointer-events-none" />
+    {/* ─── Hero: Dynamic Interactive Feature Showcase ─── */}
+    <section className="bg-gradient-to-b from-[#051310] via-[#071A16] to-[#0A241F] py-20 md:py-24 relative overflow-hidden" aria-label="Features header">
+      {/* Ambient background glow & subtle grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
+      <div className="absolute top-[-10%] right-[10%] w-[500px] h-[500px] bg-[#0B4F45]/30 rounded-full blur-[120px] pointer-events-none animate-pulse" />
+      <div className="absolute bottom-[0%] left-[5%] w-[400px] h-[400px] bg-[#C75B30]/20 rounded-full blur-[100px] pointer-events-none" />
+
       <div className="max-w-marketing mx-auto px-6 w-full relative z-10">
-        <div className="text-center mb-12">
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-widest text-accent/90 mb-4"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <motion.div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[#E79868] text-[11px] font-bold tracking-[0.15em] uppercase mb-6 backdrop-blur-md shadow-inner"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
           >
-            Platform features
-          </motion.p>
+            <Zap size={14} className="text-[#C75B30] animate-bounce" />
+            Platform Capabilities
+          </motion.div>
           <motion.h1
-            className="font-display text-white mb-5"
+            className="font-display text-white font-black leading-[1.08] tracking-tight mb-6"
             style={{ fontSize: 'clamp(36px, 5vw, 60px)' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Everything you need to run a rental business.
+            Everything you need to run a <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#E79868] to-[#C75B30]">rental engine.</span>
           </motion.h1>
           <motion.p
-            className="text-white/60 text-lg max-w-2xl mx-auto"
+            className="text-white/70 text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Six core capabilities designed around the real experience of Nigerian landlords and tenants.
+            Six purpose-built tools designed to eliminate manual friction, automate payment collection, and give African landlords and tenants complete peace of mind.
           </motion.p>
         </div>
 
+        {/* Floating Glassmorphism Preview Cards */}
+        <motion.div
+          className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto pt-4"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          {/* Card 1: Live Payments */}
+          <div className="bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-[#0B4F45]/80 rounded-2xl p-6 backdrop-blur-xl transition-all duration-300 shadow-2xl group">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-10 h-10 rounded-xl bg-[#0B4F45] flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                <Banknote size={20} />
+              </div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold border border-emerald-500/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" /> Instant
+              </span>
+            </div>
+            <h3 className="font-display font-bold text-white text-lg mb-1">Automated Rent Collection</h3>
+            <p className="text-white/60 text-xs leading-relaxed">Direct bank transfers & card payments verified in real-time with zero manual checking.</p>
+          </div>
+
+          {/* Card 2: Smart Alerts */}
+          <div className="bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-[#C75B30]/80 rounded-2xl p-6 backdrop-blur-xl transition-all duration-300 shadow-2xl group md:-translate-y-2">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-10 h-10 rounded-xl bg-[#C75B30] flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                <ShieldCheck size={20} />
+              </div>
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#C75B30]/20 text-[#E79868] text-xs font-semibold border border-[#C75B30]/30">
+                100% Verified
+              </span>
+            </div>
+            <h3 className="font-display font-bold text-white text-lg mb-1">Bank-Grade Vault</h3>
+            <p className="text-white/60 text-xs leading-relaxed">NDPR compliant secure document storage for lease agreements, receipts, and identity proof.</p>
+          </div>
+
+          {/* Card 3: Financial Health */}
+          <div className="bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-[#0B4F45]/80 rounded-2xl p-6 backdrop-blur-xl transition-all duration-300 shadow-2xl group">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0B4F45] to-teal-600 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                <TrendingUp size={20} />
+              </div>
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold border border-blue-500/30">
+                +45 pts Avg
+              </span>
+            </div>
+            <h3 className="font-display font-bold text-white text-lg mb-1">Credit Score Boost</h3>
+            <p className="text-white/60 text-xs leading-relaxed">Every on-time rent payment is reported directly to credit bureaus to build tenant financial profile.</p>
+          </div>
+        </motion.div>
+
         {/* Stat row inside header */}
         <motion.div
-          className="grid grid-cols-3 gap-6 max-w-lg mx-auto pt-8 border-t border-white/10"
+          className="grid grid-cols-3 gap-6 max-w-xl mx-auto mt-14 pt-8 border-t border-white/10"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
         >
           {headerStats.map((s) => (
             <div key={s.label} className="text-center">
-              <p className="font-mono font-bold text-white text-xl lg:text-2xl">{s.value}</p>
-              <p className="text-white/50 text-xs mt-1">{s.label}</p>
+              <p className="font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80 text-2xl lg:text-3xl">{s.value}</p>
+              <p className="text-white/50 text-xs mt-1 font-medium tracking-wide uppercase">{s.label}</p>
             </div>
           ))}
         </motion.div>

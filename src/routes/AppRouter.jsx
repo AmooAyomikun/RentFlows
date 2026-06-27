@@ -51,6 +51,7 @@ import TenantDashboard from '../pages/tenant/TenantDashboard';
 import TenantLease from '../pages/tenant/TenantLease';
 import TenantPayments from '../pages/tenant/TenantPayments';
 import TenantPayRent from '../pages/tenant/TenantPayRent';
+import TenantReceipts from '../pages/tenant/TenantReceipts';
 import TenantMaintenance from '../pages/tenant/TenantMaintenance';
 import TenantSettings from '../pages/tenant/TenantSettings';
 
@@ -160,10 +161,12 @@ const AppRouter = () => {
           <Route path="lease" element={<TenantLease />} />
           <Route path="pay-rent" element={<TenantPayRent />} />
           <Route path="payments" element={<TenantPayments />} />
+          <Route path="receipts" element={<TenantReceipts />} />
           <Route path="maintenance" element={<TenantMaintenance />} />
           <Route path="maintenance/:id" element={<PlaceholderView title="Maintenance Ticket" type="Ticket View" />} />
           <Route path="notifications" element={<Notifications role="tenant" />} />
           <Route path="settings" element={<TenantSettings />} />
+          <Route path="profile" element={<TenantSettings />} />
         </Route>
 
         {/* Fallback */}

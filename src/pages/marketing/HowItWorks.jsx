@@ -33,30 +33,65 @@ const HowItWorks = () => {
 
   return (
     <>
-      {/* Header */}
-      <section className="bg-charcoal py-20" aria-label="How it works header">
-        <div className="max-w-marketing mx-auto px-6 text-center">
-          <motion.h1
-            className="font-display text-white mb-4"
-            style={{ fontSize: 'clamp(36px, 5vw, 60px)' }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+      {/* Header: Interactive Journey Deck */}
+      <section className="bg-gradient-to-b from-[#081F1A] via-[#0E382E] to-[#0A261F] py-20 md:py-32 relative overflow-hidden text-center" aria-label="How it works header">
+        <div className="absolute top-[-20%] right-[25%] w-[450px] h-[450px] bg-[#0B4F45]/35 rounded-full blur-[130px] pointer-events-none" />
+        <div className="absolute bottom-[-10%] left-[15%] w-[350px] h-[350px] bg-[#C75B30]/25 rounded-full blur-[110px] pointer-events-none" />
+
+        <div className="max-w-marketing mx-auto px-6 relative z-10">
+          <motion.div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#E79868] text-xs font-bold tracking-widest uppercase mb-5 shadow-lg backdrop-blur-md"
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
           >
-            How RentFlow works.
+            Frictionless Operational Flow
+          </motion.div>
+          <motion.h1
+            className="font-display text-white font-black tracking-tight leading-[1.08] mb-4"
+            style={{ fontSize: 'clamp(38px, 5.5vw, 62px)' }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          >
+            How RentFlow <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E79868] via-white to-[#C75B30]">Works.</span>
           </motion.h1>
           <motion.p
-            className="text-white/60 text-lg"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { delay: 0.1 } }}
+            className="text-white/75 text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+            initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.1 } }}
           >
-            Two journeys. One platform. Built for both sides of the rental relationship.
+            Two distinct tailored journeys. One unified platform. Designed from the ground up to eliminate tension between African landlords and residents.
           </motion.p>
+
+          {/* Quick Flow Visual Strip */}
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto p-3 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl shadow-2xl text-left"
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          >
+            <div className="p-3 flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 font-black flex items-center justify-center text-sm">1</div>
+              <div>
+                <div className="text-xs font-bold text-white">2-Min Setup</div>
+                <div className="text-[11px] text-white/60">List unit & set due date</div>
+              </div>
+            </div>
+            <div className="p-3 flex items-center gap-3 border-t sm:border-t-0 sm:border-l border-white/10">
+              <div className="w-8 h-8 rounded-lg bg-[#C75B30]/20 text-[#E79868] font-black flex items-center justify-center text-sm">2</div>
+              <div>
+                <div className="text-xs font-bold text-white">Digital Invite</div>
+                <div className="text-[11px] text-white/60">Tenant receives lease link</div>
+              </div>
+            </div>
+            <div className="p-3 flex items-center gap-3 border-t sm:border-t-0 sm:border-l border-white/10">
+              <div className="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 font-black flex items-center justify-center text-sm">3</div>
+              <div>
+                <div className="text-xs font-bold text-white">Auto-Settlement</div>
+                <div className="text-[11px] text-white/60">Direct bank payout</div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Tab toggle */}
-      <section className="section-py bg-warm" aria-label="Journey steps">
-        <div className="max-w-marketing mx-auto px-6">
+      <section className="py-20 md:py-24 bg-warm" aria-label="Journey steps">
+        <div className="max-w-marketing mx-auto px-6 w-full">
           {/* Toggle */}
           <div className="flex justify-center mb-12">
             <div className="inline-flex bg-white border border-border rounded-lg p-1 gap-1" role="tablist">
