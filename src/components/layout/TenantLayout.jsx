@@ -157,7 +157,7 @@ const TenantLayout = () => {
       </AnimatePresence>
       {/* Content wrapper */}
       <div className="flex flex-col flex-1 min-w-0 transition-[margin-left] duration-300 lg:ml-[260px] min-h-screen">
-        <div className="px-6 lg:px-10 max-w-[1440px] mx-auto w-full flex flex-col flex-1">
+        <div className="w-full max-w-6xl mx-auto px-6 py-8 flex flex-col flex-1">
           {/* Dynamic Top Bar */}
           <header className="flex items-center justify-between pt-6 pb-5 bg-transparent gap-4 border-b border-gray-200/80 mb-8 shrink-0 relative">
             <div className="flex items-center gap-4 flex-1 min-w-0">
