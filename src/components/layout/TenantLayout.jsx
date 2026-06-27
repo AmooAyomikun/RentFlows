@@ -74,43 +74,31 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
               aria-hidden="true"
               className={isActive ? 'text-white shrink-0' : 'text-[#338474] group-hover:text-white transition-colors shrink-0'}
             />
-            <span className="truncate">{label}</span>
+            <span className="whitespace-nowrap leading-none tracking-wider">{label}</span>
           </Link>
         );
       })}
     </nav>
 
-    {/* Bottom Section - Action Button & Links */}
-    <div className="mt-auto pt-2 space-y-2.5 shrink-0 px-0.5">
-      <button
-        onClick={() => {
-          if (onClose) onClose();
-          navigate('/tenant/maintenance?new=true');
-        }}
-        className="flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-xl bg-[#FF8C5A] hover:bg-[#ff7a40] text-[#2D1404] font-black text-xs shadow-md transition-all active:scale-[0.98] cursor-pointer shrink-0 uppercase tracking-wider"
+    {/* Bottom Section - Support & Settings matching design screenshot */}
+    <div className="mt-auto pt-2 space-y-1 shrink-0 px-0.5">
+      <Link
+        to="/tenant/settings"
+        onClick={onClose}
+        className="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#338474] hover:text-white hover:bg-white/5 transition-colors"
       >
-        <PlusCircle size={16} strokeWidth={2.5} />
-        <span>Report Issue</span>
-      </button>
+        <HelpCircle size={17} />
+        <span>Support</span>
+      </Link>
 
-      <div className="space-y-0.5 pt-0.5 shrink-0">
-        <Link
-          to="/tenant/settings"
-          onClick={onClose}
-          className="flex items-center gap-3 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#338474] hover:text-white hover:bg-white/5 transition-colors"
-        >
-          <Settings size={16} />
-          <span>Settings</span>
-        </Link>
-
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#338474] hover:text-white hover:bg-white/5 transition-colors cursor-pointer text-left"
-        >
-          <LogOut size={16} />
-          <span>Logout</span>
-        </button>
-      </div>
+      <Link
+        to="/tenant/settings"
+        onClick={onClose}
+        className="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#338474] hover:text-white hover:bg-white/5 transition-colors"
+      >
+        <Settings size={17} />
+        <span>Settings</span>
+      </Link>
     </div>
   </div>
 );
@@ -131,13 +119,14 @@ const TenantLayout = () => {
   const getSearchPlaceholder = (path) => {
     if (path.includes('maintenance')) return 'Search maintenance tickets...';
     if (path.includes('receipts') || path.includes('payments')) return 'Search receipts...';
+    if (path.includes('lease')) return 'Search lease clauses...';
     return 'Search invoices, requests...';
   };
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] flex font-sans text-gray-900 overflow-x-hidden">
-      {/* Desktop sidebar - Fixed width 250px, no scrolling */}
-      <aside className="hidden lg:flex flex-col fixed inset-y-0 left-0 z-30 w-[250px] bg-[#04332C] border-r border-white/5 shadow-2xl h-screen overflow-hidden" aria-label="Sidebar navigation">
+      {/* Desktop sidebar - Fixed width 260px, no scrolling */}
+      <aside className="hidden lg:flex flex-col fixed inset-y-0 left-0 z-30 w-[260px] bg-[#04332C] border-r border-white/5 shadow-2xl h-screen overflow-hidden" aria-label="Sidebar navigation">
         <SidebarContent onClose={undefined} location={location} handleLogout={handleLogout} navigate={navigate} />
       </aside>
 
@@ -154,10 +143,10 @@ const TenantLayout = () => {
               aria-hidden="true"
             />
             <motion.aside
-              className="fixed inset-y-0 left-0 z-50 w-[250px] lg:hidden shadow-2xl bg-[#04332C] h-screen overflow-hidden"
-              initial={{ x: -250 }}
+              className="fixed inset-y-0 left-0 z-50 w-[260px] lg:hidden shadow-2xl bg-[#04332C] h-screen overflow-hidden"
+              initial={{ x: -260 }}
               animate={{ x: 0 }}
-              exit={{ x: -250 }}
+              exit={{ x: -260 }}
               transition={{ type: 'tween', duration: 0.25 }}
               aria-label="Mobile sidebar navigation"
             >
@@ -167,7 +156,7 @@ const TenantLayout = () => {
         )}
       </AnimatePresence>
       {/* Content wrapper */}
-      <div className="flex flex-col flex-1 min-w-0 transition-[margin-left] duration-300 lg:ml-[250px] min-h-screen">
+      <div className="flex flex-col flex-1 min-w-0 transition-[margin-left] duration-300 lg:ml-[260px] min-h-screen">
         <div className="px-6 lg:px-10 max-w-[1440px] mx-auto w-full flex flex-col flex-1">
           {/* Dynamic Top Bar */}
           <header className="flex items-center justify-between pt-6 pb-5 bg-transparent gap-4 border-b border-gray-200/80 mb-8 shrink-0 relative">
@@ -192,40 +181,28 @@ const TenantLayout = () => {
             </div>
 
             {/* Actions Right matching design screenshot */}
-            <div className="flex items-center gap-4 sm:gap-6 shrink-0">
-              {location.pathname.includes('receipts') ? (
-                <div className="hidden sm:flex flex-col text-right mr-1">
-                  <span className="text-sm font-bold text-gray-900 leading-tight">Alex Thompson</span>
-                  <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider">UNIT 402B</span>
-                </div>
-              ) : (
-                <div className="hidden sm:flex items-center gap-2 bg-[#FEE2E2]/70 text-[#9A3412] border border-[#FCA5A5]/40 px-3.5 py-1.5 rounded-full text-xs font-extrabold tracking-wide">
-                  <span className="w-2 h-2 rounded-full bg-[#EA580C]" />
-                  UNIT 402 • ACTIVE LEASE
-                </div>
-              )}
-
+            <div className="flex items-center gap-4 sm:gap-5 shrink-0">
               <button
                 onClick={() => navigate('/tenant/notifications')}
-                className="p-2 hover:text-black text-gray-600 transition-colors cursor-pointer relative rounded-full hover:bg-gray-100 border border-gray-200/80 bg-white shadow-2xs"
+                className="p-2.5 hover:text-black text-gray-600 transition-colors cursor-pointer relative rounded-full hover:bg-gray-100 border border-gray-200/80 bg-white shadow-2xs"
                 aria-label="Notifications"
               >
                 <Bell size={18} />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-[#C75B30] rounded-full ring-2 ring-white" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#C75B30] rounded-full ring-2 ring-white" />
               </button>
 
-              <button
-                onClick={() => navigate('/tenant/settings')}
-                className="p-2 hover:text-black text-gray-600 transition-colors cursor-pointer rounded-full hover:bg-gray-100 border border-gray-200/80 bg-white shadow-2xs hidden sm:block"
-                aria-label="Help"
-              >
-                <HelpCircle size={18} />
-              </button>
+              <div className="hidden sm:flex flex-col text-right ml-1">
+                <span className="text-sm font-bold text-gray-900 leading-tight">Sarah Jenkins</span>
+                <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider">UNIT 402</span>
+              </div>
 
               {/* User Avatar */}
-              <div className="flex items-center gap-3 cursor-pointer ml-1" onClick={() => navigate('/tenant/settings')}>
-                <Avatar name={user?.name || 'Alex Thompson'} size="md" className="shadow-xs ring-2 ring-white" />
-              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80" 
+                alt="Sarah Jenkins" 
+                className="w-10 h-10 rounded-full object-cover shadow-xs ring-2 ring-white cursor-pointer ml-0.5"
+                onClick={() => navigate('/tenant/settings')}
+              />
             </div>
           </header>
 
