@@ -7,6 +7,7 @@ import MarketingLayout from '../components/layout/MarketingLayout';
 import AuthLayout from '../components/layout/AuthLayout';
 import LandlordLayout from '../components/layout/LandlordLayout';
 import TenantLayout from '../components/layout/TenantLayout';
+import DashboardLayout from '../components/layout/DashboardLayout';
 
 // Marketing Pages
 import Home from '../pages/marketing/Home';
@@ -153,7 +154,7 @@ const AppRouter = () => {
           path="/tenant"
           element={
             <RequireAuth allowedRole="tenant">
-              <TenantLayout />
+              <DashboardLayout />
             </RequireAuth>
           }
         >
