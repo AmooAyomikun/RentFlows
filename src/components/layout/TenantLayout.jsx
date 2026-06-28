@@ -101,10 +101,18 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
         <span>Settings</span>
       </Link>
 
+      <button
+        onClick={handleLogout}
+        className="w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#338474] hover:text-[#FF8C5A] hover:bg-white/5 transition-colors cursor-pointer text-left"
+      >
+        <LogOut size={17} />
+        <span>Log Out</span>
+      </button>
+
       <Link
         to="/tenant/pay-rent"
         onClick={onClose}
-        className="mt-3 block w-full py-3 px-4 rounded-xl bg-[#F97316] hover:bg-[#ea580c] text-white font-extrabold text-xs tracking-wider text-center shadow-md transition-all uppercase"
+        className="mt-3 block w-full py-3 px-4 rounded-xl bg-[#0B4F45] hover:bg-[#093d35] text-white font-extrabold text-xs tracking-wider text-center shadow-md transition-all uppercase"
       >
         Make Payment
       </Link>
@@ -115,14 +123,14 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
 const TenantLayout = () => {
   const { user, clearUser } = useAuthStore();
   const { mobileSidebarOpen, setMobileSidebarOpen } = useUIStore();
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     setMobileSidebarOpen(false);
     await authLogout();
     clearUser();
-    navigate('/login');
+    navigate('/auth/login');
   };
 
   const getSearchPlaceholder = (path) => {
@@ -135,7 +143,7 @@ const TenantLayout = () => {
   return (
     <div className="min-h-screen bg-[#FAF7F2] flex font-sans text-gray-900 overflow-x-hidden">
       {/* Desktop sidebar - Fixed width 260px, no scrolling */}
-      <aside className="hidden lg:flex flex-col fixed inset-y-0 left-0 z-30 w-[260px] bg-[#04332C] border-r border-white/5 shadow-2xl h-screen overflow-hidden" aria-label="Sidebar navigation">
+      <aside className="hidden lg:flex flex-col fixed inset-y-0 left-0 z-30 w-sidebar-width bg-[#04332C] border-r border-white/5 shadow-2xl h-screen overflow-hidden" aria-label="Sidebar navigation">
         <SidebarContent onClose={undefined} location={location} handleLogout={handleLogout} navigate={navigate} />
       </aside>
 
@@ -152,7 +160,7 @@ const TenantLayout = () => {
               aria-hidden="true"
             />
             <motion.aside
-              className="fixed inset-y-0 left-0 z-50 w-[260px] lg:hidden shadow-2xl bg-[#04332C] h-screen overflow-hidden"
+              className="fixed inset-y-0 left-0 z-50 w-sidebar-width lg:hidden shadow-2xl bg-[#04332C] h-screen overflow-hidden"
               initial={{ x: -260 }}
               animate={{ x: 0 }}
               exit={{ x: -260 }}
@@ -165,8 +173,8 @@ const TenantLayout = () => {
         )}
       </AnimatePresence>
       {/* Content wrapper */}
-      <div className="flex flex-col flex-1 min-w-0 transition-[margin-left] duration-300 lg:ml-[260px] min-h-screen">
-        <div className="w-full max-w-6xl mx-auto px-6 py-8 flex flex-col flex-1">
+      <div className="flex flex-col flex-1 min-w-0 transition-[margin-left] duration-300 lg:ml-sidebar-width min-h-screen">
+        <div className="w-full max-w-6xl mx-auto px-container-padding py-8 flex flex-col flex-1">
           {/* Dynamic Top Bar */}
           <header className="flex items-center justify-between pt-6 pb-5 bg-transparent gap-4 border-b border-gray-200/80 mb-8 shrink-0 relative">
             <div className="flex items-center gap-4 flex-1 min-w-0">
@@ -215,7 +223,7 @@ const TenantLayout = () => {
 
               <button
                 onClick={() => navigate('/tenant/pay-rent')}
-                className="hidden sm:inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-[#04332C] hover:bg-[#064e43] text-white font-extrabold text-xs tracking-wider uppercase transition-all shadow-sm cursor-pointer ml-1"
+                className="hidden sm:inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-[#0B4F45] hover:bg-[#093d35] text-white font-extrabold text-xs tracking-wider uppercase transition-all shadow-sm cursor-pointer ml-1"
               >
                 Make Payment
               </button>
