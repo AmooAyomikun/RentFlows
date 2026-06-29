@@ -16,7 +16,7 @@ html {
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background-color: #FAF7F2;
+  background-color: #FFFFFF;
   color: #4A4F4C;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -63,7 +63,7 @@ p:last-child { margin-bottom: 0; }
 }
 
 ::-webkit-scrollbar-track {
-  background: #FAF7F2;
+  background: #FFFFFF;
 }
 
 ::-webkit-scrollbar-thumb {

@@ -12,7 +12,7 @@ const LandlordLayout = ({ title }) => {
   const { sidebarCollapsed } = useUIStore();
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] flex font-sans text-gray-900">
+    <div className="min-h-screen bg-surface flex font-sans text-gray-900">
       <Sidebar />
 
       {/* Main content shifts right based on sidebar width */}
