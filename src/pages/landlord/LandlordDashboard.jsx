@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 import {
   Building2, Users, CreditCard, AlertTriangle,
   Wrench, TrendingUp, ArrowRight, Bell, Calendar,
@@ -21,6 +22,13 @@ const revenueChartData = [
   { month: 'May', Residential: 75000, Commercial: 26000 },
   { month: 'Jun', Residential: 75000, Commercial: 19000 },
   { month: 'Jul', Residential: 96000, Commercial: 18000 },
+];
+
+const quarterlyRevenueData = [
+  { month: 'Q1', Residential: 104000, Commercial: 77000 },
+  { month: 'Q2', Residential: 198000, Commercial: 65000 },
+  { month: 'Q3', Residential: 246000, Commercial: 63000 },
+  { month: 'Q4', Residential: 285000, Commercial: 84000 },
 ];
 
 const recentActivities = [
@@ -109,7 +117,7 @@ const outstandingRentData = [
 const recentPaymentsData = [
   { id: 1, date: 'Oct 24', name: 'Simisola Alabi', unit: 'Victoria Island 4B', amount: '₦2,400,000', status: 'Completed', statusBg: 'bg-emerald-100 text-emerald-700' },
   { id: 2, date: 'Oct 23', name: 'Musa Rano', unit: 'Banana Island 12C', amount: '₦1,850,000', status: 'Pending', statusBg: 'bg-amber-100 text-amber-700' },
-  { id: 3, date: 'Oct 23', name: 'Emeka Watson', unit: 'Victoria Island 9A', amount: '₦2,100,000', status: 'Completed', statusBg: 'bg-emerald-100 text-emerald-700' },
+  { id: 3, date: 'Oct 23', name: 'Emeka Nnamdi', unit: 'Victoria Island 9A', amount: '₦2,100,000', status: 'Completed', statusBg: 'bg-emerald-100 text-emerald-700' },
 ];
 
 const LandlordDashboard = () => {
@@ -247,18 +255,18 @@ const LandlordDashboard = () => {
             <div className="flex items-center justify-between pb-3 flex-shrink-0">
               <div>
                 <h3 className="text-sm font-semibold uppercase text-gray-800">Portfolio Revenue</h3>
-                <p className="text-base text-[#4A4F4C] font-medium mt-0.5">Monthly trends across property types</p>
+                <p className="text-base text-[#4A4F4C] font-medium mt-0.5">{chartPeriod} trends across property types</p>
               </div>
               <div className="bg-gray-100/80 p-0.5 rounded-xl flex items-center text-[11px] font-bold">
                 <button
                   onClick={() => setChartPeriod('Monthly')}
-                  className={`px-2.5 py-1 rounded-lg transition-all ${chartPeriod === 'Monthly' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                  className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${chartPeriod === 'Monthly' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
                 >
                   Monthly
                 </button>
                 <button
                   onClick={() => setChartPeriod('Quarterly')}
-                  className={`px-2.5 py-1 rounded-lg transition-all ${chartPeriod === 'Quarterly' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                  className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${chartPeriod === 'Quarterly' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
                 >
                   Quarterly
                 </button>
@@ -267,7 +275,7 @@ const LandlordDashboard = () => {
 
             <div className="w-full flex-1 min-h-[220px] pt-2">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={revenueChartData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }} barSize={30}>
+                <BarChart data={chartPeriod === 'Monthly' ? revenueChartData : quarterlyRevenueData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }} barSize={30}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                   <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 500 }} dy={6} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 500 }} tickFormatter={(val) => `₦${val / 1000}M`} />
@@ -479,7 +487,10 @@ const LandlordDashboard = () => {
                     <td className={`py-3 px-4 font-black ${row.alert}`}>{row.amount}</td>
                     <td className={`py-3 px-4 font-bold text-[11px] ${row.alert}`}>{row.overdue}</td>
                     <td className="py-3 pr-4 text-right">
-                      <button className="px-2.5 py-1 rounded-lg bg-white border border-gray-200/80 text-[10px] font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
+                      <button
+                        onClick={() => toast.success(`Payment reminder sent to ${row.name}!`)}
+                        className="px-2.5 py-1 rounded-lg bg-white border border-gray-200/80 text-[10px] font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm cursor-pointer active:scale-95"
+                      >
                         Remind
                       </button>
                     </td>

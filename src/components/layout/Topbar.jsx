@@ -35,23 +35,34 @@ const Topbar = ({ title }) => {
             {centerTitle}
           </div>
         )}
-        {/* Left side: Mobile menu + Global search input */}
-        <div className="flex items-center gap-3 flex-1 max-w-[420px]">
+        {/* Left side: Mobile menu + Back button + Global search input */}
+        <div className="flex items-center gap-2.5 flex-1 max-w-[460px]">
           <button
-            className="lg:hidden p-2 text-gray-600 hover:text-black rounded-lg transition-colors focus-visible:outline-none"
+            className="lg:hidden p-2 text-gray-600 hover:text-black rounded-lg transition-colors focus-visible:outline-none cursor-pointer"
             onClick={() => setMobileSidebarOpen(true)}
             aria-label="Open navigation"
           >
             <Menu size={22} />
           </button>
 
-          {/* Search input replicating screenshot */}
-          <div className="relative w-full flex items-center bg-white border border-gray-200/80 rounded-xl h-10 px-3.5 shadow-2xs focus-within:ring-2 focus-within:ring-[#0B4F45]/20 transition-all">
-            <Search size={16} className="text-gray-400 mr-2.5 flex-shrink-0" aria-hidden="true" />
+          {location.pathname !== '/landlord/dashboard' && (
+            <button
+              onClick={() => navigate(-1)}
+              className="px-3 py-2 text-gray-700 hover:text-[#0B4F45] hover:bg-white rounded-xl transition-all flex items-center gap-1.5 font-bold text-xs shrink-0 cursor-pointer shadow-2xs bg-gray-50/90 border border-gray-200/80 active:scale-95"
+              title="Go back to previous page"
+            >
+              <span className="text-base leading-none">&larr;</span>
+              <span className="hidden sm:inline">Back</span>
+            </button>
+          )}
+
+          {/* Search input replicating clean cohesive screenshot */}
+          <div className="relative w-full flex items-center bg-white border border-gray-200 rounded-xl h-10 px-3.5 shadow-2xs focus-within:border-[#0B4F45] focus-within:ring-2 focus-within:ring-[#0B4F45]/20 transition-all overflow-hidden">
+            <Search size={16} className="text-gray-400 mr-2.5 flex-shrink-0 pointer-events-none" aria-hidden="true" />
             <input
               type="text"
               placeholder={placeholder}
-              className="w-full bg-transparent text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none"
+              className="w-full bg-transparent border-0 outline-none focus:outline-none focus:ring-0 text-xs sm:text-sm text-gray-800 placeholder-gray-400 p-0 leading-normal"
               aria-label={placeholder}
             />
           </div>
