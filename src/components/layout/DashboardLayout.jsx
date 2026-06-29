@@ -13,6 +13,8 @@ const tenantNavItems = [
   { href: '/tenant/maintenance', icon: 'build', label: 'Maintenance' },
   { href: '/tenant/lease', icon: 'description', label: 'Lease Details' },
   { href: '/tenant/profile', icon: 'person', label: 'Profile' },
+  { href: '/tenant/support', icon: 'help', label: 'Support' },
+  { href: '/tenant/settings', icon: 'settings', label: 'Settings' },
 ];
 
 const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
@@ -117,6 +119,44 @@ const DashboardLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const path = location.pathname;
+  const isPayRent = path.includes('/pay-rent');
+  const isMaintenance = path.includes('/maintenance');
+  const isPayments = path.includes('/payments');
+  const isLease = path.includes('/lease');
+  const isReceipts = path.includes('/receipts');
+  const isProfile = path.includes('/profile');
+  const isSettings = path.includes('/settings');
+  const isReportIssue = path.includes('/report-issue');
+  const isDashboard = path.includes('/dashboard') || (!isPayRent && !isMaintenance && !isPayments && !isLease && !isReceipts && !isProfile && !isSettings && !isReportIssue);
+
+  // Determine Title vs Search input
+  let headerTitle = null;
+  if (isPayRent) headerTitle = "Pay Rent";
+  else if (isProfile) headerTitle = "Profile Settings";
+  else if (isSettings) headerTitle = "Settings";
+  else if (isReportIssue) headerTitle = "Report Issue";
+
+  // Determine Search placeholder
+  let searchPlaceholder = "Search invoices, requests...";
+  if (isMaintenance) searchPlaceholder = "Search maintenance tickets...";
+  else if (isPayments) searchPlaceholder = "Search transactions...";
+  else if (isLease) searchPlaceholder = "Search lease clauses...";
+  else if (isReceipts) searchPlaceholder = "Search receipts...";
+  else if (isSettings) searchPlaceholder = "Search settings...";
+
+  // Determine Badge
+  const showBadge = isMaintenance || isPayments || isLease || isReceipts;
+  let badgeText = "UNIT 402 • ACTIVE LEASE";
+  if (isReceipts) badgeText = "UNIT 402B";
+
+  // Right side configuration per Stitch exports
+  const showChat = isDashboard;
+  const showHelpIcon = isMaintenance || isPayments || isSettings;
+  const showHelpText = isDashboard;
+  const showMakePayment = isDashboard || isPayRent || isReportIssue || isPayments;
+  const showAccountIcon = isPayRent;
+
   const handleLogout = async () => {
     setMobileSidebarOpen(false);
     await authLogout();
@@ -157,8 +197,8 @@ const DashboardLayout = () => {
         )}
       </AnimatePresence>
 
-      {/* Top App Bar matching Stitch Dashboard design exactly */}
-      <header className="fixed top-0 right-0 w-full lg:w-[calc(100%-260px)] z-40 flex justify-between items-center px-container-padding h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant dark:border-outline">
+      {/* Top App Bar matching page-specific Stitch designs exactly */}
+      <header className="fixed top-0 right-0 w-full lg:w-[calc(100%-260px)] z-50 flex justify-between items-center px-container-padding py-3 min-h-[76px] bg-surface/95 backdrop-blur-md border-b border-outline-variant dark:border-outline shadow-xs">
         <div className="flex items-center gap-4">
           <button
             className="lg:hidden p-1 text-on-surface-variant hover:text-primary transition-colors cursor-pointer mr-2"
@@ -167,17 +207,32 @@ const DashboardLayout = () => {
           >
             <span className="material-symbols-outlined text-2xl">menu</span>
           </button>
-          <div className="relative group">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-colors group-focus-within:text-primary">search</span>
-            <input
-              className="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 w-48 sm:w-72 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none text-on-surface placeholder:text-on-surface-variant/60"
-              placeholder="Search invoices, requests..."
-              type="text"
-            />
-          </div>
+          
+          {headerTitle && !isSettings ? (
+            <h2 className="font-headline-md text-xl font-bold text-primary">{headerTitle}</h2>
+          ) : (
+            <>
+              {isSettings && <h2 className="font-headline-md text-xl font-bold text-primary mr-2 hidden sm:block">{headerTitle}</h2>}
+              <div className="relative group">
+                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-colors group-focus-within:text-primary">search</span>
+                <input
+                  className="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 w-48 sm:w-72 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none text-on-surface placeholder:text-on-surface-variant/60"
+                  placeholder={searchPlaceholder}
+                  type="text"
+                />
+              </div>
+              {showBadge && (
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-secondary-container/30 border border-secondary/20 rounded-full">
+                  <span className="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                  <span className="text-secondary font-label-caps text-[11px] font-bold uppercase tracking-wider">{badgeText}</span>
+                </div>
+              )}
+            </>
+          )}
         </div>
+
         <div className="flex items-center gap-6">
-          <div className="flex gap-4 border-r border-outline-variant pr-6">
+          <div className="flex items-center gap-4 border-r border-outline-variant pr-6">
             <button
               onClick={() => navigate('/tenant/notifications')}
               className="relative text-on-surface-variant hover:text-primary transition-colors active:scale-95 cursor-pointer"
@@ -186,27 +241,51 @@ const DashboardLayout = () => {
               <span className="material-symbols-outlined">notifications</span>
               <span className="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
             </button>
-            <button
-              onClick={() => navigate('/tenant/report-issue')}
-              className="text-on-surface-variant hover:text-primary transition-colors active:scale-95 cursor-pointer"
-              aria-label="Messages"
-            >
-              <span className="material-symbols-outlined">chat_bubble</span>
-            </button>
+            {showChat && (
+              <button
+                onClick={() => navigate('/tenant/report-issue')}
+                className="text-on-surface-variant hover:text-primary transition-colors active:scale-95 cursor-pointer"
+                aria-label="Messages"
+              >
+                <span className="material-symbols-outlined">chat_bubble</span>
+              </button>
+            )}
+            {showHelpIcon && (
+              <button
+                onClick={() => navigate('/tenant/support')}
+                className="text-on-surface-variant hover:text-primary transition-colors active:scale-95 cursor-pointer"
+                aria-label="Help"
+              >
+                <span className="material-symbols-outlined text-[22px]">help_outline</span>
+              </button>
+            )}
+            {showAccountIcon && (
+              <button
+                onClick={() => navigate('/tenant/profile')}
+                className="text-on-surface-variant hover:text-primary transition-colors active:scale-95 cursor-pointer"
+                aria-label="Account"
+              >
+                <span className="material-symbols-outlined text-[24px]">account_circle</span>
+              </button>
+            )}
           </div>
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigate('/tenant/settings')}
-              className="hidden sm:block text-on-surface-variant hover:text-primary transition-colors font-label-caps text-label-caps uppercase cursor-pointer"
-            >
-              Help
-            </button>
-            <button
-              onClick={() => navigate('/tenant/pay-rent')}
-              className="bg-primary text-on-primary font-label-caps text-label-caps uppercase px-5 py-2 rounded-full hover:bg-primary-container transition-all active:scale-95 cursor-pointer shadow-xs"
-            >
-              Make Payment
-            </button>
+            {showHelpText && (
+              <button
+                onClick={() => navigate('/tenant/settings')}
+                className="hidden sm:block text-on-surface-variant hover:text-primary transition-colors font-label-caps text-label-caps uppercase cursor-pointer"
+              >
+                Help
+              </button>
+            )}
+            {showMakePayment && (
+              <button
+                onClick={() => navigate('/tenant/pay-rent')}
+                className="bg-primary text-on-primary font-label-caps text-label-caps uppercase px-5 py-2 rounded-full hover:bg-primary-container transition-all active:scale-95 cursor-pointer shadow-xs"
+              >
+                Make Payment
+              </button>
+            )}
             <div
               onClick={() => navigate('/tenant/profile')}
               className="w-10 h-10 rounded-full border-2 border-primary-fixed overflow-hidden bg-surface-container-high cursor-pointer hover:scale-105 transition-transform shrink-0"
@@ -221,8 +300,8 @@ const DashboardLayout = () => {
         </div>
       </header>
 
-      {/* Main Content Canvas */}
-      <main className="flex-1 lg:ml-sidebar-width pt-28 px-container-padding pb-12 min-h-screen w-full">
+      {/* Main Content Canvas with guaranteed clearance below header */}
+      <main className="flex-1 lg:ml-sidebar-width pt-32 sm:pt-36 px-container-padding pb-16 min-h-screen w-full relative z-10">
         <Outlet />
       </main>
     </div>
