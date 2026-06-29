@@ -5,18 +5,21 @@ import useAuthStore from '../../store/authStore';
 import useUIStore from '../../store/uiStore';
 import { logout as authLogout } from '../../services/authService';
 import { LogoMark } from './Navbar';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  LayoutDashboard, CreditCard, History, Receipt,
+  Wrench, FileText, User, Settings, AlertTriangle, LogOut,
+  ChevronLeft, ChevronRight
+} from 'lucide-react';
 
 const tenantNavItems = [
-  { href: '/tenant/dashboard', icon: 'dashboard', label: 'Dashboard' },
-  { href: '/tenant/pay-rent', icon: 'payments', label: 'Pay Rent' },
-  { href: '/tenant/payments', icon: 'history', label: 'Payment History' },
-  { href: '/tenant/receipts', icon: 'receipt_long', label: 'Receipts' },
-  { href: '/tenant/maintenance', icon: 'build', label: 'Maintenance' },
-  { href: '/tenant/lease', icon: 'description', label: 'Lease Details' },
-  { href: '/tenant/profile', icon: 'person', label: 'Profile' },
-  { href: '/tenant/support', icon: 'help', label: 'Support' },
-  { href: '/tenant/settings', icon: 'settings', label: 'Settings' },
+  { href: '/tenant/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { href: '/tenant/pay-rent', icon: CreditCard, label: 'Pay Rent' },
+  { href: '/tenant/payments', icon: History, label: 'Payment History' },
+  { href: '/tenant/receipts', icon: Receipt, label: 'Receipts' },
+  { href: '/tenant/maintenance', icon: Wrench, label: 'Maintenance' },
+  { href: '/tenant/lease', icon: FileText, label: 'Lease Details' },
+  { href: '/tenant/profile', icon: User, label: 'Profile' },
+  { href: '/tenant/settings', icon: Settings, label: 'Settings' },
 ];
 
 const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarCollapsed, toggleSidebar }) => (
@@ -27,8 +30,8 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarColl
         <Link to="/tenant/dashboard" onClick={onClose} className="flex items-center gap-3 min-w-0" aria-label="RentFlow dashboard">
           <LogoMark />
           <div className="flex flex-col shrink-0">
-            <h1 className="font-headline-md text-xl font-bold text-white leading-tight">RentFlow</h1>
-            <p className="font-label-caps text-[11px] text-[#84bfb2] opacity-80 uppercase tracking-widest">Tenant Portal</p>
+            <h1 className="text-xl font-bold text-white leading-tight">RentFlow</h1>
+            <p className="text-[11px] font-semibold text-[#84bfb2] opacity-80 uppercase tracking-widest">Tenant Portal</p>
           </div>
         </Link>
       )}
@@ -47,88 +50,83 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarColl
       </button>
     </div>
 
-    {/* Navigation List matching screenshot styling, optimized for fitting all items */}
+    {/* Navigation List matching landlord dashboard styling */}
     <nav className="flex-1 space-y-1 px-3.5 overflow-y-auto [&::-webkit-scrollbar]:hidden">
-      {tenantNavItems.map(({ href, icon, label }) => {
-        const isActive = location.pathname === href || (href === '/tenant/profile' && location.pathname === '/tenant/settings');
-        
-        if (isActive) {
-          return (
-            <Link
-              key={label}
-              to={href}
-              onClick={onClose}
-              title={sidebarCollapsed ? label : undefined}
-              className={`relative flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl bg-white/10 text-white font-semibold transition-all duration-200 shadow-sm overflow-hidden ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
-            >
-              {/* Orange vertical indicator bar on left edge */}
-              <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#C75B30] rounded-r-full" />
-              <span className="material-symbols-outlined [font-variation-settings:'FILL'_1] shrink-0 text-[20px] text-white">{icon}</span>
+      {tenantNavItems.map(({ href, icon: Icon, label }) => (
+        <NavLink
+          key={label}
+          to={href}
+          onClick={onClose}
+          className={({ isActive }) =>
+            [
+              'relative flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl transition-all duration-200 overflow-hidden',
+              isActive
+                ? 'bg-white/10 text-white font-semibold shadow-sm'
+                : 'text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 active:scale-[0.98] font-medium',
+              sidebarCollapsed ? 'justify-center px-0' : '',
+            ].join(' ')
+          }
+          title={sidebarCollapsed ? label : undefined}
+        >
+          {({ isActive }) => (
+            <>
+              {isActive && (
+                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#C75B30] rounded-r-full" />
+              )}
+              <Icon
+                size={20}
+                aria-hidden="true"
+                className={`shrink-0 ${isActive ? 'text-white' : 'text-[#84bfb2]'}`}
+              />
               {!sidebarCollapsed && <span className="text-[15px] tracking-normal truncate">{label}</span>}
-            </Link>
-          );
-        }
-
-        return (
-          <Link
-            key={label}
-            to={href}
-            onClick={onClose}
-            title={sidebarCollapsed ? label : undefined}
-            className={`flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 active:scale-[0.98] ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
-          >
-            <span className="material-symbols-outlined shrink-0 text-[20px]">{icon}</span>
-            {!sidebarCollapsed && <span className="text-[15px] font-medium tracking-normal truncate">{label}</span>}
-          </Link>
-        );
-      })}
-
-      {/* Divider */}
-      <div className="my-2 border-t border-white/10 pt-1" />
-
-      {/* Report Issue */}
-      <button
-        onClick={() => {
-          if (onClose) onClose();
-          navigate('/tenant/report-issue');
-        }}
-        title={sidebarCollapsed ? 'Report Issue' : undefined}
-        className={`w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl transition-all duration-200 cursor-pointer text-left ${
-          location.pathname === '/tenant/report-issue'
-            ? 'relative bg-white/10 text-white font-semibold overflow-hidden'
-            : 'text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 font-medium'
-        } ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
-      >
-        {location.pathname === '/tenant/report-issue' && (
-          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#C75B30] rounded-r-full" />
-        )}
-        <span className="material-symbols-outlined shrink-0 text-[20px]">report_problem</span>
-        {!sidebarCollapsed && <span className="text-[15px] tracking-normal truncate">Report Issue</span>}
-      </button>
-
-      {/* Logout */}
-      <button
-        onClick={handleLogout}
-        title={sidebarCollapsed ? 'Logout' : undefined}
-        className={`w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 cursor-pointer text-left font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
-      >
-        <span className="material-symbols-outlined shrink-0 text-[20px]">logout</span>
-        {!sidebarCollapsed && <span className="text-[15px] tracking-normal truncate">Logout</span>}
-      </button>
+            </>
+          )}
+        </NavLink>
+      ))}
     </nav>
 
-    {/* Bottom Section: Make Payment Button */}
-    <div className="mt-auto px-3.5 pt-3 shrink-0">
-      <button
-        onClick={() => {
-          if (onClose) onClose();
-          navigate('/tenant/pay-rent');
-        }}
-        title={sidebarCollapsed ? 'Make Payment' : undefined}
-        className={`w-full bg-[#C75B30] hover:bg-[#d8683b] text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all text-center text-[15px] cursor-pointer flex items-center justify-center ${sidebarCollapsed ? 'px-0 w-11 h-11 mx-auto' : ''}`}
+    {/* Bottom section matching landlord dashboard styling */}
+    <div className="p-3.5 mt-auto space-y-3 shrink-0 border-t border-white/10">
+      <Link
+        to="/tenant/pay-rent"
+        onClick={onClose}
+        className={`flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[#C75B30] hover:bg-[#d8683b] text-white font-bold text-[15px] shadow-md hover:shadow-lg transition-all active:scale-95 ${sidebarCollapsed ? 'px-0 w-11 h-11 mx-auto' : ''}`}
+        title="Make Payment"
       >
-        {sidebarCollapsed ? <span className="material-symbols-outlined text-[20px]">payments</span> : <span>Make Payment</span>}
-      </button>
+        <CreditCard size={20} className="shrink-0" />
+        {!sidebarCollapsed && <span>Make Payment</span>}
+      </Link>
+
+      <div className="space-y-1 pt-1">
+        <Link
+          to="/tenant/report-issue"
+          onClick={onClose}
+          className={`flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
+          title="Report Issue"
+        >
+          <AlertTriangle size={20} className="shrink-0 text-[#C75B30]" />
+          {!sidebarCollapsed && <span className="text-[15px]">Report Issue</span>}
+        </Link>
+
+        <Link
+          to="/tenant/support"
+          onClick={onClose}
+          className={`flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
+          title="Support"
+        >
+          <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[11px] font-bold shrink-0">?</div>
+          {!sidebarCollapsed && <span className="text-[15px]">Support</span>}
+        </Link>
+
+        <button
+          onClick={handleLogout}
+          className={`w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 cursor-pointer text-left font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
+          title="Logout"
+        >
+          <LogOut size={20} className="shrink-0" />
+          {!sidebarCollapsed && <span className="text-[15px]">Logout</span>}
+        </button>
+      </div>
     </div>
   </div>
 );

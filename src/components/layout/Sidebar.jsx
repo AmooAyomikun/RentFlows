@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Building2, Users, CreditCard,
   Wrench, BarChart3, Bell, Settings, ChevronLeft,
-  ChevronRight, Plus, X
+  ChevronRight, Plus, LogOut
 } from 'lucide-react';
 import { LogoMark } from './Navbar';
 import useAuthStore from '../../store/authStore';
@@ -134,7 +134,7 @@ const Sidebar = () => {
             className={`w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 cursor-pointer text-left font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
             title="Logout"
           >
-            <X size={20} className="rotate-45 shrink-0" />
+            <LogOut size={20} className="shrink-0" />
             {!sidebarCollapsed && <span className="text-[15px]">Logout</span>}
           </button>
         </div>
