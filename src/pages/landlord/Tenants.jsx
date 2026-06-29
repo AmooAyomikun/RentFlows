@@ -15,9 +15,9 @@ const directoryRows = [
     leaseTerm: 'Oct 2023 – Sep 2024',
     rent: '₦2,450,000',
     status: 'On Time',
-    statusBg: 'bg-emerald-50',
-    statusText: 'text-emerald-700',
-    dotBg: 'bg-emerald-500',
+    statusBg: 'bg-[#bae9df]/30',
+    statusText: 'text-[#0b4f45]',
+    dotBg: 'bg-[#0b4f45]',
   },
   {
     id: 't2',
@@ -28,9 +28,9 @@ const directoryRows = [
     leaseTerm: 'Jan 2024 – Dec 2024',
     rent: '₦3,100,000',
     status: 'Late',
-    statusBg: 'bg-red-50',
-    statusText: 'text-red-600',
-    dotBg: 'bg-red-500',
+    statusBg: 'bg-[#ffdad6]/40',
+    statusText: 'text-[#ba1a1a]',
+    dotBg: 'bg-[#ba1a1a]',
   },
   {
     id: 't3',
@@ -41,29 +41,11 @@ const directoryRows = [
     leaseTerm: 'Mar 2023 – Feb 2024',
     rent: '₦1,850,000',
     status: 'Grace Period',
-    statusBg: 'bg-amber-50',
-    statusText: 'text-amber-700',
-    dotBg: 'bg-amber-500',
+    statusBg: 'bg-[#ffdbcf]/40',
+    statusText: 'text-[#7f2800]',
+    dotBg: 'bg-[#7f2800]',
   },
 ];
-
-const MetricCard = ({ label, icon: Icon, iconBg, iconColor, value, sub, subIcon: SubIcon, subColor }) => (
-  <div className="bg-white rounded-xl border border-gray-200 p-6 card-shadow flex flex-col justify-between gap-3 min-h-[130px]">
-    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
-      <span className="text-sm font-semibold uppercase text-gray-800 leading-tight">{label}</span>
-      <div style={{ width: 32, height: 32, minWidth: 32, minHeight: 32, borderRadius: '50%', backgroundColor: iconBg, color: iconColor, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-        <Icon size={16} />
-      </div>
-    </div>
-    <div>
-      <div style={{ fontSize: 28, fontWeight: 900, color: '#111827', lineHeight: 1, letterSpacing: '-0.02em' }}>{value}</div>
-      <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, fontWeight: 600, color: subColor }}>
-        {SubIcon && <SubIcon size={12} />}
-        {sub}
-      </div>
-    </div>
-  </div>
-);
 
 const Tenants = () => {
   const navigate = useNavigate();
@@ -75,226 +57,218 @@ const Tenants = () => {
   );
 
   return (
-    /* Outer wrapper — no max-width constraint here; let LandlordLayout handle the margin */
-    <div style={{ fontFamily: 'inherit' }}>
-
-      {/* ── PAGE HEADER ── */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
+    <div className="flex-1 overflow-y-auto">
+      {/* Header section matching Stitch export exactly */}
+      <div className="mb-8 flex flex-wrap justify-between items-end gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0">Tenant Management</h1>
-          <p className="text-base text-[#4A4F4C] m-0 mt-1 font-medium">Overview of your active portfolio and resident health.</p>
+          <h1 className="text-2xl font-bold text-[#00372f] mb-2 leading-tight">Tenant Management</h1>
+          <p className="text-base text-[#404946]">Overview of your active portfolio and resident health.</p>
         </div>
-        <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-          <button style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 10, border: '1px solid #e5e7eb', background: '#fff', fontSize: 12, fontWeight: 600, color: '#374151', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,.05)' }}>
-            <Filter size={13} color="#6b7280" /> Filter
+        <div className="flex gap-4">
+          <button className="px-4 py-2 border border-[#bfc9c5] rounded-lg text-sm font-medium bg-[#f7faf6] hover:bg-[#f1f4f1] flex items-center gap-2 text-[#181c1a] shadow-sm transition-all cursor-pointer">
+            <Filter size={18} className="text-[#404946]" /> Filter
           </button>
-          <button style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 10, border: '1px solid #e5e7eb', background: '#fff', fontSize: 12, fontWeight: 600, color: '#374151', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,.05)' }}>
-            <ArrowUpDown size={13} color="#6b7280" /> Sort
+          <button className="px-4 py-2 border border-[#bfc9c5] rounded-lg text-sm font-medium bg-[#f7faf6] hover:bg-[#f1f4f1] flex items-center gap-2 text-[#181c1a] shadow-sm transition-all cursor-pointer">
+            <ArrowUpDown size={18} className="text-[#404946]" /> Sort
           </button>
         </div>
       </div>
 
-      {/* ── TWO-COLUMN GRID ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 24, alignItems: 'start' }}>
+      {/* 4 KPIs row spanning full width */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        {/* KPI 1 */}
+        <div className="glass-card rounded-xl p-6 flex flex-col justify-between min-h-[130px]">
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-sm font-semibold text-[#404946] uppercase tracking-wider">Total Tenants</h3>
+            <span className="p-2 rounded-full bg-[#b1efe1]/20 text-[#0b4f45] flex items-center justify-center shrink-0">
+              <Users size={20} />
+            </span>
+          </div>
+          <div>
+            <span className="text-2xl font-bold text-[#181c1a] leading-none">1,248</span>
+            <p className="text-sm text-[#3a665e] mt-2 flex items-center gap-1 font-medium">
+              <TrendingUp size={16} /> +12 this month
+            </p>
+          </div>
+        </div>
 
-        {/* ── LEFT COLUMN ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, minWidth: 0 }}>
+        {/* KPI 2 */}
+        <div className="glass-card rounded-xl p-6 flex flex-col justify-between min-h-[130px]">
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-sm font-semibold text-[#404946] uppercase tracking-wider">New Leases</h3>
+            <span className="p-2 rounded-full bg-[#ffdbcf]/20 text-[#7f2800] flex items-center justify-center shrink-0">
+              <FileText size={20} />
+            </span>
+          </div>
+          <div>
+            <span className="text-2xl font-bold text-[#181c1a] leading-none">34</span>
+            <p className="text-sm text-[#404946] mt-2 font-medium">MTD</p>
+          </div>
+        </div>
 
-          {/* Metric Cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
-            <MetricCard
-              label="Total Tenants"
-              icon={Users} iconBg="#d1fae5" iconColor="#065f46"
-              value="1,248"
-              sub="+12 this month" subIcon={TrendingUp} subColor="#059669"
-            />
-            <MetricCard
-              label="New Leases"
-              icon={FileText} iconBg="#fee2e2" iconColor="#b91c1c"
-              value="34"
-              sub="MTD" subColor="#9ca3af"
-            />
-            <MetricCard
-              label="Payment Health"
-              icon={ShieldCheck} iconBg="#d1fae5" iconColor="#065f46"
-              value="94%"
-              sub="On-time rate" subIcon={CheckCircle2} subColor="#059669"
-            />
-            <MetricCard
-              label="Upcoming Move-Outs"
-              icon={LogOut} iconBg="#fee2e2" iconColor="#b91c1c"
-              value="18"
-              sub="Next 60 days" subColor="#9ca3af"
+        {/* KPI 3 */}
+        <div className="glass-card rounded-xl p-6 flex flex-col justify-between min-h-[130px]">
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-sm font-semibold text-[#404946] uppercase tracking-wider">Payment Health</h3>
+            <span className="p-2 rounded-full bg-[#bae9df]/30 text-[#0b4f45] flex items-center justify-center shrink-0">
+              <ShieldCheck size={20} />
+            </span>
+          </div>
+          <div>
+            <span className="text-2xl font-bold text-[#181c1a] leading-none">94%</span>
+            <p className="text-sm text-[#3a665e] mt-2 flex items-center gap-1 font-medium">
+              <CheckCircle2 size={16} /> On-time rate
+            </p>
+          </div>
+        </div>
+
+        {/* KPI 4 */}
+        <div className="glass-card rounded-xl p-6 flex flex-col justify-between min-h-[130px]">
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-sm font-semibold text-[#404946] uppercase tracking-wider">Upcoming Move-outs</h3>
+            <span className="p-2 rounded-full bg-[#ffdad6]/30 text-[#ba1a1a] flex items-center justify-center shrink-0">
+              <LogOut size={20} />
+            </span>
+          </div>
+          <div>
+            <span className="text-2xl font-bold text-[#181c1a] leading-none">18</span>
+            <p className="text-sm text-[#404946] mt-2 font-medium">Next 60 days</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Comprehensive Tenant Table (Full Width) */}
+      <div className="glass-card rounded-xl overflow-hidden flex flex-col mb-6">
+        <div className="p-6 border-b border-[#e0e3e0] flex flex-wrap items-center justify-between gap-4">
+          <h3 className="text-sm font-semibold uppercase text-[#181c1a] tracking-wider">Tenant Directory</h3>
+          <div className="relative">
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#404946]" />
+            <input
+              type="text"
+              placeholder="Search tenants..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="pl-9 pr-4 py-2 text-sm bg-[#f7faf6] border border-[#bfc9c5] rounded-lg focus:outline-none focus:border-[#00372f] text-[#181c1a] placeholder:text-[#404946] w-64"
             />
           </div>
-
-          {/* Tenant Directory */}
-          <div className="bg-white rounded-xl border border-gray-200 card-shadow overflow-hidden">
-            {/* Card header */}
-            <div className="p-6 border-b border-gray-100 flex items-center justify-between gap-3">
-              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Tenant Directory</h2>
-              <div style={{ position: 'relative' }}>
-                <Search size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
-                <input
-                  type="text"
-                  placeholder="Search tenants..."
-                  value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
-                  style={{ paddingLeft: 30, paddingRight: 12, paddingTop: 6, paddingBottom: 6, fontSize: 12, border: '1px solid #e5e7eb', borderRadius: 8, outline: 'none', width: 200, color: '#374151', background: '#fff' }}
-                />
-              </div>
-            </div>
-
-            {/* Table */}
-            <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
-              <colgroup>
-                <col style={{ width: '22%' }} />
-                <col style={{ width: '18%' }} />
-                <col style={{ width: '20%' }} />
-                <col style={{ width: '16%' }} />
-                <col style={{ width: '14%' }} />
-                <col style={{ width: '10%' }} />
-              </colgroup>
-              <thead>
-                <tr style={{ background: '#fafaf9', borderBottom: '1px solid #f3f4f6' }}>
-                  {['Tenant', 'Property / Unit', 'Lease Term', 'Monthly Rent', 'Status', 'Actions'].map(h => (
-                    <th key={h} style={{ padding: '10px 16px', fontSize: 10, fontWeight: 700, letterSpacing: '0.07em', color: '#9ca3af', textTransform: 'uppercase', textAlign: 'left' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((row, i) => (
-                  <tr
-                    key={row.id}
-                    onClick={() => navigate(`/landlord/tenants/${row.id}`)}
-                    style={{ borderBottom: i < filtered.length - 1 ? '1px solid #f3f4f6' : 'none', cursor: 'pointer', transition: 'background 0.12s' }}
-                    onMouseEnter={e => e.currentTarget.style.background = '#f9fafb'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                  >
-                    {/* Tenant */}
-                    <td style={{ padding: '14px 16px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        {row.isInitials ? (
-                          <div style={{ width: 32, height: 32, minWidth: 32, minHeight: 32, borderRadius: '50%', background: '#9A3B1B', color: '#fff', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                            {row.avatar}
-                          </div>
-                        ) : (
-                          <img src={row.avatar} alt={row.name} style={{ width: 32, height: 32, minWidth: 32, minHeight: 32, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1px solid #e5e7eb' }} />
-                        )}
-                        <span style={{ fontSize: 13, fontWeight: 600, color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.name}</span>
-                      </div>
-                    </td>
-                    {/* Property */}
-                    <td style={{ padding: '14px 16px', fontSize: 13, color: '#374151', fontWeight: 500 }}>{row.propertyUnit}</td>
-                    {/* Lease */}
-                    <td style={{ padding: '14px 16px', fontSize: 12, color: '#6b7280', fontFamily: 'monospace' }}>{row.leaseTerm}</td>
-                    {/* Rent */}
-                    <td style={{ padding: '14px 16px', fontSize: 13, fontWeight: 700, color: '#111827', fontFamily: 'monospace' }}>{row.rent}</td>
-                    {/* Status */}
-                    <td style={{ padding: '14px 16px' }} onClick={e => e.stopPropagation()}>
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 999, fontSize: 11, fontWeight: 700 }} className={`${row.statusBg} ${row.statusText}`}>
-                        <span style={{ width: 6, height: 6, borderRadius: '50%', flexShrink: 0 }} className={row.dotBg} />
-                        {row.status}
-                      </span>
-                    </td>
-                    {/* Actions */}
-                    <td style={{ padding: '14px 16px', textAlign: 'right' }} onClick={e => e.stopPropagation()}>
-                      <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', padding: 4, borderRadius: 6 }}>
-                        <MoreVertical size={16} />
-                      </button>
-                    </td>
-                  </tr>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-left">
+            <thead>
+              <tr className="bg-[#f1f4f1] border-b border-[#e0e3e0]">
+                {['Tenant', 'Property / Unit', 'Lease Term', 'Monthly Rent', 'Status', 'Actions'].map(h => (
+                  <th key={h} className="p-4 text-xs font-semibold uppercase tracking-wider text-[#404946]">{h}</th>
                 ))}
-              </tbody>
-            </table>
-
-            {/* Pagination footer */}
-            <div className="px-5 py-3 border-t border-gray-100 flex items-center justify-between">
-              <span className="text-xs font-medium text-gray-500">Showing 1–3 of 1,248</span>
-              <div className="flex gap-2">
-                <button disabled className="p-1.5 border border-gray-200 rounded-lg text-gray-300"><ChevronLeft size={14} /></button>
-                <button className="p-1.5 border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50"><ChevronRight size={14} /></button>
-              </div>
-            </div>
-          </div>
-
-          {/* Recent Communications */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6 card-shadow">
-            <h2 className="text-xs font-bold uppercase text-gray-800 tracking-wider m-0 mb-4">Recent Communications</h2>
-            <div className="border border-gray-100 rounded-xl p-4 flex items-start gap-3">
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: '#ecfdf5', color: '#065f46', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <MessageSquare size={17} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm font-bold text-gray-950">Emily Chen (The Vista, #4B)</span>
-                  <span className="text-[10px] text-gray-400 shrink-0">2 hours ago</span>
-                </div>
-                <p className="m-0 my-1 text-sm text-gray-600 truncate">
-                  Question regarding the upcoming maintenance schedule for the HVAC system...
-                </p>
-                <button className="text-xs font-bold text-gray-950 hover:underline">Reply</button>
-              </div>
-            </div>
-          </div>
-
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#e0e3e0]">
+              {filtered.map(row => (
+                <tr
+                  key={row.id}
+                  onClick={() => navigate(`/landlord/tenants/${row.id}`)}
+                  className="hover:bg-[#f1f4f1]/50 cursor-pointer transition-colors"
+                >
+                  <td className="p-4">
+                    <div className="flex items-center gap-3">
+                      {row.isInitials ? (
+                        <div className="w-8 h-8 rounded-full bg-[#7f2800] text-white text-xs font-bold flex items-center justify-center shrink-0">
+                          {row.avatar}
+                        </div>
+                      ) : (
+                        <img src={row.avatar} alt={row.name} className="w-8 h-8 rounded-full object-cover shrink-0 border border-[#e0e3e0]" />
+                      )}
+                      <span className="text-sm font-semibold text-[#181c1a]">{row.name}</span>
+                    </div>
+                  </td>
+                  <td className="p-4 text-sm text-[#181c1a] font-medium">{row.propertyUnit}</td>
+                  <td className="p-4 text-xs text-[#404946] font-mono">{row.leaseTerm}</td>
+                  <td className="p-4 text-sm font-bold text-[#181c1a] font-mono">{row.rent}</td>
+                  <td className="p-4" onClick={e => e.stopPropagation()}>
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${row.statusBg} ${row.statusText}`}>
+                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${row.dotBg}`} />
+                      {row.status}
+                    </span>
+                  </td>
+                  <td className="p-4 text-right" onClick={e => e.stopPropagation()}>
+                    <button className="text-[#404946] hover:text-[#181c1a] p-1 rounded-lg hover:bg-[#e0e3e0]/50 transition-colors bg-transparent border-none cursor-pointer">
+                      <MoreVertical size={18} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        {/* END LEFT COLUMN */}
-
-        {/* ── RIGHT COLUMN — Active Applications ── */}
-        <div style={{ position: 'sticky', top: 24 }}>
-          <div className="bg-white rounded-xl border border-gray-200 p-6 card-shadow">
-            <div className="flex items-start justify-between mb-5">
-              <h2 className="text-xs font-bold uppercase text-gray-800 tracking-wider m-0 leading-tight">Active<br />Applications</h2>
-              <button className="text-[10px] font-bold text-gray-600 text-right leading-tight hover:text-gray-950">View<br />All</button>
-            </div>
-
-            {/* Applicant 1 */}
-            <div className="flex items-start gap-3 pb-4 border-b border-gray-100 mb-4">
-              <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&q=80"
-                alt="Sarah Jenkins"
-                style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover' }}
-              />
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-bold text-gray-950 truncate">Sarah Jenkins</div>
-                <div className="text-xs text-gray-500 mb-2 truncate">Unit 4B, The Vista</div>
-                <div className="flex gap-2">
-                  <div className="flex items-center gap-1 px-2 py-1 rounded bg-gray-50 text-[10px] font-bold text-gray-700">
-                    <span className="text-gray-400 font-medium">Score:</span> 740
-                  </div>
-                  <div className="flex items-center gap-1 px-2 py-1 rounded bg-gray-50 text-[10px] font-bold text-gray-700">
-                    <span className="text-gray-400 font-medium">BG:</span> Pending
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Applicant 2 */}
-            <div className="flex items-start gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80"
-                alt="Michael Chang"
-                style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover' }}
-              />
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-bold text-gray-950 truncate">Michael Chang</div>
-                <div className="text-xs text-gray-500 mb-2 truncate">Unit 12A, Metro Lofts</div>
-                <div className="flex gap-2">
-                  <div className="flex items-center gap-1 px-2 py-1 rounded bg-gray-50 text-[10px] font-bold text-gray-700">
-                    <span className="text-gray-400 font-medium">Score:</span> 810
-                  </div>
-                  <div className="flex items-center gap-1 px-2 py-1 rounded bg-gray-50 text-[10px] font-bold text-gray-700">
-                    <span className="text-gray-400 font-medium">BG:</span> Clear
-                  </div>
-                </div>
-              </div>
-            </div>
-
+        <div className="p-4 border-t border-[#e0e3e0] flex items-center justify-between bg-[#f7faf6]/50">
+          <span className="text-xs font-medium text-[#404946]">Showing 1–{filtered.length} of 1,248</span>
+          <div className="flex gap-2">
+            <button disabled className="p-1.5 border border-[#bfc9c5] rounded-lg text-[#707976] disabled:opacity-50 bg-transparent cursor-pointer"><ChevronLeft size={16} /></button>
+            <button className="p-1.5 border border-[#bfc9c5] rounded-lg text-[#181c1a] hover:bg-[#e0e3e0]/50 bg-transparent cursor-pointer"><ChevronRight size={16} /></button>
           </div>
         </div>
-        {/* END RIGHT COLUMN */}
+      </div>
 
+      {/* Bottom Row: Active Applications & Recent Communications side by side */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-8">
+        {/* Active Applications */}
+        <div className="glass-card rounded-xl p-6 flex flex-col">
+          <div className="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-[#e0e3e0]">
+            <h3 className="text-sm font-bold uppercase text-[#181c1a] tracking-wider leading-tight">Active Applications</h3>
+            <button className="text-xs font-bold text-[#00372f] hover:underline bg-[#b1efe1]/20 hover:bg-[#b1efe1]/40 px-3 py-1.5 rounded-lg border-none cursor-pointer whitespace-nowrap shrink-0 transition-colors">View All</button>
+          </div>
+          <div className="flex flex-col gap-3.5">
+            {/* App Item 1 */}
+            <div className="flex items-center justify-between gap-4 p-3.5 hover:bg-[#f1f4f1]/80 rounded-xl transition-all border border-[#e0e3e0]/50 hover:border-[#bfc9c5] shadow-sm bg-white/60">
+              <div className="flex items-center gap-3.5 min-w-0">
+                <img className="w-10 h-10 rounded-full object-cover shrink-0 border border-[#e0e3e0] shadow-sm" alt="Sarah Jenkins" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&q=80" />
+                <div className="min-w-0">
+                  <h4 className="text-sm font-bold text-[#181c1a] truncate leading-tight">Sarah Jenkins</h4>
+                  <p className="text-xs font-medium text-[#404946] truncate mt-0.5">Unit 4B, The Vista</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="inline-flex items-center px-2.5 py-1 bg-[#bae9df]/30 text-[#0b4f45] rounded-md text-[11px] font-bold whitespace-nowrap">Score: 740</span>
+                <span className="inline-flex items-center px-2.5 py-1 bg-[#e6e9e5] text-[#404946] rounded-md text-[11px] font-bold whitespace-nowrap">BG: Pending</span>
+              </div>
+            </div>
+            {/* App Item 2 */}
+            <div className="flex items-center justify-between gap-4 p-3.5 hover:bg-[#f1f4f1]/80 rounded-xl transition-all border border-[#e0e3e0]/50 hover:border-[#bfc9c5] shadow-sm bg-white/60">
+              <div className="flex items-center gap-3.5 min-w-0">
+                <img className="w-10 h-10 rounded-full object-cover shrink-0 border border-[#e0e3e0] shadow-sm" alt="Michael Chang" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80" />
+                <div className="min-w-0">
+                  <h4 className="text-sm font-bold text-[#181c1a] truncate leading-tight">Michael Chang</h4>
+                  <p className="text-xs font-medium text-[#404946] truncate mt-0.5">Unit 12A, Metro Lofts</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="inline-flex items-center px-2.5 py-1 bg-[#bae9df]/30 text-[#0b4f45] rounded-md text-[11px] font-bold whitespace-nowrap">Score: 810</span>
+                <span className="inline-flex items-center px-2.5 py-1 bg-[#bae9df]/30 text-[#0b4f45] rounded-md text-[11px] font-bold whitespace-nowrap">BG: Clear</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Communications */}
+        <div className="glass-card rounded-xl p-6 flex flex-col">
+          <div className="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-[#e0e3e0]">
+            <h3 className="text-sm font-bold uppercase text-[#181c1a] tracking-wider leading-tight">Recent Communications</h3>
+          </div>
+          <div className="border border-[#e0e3e0]/60 rounded-xl p-4 flex items-start gap-3.5 bg-white/60 shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-[#b1efe1]/20 text-[#0b4f45] flex items-center justify-center shrink-0">
+              <MessageSquare size={18} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-bold text-[#181c1a] truncate">Emily Chen (The Vista, #4B)</span>
+                <span className="text-xs font-medium text-[#404946] shrink-0">2 hours ago</span>
+              </div>
+              <p className="text-sm text-[#404946] my-1.5 truncate">
+                Question regarding the upcoming maintenance schedule for the HVAC system...
+              </p>
+              <button className="text-xs font-bold text-[#00372f] hover:underline bg-transparent border-none cursor-pointer p-0">Reply</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -227,4 +227,10 @@ p:last-child { margin-bottom: 0; }
 
 /* Design System Tokens */
 .card-shadow { box-shadow: 0 4px 20px rgba(11, 79, 69, 0.08); }
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid #e0e3e0;
+  box-shadow: 0 4px 20px rgba(11, 79, 69, 0.04);
+}
 
