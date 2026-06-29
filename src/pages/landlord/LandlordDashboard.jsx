@@ -143,12 +143,12 @@ const LandlordDashboard = () => {
   );
 
   return (
-    <div className="space-y-5 font-sans text-gray-900 pb-8">
+    <div className="space-y-6 font-sans text-gray-900 pb-8">
       {/* Overview header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Overview</h1>
-          <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">Welcome back, here's what's happening with your properties today.</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Overview</h1>
+          <p className="text-base text-[#4A4F4C] font-medium mt-0.5">Welcome back, here's what's happening with your properties today.</p>
         </div>
         <button className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-gray-200/80 text-xs font-bold text-gray-700 shadow-sm sm:self-start hover:bg-gray-50 transition-colors">
           <Calendar size={14} className="text-gray-400" />
@@ -157,9 +157,9 @@ const LandlordDashboard = () => {
       </div>
 
       {/* Top KPI Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Revenue */}
-        <div className="bg-white rounded-xl p-3.5 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between min-h-[96px]">
+        <div className="bg-white rounded-xl p-6 border border-gray-200/80 card-shadow flex flex-col justify-between min-h-[96px]">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold tracking-wider text-gray-400 uppercase">Total Revenue</span>
             <div className="w-6 h-6 rounded-lg bg-gray-50 flex items-center justify-center text-gray-600">
@@ -178,7 +178,7 @@ const LandlordDashboard = () => {
         </div>
 
         {/* Occupancy Rate */}
-        <div className="bg-white rounded-xl p-3.5 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between min-h-[96px]">
+        <div className="bg-white rounded-xl p-6 border border-gray-200/80 card-shadow flex flex-col justify-between min-h-[96px]">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold tracking-wider text-gray-400 uppercase">Occupancy Rate</span>
             <div className="w-6 h-6 rounded-lg bg-gray-50 flex items-center justify-center text-gray-600">
@@ -199,7 +199,7 @@ const LandlordDashboard = () => {
         </div>
 
         {/* Maintenance */}
-        <div className="bg-white rounded-xl p-3.5 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between min-h-[96px]">
+        <div className="bg-white rounded-xl p-6 border border-gray-200/80 card-shadow flex flex-col justify-between min-h-[96px]">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold tracking-wider text-gray-400 uppercase">Maintenance</span>
             <div className="w-6 h-6 rounded-lg bg-amber-50 flex items-center justify-center text-[#C75B30]">
@@ -220,7 +220,7 @@ const LandlordDashboard = () => {
         </div>
 
         {/* Collection Rate */}
-        <div className="bg-white rounded-xl p-3.5 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between min-h-[96px]">
+        <div className="bg-white rounded-xl p-6 border border-gray-200/80 card-shadow flex flex-col justify-between min-h-[96px]">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold tracking-wider text-gray-400 uppercase">Collection Rate</span>
             <div className="w-6 h-6 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
@@ -240,14 +240,14 @@ const LandlordDashboard = () => {
       </div>
 
       {/* Upper Section: Portfolio Revenue Chart (8 cols) vs Cash Flow & Recent Activity (4 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Left: Portfolio Revenue Bar Chart */}
         <div className="lg:col-span-8 flex flex-col">
-          <div className="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col flex-1">
+          <div className="bg-white rounded-xl p-6 border border-gray-200/80 card-shadow flex flex-col flex-1">
             <div className="flex items-center justify-between pb-3 flex-shrink-0">
               <div>
-                <h3 className="text-sm sm:text-base font-black text-gray-900">Portfolio Revenue</h3>
-                <p className="text-[11px] text-gray-400 font-medium mt-0.5">Monthly trends across property types</p>
+                <h3 className="text-sm font-semibold uppercase text-gray-800">Portfolio Revenue</h3>
+                <p className="text-base text-[#4A4F4C] font-medium mt-0.5">Monthly trends across property types</p>
               </div>
               <div className="bg-gray-100/80 p-0.5 rounded-xl flex items-center text-[11px] font-bold">
                 <button
@@ -291,10 +291,10 @@ const LandlordDashboard = () => {
         </div>
 
         {/* Right: Cash Flow Card + Recent Activity Card */}
-        <div className="lg:col-span-4 flex flex-col gap-4">
+        <div className="lg:col-span-4 flex flex-col gap-6">
           {/* Cash Flow Card */}
-          <div className="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex-shrink-0">
-            <h3 className="text-sm sm:text-base font-black text-gray-900 pb-2.5">Cash Flow</h3>
+          <div className="bg-white rounded-xl p-6 border border-gray-200/80 card-shadow flex-shrink-0">
+            <h3 className="text-sm font-semibold uppercase text-gray-800 pb-2.5">Cash Flow</h3>
 
             <div className="flex items-center justify-between pb-2.5 border-b border-gray-100">
               <div>
@@ -337,9 +337,9 @@ const LandlordDashboard = () => {
           </div>
 
           {/* Recent Activity Card */}
-          <div className="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex-1 flex flex-col justify-between">
+          <div className="bg-white rounded-xl p-6 border border-gray-200/80 card-shadow flex-1 flex flex-col justify-between">
             <div className="flex items-center justify-between pb-2.5">
-              <h3 className="text-sm sm:text-base font-black text-gray-900">Recent Activity</h3>
+              <h3 className="text-sm font-semibold uppercase text-gray-800">Recent Activity</h3>
               <Link to="/landlord/notifications" className="text-xs font-bold text-[#072F29] hover:underline">View All</Link>
             </div>
 
@@ -366,9 +366,9 @@ const LandlordDashboard = () => {
 
       {/* Full Width Section: Top Performing Properties Table (NO scrolling!) */}
       <div className="w-full">
-        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden">
-          <div className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-gray-100">
-            <h3 className="text-sm sm:text-base font-black text-gray-900">Top Performing Properties</h3>
+        <div className="bg-white rounded-xl border border-gray-200/80 card-shadow overflow-hidden">
+          <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-gray-100">
+            <h3 className="text-sm font-semibold uppercase text-gray-800">Top Performing Properties</h3>
 
             <div className="flex items-center gap-2">
               <div className="relative flex items-center bg-gray-50 border border-gray-200/80 rounded-xl h-8 px-2.5 w-48 focus-within:bg-white focus-within:border-gray-300 transition-all">
@@ -451,11 +451,11 @@ const LandlordDashboard = () => {
       </div>
 
       {/* NEW SECTION FROM DESIGN: Outstanding Rent & Recent Payments Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
         {/* Outstanding Rent Table Card */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
-          <div className="p-4 flex items-center justify-between border-b border-gray-100">
-            <h3 className="text-sm sm:text-base font-black text-gray-900">Outstanding Rent</h3>
+        <div className="bg-white rounded-xl border border-gray-200/80 card-shadow overflow-hidden flex flex-col">
+          <div className="p-6 flex items-center justify-between border-b border-gray-100">
+            <h3 className="text-sm font-semibold uppercase text-gray-800">Outstanding Rent</h3>
             <Link to="/landlord/payments" className="text-xs font-bold text-[#072F29] hover:underline">View All</Link>
           </div>
 
@@ -491,9 +491,9 @@ const LandlordDashboard = () => {
         </div>
 
         {/* Recent Payments Table Card */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
-          <div className="p-4 flex items-center justify-between border-b border-gray-100">
-            <h3 className="text-sm sm:text-base font-black text-gray-900">Recent Payments</h3>
+        <div className="bg-white rounded-xl border border-gray-200/80 card-shadow overflow-hidden flex flex-col">
+          <div className="p-6 flex items-center justify-between border-b border-gray-100">
+            <h3 className="text-sm font-semibold uppercase text-gray-800">Recent Payments</h3>
             <Link to="/landlord/payments" className="text-xs font-bold text-[#072F29] hover:underline">View All</Link>
           </div>
 
@@ -530,11 +530,11 @@ const LandlordDashboard = () => {
       </div>
 
       {/* NEW SECTION FROM DESIGN: Maintenance Board Kanban Section */}
-      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-gray-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] mt-4">
+      <div className="bg-white rounded-xl p-6 border border-gray-200/80 card-shadow mt-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
           <div>
-            <h3 className="text-sm sm:text-base font-black text-gray-900">Maintenance Board</h3>
-            <p className="text-xs text-gray-400 font-medium mt-0.5">Track ongoing service requests across all properties</p>
+            <h3 className="text-sm font-semibold uppercase text-gray-800">Maintenance Board</h3>
+            <p className="text-base text-[#4A4F4C] font-medium mt-0.5">Track ongoing service requests across all properties</p>
           </div>
           <Link
             to="/landlord/maintenance"

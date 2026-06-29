@@ -146,14 +146,14 @@ const Maintenance = () => {
     <div className="font-sans text-gray-900 pb-12">
       {/* ── PAGE TITLE & SUBTITLE ── */}
       <div className="mb-8">
-        <h1 className="text-[28px] font-display font-extrabold text-[#072F29] tracking-tight m-0">Maintenance Management</h1>
-        <p className="text-[13px] text-gray-500 font-medium mt-1 m-0">Oversee property health, manage contractor workflows, and optimize operational costs.</p>
+        <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0">Maintenance Management</h1>
+        <p className="text-base text-[#4A4F4C] font-medium mt-1 m-0">Oversee property health, manage contractor workflows, and optimize operational costs.</p>
       </div>
 
       {/* ── 4 TOP STAT CARDS ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Total Active Requests */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[140px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[140px]">
           <div className="flex items-center justify-between gap-2">
             <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
               <ClipboardList size={18} />
@@ -161,13 +161,13 @@ const Maintenance = () => {
             <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">+12%</span>
           </div>
           <div>
-            <p className="text-xs font-bold text-gray-800 m-0 mb-1">Total Active Requests</p>
+            <p className="text-sm font-semibold uppercase text-gray-800 m-0 mb-1">Total Active Requests</p>
             <p className="text-3xl font-display font-black text-gray-900 m-0 tracking-tight">148</p>
           </div>
         </div>
 
         {/* Avg. Resolution Time */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[140px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[140px]">
           <div className="flex items-center justify-between gap-2">
             <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center shrink-0">
               <Clock size={18} />
@@ -175,7 +175,7 @@ const Maintenance = () => {
             <span className="text-xs font-bold text-gray-600">-0.5d</span>
           </div>
           <div>
-            <p className="text-xs font-bold text-gray-800 m-0 mb-1">Avg. Resolution Time</p>
+            <p className="text-sm font-semibold uppercase text-gray-800 m-0 mb-1">Avg. Resolution Time</p>
             <div className="flex items-baseline">
               <span className="text-3xl font-display font-black text-gray-900 m-0 tracking-tight">3.2</span>
               <span className="text-sm font-bold text-gray-500 ml-1">Days</span>
@@ -184,7 +184,7 @@ const Maintenance = () => {
         </div>
 
         {/* Maintenance Costs */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[140px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[140px]">
           <div className="flex items-center justify-between gap-2">
             <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
               <Banknote size={18} />
@@ -192,13 +192,13 @@ const Maintenance = () => {
             <span className="text-xs font-black text-gray-700 tracking-wider">MTD</span>
           </div>
           <div>
-            <p className="text-xs font-bold text-gray-800 m-0 mb-1">Maintenance Costs</p>
+            <p className="text-sm font-semibold uppercase text-gray-800 m-0 mb-1">Maintenance Costs</p>
             <p className="text-3xl font-display font-black text-gray-900 m-0 tracking-tight">₦12,450,000</p>
           </div>
         </div>
 
         {/* Urgent Repairs */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[140px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[140px]">
           <div className="flex items-center justify-between gap-2">
             <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
               <AlertTriangle size={18} />
@@ -206,7 +206,7 @@ const Maintenance = () => {
             <span className="bg-rose-100 text-rose-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full">Action Needed</span>
           </div>
           <div>
-            <p className="text-xs font-bold text-gray-800 m-0 mb-1">Urgent Repairs</p>
+            <p className="text-sm font-semibold uppercase text-gray-800 m-0 mb-1">Urgent Repairs</p>
             <p className="text-3xl font-display font-black text-rose-600 m-0 tracking-tight">09</p>
           </div>
         </div>
@@ -215,16 +215,16 @@ const Maintenance = () => {
       {/* ── WORKFLOW OVERVIEW (KANBAN BOARD) ── */}
       <div className="mb-8">
         <div className="flex items-center justify-between gap-4 mb-5">
-          <h2 className="text-xl font-display font-extrabold text-[#072F29] tracking-tight m-0">Workflow Overview</h2>
+          <h2 className="text-xl font-bold text-gray-900 tracking-tight m-0">Workflow Overview</h2>
           <button className="text-xs font-bold text-gray-800 hover:underline inline-flex items-center gap-1 bg-transparent border-none p-0 cursor-pointer">
             <span>View Full Board</span>
             <ArrowRight size={15} />
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {kanbanColumns.map(col => (
-            <div key={col.id} className="bg-gray-50/80 rounded-2xl p-4 border border-gray-200/60 min-h-[220px]">
+            <div key={col.id} className="bg-gray-50/80 rounded-xl p-4 border border-gray-200/60 min-h-[220px]">
               {/* Column Header */}
               <div className="flex items-center justify-between mb-4 px-1">
                 <div className="flex items-center gap-2">
@@ -235,7 +235,7 @@ const Maintenance = () => {
               </div>
 
               {/* Kanban Card */}
-              <div className={`bg-white rounded-xl border border-gray-200/80 p-4 shadow-2xs relative overflow-hidden transition-all hover:shadow-sm cursor-pointer ${col.card.borderLeft || ''}`}>
+              <div className={`bg-white rounded-xl border border-gray-200/80 p-6 card-shadow relative overflow-hidden transition-all hover:shadow-sm cursor-pointer ${col.card.borderLeft || ''}`}>
                 {/* Card Top Pill & ID */}
                 <div className="flex items-center justify-between mb-2">
                   <span className={`text-[9px] font-black tracking-wider uppercase px-2 py-0.5 rounded ${col.card.tagBg}`}>
@@ -245,8 +245,8 @@ const Maintenance = () => {
                 </div>
 
                 {/* Title & Location */}
-                <h3 className="text-sm font-bold text-gray-900 m-0 mt-2 mb-1">{col.card.title}</h3>
-                <p className="text-xs text-gray-500 m-0 mb-3">{col.card.location}</p>
+                <h3 className="text-sm font-semibold uppercase text-gray-800 m-0 mt-2 mb-1">{col.card.title}</h3>
+                <p className="text-base text-[#4A4F4C] m-0 mb-3">{col.card.location}</p>
 
                 {/* Card Footer */}
                 <div className="border-t border-gray-100 pt-3 flex items-center justify-between">
@@ -278,15 +278,15 @@ const Maintenance = () => {
 
               {/* Extra placeholder card for Kitchen Drawer Alignment under Received */}
               {col.id === 'received' && (
-                <div className="bg-white rounded-xl border border-gray-200/80 p-4 shadow-2xs mt-3 relative overflow-hidden transition-all hover:shadow-sm cursor-pointer">
+                <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow mt-3 relative overflow-hidden transition-all hover:shadow-sm cursor-pointer">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[9px] font-black tracking-wider uppercase px-2 py-0.5 rounded bg-blue-50 text-blue-600">
                       MEDIUM
                     </span>
                     <span className="text-[11px] font-mono font-semibold text-gray-400">#M-2038</span>
                   </div>
-                  <h3 className="text-sm font-bold text-gray-900 m-0 mt-2 mb-1">Kitchen Drawer Alignment</h3>
-                  <p className="text-xs text-gray-500 m-0 mb-3">Rosewood Estate • Unit 12</p>
+                  <h3 className="text-sm font-semibold uppercase text-gray-800 m-0 mt-2 mb-1">Kitchen Drawer Alignment</h3>
+                  <p className="text-base text-[#4A4F4C] m-0 mb-3">Rosewood Estate • Unit 12</p>
                   <div className="border-t border-gray-100 pt-3 flex items-center justify-between">
                     <div className="w-6 h-6 rounded-full bg-emerald-900 text-white flex items-center justify-center text-[10px] font-bold shrink-0">
                       JD
@@ -303,10 +303,10 @@ const Maintenance = () => {
       {/* ── BOTTOM SECTION: CONTRACTORS & RECENT ACTIVITY ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column: Top Providers */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-base font-bold text-gray-900 m-0">Top Providers</h2>
+              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Top Providers</h2>
               <Filter size={16} className="text-gray-500 cursor-pointer" />
             </div>
 
@@ -343,10 +343,10 @@ const Maintenance = () => {
         </div>
 
         {/* Right Column: Recent Activity Table */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-2xs overflow-hidden lg:col-span-2 flex flex-col justify-between">
+        <div className="bg-white rounded-xl border border-gray-200/80 card-shadow overflow-hidden lg:col-span-2 flex flex-col justify-between">
           <div>
-            <div className="p-5 border-b border-gray-100 flex items-center justify-between gap-4 flex-wrap">
-              <h2 className="text-base font-bold text-gray-900 m-0">Recent Activity</h2>
+            <div className="p-6 border-b border-gray-100 flex items-center justify-between gap-4 flex-wrap">
+              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Recent Activity</h2>
               
               <div className="flex items-center gap-3 ml-auto">
                 <div className="flex items-center gap-1.5 text-xs text-gray-500 font-medium">

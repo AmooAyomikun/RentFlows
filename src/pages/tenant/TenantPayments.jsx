@@ -72,14 +72,14 @@ const TenantPayments = () => {
   });
 
   return (
-    <div className="max-w-[1400px] mx-auto space-y-8 pb-16">
+    <div className="space-y-6 pb-16">
       
       {/* Title Section */}
       <div>
-        <h1 className="font-display font-black text-2xl sm:text-3xl text-[#072F29] tracking-tight mb-1.5">
+        <h1 className="text-2xl font-bold text-gray-900 m-0 mb-1">
           Payment History
         </h1>
-        <p className="text-sm text-gray-600 font-medium">
+        <p className="text-base text-[#4A4F4C] m-0">
           Review and manage your financial transactions for Unit 402.
         </p>
       </div>
@@ -91,17 +91,17 @@ const TenantPayments = () => {
         <motion.div 
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-3xl border border-gray-200/80 p-6 sm:p-7 shadow-2xs relative overflow-hidden flex flex-col justify-between h-40"
+          className="bg-white rounded-xl border border-gray-200 p-6 card-shadow relative overflow-hidden flex flex-col justify-between h-40"
         >
           <div className="flex justify-between items-start">
-            <span className="text-[11px] font-extrabold tracking-wider text-gray-400 uppercase">
+            <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">
               TOTAL PAID (YTD)
-            </span>
+            </h2>
             <BarChart3 size={38} className="text-gray-100 absolute top-5 right-5 pointer-events-none stroke-[1.5]" />
           </div>
           
           <div className="my-2 relative z-10">
-            <p className="text-3xl sm:text-4xl font-black text-[#072F29] font-mono tracking-tight">
+            <p className="text-3xl sm:text-4xl font-black text-[#072F29] font-mono tracking-tight m-0">
               {formatCurrency(32500000)}
             </p>
           </div>
@@ -117,14 +117,14 @@ const TenantPayments = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white rounded-3xl border-2 border-[#072F29] p-6 sm:p-7 shadow-sm relative overflow-hidden flex flex-col justify-between h-40"
+          className="bg-white rounded-xl border border-gray-200 p-6 card-shadow relative overflow-hidden flex flex-col justify-between h-40"
         >
-          <span className="text-[11px] font-extrabold tracking-wider text-gray-400 uppercase">
+          <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">
             LAST PAYMENT
-          </span>
+          </h2>
           
           <div className="my-2">
-            <p className="text-3xl sm:text-4xl font-black text-[#072F29] font-mono tracking-tight">
+            <p className="text-3xl sm:text-4xl font-black text-[#072F29] font-mono tracking-tight m-0">
               {formatCurrency(3250000)}
             </p>
           </div>
@@ -142,11 +142,11 @@ const TenantPayments = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-[#FAF7F2]/50 rounded-3xl border border-[#9A3412]/30 p-6 sm:p-7 shadow-2xs relative overflow-hidden flex flex-col justify-between h-40"
+          className="bg-white rounded-xl border border-gray-200 p-6 card-shadow relative overflow-hidden flex flex-col justify-between h-40"
         >
-          <span className="text-[11px] font-extrabold tracking-wider text-gray-500 uppercase">
+          <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">
             OUTSTANDING BALANCE
-          </span>
+          </h2>
           
           <div className="my-2 flex items-center gap-2.5">
             <p className="text-3xl sm:text-4xl font-black text-[#9A3412] font-mono tracking-tight">
@@ -212,7 +212,7 @@ const TenantPayments = () => {
       </div>
 
       {/* Transactions Table Container */}
-      <div className="bg-white rounded-3xl border border-gray-200/80 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-200 card-shadow overflow-hidden">
         
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[700px]">

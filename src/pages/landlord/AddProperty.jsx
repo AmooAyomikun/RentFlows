@@ -40,7 +40,7 @@ const AddProperty = () => {
         >
           <ArrowLeft size={22} />
         </button>
-        <h1 className="text-2xl sm:text-[28px] font-display font-extrabold text-[#072F29] tracking-tight m-0">Add New Property</h1>
+        <h1 className="text-2xl font-bold text-gray-900 m-0">Add New Property</h1>
       </div>
 
       {/* ── STEPPER HEADER REPLICATING EXACT SCREENSHOT ── */}
@@ -73,14 +73,14 @@ const AddProperty = () => {
       </div>
 
       {/* ── CENTER FORM CARD ── */}
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-2xs overflow-hidden max-w-4xl mx-auto mb-8">
-        <div className="p-6 sm:p-8 border-b border-gray-100">
-          <h2 className="text-base font-bold text-gray-900 m-0">Property Basics</h2>
-          <p className="text-xs sm:text-sm text-gray-500 m-0 mt-1 font-medium">Start by defining the core identity of your new asset.</p>
+      <div className="bg-white rounded-xl border border-gray-200/80 card-shadow overflow-hidden max-w-4xl mx-auto mb-8">
+        <div className="p-6 border-b border-gray-100">
+          <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Property Basics</h2>
+          <p className="text-base text-[#4A4F4C] m-0 mt-1 font-medium">Start by defining the core identity of your new asset.</p>
         </div>
 
         <form onSubmit={handleNext}>
-          <div className="p-6 sm:p-8 space-y-6">
+          <div className="p-6 space-y-6">
             {/* Property Name */}
             <div>
               <label className="text-xs font-bold text-gray-800 mb-2 block">Property Name</label>
@@ -141,7 +141,7 @@ const AddProperty = () => {
           </div>
 
           {/* Form Footer Replicating Screenshot Copy */}
-          <div className="bg-gray-50/80 p-6 sm:p-8 border-t border-gray-100 flex justify-end">
+          <div className="bg-gray-50/80 p-6 border-t border-gray-100 flex justify-end">
             <button
               type="submit"
               className="bg-[#C75B30] hover:bg-[#b5522b] text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-xs inline-flex items-center gap-2.5 transition-all active:scale-[0.98] cursor-pointer border-none"
@@ -156,25 +156,25 @@ const AddProperty = () => {
       {/* ── BOTTOM HELP GUIDANCE CARDS ── */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
         {/* Card 1 */}
-        <div className="bg-[#072F29] text-white rounded-2xl p-6 shadow-2xs flex flex-col justify-between">
+        <div className="bg-[#072F29] text-white rounded-xl p-6 card-shadow flex flex-col justify-between">
           <Lightbulb size={20} className="text-teal-300 mb-4" />
-          <p className="text-xs text-white/80 leading-relaxed m-0 font-medium">
+          <p className="text-base text-white/90 leading-relaxed m-0 font-medium">
             Filling out unit details accurately helps our automated occupancy forecasting engine.
           </p>
         </div>
 
         {/* Card 2 */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-6 shadow-2xs flex flex-col justify-between">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
           <Shield size={20} className="text-[#C75B30] mb-4" />
-          <p className="text-xs text-gray-600 leading-relaxed m-0 font-medium">
+          <p className="text-base text-[#4A4F4C] leading-relaxed m-0 font-medium">
             Your documents are encrypted and stored in SOC2 compliant cloud infrastructure.
           </p>
         </div>
 
         {/* Card 3 */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-6 shadow-2xs flex flex-col justify-between">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
           <Headphones size={20} className="text-[#072F29] mb-4" />
-          <p className="text-xs text-gray-600 leading-relaxed m-0 font-medium">
+          <p className="text-base text-[#4A4F4C] leading-relaxed m-0 font-medium">
             Need help with financial entries? Our support team is available 24/7.
           </p>
         </div>

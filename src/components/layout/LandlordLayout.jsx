@@ -19,8 +19,7 @@ const LandlordLayout = ({ title }) => {
       <div
         className={[
           'flex flex-col flex-1 min-w-0 transition-[margin-left] duration-300 ease-out min-h-screen',
-          'lg:ml-[230px]',
-          sidebarCollapsed ? 'lg:ml-[72px]' : 'lg:ml-[230px]',
+          sidebarCollapsed ? 'lg:ml-[72px]' : 'lg:ml-[260px]',
         ].join(' ')}
       >
         <div className="px-6 lg:px-8 max-w-[1400px] mx-auto w-full flex flex-col flex-1">

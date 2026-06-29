@@ -48,9 +48,9 @@ const directoryRows = [
 ];
 
 const MetricCard = ({ label, icon: Icon, iconBg, iconColor, value, sub, subIcon: SubIcon, subColor }) => (
-  <div style={{ backgroundColor: '#ffffff', borderRadius: 16, border: '1px solid #e5e7eb', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 12, minHeight: 130 }}>
+  <div className="bg-white rounded-xl border border-gray-200 p-6 card-shadow flex flex-col justify-between gap-3 min-h-[130px]">
     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
-      <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: '#6b7280', textTransform: 'uppercase', lineHeight: 1.3 }}>{label}</span>
+      <span className="text-sm font-semibold uppercase text-gray-800 leading-tight">{label}</span>
       <div style={{ width: 32, height: 32, minWidth: 32, minHeight: 32, borderRadius: '50%', backgroundColor: iconBg, color: iconColor, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
         <Icon size={16} />
       </div>
@@ -81,8 +81,8 @@ const Tenants = () => {
       {/* ── PAGE HEADER ── */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: '#072F29', letterSpacing: '-0.02em' }}>Tenant Management</h1>
-          <p style={{ margin: '4px 0 0', fontSize: 13, color: '#6b7280', fontWeight: 500 }}>Overview of your active portfolio and resident health.</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0">Tenant Management</h1>
+          <p className="text-base text-[#4A4F4C] m-0 mt-1 font-medium">Overview of your active portfolio and resident health.</p>
         </div>
         <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
           <button style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 10, border: '1px solid #e5e7eb', background: '#fff', fontSize: 12, fontWeight: 600, color: '#374151', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,.05)' }}>
@@ -95,10 +95,10 @@ const Tenants = () => {
       </div>
 
       {/* ── TWO-COLUMN GRID ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 20, alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 24, alignItems: 'start' }}>
 
         {/* ── LEFT COLUMN ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, minWidth: 0 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, minWidth: 0 }}>
 
           {/* Metric Cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
@@ -129,10 +129,10 @@ const Tenants = () => {
           </div>
 
           {/* Tenant Directory */}
-          <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e5e7eb', overflow: 'hidden' }}>
+          <div className="bg-white rounded-xl border border-gray-200 card-shadow overflow-hidden">
             {/* Card header */}
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-              <span style={{ fontSize: 16, fontWeight: 700, color: '#111827' }}>Tenant Directory</span>
+            <div className="p-6 border-b border-gray-100 flex items-center justify-between gap-3">
+              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Tenant Directory</h2>
               <div style={{ position: 'relative' }}>
                 <Search size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
                 <input
@@ -209,31 +209,31 @@ const Tenants = () => {
             </table>
 
             {/* Pagination footer */}
-            <div style={{ padding: '12px 20px', borderTop: '1px solid #f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: 12, color: '#6b7280', fontWeight: 500 }}>Showing 1–3 of 1,248</span>
-              <div style={{ display: 'flex', gap: 6 }}>
-                <button disabled style={{ border: '1px solid #e5e7eb', background: '#fff', borderRadius: 8, padding: '5px 8px', cursor: 'not-allowed', color: '#d1d5db' }}><ChevronLeft size={14} /></button>
-                <button style={{ border: '1px solid #e5e7eb', background: '#fff', borderRadius: 8, padding: '5px 8px', cursor: 'pointer', color: '#374151' }}><ChevronRight size={14} /></button>
+            <div className="px-5 py-3 border-t border-gray-100 flex items-center justify-between">
+              <span className="text-xs font-medium text-gray-500">Showing 1–3 of 1,248</span>
+              <div className="flex gap-2">
+                <button disabled className="p-1.5 border border-gray-200 rounded-lg text-gray-300"><ChevronLeft size={14} /></button>
+                <button className="p-1.5 border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50"><ChevronRight size={14} /></button>
               </div>
             </div>
           </div>
 
           {/* Recent Communications */}
-          <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e5e7eb', padding: '20px 24px' }}>
-            <h2 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 700, color: '#111827' }}>Recent Communications</h2>
-            <div style={{ border: '1px solid #e5e7eb', borderRadius: 12, padding: 16, display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: '#d1fae5', color: '#065f46', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
+          <div className="bg-white rounded-xl border border-gray-200 p-6 card-shadow">
+            <h2 className="text-xs font-bold uppercase text-gray-800 tracking-wider m-0 mb-4">Recent Communications</h2>
+            <div className="border border-gray-100 rounded-xl p-4 flex items-start gap-3">
+              <div style={{ width: 36, height: 36, borderRadius: 10, background: '#ecfdf5', color: '#065f46', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <MessageSquare size={17} />
               </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>Emily Chen (The Vista, #4B)</span>
-                  <span style={{ fontSize: 11, color: '#9ca3af', flexShrink: 0 }}>2 hours ago</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-sm font-bold text-gray-950">Emily Chen (The Vista, #4B)</span>
+                  <span className="text-[10px] text-gray-400 shrink-0">2 hours ago</span>
                 </div>
-                <p style={{ margin: '4px 0 10px', fontSize: 12, color: '#6b7280', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <p className="m-0 my-1 text-sm text-gray-600 truncate">
                   Question regarding the upcoming maintenance schedule for the HVAC system...
                 </p>
-                <button style={{ background: 'none', border: 'none', padding: 0, fontSize: 12, fontWeight: 800, color: '#111827', cursor: 'pointer' }}>Reply</button>
+                <button className="text-xs font-bold text-gray-950 hover:underline">Reply</button>
               </div>
             </div>
           </div>
@@ -243,49 +243,49 @@ const Tenants = () => {
 
         {/* ── RIGHT COLUMN — Active Applications ── */}
         <div style={{ position: 'sticky', top: 24 }}>
-          <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e5e7eb', padding: '20px 20px' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
-              <span style={{ fontSize: 17, fontWeight: 700, color: '#111827', lineHeight: 1.3 }}>Active<br />Applications</span>
-              <button style={{ background: 'none', border: 'none', padding: 0, fontSize: 11, fontWeight: 700, color: '#374151', cursor: 'pointer', textAlign: 'right', lineHeight: 1.4 }}>View<br />All</button>
+          <div className="bg-white rounded-xl border border-gray-200 p-6 card-shadow">
+            <div className="flex items-start justify-between mb-5">
+              <h2 className="text-xs font-bold uppercase text-gray-800 tracking-wider m-0 leading-tight">Active<br />Applications</h2>
+              <button className="text-[10px] font-bold text-gray-600 text-right leading-tight hover:text-gray-950">View<br />All</button>
             </div>
 
             {/* Applicant 1 */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, paddingBottom: 16, borderBottom: '1px solid #f3f4f6', marginBottom: 16 }}>
+            <div className="flex items-start gap-3 pb-4 border-b border-gray-100 mb-4">
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&q=80"
                 alt="Sarah Jenkins"
-                style={{ width: 40, height: 40, minWidth: 40, minHeight: 40, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1px solid #e5e7eb' }}
+                style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover' }}
               />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 2 }}>Sarah Jenkins</div>
-                <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 10 }}>Unit 4B, The Vista</div>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', borderRadius: 6, background: '#f3f4f6', fontSize: 11, fontWeight: 600, color: '#374151' }}>
-                    <span style={{ color: '#9ca3af', fontWeight: 400 }}>Score:</span> <span style={{ fontFamily: 'monospace', fontWeight: 700 }}>740</span>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-bold text-gray-950 truncate">Sarah Jenkins</div>
+                <div className="text-xs text-gray-500 mb-2 truncate">Unit 4B, The Vista</div>
+                <div className="flex gap-2">
+                  <div className="flex items-center gap-1 px-2 py-1 rounded bg-gray-50 text-[10px] font-bold text-gray-700">
+                    <span className="text-gray-400 font-medium">Score:</span> 740
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', borderRadius: 6, background: '#f3f4f6', fontSize: 11, fontWeight: 600, color: '#374151' }}>
-                    <span style={{ color: '#9ca3af', fontWeight: 400 }}>BG:</span> <span style={{ fontWeight: 700 }}>Pending</span>
+                  <div className="flex items-center gap-1 px-2 py-1 rounded bg-gray-50 text-[10px] font-bold text-gray-700">
+                    <span className="text-gray-400 font-medium">BG:</span> Pending
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Applicant 2 */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+            <div className="flex items-start gap-3">
               <img
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80"
                 alt="Michael Chang"
-                style={{ width: 40, height: 40, minWidth: 40, minHeight: 40, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1px solid #e5e7eb' }}
+                style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover' }}
               />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 2 }}>Michael Chang</div>
-                <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 10 }}>Unit 12A, Metro Lofts</div>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', borderRadius: 6, background: '#f3f4f6', fontSize: 11, fontWeight: 600, color: '#374151' }}>
-                    <span style={{ color: '#9ca3af', fontWeight: 400 }}>Score:</span> <span style={{ fontFamily: 'monospace', fontWeight: 700 }}>810</span>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-bold text-gray-950 truncate">Michael Chang</div>
+                <div className="text-xs text-gray-500 mb-2 truncate">Unit 12A, Metro Lofts</div>
+                <div className="flex gap-2">
+                  <div className="flex items-center gap-1 px-2 py-1 rounded bg-gray-50 text-[10px] font-bold text-gray-700">
+                    <span className="text-gray-400 font-medium">Score:</span> 810
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', borderRadius: 6, background: '#f3f4f6', fontSize: 11, fontWeight: 600, color: '#374151' }}>
-                    <span style={{ color: '#9ca3af', fontWeight: 400 }}>BG:</span> <span style={{ fontWeight: 700 }}>Clear</span>
+                  <div className="flex items-center gap-1 px-2 py-1 rounded bg-gray-50 text-[10px] font-bold text-gray-700">
+                    <span className="text-gray-400 font-medium">BG:</span> Clear
                   </div>
                 </div>
               </div>

@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import useAuthStore from '../../store/authStore';
 import useUIStore from '../../store/uiStore';
 import { logout as authLogout } from '../../services/authService';
+import { LogoMark } from './Navbar';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const tenantNavItems = [
   { href: '/tenant/dashboard', icon: 'dashboard', label: 'Dashboard' },
@@ -17,19 +19,32 @@ const tenantNavItems = [
   { href: '/tenant/settings', icon: 'settings', label: 'Settings' },
 ];
 
-const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
+const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarCollapsed, toggleSidebar }) => (
   <div className="flex flex-col h-full bg-[#00372f] text-white py-4 select-none overflow-hidden">
     {/* Branding Header */}
-    <div className="px-5 mb-5 shrink-0">
-      <Link to="/tenant/dashboard" onClick={onClose} className="flex items-center gap-3">
-        <div className="w-9 h-9 bg-[#7f2800] rounded-lg flex items-center justify-center text-[#ff9973] shadow-lg shrink-0">
-          <span className="material-symbols-outlined text-xl [font-variation-settings:'FILL'_1]">apartment</span>
-        </div>
-        <div>
-          <h1 className="font-headline-md text-xl font-bold text-white leading-tight">RentFlow</h1>
-          <p className="font-label-caps text-[11px] text-[#84bfb2] opacity-80 uppercase tracking-widest">Tenant Portal</p>
-        </div>
-      </Link>
+    <div className={`flex items-center justify-between px-5 mb-5 shrink-0 ${sidebarCollapsed ? 'justify-center px-2' : ''}`}>
+      {!sidebarCollapsed && (
+        <Link to="/tenant/dashboard" onClick={onClose} className="flex items-center gap-3 min-w-0" aria-label="RentFlow dashboard">
+          <LogoMark />
+          <div className="flex flex-col shrink-0">
+            <h1 className="font-headline-md text-xl font-bold text-white leading-tight">RentFlow</h1>
+            <p className="font-label-caps text-[11px] text-[#84bfb2] opacity-80 uppercase tracking-widest">Tenant Portal</p>
+          </div>
+        </Link>
+      )}
+      {sidebarCollapsed && (
+        <Link to="/tenant/dashboard" onClick={onClose} aria-label="RentFlow dashboard" className="mx-auto">
+          <LogoMark />
+        </Link>
+      )}
+      {/* Desktop collapse toggle */}
+      <button
+        onClick={onClose || toggleSidebar}
+        aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        className="hidden lg:flex items-center justify-center w-6 h-6 rounded text-white/50 hover:text-white hover:bg-white/10 transition-colors ml-1 shrink-0 cursor-pointer"
+      >
+        {sidebarCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+      </button>
     </div>
 
     {/* Navigation List matching screenshot styling, optimized for fitting all items */}
@@ -43,12 +58,13 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
               key={label}
               to={href}
               onClick={onClose}
-              className="relative flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl bg-white/10 text-white font-semibold transition-all duration-200 shadow-sm overflow-hidden"
+              title={sidebarCollapsed ? label : undefined}
+              className={`relative flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl bg-white/10 text-white font-semibold transition-all duration-200 shadow-sm overflow-hidden ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
             >
               {/* Orange vertical indicator bar on left edge */}
               <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#C75B30] rounded-r-full" />
               <span className="material-symbols-outlined [font-variation-settings:'FILL'_1] shrink-0 text-[20px] text-white">{icon}</span>
-              <span className="text-[15px] tracking-normal">{label}</span>
+              {!sidebarCollapsed && <span className="text-[15px] tracking-normal truncate">{label}</span>}
             </Link>
           );
         }
@@ -58,10 +74,11 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
             key={label}
             to={href}
             onClick={onClose}
-            className="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 active:scale-[0.98]"
+            title={sidebarCollapsed ? label : undefined}
+            className={`flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 active:scale-[0.98] ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
           >
             <span className="material-symbols-outlined shrink-0 text-[20px]">{icon}</span>
-            <span className="text-[15px] font-medium tracking-normal">{label}</span>
+            {!sidebarCollapsed && <span className="text-[15px] font-medium tracking-normal truncate">{label}</span>}
           </Link>
         );
       })}
@@ -75,26 +92,28 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
           if (onClose) onClose();
           navigate('/tenant/report-issue');
         }}
+        title={sidebarCollapsed ? 'Report Issue' : undefined}
         className={`w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl transition-all duration-200 cursor-pointer text-left ${
           location.pathname === '/tenant/report-issue'
             ? 'relative bg-white/10 text-white font-semibold overflow-hidden'
             : 'text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 font-medium'
-        }`}
+        } ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
       >
         {location.pathname === '/tenant/report-issue' && (
           <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#C75B30] rounded-r-full" />
         )}
         <span className="material-symbols-outlined shrink-0 text-[20px]">report_problem</span>
-        <span className="text-[15px] tracking-normal">Report Issue</span>
+        {!sidebarCollapsed && <span className="text-[15px] tracking-normal truncate">Report Issue</span>}
       </button>
 
       {/* Logout */}
       <button
         onClick={handleLogout}
-        className="w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 cursor-pointer text-left font-medium"
+        title={sidebarCollapsed ? 'Logout' : undefined}
+        className={`w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 cursor-pointer text-left font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
       >
         <span className="material-symbols-outlined shrink-0 text-[20px]">logout</span>
-        <span className="text-[15px] tracking-normal">Logout</span>
+        {!sidebarCollapsed && <span className="text-[15px] tracking-normal truncate">Logout</span>}
       </button>
     </nav>
 
@@ -105,9 +124,10 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
           if (onClose) onClose();
           navigate('/tenant/pay-rent');
         }}
-        className="w-full bg-[#C75B30] hover:bg-[#d8683b] text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all text-center text-[15px] cursor-pointer"
+        title={sidebarCollapsed ? 'Make Payment' : undefined}
+        className={`w-full bg-[#C75B30] hover:bg-[#d8683b] text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all text-center text-[15px] cursor-pointer flex items-center justify-center ${sidebarCollapsed ? 'px-0 w-11 h-11 mx-auto' : ''}`}
       >
-        Make Payment
+        {sidebarCollapsed ? <span className="material-symbols-outlined text-[20px]">payments</span> : <span>Make Payment</span>}
       </button>
     </div>
   </div>
@@ -115,7 +135,7 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate }) => (
 
 const DashboardLayout = () => {
   const { user, clearUser } = useAuthStore();
-  const { mobileSidebarOpen, setMobileSidebarOpen } = useUIStore();
+  const { mobileSidebarOpen, setMobileSidebarOpen, sidebarCollapsed, toggleSidebar } = useUIStore();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -167,8 +187,8 @@ const DashboardLayout = () => {
   return (
     <div className="min-h-screen bg-surface flex font-body-lg text-on-surface overflow-x-hidden">
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex flex-col fixed inset-y-0 left-0 z-50 w-sidebar-width bg-primary dark:bg-primary-container border-r border-outline-variant dark:border-outline shadow-sm h-screen overflow-hidden" aria-label="Sidebar navigation">
-        <SidebarContent onClose={undefined} location={location} handleLogout={handleLogout} navigate={navigate} />
+      <aside className={`hidden lg:flex flex-col fixed inset-y-0 left-0 z-50 transition-[width] duration-300 ease-out bg-primary dark:bg-primary-container border-r border-outline-variant dark:border-outline shadow-sm h-screen overflow-hidden ${sidebarCollapsed ? 'w-[72px]' : 'w-sidebar-width'}`} aria-label="Sidebar navigation">
+        <SidebarContent onClose={undefined} location={location} handleLogout={handleLogout} navigate={navigate} sidebarCollapsed={sidebarCollapsed} toggleSidebar={toggleSidebar} />
       </aside>
 
       {/* Mobile drawer */}
@@ -191,14 +211,14 @@ const DashboardLayout = () => {
               transition={{ type: 'tween', duration: 0.25 }}
               aria-label="Mobile sidebar navigation"
             >
-              <SidebarContent onClose={() => setMobileSidebarOpen(false)} location={location} handleLogout={handleLogout} navigate={navigate} />
+              <SidebarContent onClose={() => setMobileSidebarOpen(false)} location={location} handleLogout={handleLogout} navigate={navigate} sidebarCollapsed={false} toggleSidebar={toggleSidebar} />
             </motion.aside>
           </>
         )}
       </AnimatePresence>
 
       {/* Top App Bar matching page-specific Stitch designs exactly */}
-      <header className="fixed top-0 right-0 w-full lg:w-[calc(100%-260px)] z-50 flex justify-between items-center px-container-padding py-3 min-h-[76px] bg-surface/95 backdrop-blur-md border-b border-outline-variant dark:border-outline shadow-xs">
+      <header className={`fixed top-0 right-0 z-50 flex justify-between items-center px-container-padding py-3 min-h-[76px] bg-surface/95 backdrop-blur-md border-b border-outline-variant dark:border-outline shadow-xs transition-[width] duration-300 ease-out ${sidebarCollapsed ? 'w-full lg:w-[calc(100%-72px)]' : 'w-full lg:w-[calc(100%-260px)]'}`}>
         <div className="flex items-center gap-4">
           <button
             className="lg:hidden p-1 text-on-surface-variant hover:text-primary transition-colors cursor-pointer mr-2"
@@ -301,7 +321,7 @@ const DashboardLayout = () => {
       </header>
 
       {/* Main Content Canvas with guaranteed clearance below header */}
-      <main className="flex-1 lg:ml-sidebar-width pt-32 sm:pt-36 px-container-padding pb-16 min-h-screen w-full relative z-10">
+      <main className={`flex-1 transition-[margin-left] duration-300 ease-out pt-32 sm:pt-36 px-container-padding pb-16 min-h-screen w-full relative z-10 ${sidebarCollapsed ? 'lg:ml-[72px]' : 'lg:ml-sidebar-width'}`}>
         <Outlet />
       </main>
     </div>

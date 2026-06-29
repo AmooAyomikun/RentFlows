@@ -18,16 +18,16 @@ const TenantPayRent = () => {
 
   if (isSuccess) {
     return (
-      <div className="max-w-md mx-auto mt-16 text-center bg-white rounded-xl p-8 border border-outline-variant card-shadow">
+      <div className="max-w-md mx-auto mt-16 text-center bg-white rounded-xl p-6 border border-gray-200 card-shadow">
         <div className="w-16 h-16 bg-primary-container/20 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
           <span className="material-symbols-outlined text-3xl">check_circle</span>
         </div>
-        <h2 className="font-headline-md text-2xl font-bold text-on-surface mb-2">Payment Authorized</h2>
-        <p className="font-body-sm text-sm text-on-surface-variant mb-6 leading-relaxed">
-          Your payment of <span className="font-data-mono font-bold text-primary">$3,250.00</span> has been successfully processed. A receipt has been dispatched to your email.
+        <h1 className="text-2xl font-bold text-gray-900 m-0 mb-2">Payment Authorized</h1>
+        <p className="text-sm text-gray-600 mb-6 leading-relaxed m-0">
+          Your payment of <span className="font-mono font-bold text-primary">$3,250.00</span> has been successfully processed. A receipt has been dispatched to your email.
         </p>
         <div className="bg-surface rounded-lg p-4 mb-6 text-left space-y-2 text-xs border border-outline-variant/60">
-          <div className="flex justify-between"><span className="text-on-surface-variant">Transaction Ref:</span><span className="font-data-mono font-bold text-on-surface">RF-PAY-{Date.now().toString().slice(-6)}</span></div>
+          <div className="flex justify-between"><span className="text-on-surface-variant">Transaction Ref:</span><span className="font-mono font-bold text-on-surface">RF-PAY-{Date.now().toString().slice(-6)}</span></div>
           <div className="flex justify-between"><span className="text-on-surface-variant">Date & Time:</span><span className="font-medium text-on-surface">{new Date().toLocaleString()}</span></div>
           <div className="flex justify-between"><span className="text-on-surface-variant">Payment Source:</span><span className="font-bold text-on-surface uppercase">{paymentMethod === 'bank' ? 'Bank Account (**4928)' : 'Credit Card (**1022)'}</span></div>
           <div className="flex justify-between"><span className="text-on-surface-variant">Status:</span><span className="text-primary font-bold">SETTLED</span></div>
@@ -43,64 +43,64 @@ const TenantPayRent = () => {
   }
 
   return (
-    <div className="max-w-[1200px] mx-auto w-full flex flex-col gap-8 relative">
+    <div className="space-y-6 relative">
       
       {/* Multi-step Progress */}
       <div className="flex items-center justify-center gap-12 py-4">
         <div className="flex items-center gap-3 pb-2 border-b-2 border-primary text-primary font-normal">
           <span className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-normal">1</span>
-          <span className="font-body-lg text-sm font-normal">Details</span>
+          <span className="text-sm font-medium">Details</span>
         </div>
         <div className="w-12 h-px bg-outline-variant"></div>
         <div className="flex items-center gap-3 pb-2 border-b-2 border-transparent text-on-surface-variant font-normal">
           <span className="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-sm font-normal">2</span>
-          <span className="font-body-lg text-sm font-normal">Review</span>
+          <span className="text-sm font-medium">Review</span>
         </div>
         <div className="w-12 h-px bg-outline-variant"></div>
         <div className="flex items-center gap-3 pb-2 border-b-2 border-transparent text-on-surface-variant font-normal">
           <span className="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-sm font-normal">3</span>
-          <span className="font-body-lg text-sm font-normal">Receipt</span>
+          <span className="text-sm font-medium">Receipt</span>
         </div>
       </div>
 
       {/* Bento Layout Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-card-gap">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Column: Summary & Schedule (7/12 matching design lg:col-span-7) */}
-        <div className="lg:col-span-7 flex flex-col gap-card-gap">
+        <div className="lg:col-span-7 flex flex-col gap-6">
           
           {/* Payment Summary Card */}
-          <section className="bg-white rounded-xl border border-outline-variant p-6 card-shadow">
+          <section className="bg-white rounded-xl border border-gray-200 p-6 card-shadow">
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h3 className="font-headline-md text-lg text-primary font-normal">Monthly Rent Summary</h3>
-                <p className="text-on-surface-variant font-body-sm mt-1">6301 Elgin St. Celina, Delaware 10299</p>
+                <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Monthly Rent Summary</h2>
+                <p className="text-sm text-gray-600 mt-1 m-0">6301 Elgin St. Celina, Delaware 10299</p>
               </div>
               <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-semibold">Active Lease</span>
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-center py-2 border-b border-surface-container">
-                <span className="text-on-surface-variant font-body-lg">Base Rent</span>
-                <span className="font-data-mono text-primary font-semibold">$3,000.00</span>
+                <span className="text-base text-[#4A4F4C]">Base Rent</span>
+                <span className="font-mono text-primary font-semibold">$3,000.00</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-surface-container">
-                <span className="text-on-surface-variant font-body-lg">Utilities (Fixed)</span>
-                <span className="font-data-mono text-primary font-semibold">$200.00</span>
+                <span className="text-base text-[#4A4F4C]">Utilities (Fixed)</span>
+                <span className="font-mono text-primary font-semibold">$200.00</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-surface-container">
-                <span className="text-on-surface-variant font-body-lg">Parking Space #42</span>
-                <span className="font-data-mono text-primary font-semibold">$50.00</span>
+                <span className="text-base text-[#4A4F4C]">Parking Space #42</span>
+                <span className="font-mono text-primary font-semibold">$50.00</span>
               </div>
               <div className="flex justify-between items-center pt-4">
-                <span className="font-headline-md text-xl text-primary">Total Rent Due</span>
-                <span className="font-headline-md text-2xl text-primary">$3,250.00</span>
+                <span className="text-lg font-bold text-gray-900">Total Rent Due</span>
+                <span className="text-2xl font-bold text-primary">$3,250.00</span>
               </div>
             </div>
           </section>
 
           {/* Schedule Payment */}
-          <section className="bg-white rounded-xl border border-outline-variant p-6 card-shadow">
-            <h3 className="font-headline-md text-lg text-primary mb-4 font-normal">Schedule Payment</h3>
+          <section className="bg-white rounded-xl border border-gray-200 p-6 card-shadow">
+            <h2 className="text-sm font-semibold uppercase text-gray-800 mb-4 m-0">Schedule Payment</h2>
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
@@ -149,13 +149,13 @@ const TenantPayRent = () => {
         </div>
 
         {/* Right Column: Methods & Action (5/12 matching design lg:col-span-5) */}
-        <div className="lg:col-span-5 flex flex-col gap-card-gap">
+        <div className="lg:col-span-5 flex flex-col gap-6">
           
           {/* Payment Method Selector */}
-          <section className="bg-white rounded-xl border border-outline-variant p-6 card-shadow flex-1 flex flex-col justify-between">
+          <section className="bg-white rounded-xl border border-gray-200 p-6 card-shadow flex-1 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-center mb-6">
-                <h3 className="font-headline-md text-lg text-primary font-normal">Payment Method</h3>
+                <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Payment Method</h2>
                 <button type="button" className="text-primary text-sm font-semibold hover:underline">Add New</button>
               </div>
               
@@ -217,11 +217,11 @@ const TenantPayRent = () => {
               <div className="mt-8 flex items-center justify-center gap-6 py-4 border-t border-surface-container">
                 <div className="flex items-center gap-2 opacity-60">
                   <span className="material-symbols-outlined text-xl">verified_user</span>
-                  <span className="font-label-caps text-[10px]">SSL SECURED</span>
+                  <span className="text-[10px] font-bold">SSL SECURED</span>
                 </div>
                 <div className="flex items-center gap-2 opacity-60">
                   <span className="material-symbols-outlined text-xl">security</span>
-                  <span className="font-label-caps text-[10px]">PCI COMPLIANT</span>
+                  <span className="text-[10px] font-bold">PCI COMPLIANT</span>
                 </div>
               </div>
 
@@ -231,7 +231,7 @@ const TenantPayRent = () => {
                   type="button"
                   onClick={handlePay}
                   disabled={isProcessing}
-                  className="w-full bg-[#C75B30] hover:bg-[#b04a25] disabled:opacity-75 text-white py-4 rounded-lg font-semibold font-headline-md text-lg shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 group cursor-pointer"
+                  className="w-full bg-[#C75B30] hover:bg-[#b04a25] disabled:opacity-75 text-white py-4 rounded-lg font-semibold text-lg shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 group cursor-pointer"
                 >
                   <span>{isProcessing ? 'Processing...' : 'Confirm and Pay $3,250.00'}</span>
                   {!isProcessing && (

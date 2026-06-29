@@ -69,68 +69,68 @@ const TenantMaintenance = () => {
     : ticketsData;
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-8 relative">
+    <div className="space-y-6 relative">
       {/* Header & Action */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8">
         <div className="max-w-2xl">
-          <h2 className="font-headline-md text-headline-md text-primary font-bold mb-2">Maintenance</h2>
-          <p class="text-on-surface-variant font-body-lg">Manage your service requests and keep track of property updates. Our team aims to respond within 24 hours.</p>
+          <h1 className="text-2xl font-bold text-gray-900 m-0 mb-1">Maintenance</h1>
+          <p className="text-base text-[#4A4F4C] m-0">Manage your service requests and keep track of property updates. Our team aims to respond within 24 hours.</p>
         </div>
         <button 
           onClick={() => setShowModal(true)}
-          className="bg-on-tertiary-container text-on-tertiary px-8 py-3.5 rounded-xl font-label-caps text-label-caps font-bold shadow-lg hover:shadow-xl hover:translate-y-[-2px] active:translate-y-[0px] transition-all flex items-center gap-3 cursor-pointer shrink-0"
+          className="bg-[#04332C] text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider shadow-sm hover:bg-[#032621] transition-all flex items-center gap-2 cursor-pointer shrink-0"
         >
           <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>add_circle</span>
           REQUEST NEW MAINTENANCE
         </button>
       </div>
 
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-6">
         {/* Left Column: Tickets & Analytics */}
         <div className="col-span-12 lg:col-span-8 space-y-8">
           {/* Ticket Stats (Bento Style) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-xl border border-gray-200 card-shadow flex flex-col justify-between">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-on-surface-variant font-label-caps text-label-caps uppercase font-bold">Pending</span>
+                <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Pending</h2>
                 <span className="material-symbols-outlined text-outline">hourglass_empty</span>
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="font-display-lg text-4xl font-bold text-primary">02</span>
-                <span className="text-error font-label-caps text-[10px] font-bold">+1 new</span>
+                <span className="text-error text-[10px] font-bold">+1 new</span>
               </div>
             </div>
 
-            <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+            <div className="bg-white p-6 rounded-xl border border-gray-200 card-shadow flex flex-col justify-between">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-on-surface-variant font-label-caps text-label-caps uppercase font-bold">In Progress</span>
+                <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">In Progress</h2>
                 <span className="material-symbols-outlined text-secondary">pending_actions</span>
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="font-display-lg text-4xl font-bold text-primary">01</span>
-                <span className="text-on-surface-variant font-label-caps text-[10px] uppercase font-bold">Active</span>
+                <span className="text-on-surface-variant text-[10px] uppercase font-bold">Active</span>
               </div>
             </div>
 
-            <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+            <div className="bg-white p-6 rounded-xl border border-gray-200 card-shadow flex flex-col justify-between">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-on-surface-variant font-label-caps text-label-caps uppercase font-bold">Resolved</span>
+                <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Resolved</h2>
                 <span className="material-symbols-outlined text-on-secondary-container">check_circle</span>
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="font-display-lg text-4xl font-bold text-primary">14</span>
-                <span className="text-on-secondary-container font-label-caps text-[10px] font-bold uppercase">This Year</span>
+                <span className="text-on-secondary-container text-[10px] font-bold uppercase">This Year</span>
               </div>
             </div>
           </div>
 
           {/* Recent Tickets Header & Controls */}
           <div className="flex justify-between items-center mb-4">
-            <h3 className="font-headline-md text-lg font-bold text-primary">Recent Tickets</h3>
+            <h2 className="text-lg font-bold text-gray-900 m-0">Recent Tickets</h2>
             <div className="flex gap-2">
               <button 
                 onClick={() => setFilter('ALL')}
-                className={`px-3 py-1.5 text-xs font-label-caps font-bold rounded-lg transition-colors cursor-pointer ${
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                   filter === 'ALL' ? 'bg-primary text-on-primary' : 'border border-outline-variant hover:bg-surface-container text-on-surface-variant'
                 }`}
               >
@@ -138,7 +138,7 @@ const TenantMaintenance = () => {
               </button>
               <button 
                 onClick={() => setFilter('OPEN')}
-                className={`px-3 py-1.5 text-xs font-label-caps font-bold rounded-lg transition-colors cursor-pointer ${
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                   filter === 'OPEN' ? 'bg-primary text-on-primary' : 'border border-outline-variant hover:bg-surface-container text-on-surface-variant'
                 }`}
               >
@@ -148,7 +148,7 @@ const TenantMaintenance = () => {
           </div>
 
           {/* Ticket List */}
-          <div className="bg-white rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">
+          <div className="bg-white rounded-xl card-shadow border border-gray-200 overflow-hidden">
             <div className="divide-y divide-outline-variant/20">
               {filteredTickets.map((ticket) => (
                 <div 
@@ -168,7 +168,7 @@ const TenantMaintenance = () => {
                             {ticket.category}
                           </span>
                         </div>
-                        <p className="text-xs font-data-mono text-outline mt-1 uppercase">ID: {ticket.id} • {ticket.date}</p>
+                        <p className="text-xs font-mono text-outline mt-1 uppercase m-0">ID: {ticket.id} • {ticket.date}</p>
                       </div>
                     </div>
 
@@ -181,7 +181,7 @@ const TenantMaintenance = () => {
                     </div>
                   </div>
 
-                  <p className="text-body-sm text-on-surface-variant mt-3 max-w-2xl">{ticket.description}</p>
+                  <p className="text-sm text-gray-600 mt-3 max-w-2xl m-0">{ticket.description}</p>
 
                   <div className="mt-4 flex items-center justify-between">
                     {ticket.assigneeType === 'avatars' && (
@@ -220,7 +220,7 @@ const TenantMaintenance = () => {
             <div className="p-4 bg-surface-container-lowest text-center border-t border-outline-variant/30">
               <button 
                 onClick={() => toast.info('Loading historical tickets archive...')}
-                className="text-primary font-label-caps text-xs font-bold hover:underline cursor-pointer uppercase tracking-widest"
+                className="text-primary text-xs font-bold hover:underline cursor-pointer uppercase tracking-widest"
               >
                 VIEW ALL HISTORICAL TICKETS
               </button>
@@ -229,38 +229,38 @@ const TenantMaintenance = () => {
         </div>
 
         {/* Right Column: Sidebar Actions & Info */}
-        <div className="col-span-12 lg:col-span-4 space-y-8">
+        <div className="col-span-12 lg:col-span-4 space-y-6">
           {/* Emergency Contact Card */}
-          <div className="bg-primary text-on-primary p-8 rounded-2xl relative overflow-hidden shadow-xl">
+          <div className="bg-[#04332C] text-white p-6 rounded-xl relative overflow-hidden card-shadow">
             <div className="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
               <span className="material-symbols-outlined text-[180px]">warning</span>
             </div>
             <div className="relative z-10">
-              <div className="w-12 h-12 bg-on-tertiary-container/20 rounded-xl flex items-center justify-center mb-6 border border-on-tertiary-container/30">
-                <span className="material-symbols-outlined text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>emergency_home</span>
+              <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-6 border border-white/20">
+                <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>emergency_home</span>
               </div>
-              <h3 className="font-headline-md text-xl font-bold mb-2">Emergency Contact</h3>
-              <p className="text-on-primary-container/80 text-body-sm mb-6 leading-relaxed">For immediate life-safety issues, fires, or catastrophic flooding, please contact our 24/7 hotline directly.</p>
+              <h2 className="text-xl font-bold text-white mb-2 m-0">Emergency Contact</h2>
+              <p className="text-white/80 text-sm mb-6 leading-relaxed m-0">For immediate life-safety issues, fires, or catastrophic flooding, please contact our 24/7 hotline directly.</p>
               <div className="space-y-4">
-                <div className="flex items-center gap-4 bg-primary-container/40 p-4 rounded-xl border border-outline-variant/10">
-                  <div className="w-10 h-10 rounded-full bg-on-tertiary-container flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-primary">call</span>
+                <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10">
+                  <div className="w-10 h-10 rounded-full bg-white text-[#04332C] flex items-center justify-center shrink-0 font-bold">
+                    <span className="material-symbols-outlined">call</span>
                   </div>
                   <div>
-                    <p className="font-label-caps text-[10px] text-on-primary-container uppercase font-bold">Maintenance Hotline</p>
-                    <p className="font-data-mono text-lg text-white font-bold tracking-wider">+1 (800) 555-0199</p>
+                    <p className="text-[10px] text-white/70 uppercase font-bold m-0">Maintenance Hotline</p>
+                    <p className="font-mono text-lg text-white font-bold tracking-wider m-0">+1 (800) 555-0199</p>
                   </div>
                 </div>
                 <div 
                   onClick={() => toast.info('Opening emergency SMS interface...')}
-                  className="flex items-center gap-4 bg-primary-container/20 p-4 rounded-xl border border-outline-variant/10 cursor-pointer hover:bg-primary-container/30 transition-colors"
+                  className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10 cursor-pointer hover:bg-white/20 transition-colors"
                 >
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined text-white">chat_bubble</span>
                   </div>
                   <div>
-                    <p className="font-label-caps text-[10px] text-on-primary-container uppercase font-bold">Emergency SMS</p>
-                    <p className="font-data-mono text-white font-bold">Text "HELP" to 55022</p>
+                    <p className="text-[10px] text-white/70 uppercase font-bold m-0">Emergency SMS</p>
+                    <p className="font-mono text-white font-bold m-0">Text "HELP" to 55022</p>
                   </div>
                 </div>
               </div>
@@ -268,23 +268,23 @@ const TenantMaintenance = () => {
           </div>
 
           {/* Guidance/Tips Card */}
-          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm">
-            <h4 className="font-semibold text-primary mb-4 flex items-center gap-2">
+          <div className="bg-white p-6 rounded-xl border border-gray-200 card-shadow">
+            <h2 className="text-sm font-semibold uppercase text-gray-800 mb-4 flex items-center gap-2 m-0">
               <span className="material-symbols-outlined text-secondary">info</span>
               Before you submit...
-            </h4>
-            <ul className="space-y-4">
+            </h2>
+            <ul className="space-y-4 m-0 pl-0 list-none">
               <li className="flex gap-3">
-                <span class="material-symbols-outlined text-on-secondary-container text-lg shrink-0">check_circle</span>
-                <p className="text-xs text-on-surface-variant leading-normal">Check the <span className="font-bold text-primary">Resident Handbook</span> for common troubleshooting steps (e.g., GFCI reset).</p>
+                <span className="material-symbols-outlined text-green-600 text-lg shrink-0">check_circle</span>
+                <p className="text-xs text-gray-600 leading-normal m-0">Check the <span className="font-bold text-gray-900">Resident Handbook</span> for common troubleshooting steps (e.g., GFCI reset).</p>
               </li>
               <li className="flex gap-3">
-                <span class="material-symbols-outlined text-on-secondary-container text-lg shrink-0">check_circle</span>
-                <p className="text-xs text-on-surface-variant leading-normal">Attach at least <span className="font-bold text-primary">two clear photos</span> of the issue to speed up diagnostic time.</p>
+                <span className="material-symbols-outlined text-green-600 text-lg shrink-0">check_circle</span>
+                <p className="text-xs text-gray-600 leading-normal m-0">Attach at least <span className="font-bold text-gray-900">two clear photos</span> of the issue to speed up diagnostic time.</p>
               </li>
               <li className="flex gap-3">
-                <span class="material-symbols-outlined text-on-secondary-container text-lg shrink-0">check_circle</span>
-                <p className="text-xs text-on-surface-variant leading-normal">Specify if you provide <span className="font-bold text-primary">Permission to Enter</span> if you are not present during service.</p>
+                <span className="material-symbols-outlined text-green-600 text-lg shrink-0">check_circle</span>
+                <p className="text-xs text-gray-600 leading-normal m-0">Specify if you provide <span className="font-bold text-gray-900">Permission to Enter</span> if you are not present during service.</p>
               </li>
             </ul>
           </div>
@@ -292,36 +292,36 @@ const TenantMaintenance = () => {
           {/* Helpful Resources & Guides Card */}
           <div 
             onClick={() => toast.info('Opening Resident Handbook and Guides...')}
-            className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm flex items-center gap-4 cursor-pointer hover:bg-surface-container-low transition-colors group"
+            className="bg-white p-6 rounded-xl border border-gray-200 card-shadow flex items-center gap-4 cursor-pointer hover:bg-gray-50 transition-colors group"
           >
             <div className="w-12 h-12 rounded-xl bg-secondary-container/30 flex items-center justify-center text-secondary shrink-0 group-hover:scale-105 transition-transform">
               <span className="material-symbols-outlined text-2xl">menu_book</span>
             </div>
             <div className="min-w-0 flex-1">
-              <h4 className="font-semibold text-primary text-sm group-hover:underline leading-tight">Helpful Resources & Guides</h4>
-              <p className="text-xs text-on-surface-variant mt-1">Access resident handbooks, tutorials, and DIY troubleshooting guides.</p>
+              <h2 className="font-semibold text-gray-900 text-sm group-hover:underline leading-tight m-0">Helpful Resources & Guides</h2>
+              <p className="text-xs text-gray-600 mt-1 m-0">Access resident handbooks, tutorials, and DIY troubleshooting guides.</p>
             </div>
             <span className="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
           </div>
 
           {/* Recent Activity Feed */}
-          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm">
-            <h4 className="font-label-caps text-xs font-bold text-outline mb-6 uppercase tracking-widest flex items-center gap-2">
+          <div className="bg-white p-6 rounded-xl border border-gray-200 card-shadow">
+            <h2 className="text-sm font-semibold uppercase text-gray-800 mb-6 flex items-center gap-2 m-0">
               <span className="material-symbols-outlined text-sm">history</span>
               Activity Feed
-            </h4>
-            <div className="space-y-6 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant/40">
+            </h2>
+            <div className="space-y-6 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-[1px] before:bg-gray-200">
               <div className="relative pl-10">
                 <div className="absolute left-1.5 top-1.5 w-3 h-3 rounded-full bg-secondary border-2 border-white shadow-sm z-10"></div>
-                <p className="text-xs font-bold text-on-surface mb-0.5">Technician Assigned</p>
-                <p className="text-[11px] text-on-surface-variant">Mark Stevenson assigned to ticket RF-29388</p>
-                <p className="text-[10px] font-data-mono text-outline mt-1 italic">2 hours ago</p>
+                <p className="text-xs font-bold text-gray-900 mb-0.5 m-0">Technician Assigned</p>
+                <p className="text-[11px] text-gray-600 m-0">Mark Stevenson assigned to ticket RF-29388</p>
+                <p className="text-[10px] font-mono text-gray-400 mt-1 italic m-0">2 hours ago</p>
               </div>
               <div className="relative pl-10">
                 <div className="absolute left-1.5 top-1.5 w-3 h-3 rounded-full bg-primary border-2 border-white shadow-sm z-10"></div>
-                <p className="text-xs font-bold text-on-surface mb-0.5">Ticket Created</p>
-                <p className="text-[11px] text-on-surface-variant">Kitchen Faucet Leaking (RF-29402)</p>
-                <p className="text-[10px] font-data-mono text-outline mt-1 italic">Oct 24, 10:14 AM</p>
+                <p className="text-xs font-bold text-gray-900 mb-0.5 m-0">Ticket Created</p>
+                <p className="text-[11px] text-gray-600 m-0">Kitchen Faucet Leaking (RF-29402)</p>
+                <p className="text-[10px] font-mono text-gray-400 mt-1 italic m-0">Oct 24, 10:14 AM</p>
               </div>
             </div>
           </div>
@@ -350,8 +350,8 @@ const TenantMaintenance = () => {
               <span className="material-symbols-outlined">close</span>
             </button>
 
-            <h3 className="text-xl font-bold text-gray-900 font-headline-md">Request New Maintenance</h3>
-            <p className="text-xs text-gray-500 mt-1">Describe your issue below and our team will dispatch a technician.</p>
+            <h2 className="text-xl font-bold text-gray-900 m-0">Request New Maintenance</h2>
+            <p className="text-xs text-gray-500 mt-1 m-0">Describe your issue below and our team will dispatch a technician.</p>
 
             <form onSubmit={handleSubmitRequest} className="mt-6 space-y-4">
               <div>

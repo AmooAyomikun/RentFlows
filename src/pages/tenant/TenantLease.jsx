@@ -28,10 +28,10 @@ const TenantLease = () => {
     <div className="space-y-6 w-full text-[#1E293B]">
       {/* Page Title & Subtitle matching design mockup exactly */}
       <div>
-        <h1 className="font-display font-black text-2xl sm:text-3xl text-[#1E293B] tracking-tight">
+        <h1 className="text-2xl font-bold text-gray-900 m-0">
           Lease Agreement
         </h1>
-        <p className="text-xs sm:text-sm text-gray-500 mt-1 font-medium">
+        <p className="text-base text-[#4A4F4C] m-0 mt-1 font-medium">
           Review your current tenancy terms and legal obligations.
         </p>
       </div>
@@ -43,7 +43,7 @@ const TenantLease = () => {
         <div className="lg:col-span-2 space-y-6 min-w-0">
           
           {/* Main Property/Lease Card */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-6 relative overflow-hidden">
+          <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200 flex flex-col sm:flex-row items-start sm:items-center gap-6 relative overflow-hidden">
             {/* Left accent bar */}
             <div className="absolute left-0 top-0 bottom-0 w-2.5 bg-[#FF8C5A]" />
             
@@ -61,7 +61,7 @@ const TenantLease = () => {
                 ACTIVE TENANCY
               </div>
 
-              <h2 className="text-lg sm:text-xl font-black text-[#1E293B] tracking-tight mt-2.5 font-display leading-snug">
+              <h2 className="text-xl font-bold text-gray-900 tracking-tight mt-2 leading-snug m-0">
                 The Residences at Emerald Creek
               </h2>
 
@@ -84,9 +84,9 @@ const TenantLease = () => {
           </div>
 
           {/* Financial Summary Card */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="bg-white rounded-xl card-shadow border border-gray-200 overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-              <h2 className="text-base font-black text-[#1E293B] font-display">Financial Summary</h2>
+              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Financial Summary</h2>
               <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600">
                 <Wallet size={16} />
               </div>
@@ -150,8 +150,8 @@ const TenantLease = () => {
         <div className="space-y-6 min-w-0">
           
           {/* Property Manager Card */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 space-y-5">
-            <h3 className="text-[11px] font-extrabold tracking-widest text-gray-400 uppercase">PROPERTY MANAGER</h3>
+          <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200 space-y-5">
+            <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Property Manager</h2>
 
             <div className="flex items-center gap-3.5">
               <div className="w-12 h-12 rounded-xl bg-[#04332C] text-white flex items-center justify-center shrink-0 shadow-sm">
@@ -195,8 +195,8 @@ const TenantLease = () => {
           </div>
 
           {/* Lease Timeline Card */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 space-y-6">
-            <h3 className="text-[11px] font-extrabold tracking-widest text-gray-400 uppercase">LEASE TIMELINE</h3>
+          <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200 space-y-6">
+            <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Lease Timeline</h2>
 
             <div className="relative pl-3">
               <div className="absolute left-[27px] top-4 bottom-4 w-0.5 bg-gray-200" />
@@ -253,7 +253,7 @@ const TenantLease = () => {
       {/* Full-Width Section below 2-column grid matching exact mockup hierarchy */}
       <div className="space-y-6 pt-2">
         {/* Full Lease Agreement PDF Card - Full Width Flex Row with clustered elements on left and split edge action buttons on right */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 bg-white rounded-xl border border-gray-100 shadow-sm gap-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 bg-white rounded-xl border border-gray-200 card-shadow gap-4">
           <div className="flex items-center gap-4 flex-1 min-w-0">
             <div className="w-14 h-14 rounded-xl bg-[#F3EFEA] flex items-center justify-center text-gray-700 shrink-0 relative shadow-2xs">
               <FileText size={26} strokeWidth={2} />
@@ -295,26 +295,26 @@ const TenantLease = () => {
 
         {/* Bottom Policies Grid - 3 equal columns spanning full width */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-2.5">
+          <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200 space-y-2.5">
             <PawIcon size={22} className="text-[#04332C]" />
-            <h4 className="font-black text-sm text-[#1E293B]">Pet Policy</h4>
-            <p className="text-xs text-gray-600 leading-relaxed font-medium">
+            <h3 className="text-sm font-semibold uppercase text-gray-800 m-0">Pet Policy</h3>
+            <p className="text-base text-[#4A4F4C] leading-relaxed m-0">
               Domestic cats and dogs under 40lbs permitted. Max 2 pets.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-2.5">
+          <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200 space-y-2.5">
             <Car size={22} className="text-[#04332C]" strokeWidth={2.2} />
-            <h4 className="font-black text-sm text-[#1E293B]">Parking Terms</h4>
-            <p className="text-xs text-gray-600 leading-relaxed font-medium">
+            <h3 className="text-sm font-semibold uppercase text-gray-800 m-0">Parking Terms</h3>
+            <p className="text-base text-[#4A4F4C] leading-relaxed m-0">
               Allocated Stall #42 in Basement Level 1. Guest parking for 24h.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-2.5">
+          <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200 space-y-2.5">
             <PaintRollerIcon size={22} className="text-[#04332C]" />
-            <h4 className="font-black text-sm text-[#1E293B]">Alterations</h4>
-            <p className="text-xs text-gray-600 leading-relaxed font-medium">
+            <h3 className="text-sm font-semibold uppercase text-gray-800 m-0">Alterations</h3>
+            <p className="text-base text-[#4A4F4C] leading-relaxed m-0">
               Painting or permanent changes require written manager consent.
             </p>
           </div>

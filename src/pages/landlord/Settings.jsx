@@ -35,11 +35,11 @@ const Settings = () => {
     <div className="font-sans text-gray-900 pb-12">
       {/* ── PAGE TITLE ── */}
       <div className="mb-8">
-        <h1 className="text-[28px] font-display font-extrabold text-[#072F29] tracking-tight m-0">Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0">Settings</h1>
       </div>
 
       {/* ── TWO COLUMN SETTINGS LAYOUT ── */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
         {/* Left Sidebar Nav */}
         <div className="md:col-span-1 space-y-1.5">
           {navItems.map((item) => {
@@ -63,11 +63,11 @@ const Settings = () => {
         </div>
 
         {/* Right Main Content Card */}
-        <div className="md:col-span-3 bg-white rounded-2xl border border-gray-200/80 p-6 sm:p-8 shadow-2xs">
+        <div className="md:col-span-3 bg-white rounded-xl border border-gray-200/80 p-6 card-shadow">
           {activeTab === 'profile' ? (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 m-0">Profile Settings</h2>
-              <p className="text-xs sm:text-sm text-gray-500 m-0 mt-1 mb-6">Manage how your personal information appears across the platform.</p>
+              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Profile Settings</h2>
+              <p className="text-base text-[#4A4F4C] m-0 mt-1 mb-6">Manage how your personal information appears across the platform.</p>
               
               <div className="border-b border-gray-100 mb-8" />
 
@@ -131,8 +131,8 @@ const Settings = () => {
             </div>
           ) : (
             <div className="py-12 text-center text-gray-500">
-              <h3 className="text-lg font-bold text-gray-800 mb-1 capitalize">{activeTab}</h3>
-              <p className="text-xs text-gray-400 m-0">Preferences for {activeTab} are configured at the organization tier.</p>
+              <h3 className="text-sm font-semibold uppercase text-gray-800 mb-1 capitalize">{activeTab}</h3>
+              <p className="text-base text-[#4A4F4C] m-0">Preferences for {activeTab} are configured at the organization tier.</p>
             </div>
           )}
         </div>

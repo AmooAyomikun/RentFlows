@@ -15,7 +15,7 @@ const Card = ({
   ...props
 }) => {
   const baseClasses = [
-    'bg-white rounded border border-border shadow-card',
+    'bg-white rounded-xl border border-gray-200/80 card-shadow',
     padding ? 'p-6' : '',
     hoverable || clickable
       ? 'transition-all duration-200 hover:-translate-y-1 hover:shadow-card-hover'

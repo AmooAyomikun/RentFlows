@@ -43,7 +43,7 @@ const PropertyDetail = () => {
     {
       key: 'name',
       label: 'Unit Name',
-      render: (val) => <span className="font-medium text-charcoal">{val}</span>,
+      render: (val) => <span className="text-base font-medium text-gray-900">{val}</span>,
     },
     {
       key: 'status',
@@ -53,7 +53,7 @@ const PropertyDetail = () => {
     {
       key: 'rentAmount',
       label: 'Rent Amount',
-      render: (val) => <span className="font-mono">{formatCurrency(val)}</span>,
+      render: (val) => <span className="text-base font-mono text-gray-900">{formatCurrency(val)}</span>,
     },
     {
       key: 'tenant',
@@ -63,10 +63,10 @@ const PropertyDetail = () => {
           <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
             {val.name.charAt(0)}
           </div>
-          <span className="text-sm">{val.name}</span>
+          <span className="text-base font-medium text-gray-900">{val.name}</span>
         </div>
       ) : (
-        <span className="text-muted text-sm italic">Vacant</span>
+        <span className="text-base text-gray-400 italic">Vacant</span>
       ),
     },
     {
@@ -74,7 +74,7 @@ const PropertyDetail = () => {
       label: '',
       render: (_, row) => (
         <div className="flex justify-end">
-          <Link to={`/landlord/properties/${id}/units/${row.id}`} className="text-primary hover:underline text-sm font-medium">
+          <Link to={`/landlord/properties/${id}/units/${row.id}`} className="text-primary hover:underline text-sm font-semibold">
             View details
           </Link>
         </div>
@@ -102,10 +102,10 @@ const PropertyDetail = () => {
       <Breadcrumbs items={breadcrumbs} />
 
       {/* Property Header */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-lg border border-border shadow-sm overflow-hidden">
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-xl border border-border card-shadow overflow-hidden">
         <div className="h-32 bg-gradient-to-r from-charcoal to-primary relative">
           <div className="absolute -bottom-10 left-6">
-            <div className="w-20 h-20 rounded-lg bg-white border-4 border-white shadow-md flex items-center justify-center">
+            <div className="w-20 h-20 rounded-xl bg-white border-4 border-white shadow-md flex items-center justify-center">
               <Building2 size={32} className="text-primary" />
             </div>
           </div>
@@ -114,8 +114,8 @@ const PropertyDetail = () => {
         <div className="pt-14 pb-6 px-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div>
-              <h1 className="font-display font-bold text-2xl text-charcoal mb-2">{property.name}</h1>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm text-muted">
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">{property.name}</h1>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-base text-[#4A4F4C]">
                 <span className="flex items-center gap-1.5">
                   <MapPin size={14} /> {property.address}
                 </span>
@@ -138,7 +138,7 @@ const PropertyDetail = () => {
       {/* Units Section */}
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-display font-semibold text-lg text-charcoal">Units</h2>
+          <h2 className="text-sm font-semibold uppercase text-gray-800">Units</h2>
           <Link to={`/landlord/properties/${id}/units/new`}>
             <Button size="sm" leftIcon={<Plus size={14} />}>Add Unit</Button>
           </Link>

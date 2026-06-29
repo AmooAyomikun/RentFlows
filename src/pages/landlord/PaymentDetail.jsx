@@ -50,7 +50,7 @@ const PaymentDetail = () => {
           <ArrowLeft size={18} />
         </button>
         <div>
-          <h1 className="font-display font-bold text-2xl text-charcoal flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
             Payment Detail
             <Badge status={payment.status} label={humanizeStatus(payment.status)} />
           </h1>
@@ -66,11 +66,11 @@ const PaymentDetail = () => {
             <div className={`p-6 ${isPaid ? 'bg-success/10 border-b border-success/20' : isOverdue ? 'bg-error/10 border-b border-error/20' : 'bg-warning/10 border-b border-warning/20'}`}>
               <div className="flex items-center gap-3 mb-2">
                 {isPaid ? <CheckCircle size={24} className="text-success" /> : isOverdue ? <AlertTriangle size={24} className="text-error" /> : <Clock size={24} className="text-warning" />}
-                <span className={`font-semibold ${isPaid ? 'text-success' : isOverdue ? 'text-error' : 'text-warning'}`}>
+                <span className={`text-base font-semibold ${isPaid ? 'text-success' : isOverdue ? 'text-error' : 'text-warning'}`}>
                   {isPaid ? 'Payment Successful' : isOverdue ? 'Payment Overdue' : 'Payment Pending'}
                 </span>
               </div>
-              <p className="text-3xl font-mono font-bold text-charcoal">
+              <p className="text-3xl font-mono font-bold text-gray-900">
                 {formatCurrency(payment.amount + (payment.lateFee || 0))}
               </p>
               {payment.lateFee > 0 && (
@@ -83,31 +83,31 @@ const PaymentDetail = () => {
             {/* Details Grid */}
             <div className="p-6 grid sm:grid-cols-2 gap-y-6 gap-x-8">
               <div>
-                <p className="text-xs text-muted mb-1 uppercase tracking-wider">Tenant</p>
-                <p className="font-medium text-charcoal">{payment.tenantName}</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Tenant</p>
+                <p className="text-base font-medium text-gray-900">{payment.tenantName}</p>
               </div>
               <div>
-                <p className="text-xs text-muted mb-1 uppercase tracking-wider">Property & Unit</p>
-                <p className="font-medium text-charcoal">{payment.propertyName}</p>
-                <p className="text-sm text-muted">{payment.unitLabel}</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Property & Unit</p>
+                <p className="text-base font-medium text-gray-900">{payment.propertyName}</p>
+                <p className="text-sm text-gray-500">{payment.unitLabel}</p>
               </div>
               <div>
-                <p className="text-xs text-muted mb-1 uppercase tracking-wider">Due Date</p>
-                <p className="text-sm text-charcoal">{formatDate(payment.dueDate)}</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Due Date</p>
+                <p className="text-base text-[#4A4F4C]">{formatDate(payment.dueDate)}</p>
               </div>
               <div>
-                <p className="text-xs text-muted mb-1 uppercase tracking-wider">Payment Date</p>
-                <p className="text-sm text-charcoal">{payment.paymentDate ? formatDateTime(payment.paymentDate) : '—'}</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Payment Date</p>
+                <p className="text-base text-[#4A4F4C]">{payment.paymentDate ? formatDateTime(payment.paymentDate) : '—'}</p>
               </div>
               <div>
-                <p className="text-xs text-muted mb-1 uppercase tracking-wider">Payment Method</p>
-                <p className="text-sm text-charcoal capitalize">
+                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Payment Method</p>
+                <p className="text-base text-[#4A4F4C] capitalize">
                   {payment.method ? payment.method.replace('_', ' ') : '—'}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-muted mb-1 uppercase tracking-wider">Base Rent Amount</p>
-                <p className="text-sm font-mono text-charcoal">{formatCurrency(payment.amount)}</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Base Rent Amount</p>
+                <p className="text-base font-mono font-semibold text-gray-900">{formatCurrency(payment.amount)}</p>
               </div>
             </div>
           </Card>
@@ -118,7 +118,7 @@ const PaymentDetail = () => {
           <Card>
             <div className="flex items-center gap-2 mb-4">
               <FileText size={18} className="text-primary" />
-              <h2 className="font-semibold text-charcoal">Receipt</h2>
+              <h2 className="text-sm font-semibold uppercase text-gray-800">Receipt</h2>
             </div>
             
             {isPaid ? (
@@ -155,7 +155,7 @@ const PaymentDetail = () => {
               </div>
             ) : (
               <div className="text-center py-6">
-                <p className="text-sm text-muted mb-4">Receipt will be available once the payment is marked as paid.</p>
+                <p className="text-base text-[#4A4F4C] mb-4">Receipt will be available once the payment is marked as paid.</p>
                 {isOverdue && <Button className="w-full" variant="outline">Send Reminder</Button>}
               </div>
             )}

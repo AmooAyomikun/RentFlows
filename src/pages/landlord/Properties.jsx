@@ -39,8 +39,8 @@ const Properties = () => {
       {/* Title & Top Controls Row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="!text-xl sm:!text-2xl !font-bold !text-gray-900 !tracking-tight !m-0 !leading-tight">Properties</h1>
-          <p className="!text-xs sm:!text-sm !text-gray-500 !font-medium !mt-1 !mb-0">Manage and monitor your real estate portfolio.</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0 leading-tight">Properties</h1>
+          <p className="text-base text-[#4A4F4C] font-medium mt-1 mb-0">Manage and monitor your real estate portfolio.</p>
         </div>
 
         <div className="flex items-center gap-3 flex-shrink-0">
@@ -78,11 +78,11 @@ const Properties = () => {
       </div>
 
       {/* Metrics Cards Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 my-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-5">
         {/* Total Portfolio Value */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-4 sm:p-5 shadow-sm flex flex-col justify-between">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
           <div className="flex items-start justify-between">
-            <span className="!text-xs sm:!text-sm !font-medium !text-gray-600">Total Portfolio Value</span>
+            <span className="text-sm font-semibold uppercase text-gray-800">Total Portfolio Value</span>
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#E8F4F1] text-[#0B4F45] flex items-center justify-center">
               <Landmark size={17} />
             </div>
@@ -96,9 +96,9 @@ const Properties = () => {
         </div>
 
         {/* Total Units */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-4 sm:p-5 shadow-sm flex flex-col justify-between">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
           <div className="flex items-start justify-between">
-            <span className="!text-xs sm:!text-sm !font-medium !text-gray-600">Total Units</span>
+            <span className="text-sm font-semibold uppercase text-gray-800">Total Units</span>
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#E8F4F1] text-[#0B4F45] flex items-center justify-center">
               <Building2 size={17} />
             </div>
@@ -112,9 +112,9 @@ const Properties = () => {
         </div>
 
         {/* Avg. Occupancy */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-4 sm:p-5 shadow-sm flex flex-col justify-between">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
           <div className="flex items-start justify-between">
-            <span className="!text-xs sm:!text-sm !font-medium !text-gray-600">Avg. Occupancy</span>
+            <span className="text-sm font-semibold uppercase text-gray-800">Avg. Occupancy</span>
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#FCECE7] text-[#9A3B1B] flex items-center justify-center">
               <Users size={17} />
             </div>
@@ -156,13 +156,13 @@ const Properties = () => {
 
       {/* Properties List / Grid Content */}
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
             <ContentCardSkeleton key={i} />
           ))}
         </div>
       ) : filteredProperties.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-12 text-center shadow-sm">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-12 text-center card-shadow">
           <Building2 size={40} className="mx-auto text-gray-300 mb-3" />
           <h3 className="!text-base !font-bold !text-gray-800">No properties found</h3>
           <p className="!text-xs sm:!text-sm !text-gray-500 !mt-1 max-w-sm mx-auto">
@@ -171,7 +171,7 @@ const Properties = () => {
         </div>
       ) : viewMode === 'grid' ? (
         /* Grid View */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProperties.map((property, index) => {
             const isHealthy = property.status === 'healthy' || property.maintenanceScore >= 80;
 
@@ -182,7 +182,7 @@ const Properties = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, delay: index * 0.05 }}
               >
-                <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm hover:shadow-md hover:border-[#0B4F45]/30 transition-all duration-200 overflow-hidden flex flex-col h-full group">
+                <div className="bg-white rounded-xl border border-gray-200/80 card-shadow hover:shadow-md hover:border-[#0B4F45]/30 transition-all duration-200 overflow-hidden flex flex-col h-full group">
                   {/* Image Header */}
                   <div className="h-44 relative overflow-hidden bg-gray-100 flex-shrink-0">
                     <img
@@ -206,7 +206,7 @@ const Properties = () => {
                   </div>
 
                   {/* Body Content */}
-                  <div className="p-4 sm:p-5 flex flex-col flex-1 bg-white">
+                  <div className="p-6 flex flex-col flex-1 bg-white">
                     {/* Title Row */}
                     <div className="flex items-center justify-between gap-2">
                       <h3 className="!font-bold !text-gray-900 !text-sm sm:!text-base !m-0 !truncate flex-1 group-hover:text-[#0B4F45] transition-colors">
@@ -295,7 +295,7 @@ const Properties = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.25, delay: index * 0.03 }}
               >
-                <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm hover:shadow-md hover:border-[#0B4F45]/30 p-4 sm:p-5 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group">
+                <div className="bg-white rounded-xl border border-gray-200/80 card-shadow hover:shadow-md hover:border-[#0B4F45]/30 p-6 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group">
                   <div className="flex items-center gap-4 min-w-0 flex-1">
                     <img
                       src={property.coverImage}

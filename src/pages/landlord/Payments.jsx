@@ -80,8 +80,8 @@ const Payments = () => {
       {/* ── PAGE HEADER & TOP ACTIONS ── */}
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-[28px] font-display font-extrabold text-[#072F29] tracking-tight m-0">Financial Dashboard</h1>
-          <p className="text-[13px] text-gray-500 font-medium mt-1 mb-0">Overview of your real estate portfolio performance for Oct 2023.</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0">Financial Dashboard</h1>
+          <p className="text-base text-[#4A4F4C] font-medium mt-1 mb-0">Overview of your real estate portfolio performance for Oct 2023.</p>
         </div>
 
         <div className="flex flex-col items-start md:items-end gap-2.5 shrink-0">
@@ -103,9 +103,9 @@ const Payments = () => {
       </div>
 
       {/* ── 4 TOP METRIC CARDS ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         {/* Total Revenue */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[145px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[145px]">
           <div>
             <div className="flex items-center justify-between gap-2">
               <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-800 flex items-center justify-center shrink-0">
@@ -113,7 +113,7 @@ const Payments = () => {
               </div>
               <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">+12.5%</span>
             </div>
-            <p className="text-[10px] font-bold text-gray-400 tracking-wider uppercase mt-4 mb-1">Total Revenue (MTD)</p>
+            <p className="text-sm font-semibold uppercase text-gray-800 mt-4 mb-1">Total Revenue (MTD)</p>
             <p className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">₦142.4M</p>
           </div>
           <div className="mt-3 pt-1">
@@ -124,7 +124,7 @@ const Payments = () => {
         </div>
 
         {/* Outstanding Rent */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[145px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[145px]">
           <div>
             <div className="flex items-center justify-between gap-2">
               <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
@@ -132,7 +132,7 @@ const Payments = () => {
               </div>
               <span className="bg-rose-100 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded-full">-3.2%</span>
             </div>
-            <p className="text-[10px] font-bold text-gray-400 tracking-wider uppercase mt-4 mb-1">Outstanding Rent</p>
+            <p className="text-sm font-semibold uppercase text-gray-800 mt-4 mb-1">Outstanding Rent</p>
             <p className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">₦8.25M</p>
           </div>
           <div className="mt-3 pt-1">
@@ -143,7 +143,7 @@ const Payments = () => {
         </div>
 
         {/* Collection Rate */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[145px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[145px]">
           <div>
             <div className="flex items-center justify-between gap-2">
               <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-800 flex items-center justify-center shrink-0">
@@ -151,7 +151,7 @@ const Payments = () => {
               </div>
               <span className="bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Stable</span>
             </div>
-            <p className="text-[10px] font-bold text-gray-400 tracking-wider uppercase mt-4 mb-1">Collection Rate</p>
+            <p className="text-sm font-semibold uppercase text-gray-800 mt-4 mb-1">Collection Rate</p>
             <p className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">94.8%</p>
           </div>
           <div className="mt-4">
@@ -162,7 +162,7 @@ const Payments = () => {
         </div>
 
         {/* Net Cash Flow */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[145px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[145px]">
           <div>
             <div className="flex items-center justify-between gap-2">
               <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
@@ -170,7 +170,7 @@ const Payments = () => {
               </div>
               <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">+8.1%</span>
             </div>
-            <p className="text-[10px] font-bold text-gray-400 tracking-wider uppercase mt-4 mb-1">Net Cash Flow</p>
+            <p className="text-sm font-semibold uppercase text-gray-800 mt-4 mb-1">Net Cash Flow</p>
             <p className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">₦92.1M</p>
           </div>
           <div className="mt-3 pt-1">
@@ -182,11 +182,11 @@ const Payments = () => {
       </div>
 
       {/* ── MIDDLE ANALYTICS GRID ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         {/* Left: Revenue vs Expenses Analytics */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-200/80 p-6 shadow-2xs flex flex-col justify-between">
+        <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
           <div className="flex items-center justify-between gap-4 mb-6">
-            <h2 className="text-base font-bold text-gray-900 m-0">Revenue vs Expenses Analytics</h2>
+            <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Revenue vs Expenses Analytics</h2>
             <div className="relative">
               <select className="bg-gray-100 hover:bg-gray-200/80 text-gray-700 font-bold text-xs py-1.5 pl-3 pr-8 rounded-lg appearance-none border-none cursor-pointer focus:outline-none">
                 <option>Last 6 Months</option>
@@ -252,10 +252,10 @@ const Payments = () => {
         </div>
 
         {/* Right: Payment Status */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-6 shadow-2xs flex flex-col justify-between">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
           <div>
-            <h2 className="text-base font-bold text-gray-900 m-0">Payment Status</h2>
-            <p className="text-xs text-gray-500 m-0 mt-0.5">Current month distribution</p>
+            <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Payment Status</h2>
+            <p className="text-base text-[#4A4F4C] m-0 mt-0.5">Current month distribution</p>
           </div>
 
           {/* Donut Chart */}
@@ -306,9 +306,9 @@ const Payments = () => {
       </div>
 
       {/* ── RECENT TRANSACTIONS TABLE ── */}
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-2xs overflow-hidden">
-        <div className="p-5 border-b border-gray-100 flex items-center justify-between gap-4">
-          <h2 className="text-base font-bold text-gray-900 m-0">Recent Transactions</h2>
+      <div className="bg-white rounded-xl border border-gray-200/80 card-shadow overflow-hidden">
+        <div className="p-6 border-b border-gray-100 flex items-center justify-between gap-4">
+          <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Recent Transactions</h2>
           <div className="flex items-center gap-2">
             <button className="p-1.5 text-gray-500 hover:text-black rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" aria-label="Filter">
               <Filter size={16} />

@@ -28,7 +28,7 @@ const TenantReportIssue = () => {
     <div className="space-y-6 w-full text-[#1E293B] pb-8">
       {/* Title Section */}
       <div>
-        <h1 className="font-display font-black text-2xl sm:text-3xl text-[#1E293B] tracking-tight">
+        <h1 className="text-2xl font-bold text-gray-900 m-0">
           Report Issue
         </h1>
       </div>
@@ -40,10 +40,10 @@ const TenantReportIssue = () => {
         <div className="lg:col-span-2 space-y-6 min-w-0">
           
           {/* New Maintenance Request Card */}
-          <form onSubmit={handleSubmit} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 space-y-6">
+          <form onSubmit={handleSubmit} className="bg-white rounded-xl p-6 card-shadow border border-gray-200 space-y-6">
             <div>
-              <h2 className="font-black text-lg sm:text-xl text-[#1E293B] font-display">New Maintenance Request</h2>
-              <p className="text-xs sm:text-sm text-gray-600 mt-1 font-medium">
+              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">New Maintenance Request</h2>
+              <p className="text-sm text-gray-600 mt-1 m-0">
                 Please provide details about the issue. Our maintenance team typically responds within 24 hours.
               </p>
             </div>
@@ -144,13 +144,13 @@ const TenantReportIssue = () => {
         <div className="space-y-6 min-w-0">
           
           {/* Emergency Contacts Card */}
-          <div className="bg-[#04332C] text-white rounded-xl p-6 shadow-md space-y-5 relative overflow-hidden">
+          <div className="bg-[#04332C] text-white rounded-xl p-6 card-shadow space-y-5 relative overflow-hidden">
             <div className="flex items-center gap-2.5">
               <Asterisk size={20} className="text-[#FF8C5A] shrink-0" strokeWidth={3} />
-              <h3 className="font-black text-base text-white font-display">Emergency Contacts</h3>
+              <h2 className="text-sm font-semibold uppercase text-white m-0">Emergency Contacts</h2>
             </div>
 
-            <p className="text-xs text-[#FAF7F2]/80 font-medium leading-relaxed">
+            <p className="text-xs text-[#FAF7F2]/80 font-medium leading-relaxed m-0">
               If you are experiencing a life-threatening emergency, call 911 immediately. For urgent building issues, use the contacts below.
             </p>
 
@@ -173,8 +173,8 @@ const TenantReportIssue = () => {
           </div>
 
           {/* Common Issues Card */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 space-y-4">
-            <h3 className="font-black text-base text-[#1E293B] font-display">Common Issues</h3>
+          <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200 space-y-4">
+            <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Common Issues</h2>
 
             <div className="divide-y divide-gray-100 -my-1">
               <div 
@@ -204,9 +204,9 @@ const TenantReportIssue = () => {
           </div>
 
           {/* Recent Tickets Card */}
-          <div className="bg-[#F8F6F0] border border-gray-200/60 p-6 rounded-xl space-y-4">
+          <div className="bg-white border border-gray-200 p-6 rounded-xl card-shadow space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-black text-base text-[#1E293B] font-display">Recent Tickets</h3>
+              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Recent Tickets</h2>
               <span className="bg-[#04332C] text-white font-black text-[9px] uppercase tracking-wider px-2 py-0.5 rounded shadow-2xs">
                 2 Open
               </span>
@@ -219,9 +219,9 @@ const TenantReportIssue = () => {
               >
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#04332C] shrink-0" />
-                  <h4 className="font-black text-xs text-[#1E293B] group-hover:underline">Kitchen Sink Leaking</h4>
+                  <p className="font-bold text-xs text-gray-900 group-hover:underline m-0">Kitchen Sink Leaking</p>
                 </div>
-                <p className="text-[11px] font-semibold text-gray-500 pl-4">#REQ-4491 • In Progress</p>
+                <p className="text-[11px] font-semibold text-gray-500 pl-4 m-0">#REQ-4491 • In Progress</p>
               </div>
 
               <div className="pt-3.5 border-t border-gray-200/50">
@@ -231,9 +231,9 @@ const TenantReportIssue = () => {
                 >
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-gray-400 shrink-0" />
-                    <h4 className="font-black text-xs text-[#1E293B] group-hover:underline">AC Filter Replacement</h4>
+                    <p className="font-bold text-xs text-gray-900 group-hover:underline m-0">AC Filter Replacement</p>
                   </div>
-                  <p className="text-[11px] font-semibold text-gray-500 pl-4">#REQ-4480 • Resolved</p>
+                  <p className="text-[11px] font-semibold text-gray-500 pl-4 m-0">#REQ-4480 • Resolved</p>
                 </div>
               </div>
             </div>

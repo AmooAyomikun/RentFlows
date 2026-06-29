@@ -63,7 +63,7 @@ const MaintenanceDetail = () => {
             />
             <span className="text-xs font-mono text-muted">{request.id}</span>
           </div>
-          <h1 className="font-display font-bold text-2xl text-charcoal">{request.title}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{request.title}</h1>
         </div>
       </div>
 
@@ -99,11 +99,11 @@ const MaintenanceDetail = () => {
         {/* Main Content (Left) */}
         <div className="lg:col-span-2 space-y-6">
           <Card>
-            <h2 className="font-semibold text-charcoal mb-4 flex items-center gap-2">
+            <h2 className="text-sm font-semibold uppercase text-gray-800 mb-4 flex items-center gap-2">
               <MessageSquare size={18} className="text-primary" />
               Description
             </h2>
-            <p className="text-sm text-charcoal leading-relaxed whitespace-pre-wrap">{request.description}</p>
+            <p className="text-base text-[#4A4F4C] leading-relaxed whitespace-pre-wrap">{request.description}</p>
             
             {request.photoUrl && (
               <div className="mt-6 border border-border rounded-lg overflow-hidden">
@@ -114,7 +114,7 @@ const MaintenanceDetail = () => {
 
           {/* Activity Timeline */}
           <Card>
-            <h2 className="font-semibold text-charcoal mb-6 flex items-center gap-2">
+            <h2 className="text-sm font-semibold uppercase text-gray-800 mb-6 flex items-center gap-2">
               <Clock size={18} className="text-info" />
               Activity History
             </h2>
@@ -132,7 +132,7 @@ const MaintenanceDetail = () => {
                       <span className="font-semibold text-charcoal text-sm capitalize">{item.status.replace('_', ' ')}</span>
                       <span className="text-[10px] text-muted">{formatDateTime(item.timestamp)}</span>
                     </div>
-                    <p className="text-xs text-body">{item.note}</p>
+                    <p className="text-base text-[#4A4F4C]">{item.note}</p>
                   </div>
                 </div>
               ))}
@@ -140,7 +140,7 @@ const MaintenanceDetail = () => {
 
             {/* Reply Box */}
             <div className="mt-8 pt-6 border-t border-border">
-              <h3 className="text-sm font-semibold text-charcoal mb-3">Add Note or Reply</h3>
+              <h3 className="text-sm font-semibold uppercase text-gray-800 mb-3">Add Note or Reply</h3>
               <Textarea 
                 placeholder="Type a message to the tenant or internal note..." 
                 rows={3} 
@@ -161,36 +161,36 @@ const MaintenanceDetail = () => {
         {/* Sidebar (Right) */}
         <div className="space-y-6">
           <Card>
-            <h2 className="font-semibold text-charcoal mb-4">Ticket Details</h2>
+            <h2 className="text-sm font-semibold uppercase text-gray-800 mb-4">Ticket Details</h2>
             <div className="space-y-4">
               <div>
-                <p className="text-xs text-muted mb-1">Tenant</p>
+                <p className="text-xs text-gray-500 mb-1">Tenant</p>
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-charcoal">{request.tenantName}</p>
+                  <p className="text-base font-medium text-gray-900">{request.tenantName}</p>
                   <Button variant="ghost" size="sm" className="h-6 px-2 text-[10px]">View</Button>
                 </div>
               </div>
               <div>
-                <p className="text-xs text-muted mb-1">Property</p>
-                <p className="text-sm text-charcoal">{request.propertyName}</p>
+                <p className="text-xs text-gray-500 mb-1">Property</p>
+                <p className="text-base text-[#4A4F4C]">{request.propertyName}</p>
               </div>
               <div>
-                <p className="text-xs text-muted mb-1">Unit</p>
-                <p className="text-sm text-charcoal">{request.unitLabel}</p>
+                <p className="text-xs text-gray-500 mb-1">Unit</p>
+                <p className="text-base text-[#4A4F4C]">{request.unitLabel}</p>
               </div>
               <div>
-                <p className="text-xs text-muted mb-1">Category</p>
+                <p className="text-xs text-gray-500 mb-1">Category</p>
                 <Badge status="default" label={request.category} />
               </div>
               <div>
-                <p className="text-xs text-muted mb-1">Created At</p>
-                <p className="text-sm text-charcoal">{formatDateTime(request.createdAt)}</p>
+                <p className="text-xs text-gray-500 mb-1">Created At</p>
+                <p className="text-base text-[#4A4F4C]">{formatDateTime(request.createdAt)}</p>
               </div>
             </div>
           </Card>
 
           <Card>
-            <h2 className="font-semibold text-charcoal mb-4">Actions</h2>
+            <h2 className="text-sm font-semibold uppercase text-gray-800 mb-4">Actions</h2>
             <div className="space-y-2">
               <Button className="w-full" variant={currentStepIdx < 1 ? "primary" : "outline"} disabled={currentStepIdx >= 1}>
                 Mark In Progress

@@ -15,7 +15,7 @@ const TenantSettings = () => {
     <div className="space-y-6 w-full text-[#1E293B] pb-8">
       {/* Title Section */}
       <div>
-        <h1 className="font-display font-black text-2xl sm:text-3xl text-[#1E293B] tracking-tight">
+        <h1 className="text-2xl font-bold text-gray-900 m-0">
           Profile Settings
         </h1>
       </div>
@@ -27,9 +27,9 @@ const TenantSettings = () => {
         <div className="lg:col-span-2 space-y-6 min-w-0">
           
           {/* Personal Information Card */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200">
             <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-              <h2 className="font-black text-base text-[#1E293B] font-display">Personal Information</h2>
+              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Personal Information</h2>
               <button 
                 onClick={() => toast.info('Opening profile editor...')}
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-700 hover:text-black transition-colors cursor-pointer"
@@ -90,12 +90,12 @@ const TenantSettings = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-stretch">
             
             {/* Password & Access Card */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between space-y-6">
+            <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200 flex flex-col justify-between space-y-6">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-gray-700 shrink-0">
                   <Shield size={18} strokeWidth={2.2} />
                 </div>
-                <h3 className="font-black text-sm text-[#1E293B] font-display">Password & Access</h3>
+                <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Password & Access</h2>
               </div>
 
               <div className="space-y-4 pt-2 divide-y divide-gray-100">
@@ -132,12 +132,12 @@ const TenantSettings = () => {
             </div>
 
             {/* Verification Card */}
-            <div className="bg-[#04332C] text-white rounded-xl p-6 shadow-md flex flex-col justify-between space-y-5 relative overflow-hidden">
+            <div className="bg-[#04332C] text-white rounded-xl p-6 card-shadow flex flex-col justify-between space-y-5 relative overflow-hidden">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-[#FF8C5A] shrink-0">
                   <ShieldCheck size={18} strokeWidth={2.2} />
                 </div>
-                <h3 className="font-black text-sm text-white font-display">Verification</h3>
+                <h2 className="text-sm font-semibold uppercase text-white m-0">Verification</h2>
               </div>
 
               <div className="space-y-3 pt-1">
@@ -168,9 +168,9 @@ const TenantSettings = () => {
         <div className="space-y-6 min-w-0">
           
           {/* Emergency Contacts Card */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 space-y-4">
+          <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-black text-base text-[#1E293B] font-display">Emergency Contacts</h3>
+              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Emergency Contacts</h2>
               <button 
                 onClick={() => toast.info('Adding emergency contact...')}
                 className="text-gray-500 hover:text-black transition-colors cursor-pointer p-1"
@@ -214,8 +214,8 @@ const TenantSettings = () => {
           </div>
 
           {/* Portal Preferences Card */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 space-y-5">
-            <h3 className="font-black text-base text-[#1E293B] font-display">Portal Preferences</h3>
+          <div className="bg-white rounded-xl p-6 card-shadow border border-gray-200 space-y-5">
+            <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Portal Preferences</h2>
 
             <div>
               <label className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block mb-1.5">LANGUAGE</label>
@@ -266,8 +266,8 @@ const TenantSettings = () => {
           </div>
 
           {/* Profile Strength Card */}
-          <div className="bg-[#33665C] text-white rounded-xl p-6 shadow-md space-y-4">
-            <h3 className="font-black text-base text-white font-display">Profile Strength</h3>
+          <div className="bg-[#33665C] text-white rounded-xl p-6 card-shadow space-y-4">
+            <h2 className="text-sm font-semibold uppercase text-white m-0">Profile Strength</h2>
 
             <div className="w-full h-2 bg-white/20 rounded-full overflow-hidden">
               <div className="w-[85%] h-full bg-[#FF8C5A] rounded-full transition-all duration-500" />
@@ -293,8 +293,8 @@ const TenantSettings = () => {
         {/* Privacy & Data Card */}
         <div className="bg-[#FDF2F2] border border-[#FDE8E8] rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="min-w-0 flex-1">
-            <h3 className="font-black text-base text-[#DC2626] font-display">Privacy & Data</h3>
-            <p className="text-xs text-gray-600 font-medium mt-1 leading-relaxed">
+            <h2 className="text-sm font-semibold uppercase text-[#DC2626] m-0">Privacy & Data</h2>
+            <p className="text-xs text-gray-600 font-medium mt-1 leading-relaxed m-0">
               Manage how your personal data is handled or request an account deactivation.
             </p>
           </div>

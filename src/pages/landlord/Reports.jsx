@@ -71,7 +71,7 @@ const Reports = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <span className="text-[10px] font-black tracking-wider text-gray-400 uppercase block">Fiscal Year 2024</span>
-          <h1 className="text-[26px] font-display font-extrabold text-[#072F29] tracking-tight m-0 mt-1">Financial Performance Overview</h1>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0 mt-1">Financial Performance Overview</h1>
         </div>
 
         <button className="bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 font-bold text-xs px-4 py-2 rounded-xl shadow-2xs inline-flex items-center gap-2 cursor-pointer shrink-0">
@@ -81,11 +81,11 @@ const Reports = () => {
       </div>
 
       {/* ── 3 TOP STAT CARDS ── */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {/* Gross Revenue */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[145px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[145px]">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-bold text-gray-800">Gross Revenue</span>
+            <span className="text-sm font-semibold uppercase text-gray-800">Gross Revenue</span>
             <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-800 flex items-center justify-center shrink-0">
               <TrendingUp size={18} />
             </div>
@@ -98,9 +98,9 @@ const Reports = () => {
         </div>
 
         {/* Net Operating Income */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[145px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[145px]">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-bold text-gray-800">Net Operating Income</span>
+            <span className="text-sm font-semibold uppercase text-gray-800">Net Operating Income</span>
             <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
               <Wallet size={18} />
             </div>
@@ -113,9 +113,9 @@ const Reports = () => {
         </div>
 
         {/* Total Expenses */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-5 shadow-2xs flex flex-col justify-between min-h-[145px]">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[145px]">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-bold text-gray-800">Total Expenses</span>
+            <span className="text-sm font-semibold uppercase text-gray-800">Total Expenses</span>
             <div className="w-9 h-9 rounded-xl bg-gray-100 text-gray-700 flex items-center justify-center shrink-0">
               <FileSpreadsheet size={18} />
             </div>
@@ -131,9 +131,9 @@ const Reports = () => {
       {/* ── MIDDLE CHARTS SECTION ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Left: Revenue vs. Expenses Trends */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-200/80 p-6 shadow-2xs flex flex-col justify-between">
+        <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
           <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
-            <h2 className="text-base font-bold text-gray-900 m-0">Revenue vs. Expenses Trends</h2>
+            <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Revenue vs. Expenses Trends</h2>
             <div className="flex items-center gap-5">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#072F29]" />
@@ -177,8 +177,8 @@ const Reports = () => {
         </div>
 
         {/* Right: Expense Breakdown Preview */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-6 shadow-2xs flex flex-col justify-between">
-          <h2 className="text-base font-bold text-gray-900 m-0 mb-4">Expense Breakdown</h2>
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
+          <h2 className="text-sm font-semibold uppercase text-gray-800 m-0 mb-4">Expense Breakdown</h2>
 
           {/* Nested Square Visual */}
           <div className="my-4 flex items-center justify-center">
@@ -224,9 +224,9 @@ const Reports = () => {
       </div>
 
       {/* ── PROPERTY PERFORMANCE LEADERBOARD ── */}
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-2xs overflow-hidden mb-8">
-        <div className="p-5 border-b border-gray-100 flex items-center justify-between gap-4">
-          <h2 className="text-base font-bold text-gray-900 m-0">Property Performance Leaderboard</h2>
+      <div className="bg-white rounded-xl border border-gray-200/80 card-shadow overflow-hidden mb-8">
+        <div className="p-6 border-b border-gray-100 flex items-center justify-between gap-4">
+          <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Property Performance Leaderboard</h2>
           <button className="text-xs font-bold text-gray-800 hover:underline inline-flex items-center gap-1 bg-transparent border-none p-0 cursor-pointer shrink-0">
             <span>View All Properties</span>
             <ArrowRight size={15} />
@@ -268,9 +268,9 @@ const Reports = () => {
       {/* ── BOTTOM SECTION: OCCUPANCY & CONFIGURATOR ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Occupancy Rates by Portfolio */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 p-6 shadow-2xs flex flex-col justify-between">
+        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
           <div>
-            <h2 className="text-base font-bold text-gray-900 m-0 mb-6">Occupancy Rates by Portfolio</h2>
+            <h2 className="text-sm font-semibold uppercase text-gray-800 m-0 mb-6">Occupancy Rates by Portfolio</h2>
 
             <div className="space-y-5">
               {portfolioOccupancy.map((item) => (
@@ -289,10 +289,10 @@ const Reports = () => {
         </div>
 
         {/* Right: Report Configurator */}
-        <div className="bg-[#072F29] text-white rounded-2xl p-6 shadow-md flex flex-col justify-between">
+        <div className="bg-[#072F29] text-white rounded-xl p-6 card-shadow flex flex-col justify-between">
           <div>
-            <h2 className="text-lg font-display font-black text-white m-0">Report Configurator</h2>
-            <p className="text-xs text-white/70 m-0 mt-1 mb-6">Configure and export audit-ready financial statements.</p>
+            <h2 className="text-sm font-semibold uppercase text-white m-0">Report Configurator</h2>
+            <p className="text-base text-white/80 m-0 mt-1 mb-6">Configure and export audit-ready financial statements.</p>
 
             <div className="space-y-4">
               {/* Report Type */}
