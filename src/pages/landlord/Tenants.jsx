@@ -159,22 +159,6 @@ const Tenants = () => {
           <h1 className="text-2xl font-bold text-[#00372f] mb-2 leading-tight">Tenant Management</h1>
           <p className="text-base text-[#404946]">Overview of your active portfolio and resident health.</p>
         </div>
-        <div className="flex gap-4">
-          <button
-            onClick={() => setShowFilterModal(true)}
-            className={`px-4 py-2 border rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm transition-all cursor-pointer active:scale-95 ${statusFilter !== 'All' ? 'bg-[#00372f] text-white border-[#00372f]' : 'bg-[#f7faf6] border-[#bfc9c5] text-[#181c1a] hover:bg-[#f1f4f1]'}`}
-          >
-            <Filter size={18} className={statusFilter !== 'All' ? 'text-white' : 'text-[#404946]'} />
-            Filter {statusFilter !== 'All' && `(${statusFilter})`}
-          </button>
-          <button
-            onClick={() => setShowSortModal(true)}
-            className="px-4 py-2 border border-[#bfc9c5] rounded-lg text-sm font-medium bg-[#f7faf6] hover:bg-[#f1f4f1] flex items-center gap-2 text-[#181c1a] shadow-sm transition-all cursor-pointer active:scale-95"
-          >
-            <ArrowUpDown size={18} className="text-[#404946]" />
-            Sort ({sortBy.toUpperCase()})
-          </button>
-        </div>
       </div>
 
       {/* 4 KPIs row */}
@@ -238,17 +222,33 @@ const Tenants = () => {
 
       {/* Comprehensive Tenant Table */}
       <div className="glass-card rounded-xl overflow-hidden flex flex-col mb-6">
-        <div className="p-6 border-b border-[#e0e3e0] flex flex-wrap items-center justify-between gap-4">
+        <div className="p-6 border-b border-[#e0e3e0] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h3 className="text-sm font-semibold uppercase text-[#181c1a] tracking-wider">Tenant Directory ({filtered.length})</h3>
-          <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#404946]" />
-            <input
-              type="text"
-              placeholder="Search tenants..."
-              value={searchTerm}
-              onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }}
-              className="pl-9 pr-4 py-2 text-sm bg-[#f7faf6] border border-[#bfc9c5] rounded-lg focus:outline-none focus:border-[#00372f] text-[#181c1a] placeholder:text-[#404946] w-64"
-            />
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="relative flex-1 sm:flex-initial">
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#404946]" />
+              <input
+                type="text"
+                placeholder="Search tenants..."
+                value={searchTerm}
+                onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }}
+                className="pl-9 pr-4 py-2 text-sm bg-[#f7faf6] border border-[#bfc9c5] rounded-lg focus:outline-none focus:border-[#00372f] text-[#181c1a] placeholder:text-[#404946] w-full sm:w-64"
+              />
+            </div>
+            <button
+              onClick={() => setShowFilterModal(true)}
+              className={`px-3.5 py-2 border rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all cursor-pointer active:scale-95 ${statusFilter !== 'All' ? 'bg-[#00372f] text-white border-[#00372f]' : 'bg-[#f7faf6] border-[#bfc9c5] text-[#181c1a] hover:bg-[#f1f4f1]'}`}
+            >
+              <Filter size={15} className={statusFilter !== 'All' ? 'text-white' : 'text-[#404946]'} />
+              Filter {statusFilter !== 'All' && `(${statusFilter})`}
+            </button>
+            <button
+              onClick={() => setShowSortModal(true)}
+              className="px-3.5 py-2 border border-[#bfc9c5] rounded-lg text-xs font-bold bg-[#f7faf6] hover:bg-[#f1f4f1] flex items-center gap-1.5 text-[#181c1a] shadow-sm transition-all cursor-pointer active:scale-95"
+            >
+              <ArrowUpDown size={15} className="text-[#404946]" />
+              Sort ({sortBy.toUpperCase()})
+            </button>
           </div>
         </div>
         <div className="overflow-x-auto">

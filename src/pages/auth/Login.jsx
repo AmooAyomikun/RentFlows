@@ -11,7 +11,7 @@ import { login } from '../../services/authService';
 import { LogoMark } from '../../components/layout/Navbar';
 
 const schema = z.object({
-  email: z.string().email('Enter a valid email address'),
+  email: z.string().min(1, 'Email address is required').email('Enter a valid email address'),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -27,6 +27,11 @@ const Login = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({ resolver: zodResolver(schema) });
+
+  const onInvalid = (errors) => {
+    const firstError = Object.values(errors)[0]?.message;
+    if (firstError) toast.error(firstError);
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -94,29 +99,29 @@ const Login = () => {
               Enter your credentials to manage your portfolio.
             </p>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5" noValidate>
+            <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-3.5" noValidate>
               {/* Email Input */}
               <div>
-                <label htmlFor="login-email" className="text-[10px] font-bold tracking-wider text-muted uppercase mb-1 block">
+                <label htmlFor="login-email" className={`text-[10px] font-bold tracking-wider uppercase mb-1 block ${errors.email ? 'text-red-500' : 'text-muted'}`}>
                   EMAIL ADDRESS
                 </label>
                 <div className="relative">
-                  <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/70 pointer-events-none" />
+                  <Mail size={15} className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${errors.email ? 'text-red-500' : 'text-muted/70'}`} />
                   <input
                     id="login-email"
                     type="email"
                     placeholder="name@company.com"
-                    className="w-full h-10 pl-10 pr-3 rounded-lg border border-border/80 bg-white text-charcoal text-xs placeholder:text-muted/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
+                    className={`w-full h-10 pl-10 pr-3 rounded-lg border text-charcoal text-xs placeholder:text-muted/60 focus:outline-none focus:ring-2 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)] ${errors.email ? 'border-red-500 bg-red-50/10 focus:border-red-500 focus:ring-red-500/20' : 'border-border/80 bg-white focus:border-primary focus:ring-primary/20'}`}
                     {...register('email')}
                   />
                 </div>
-                {errors.email && <p className="text-red-500 text-[11px] mt-1 font-medium">{errors.email.message}</p>}
+                {errors.email && <p className="text-red-500 text-[11px] mt-1 font-medium flex items-center gap-1">⚠️ {errors.email.message}</p>}
               </div>
 
               {/* Password Input */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label htmlFor="login-password" className="text-[10px] font-bold tracking-wider text-muted uppercase">
+                  <label htmlFor="login-password" className={`text-[10px] font-bold tracking-wider uppercase ${errors.password ? 'text-red-500' : 'text-muted'}`}>
                     PASSWORD
                   </label>
                   <Link to="/forgot-password" className="text-[11px] font-bold text-charcoal hover:text-primary transition-colors">
@@ -124,12 +129,12 @@ const Login = () => {
                   </Link>
                 </div>
                 <div className="relative">
-                  <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/70 pointer-events-none" />
+                  <Lock size={15} className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${errors.password ? 'text-red-500' : 'text-muted/70'}`} />
                   <input
                     id="login-password"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
-                    className="w-full h-10 pl-10 pr-10 rounded-lg border border-border/80 bg-white text-charcoal text-xs placeholder:text-muted/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
+                    className={`w-full h-10 pl-10 pr-10 rounded-lg border text-charcoal text-xs placeholder:text-muted/60 focus:outline-none focus:ring-2 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)] ${errors.password ? 'border-red-500 bg-red-50/10 focus:border-red-500 focus:ring-red-500/20' : 'border-border/80 bg-white focus:border-primary focus:ring-primary/20'}`}
                     {...register('password')}
                   />
                   <button
@@ -141,7 +146,7 @@ const Login = () => {
                     {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                   </button>
                 </div>
-                {errors.password && <p className="text-red-500 text-[11px] mt-1 font-medium">{errors.password.message}</p>}
+                {errors.password && <p className="text-red-500 text-[11px] mt-1 font-medium flex items-center gap-1">⚠️ {errors.password.message}</p>}
               </div>
 
               {/* Submit Button */}

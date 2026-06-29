@@ -8,7 +8,7 @@ import { LogoMark } from './Navbar';
 import {
   LayoutDashboard, CreditCard, History, Receipt,
   Wrench, FileText, User, Settings, AlertTriangle, LogOut,
-  ChevronLeft, ChevronRight
+  ChevronLeft, ChevronRight, X
 } from 'lucide-react';
 
 const tenantNavItems = [
@@ -48,6 +48,12 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarColl
       >
         {sidebarCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
       </button>
+      {/* Mobile close */}
+      {onClose && (
+        <button onClick={onClose} aria-label="Close menu" className="lg:hidden text-white/60 hover:text-white shrink-0">
+          <X size={20} />
+        </button>
+      )}
     </div>
 
     {/* Navigation List matching landlord dashboard styling */}

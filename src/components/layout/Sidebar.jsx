@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Building2, Users, CreditCard,
   Wrench, BarChart3, Bell, Settings, ChevronLeft,
-  ChevronRight, Plus, LogOut
+  ChevronRight, Plus, LogOut, X
 } from 'lucide-react';
 import { LogoMark } from './Navbar';
 import useAuthStore from '../../store/authStore';

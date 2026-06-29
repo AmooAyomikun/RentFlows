@@ -35,6 +35,11 @@ const Signup = () => {
     reset();
   };
 
+  const onInvalid = (errors) => {
+    const firstError = Object.values(errors)[0]?.message;
+    if (firstError) toast.error(firstError);
+  };
+
   const onSubmit = async (data) => {
     try {
       const payload = { 
@@ -198,55 +203,55 @@ const Signup = () => {
             </div>
 
             {/* Form Fields */}
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3" noValidate>
+            <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-3" noValidate>
               {/* Full Name */}
               <div>
-                <label htmlFor="signup-name" className="text-[10px] font-bold tracking-wider text-muted uppercase mb-1 block">
+                <label htmlFor="signup-name" className={`text-[10px] font-bold tracking-wider uppercase mb-1 block ${errors.name ? 'text-red-500' : 'text-muted'}`}>
                   FULL NAME
                 </label>
                 <div className="relative">
-                  <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/70 pointer-events-none" />
+                  <User size={15} className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${errors.name ? 'text-red-500' : 'text-muted/70'}`} />
                   <input
                     id="signup-name"
                     type="text"
                     placeholder="Enter your full name"
-                    className="w-full h-10 pl-10 pr-3 rounded-lg border border-border/80 bg-white text-charcoal text-xs placeholder:text-muted/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
+                    className={`w-full h-10 pl-10 pr-3 rounded-lg border text-charcoal text-xs placeholder:text-muted/60 focus:outline-none focus:ring-2 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)] ${errors.name ? 'border-red-500 bg-red-50/10 focus:border-red-500 focus:ring-red-500/20' : 'border-border/80 bg-white focus:border-primary focus:ring-primary/20'}`}
                     {...register('name')}
                   />
                 </div>
-                {errors.name && <p className="text-red-500 text-[11px] mt-1 font-medium">{errors.name.message}</p>}
+                {errors.name && <p className="text-red-500 text-[11px] mt-1 font-medium flex items-center gap-1">⚠️ {errors.name.message}</p>}
               </div>
 
               {/* Email Address */}
               <div>
-                <label htmlFor="signup-email" className="text-[10px] font-bold tracking-wider text-muted uppercase mb-1 block">
+                <label htmlFor="signup-email" className={`text-[10px] font-bold tracking-wider uppercase mb-1 block ${errors.email ? 'text-red-500' : 'text-muted'}`}>
                   EMAIL ADDRESS
                 </label>
                 <div className="relative">
-                  <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/70 pointer-events-none" />
+                  <Mail size={15} className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${errors.email ? 'text-red-500' : 'text-muted/70'}`} />
                   <input
                     id="signup-email"
                     type="email"
                     placeholder="name@company.com"
-                    className="w-full h-10 pl-10 pr-3 rounded-lg border border-border/80 bg-white text-charcoal text-xs placeholder:text-muted/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
+                    className={`w-full h-10 pl-10 pr-3 rounded-lg border text-charcoal text-xs placeholder:text-muted/60 focus:outline-none focus:ring-2 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)] ${errors.email ? 'border-red-500 bg-red-50/10 focus:border-red-500 focus:ring-red-500/20' : 'border-border/80 bg-white focus:border-primary focus:ring-primary/20'}`}
                     {...register('email')}
                   />
                 </div>
-                {errors.email && <p className="text-red-500 text-[11px] mt-1 font-medium">{errors.email.message}</p>}
+                {errors.email && <p className="text-red-500 text-[11px] mt-1 font-medium flex items-center gap-1">⚠️ {errors.email.message}</p>}
               </div>
 
               {/* Password */}
               <div>
-                <label htmlFor="signup-password" className="text-[10px] font-bold tracking-wider text-muted uppercase mb-1 block">
+                <label htmlFor="signup-password" className={`text-[10px] font-bold tracking-wider uppercase mb-1 block ${errors.password ? 'text-red-500' : 'text-muted'}`}>
                   PASSWORD
                 </label>
                 <div className="relative">
-                  <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/70 pointer-events-none" />
+                  <Lock size={15} className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${errors.password ? 'text-red-500' : 'text-muted/70'}`} />
                   <input
                     id="signup-password"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Min. 8 characters"
-                    className="w-full h-10 pl-10 pr-10 rounded-lg border border-border/80 bg-white text-charcoal text-xs placeholder:text-muted/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
+                    className={`w-full h-10 pl-10 pr-10 rounded-lg border text-charcoal text-xs placeholder:text-muted/60 focus:outline-none focus:ring-2 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)] ${errors.password ? 'border-red-500 bg-red-50/10 focus:border-red-500 focus:ring-red-500/20' : 'border-border/80 bg-white focus:border-primary focus:ring-primary/20'}`}
                     {...register('password')}
                   />
                   <button
@@ -258,7 +263,7 @@ const Signup = () => {
                     {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                   </button>
                 </div>
-                {errors.password && <p className="text-red-500 text-[11px] mt-1 font-medium">{errors.password.message}</p>}
+                {errors.password && <p className="text-red-500 text-[11px] mt-1 font-medium flex items-center gap-1">⚠️ {errors.password.message}</p>}
               </div>
 
               {/* Submit Button */}

@@ -5,9 +5,9 @@ import { toast } from 'sonner';
 import {
   Building2, Users, CreditCard, AlertTriangle,
   Wrench, TrendingUp, ArrowRight, Bell, Calendar,
-  Wallet, DollarSign, CheckCircle2, ArrowDownLeft,
+  Wallet, DollarSign, Banknote, CheckCircle2, ArrowDownLeft,
   ArrowUpRight, FileText, Search, Filter, MoreVertical,
-  Plus, Clock
+  Plus, Clock, X, Check, Mail, MessageSquare, Send
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -123,6 +123,11 @@ const recentPaymentsData = [
 const LandlordDashboard = () => {
   const [chartPeriod, setChartPeriod] = useState('Monthly');
   const [searchTerm, setSearchTerm] = useState('');
+  const [typeFilter, setTypeFilter] = useState('All');
+  const [remindModalOpen, setRemindModalOpen] = useState(false);
+  const [selectedRemindIds, setSelectedRemindIds] = useState([1, 2, 3]);
+  const [reminderChannel, setReminderChannel] = useState('both'); // 'sms', 'email', 'both'
+  const [isSendingReminders, setIsSendingReminders] = useState(false);
 
   const { data: properties = [] } = useQuery({
     queryKey: ['properties'],
@@ -145,10 +150,12 @@ const LandlordDashboard = () => {
       }))
     : fallbackPropertiesData;
 
-  const filteredProps = displayProps.filter(p =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.address.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProps = displayProps.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          p.address.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = typeFilter === 'All' || p.type.toLowerCase().includes(typeFilter.toLowerCase());
+    return matchesSearch && matchesType;
+  });
 
   return (
     <div className="space-y-6 font-sans text-gray-900 pb-8">
@@ -232,7 +239,7 @@ const LandlordDashboard = () => {
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold tracking-wider text-gray-400 uppercase">Collection Rate</span>
             <div className="w-6 h-6 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
-              <DollarSign size={14} />
+              <Banknote size={14} />
             </div>
           </div>
           <div className="my-1 flex items-baseline justify-between">
@@ -242,7 +249,7 @@ const LandlordDashboard = () => {
             </span>
           </div>
           <div className="text-[10px] text-gray-400 font-medium truncate">
-            ₦2,450,000 outstanding. <Link to="/landlord/payments" className="text-[#072F29] hover:underline font-bold">Remind</Link>
+            ₦2,450,000 outstanding. <button onClick={() => { setSelectedRemindIds([1, 2, 3]); setRemindModalOpen(true); }} className="text-[#072F29] hover:underline font-bold cursor-pointer">Remind</button>
           </div>
         </div>
       </div>
@@ -383,16 +390,19 @@ const LandlordDashboard = () => {
                 <Search size={13} className="text-gray-400 mr-1.5 flex-shrink-0" />
                 <input
                   type="text"
-                  placeholder="Filter..."
+                  placeholder="Search property..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full bg-transparent text-xs text-gray-800 placeholder-gray-400 focus:outline-none"
                 />
               </div>
 
-              <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-gray-200/80 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold transition-colors shadow-sm">
+              <button 
+                onClick={() => setTypeFilter(prev => prev === 'All' ? 'Multi-family' : prev === 'Multi-family' ? 'Commercial' : 'All')}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-gray-200/80 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold transition-colors shadow-sm cursor-pointer"
+              >
                 <Filter size={12} className="text-gray-500" />
-                <span>Filter</span>
+                <span>{typeFilter === 'All' ? 'Filter (All)' : `Type: ${typeFilter}`}</span>
               </button>
             </div>
           </div>
@@ -464,7 +474,7 @@ const LandlordDashboard = () => {
         <div className="bg-white rounded-xl border border-gray-200/80 card-shadow overflow-hidden flex flex-col">
           <div className="p-6 flex items-center justify-between border-b border-gray-100">
             <h3 className="text-sm font-semibold uppercase text-gray-800">Outstanding Rent</h3>
-            <Link to="/landlord/payments" className="text-xs font-bold text-[#072F29] hover:underline">View All</Link>
+            <button onClick={() => { setSelectedRemindIds([1, 2, 3]); setRemindModalOpen(true); }} className="text-xs font-bold text-[#072F29] hover:underline cursor-pointer">View All ({outstandingRentData.length})</button>
           </div>
 
           <div className="w-full overflow-hidden flex-1">
@@ -488,7 +498,7 @@ const LandlordDashboard = () => {
                     <td className={`py-3 px-4 font-bold text-[11px] ${row.alert}`}>{row.overdue}</td>
                     <td className="py-3 pr-4 text-right">
                       <button
-                        onClick={() => toast.success(`Payment reminder sent to ${row.name}!`)}
+                        onClick={() => { setSelectedRemindIds([row.id]); setRemindModalOpen(true); }}
                         className="px-2.5 py-1 rounded-lg bg-white border border-gray-200/80 text-[10px] font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm cursor-pointer active:scale-95"
                       >
                         Remind
@@ -650,6 +660,152 @@ const LandlordDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Overdue Payment Reminder Modal */}
+      {remindModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-gray-100 flex flex-col max-h-[90vh]">
+            {/* Modal Header */}
+            <div className="p-6 bg-[#0B4F45] text-white flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-[#84bfb2]">
+                  <Send size={20} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg leading-tight">Dispatch Payment Reminders</h3>
+                  <p className="text-xs text-[#84bfb2] mt-0.5">Send automated overdue rent alerts to tenants</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setRemindModalOpen(false)}
+                className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 overflow-y-auto space-y-5 flex-1">
+              {/* Channel Selector */}
+              <div>
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-2">Notification Channel</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { id: 'sms', label: 'SMS Only', icon: MessageSquare },
+                    { id: 'email', label: 'Email Only', icon: Mail },
+                    { id: 'both', label: 'SMS & Email', icon: Send },
+                  ].map((ch) => {
+                    const Icon = ch.icon;
+                    return (
+                      <button
+                        key={ch.id}
+                        type="button"
+                        onClick={() => setReminderChannel(ch.id)}
+                        className={`flex flex-col items-center justify-center p-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                          reminderChannel === ch.id
+                            ? 'border-[#0B4F45] bg-[#0B4F45]/5 text-[#0B4F45] ring-2 ring-[#0B4F45]/20'
+                            : 'border-gray-200 hover:bg-gray-50 text-gray-600'
+                        }`}
+                      >
+                        <Icon size={16} className="mb-1.5" />
+                        <span>{ch.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Tenants Selection */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Select Overdue Tenants ({selectedRemindIds.length})</label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (selectedRemindIds.length === outstandingRentData.length) setSelectedRemindIds([]);
+                      else setSelectedRemindIds(outstandingRentData.map(t => t.id));
+                    }}
+                    className="text-xs font-bold text-[#0B4F45] hover:underline cursor-pointer"
+                  >
+                    {selectedRemindIds.length === outstandingRentData.length ? 'Deselect All' : 'Select All'}
+                  </button>
+                </div>
+                <div className="border border-gray-200 rounded-xl divide-y divide-gray-100 overflow-hidden bg-gray-50/50">
+                  {outstandingRentData.map((row) => {
+                    const isSelected = selectedRemindIds.includes(row.id);
+                    return (
+                      <div
+                        key={row.id}
+                        onClick={() => {
+                          if (isSelected) setSelectedRemindIds(selectedRemindIds.filter(id => id !== row.id));
+                          else setSelectedRemindIds([...selectedRemindIds, row.id]);
+                        }}
+                        className={`p-3.5 flex items-center justify-between cursor-pointer transition-colors ${
+                          isSelected ? 'bg-emerald-50/40' : 'hover:bg-gray-100/50 opacity-60'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className={`w-5 h-5 rounded flex items-center justify-center border transition-colors shrink-0 ${
+                            isSelected ? 'bg-[#0B4F45] border-[#0B4F45] text-white' : 'border-gray-300 bg-white'
+                          }`}>
+                            {isSelected && <Check size={12} strokeWidth={3} />}
+                          </div>
+                          <div className="min-w-0">
+                            <h4 className="font-bold text-xs text-gray-900 truncate">{row.name}</h4>
+                            <p className="text-[10px] text-gray-500 truncate">{row.unit} • Overdue by {row.overdue}</p>
+                          </div>
+                        </div>
+                        <span className="font-black text-xs text-rose-600 shrink-0 ml-2">{row.amount}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="p-3.5 bg-amber-50 rounded-xl border border-amber-200/80 flex items-start gap-2.5 text-xs text-amber-800 font-medium">
+                <Clock size={16} className="text-amber-600 shrink-0 mt-0.5" />
+                <span>Reminders include a direct payment link and late fee breakdown. Tenants will receive immediate notifications.</span>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 bg-gray-50 border-t border-gray-100 flex items-center justify-end gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={() => setRemindModalOpen(false)}
+                className="px-4 py-2.5 rounded-xl border border-gray-200 font-bold text-xs text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={selectedRemindIds.length === 0 || isSendingReminders}
+                onClick={() => {
+                  setIsSendingReminders(true);
+                  setTimeout(() => {
+                    setIsSendingReminders(false);
+                    setRemindModalOpen(false);
+                    toast.success(`Successfully dispatched ${selectedRemindIds.length} payment reminder${selectedRemindIds.length > 1 ? 's' : ''} via ${reminderChannel.toUpperCase()}!`);
+                  }, 800);
+                }}
+                className="px-5 py-2.5 rounded-xl bg-[#0B4F45] hover:bg-[#083D35] text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 disabled:opacity-50 cursor-pointer active:scale-95"
+              >
+                {isSendingReminders ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send size={14} />
+                    <span>Send {selectedRemindIds.length} Reminder{selectedRemindIds.length !== 1 ? 's' : ''}</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

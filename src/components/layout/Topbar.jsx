@@ -4,7 +4,7 @@ import useAuthStore from '../../store/authStore';
 import useUIStore from '../../store/uiStore';
 
 /**
- * Dashboard top bar — borderless warm header replicating screenshot layout.
+ * Dashboard top bar — clean borderless header.
  */
 const Topbar = ({ title }) => {
   const { user } = useAuthStore();
@@ -13,28 +13,16 @@ const Topbar = ({ title }) => {
   const location = useLocation();
 
   let placeholder = 'Search transactions, properties, or tenants...';
-  let centerTitle = null;
   if (location.pathname.includes('maintenance')) placeholder = 'Search maintenance requests...';
   else if (location.pathname.includes('tenants')) placeholder = 'Search tenant directory...';
   else if (location.pathname.includes('properties')) placeholder = 'Search properties...';
-  else if (location.pathname.includes('reports')) {
-    placeholder = 'Search portfolios...';
-    centerTitle = 'Asset Dashboard';
-  } else if (location.pathname.includes('notifications')) {
-    placeholder = 'Search transactions...';
-  } else if (location.pathname.includes('settings')) {
-    placeholder = 'Search settings...';
-  }
+  else if (location.pathname.includes('reports')) placeholder = 'Search portfolios...';
+  else if (location.pathname.includes('notifications')) placeholder = 'Search notifications & alerts...';
+  else if (location.pathname.includes('settings')) placeholder = 'Search settings...';
 
   return (
     <div className="w-full flex flex-col flex-shrink-0 relative">
       <header className="flex items-center justify-between pt-5 pb-4 bg-transparent gap-4 relative">
-        {/* Center page title matching screenshot */}
-        {centerTitle && (
-          <div className="hidden lg:block font-display font-extrabold text-xl text-gray-900 absolute left-1/2 -translate-x-1/2 pointer-events-none tracking-tight">
-            {centerTitle}
-          </div>
-        )}
         {/* Left side: Mobile menu + Back button + Global search input */}
         <div className="flex items-center gap-2.5 flex-1 max-w-[460px]">
           <button
@@ -56,7 +44,7 @@ const Topbar = ({ title }) => {
             </button>
           )}
 
-          {/* Search input replicating clean cohesive screenshot */}
+          {/* Search input */}
           <div className="relative w-full flex items-center bg-white border border-gray-200 rounded-xl h-10 px-3.5 shadow-2xs focus-within:border-[#0B4F45] focus-within:ring-2 focus-within:ring-[#0B4F45]/20 transition-all overflow-hidden">
             <Search size={16} className="text-gray-400 mr-2.5 flex-shrink-0 pointer-events-none" aria-hidden="true" />
             <input
@@ -68,7 +56,7 @@ const Topbar = ({ title }) => {
           </div>
         </div>
 
-        {/* Right side actions replicating exact design screenshot */}
+        {/* Right side actions */}
         <div className="flex items-center gap-5 flex-shrink-0">
           <Link
             to="/resources"
@@ -105,21 +93,21 @@ const Topbar = ({ title }) => {
           <div className="h-8 w-px bg-gray-200 hidden sm:block" />
 
           {/* User profile */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/landlord/profile')}>
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/landlord/settings')}>
             <div className="text-right hidden md:block">
-              <div className="text-xs font-black text-gray-900 leading-none">{user?.name || 'Oripio Studio'}</div>
-              <div className="text-[9px] font-bold text-gray-400 tracking-wider mt-1">Asset Manager</div>
+              <div className="text-xs font-black text-gray-900 leading-none">{user?.name || 'Amoo Ayomikun'}</div>
+              <div className="text-[9px] font-bold text-gray-400 tracking-wider mt-1">{user?.role || 'Asset Manager'}</div>
             </div>
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80"
-              alt="Oripio Studio"
+              src={user?.avatar || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80"}
+              alt={user?.name || "Amoo Ayomikun"}
               className="w-9 h-9 rounded-full object-cover border border-gray-200 shadow-2xs"
             />
           </div>
         </div>
       </header>
 
-      {/* Horizontal separator line matching screenshot */}
+      {/* Horizontal separator line */}
       <div className="border-b border-gray-200/80 mb-6" />
     </div>
   );

@@ -1,11 +1,11 @@
 import propertiesData from '../mocks/properties.json';
 import { mockDelay, lsGet, lsSet } from './mockUtils';
 
-const LS_KEY = 'rf_properties_design_exact_v1';
+const LS_KEY = 'rf_properties_nigeria_v2';
 
 const getAll = () => {
   const cached = lsGet(LS_KEY, null);
-  if (!cached || !cached.some((p) => p.name === 'Sunset Heights Apartments')) {
+  if (!cached || cached.length === 0) {
     save(propertiesData);
     return propertiesData;
   }

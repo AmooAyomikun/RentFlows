@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 import {
   Calendar, TrendingUp, Wallet, FileText, ArrowRight,
   ChevronDown, FileSpreadsheet, CheckCircle2, Download
@@ -64,19 +66,34 @@ const portfolioOccupancy = [
 const Reports = () => {
   const [reportType, setReportType] = useState('Profit & Loss Statement');
   const [exportFormat, setExportFormat] = useState('pdf');
+  const [startDate, setStartDate] = useState('2026-01-01');
+  const [endDate, setEndDate] = useState('2026-12-31');
+
+  const handleExport = () => {
+    toast.success(`Exporting ${reportType} (${exportFormat.toUpperCase()}). Download started!`);
+    const content = `RentFlow Financial Report\n================================\nReport Type: ${reportType}\nPeriod: ${startDate} to ${endDate}\nFormat: ${exportFormat.toUpperCase()}\n\nSummary Metrics:\nGross Revenue: ₦2,480,000,000\nNet Operating Income: ₦1,920,000,000\nTotal Expenses: ₦560,000,000\nCollection Rate: 98.2%\n\nGenerated on: ${new Date().toLocaleString()}\n`;
+    const blob = new Blob([content], { type: exportFormat === 'excel' ? 'text/csv;charset=utf-8;' : 'text/plain;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `RentFlow_${reportType.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_${startDate}_to_${endDate}.${exportFormat === 'excel' ? 'csv' : 'txt'}`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="font-sans text-gray-900 pb-12">
       {/* ── PAGE HEADER ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <span className="text-[10px] font-black tracking-wider text-gray-400 uppercase block">Fiscal Year 2024</span>
+          <span className="text-[10px] font-black tracking-wider text-gray-400 uppercase block">Fiscal Year {startDate.slice(0, 4)}</span>
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0 mt-1">Financial Performance Overview</h1>
         </div>
 
         <button className="bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 font-bold text-xs px-4 py-2 rounded-xl shadow-2xs inline-flex items-center gap-2 cursor-pointer shrink-0">
           <Calendar size={15} className="text-gray-600" />
-          <span>This Year</span>
+          <span>{startDate} - {endDate}</span>
         </button>
       </div>
 
@@ -227,10 +244,10 @@ const Reports = () => {
       <div className="bg-white rounded-xl border border-gray-200/80 card-shadow overflow-hidden mb-8">
         <div className="p-6 border-b border-gray-100 flex items-center justify-between gap-4">
           <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Property Performance Leaderboard</h2>
-          <button className="text-xs font-bold text-gray-800 hover:underline inline-flex items-center gap-1 bg-transparent border-none p-0 cursor-pointer shrink-0">
+          <Link to="/landlord/properties" className="text-xs font-bold text-gray-800 hover:underline inline-flex items-center gap-1 bg-transparent border-none p-0 cursor-pointer shrink-0">
             <span>View All Properties</span>
             <ArrowRight size={15} />
-          </button>
+          </Link>
         </div>
 
         <div className="w-full overflow-x-auto">
@@ -316,18 +333,24 @@ const Reports = () => {
               {/* Date Range */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[10px] font-bold text-white/70 uppercase tracking-wider block mb-1.5">Start Date</label>
-                  <div className="bg-white/10 border border-white/15 text-white/80 text-xs rounded-xl p-3 flex items-center justify-between">
-                    <span>01/01/2024</span>
-                    <Calendar size={14} className="text-white/60" />
-                  </div>
+                  <label htmlFor="start-date" className="text-[10px] font-bold text-white/70 uppercase tracking-wider block mb-1.5">Start Date</label>
+                  <input
+                    id="start-date"
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="w-full bg-white/10 border border-white/15 text-white text-xs rounded-xl p-2.5 focus:outline-none focus:ring-2 focus:ring-[#F4C395]"
+                  />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-white/70 uppercase tracking-wider block mb-1.5">End Date</label>
-                  <div className="bg-white/10 border border-white/15 text-white/80 text-xs rounded-xl p-3 flex items-center justify-between">
-                    <span>12/31/2024</span>
-                    <Calendar size={14} className="text-white/60" />
-                  </div>
+                  <label htmlFor="end-date" className="text-[10px] font-bold text-white/70 uppercase tracking-wider block mb-1.5">End Date</label>
+                  <input
+                    id="end-date"
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="w-full bg-white/10 border border-white/15 text-white text-xs rounded-xl p-2.5 focus:outline-none focus:ring-2 focus:ring-[#F4C395]"
+                  />
                 </div>
               </div>
 
@@ -354,8 +377,11 @@ const Reports = () => {
           </div>
 
           <div className="pt-6 mt-4">
-            <button className="w-full py-3 px-4 rounded-xl bg-[#F4C395] hover:bg-[#e3b284] text-[#072F29] font-black text-xs uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] cursor-pointer border-none">
-              <FileSpreadsheet size={16} />
+            <button
+              onClick={handleExport}
+              className="w-full py-3 px-4 rounded-xl bg-[#F4C395] hover:bg-[#e3b284] text-[#072F29] font-black text-xs uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] cursor-pointer border-none"
+            >
+              <Download size={16} />
               <span>Export Custom Report</span>
             </button>
           </div>
