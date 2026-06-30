@@ -120,6 +120,11 @@ const Tenants = () => {
   const [replyMessage, setReplyMessage] = useState('');
   const [selectedTenantAction, setSelectedTenantAction] = useState(null);
 
+  const activeTenantsCount = initialDirectoryRows.length;
+  const onTimeCount = initialDirectoryRows.filter(r => r.status === 'Active').length;
+  const paymentHealthRate = Math.round((onTimeCount / (activeTenantsCount || 1)) * 100) || 94;
+  const actionRequiredCount = initialDirectoryRows.filter(r => r.status === 'Late' || r.status === 'Grace Period').length;
+
   // Filter and Sort logic
   let filtered = initialDirectoryRows.filter(r => {
     const matchesSearch = r.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -172,7 +177,7 @@ const Tenants = () => {
             </span>
           </div>
           <div>
-            <span className="text-2xl font-bold text-[#181c1a] leading-none">1,248</span>
+            <span className="text-2xl font-bold text-[#181c1a] leading-none">{activeTenantsCount}</span>
             <p className="text-sm text-[#3a665e] mt-2 flex items-center gap-1 font-medium">
               <TrendingUp size={16} /> +12 this month
             </p>
@@ -187,8 +192,8 @@ const Tenants = () => {
             </span>
           </div>
           <div>
-            <span className="text-2xl font-bold text-[#181c1a] leading-none">34</span>
-            <p className="text-sm text-[#404946] mt-2 font-medium">MTD</p>
+            <span className="text-2xl font-bold text-[#181c1a] leading-none">{mockApplications.length}</span>
+            <p className="text-sm text-[#404946] mt-2 font-medium">Active Applications</p>
           </div>
         </div>
 
@@ -200,7 +205,7 @@ const Tenants = () => {
             </span>
           </div>
           <div>
-            <span className="text-2xl font-bold text-[#181c1a] leading-none">94%</span>
+            <span className="text-2xl font-bold text-[#181c1a] leading-none">{paymentHealthRate}%</span>
             <p className="text-sm text-[#3a665e] mt-2 flex items-center gap-1 font-medium">
               <CheckCircle2 size={16} /> On-time rate
             </p>
@@ -215,8 +220,8 @@ const Tenants = () => {
             </span>
           </div>
           <div>
-            <span className="text-2xl font-bold text-[#181c1a] leading-none">18</span>
-            <p className="text-sm text-[#404946] mt-2 font-medium">Next 60 days</p>
+            <span className="text-2xl font-bold text-[#181c1a] leading-none">{actionRequiredCount}</span>
+            <p className="text-sm text-[#404946] mt-2 font-medium">Requires Action</p>
           </div>
         </div>
       </div>

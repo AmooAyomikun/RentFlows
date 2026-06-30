@@ -1,6 +1,7 @@
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  CheckCircle2, Mail, Star, ChevronRight, Trophy, MapPin
+  CheckCircle2, Mail, Star, ChevronRight, Trophy, MapPin, Camera
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -53,6 +54,22 @@ const specialties = [
 
 const LandlordProfile = () => {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
+  const [profileImg, setProfileImg] = useState(() => localStorage.getItem('rentflows_profile_image') || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80');
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setProfileImg(base64String);
+        localStorage.setItem('rentflows_profile_image', base64String);
+        toast.success('Profile image updated successfully!');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className="font-sans text-gray-900 pb-12 max-w-6xl mx-auto">
@@ -67,11 +84,17 @@ const LandlordProfile = () => {
         {/* Profile Details Overlay Row */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between px-6 sm:px-10 -mt-16 relative z-10 gap-4">
           <div className="flex flex-col sm:flex-row sm:items-end gap-6">
-            <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80"
-              alt="Chief Oladapo Adewale"
-              className="w-32 h-32 rounded-2xl border-4 border-white shadow-md object-cover bg-white"
-            />
+            <div className="relative shrink-0 cursor-pointer group" onClick={() => fileInputRef.current?.click()} title="Click to upload profile photo">
+              <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageUpload} className="hidden" />
+              <img
+                src={profileImg}
+                alt="Chief Oladapo Adewale"
+                className="w-32 h-32 rounded-2xl border-4 border-white shadow-md object-cover bg-white group-hover:opacity-90 transition-opacity"
+              />
+              <div className="absolute bottom-2 right-2 w-8 h-8 rounded-full bg-[#072F29] text-white flex items-center justify-center shadow-md group-hover:bg-[#C75B30] transition-colors">
+                <Camera size={14} />
+              </div>
+            </div>
             <div className="pb-2">
               <div className="flex items-center gap-3 flex-wrap">
                 <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0">Chief Oladapo Adewale</h1>

@@ -18,6 +18,10 @@ const Properties = () => {
     queryFn: getProperties,
   });
 
+  const totalUnitsComputed = properties.reduce((sum, p) => sum + (p.totalUnits || 0), 0) || 120;
+  const occupiedUnitsComputed = properties.reduce((sum, p) => sum + (p.occupiedUnits || 0), 0) || 113;
+  const avgOccupancyComputed = totalUnitsComputed > 0 ? ((occupiedUnitsComputed / totalUnitsComputed) * 100).toFixed(1) : '94.2';
+
   // Filter properties based on active tab
   const filteredProperties = properties.filter((p) => {
     if (activeTab === 'all') return true;
@@ -104,9 +108,9 @@ const Properties = () => {
             </div>
           </div>
           <div>
-            <div className="!text-2xl sm:!text-3xl !font-black !text-gray-900 !mt-3 !mb-0 !tracking-tight">120</div>
+            <div className="!text-2xl sm:!text-3xl !font-black !text-gray-900 !mt-3 !mb-0 !tracking-tight">{totalUnitsComputed}</div>
             <div className="!text-xs !font-semibold !text-gray-500 !mt-2 !mb-0">
-              Across 8 properties
+              Across {properties.length || 8} properties
             </div>
           </div>
         </div>
@@ -120,7 +124,7 @@ const Properties = () => {
             </div>
           </div>
           <div>
-            <div className="!text-2xl sm:!text-3xl !font-black !text-gray-900 !mt-3 !mb-0 !tracking-tight">94.2%</div>
+            <div className="!text-2xl sm:!text-3xl !font-black !text-gray-900 !mt-3 !mb-0 !tracking-tight">{avgOccupancyComputed}%</div>
             <div className="flex items-center gap-1 !text-xs !font-bold !text-rose-600 !mt-2 !mb-0">
               <TrendingDown size={13} /> -0.5% from last month
             </div>

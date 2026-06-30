@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { toast } from 'sonner';
 import {
   User, Shield, Bell, Users, CreditCard, Camera, Lock, Smartphone,
@@ -23,6 +23,7 @@ const presetAvatars = [
 
 const Settings = () => {
   const { user, updateUser } = useAuthStore();
+  const fileInputRef = useRef(null);
   const [activeTab, setActiveTab] = useState('profile');
   
   // Profile State
@@ -30,7 +31,7 @@ const Settings = () => {
   const [email, setEmail] = useState(user?.email || 'amoo.ayo@rentflow.ng');
   const [phone, setPhone] = useState(user?.phone || '+234 803 000 1122');
   const [bio, setBio] = useState(user?.bio || 'Senior Asset Manager specializing in luxury residential portfolios across Lagos & Abuja.');
-  const [avatar, setAvatar] = useState(user?.avatar || presetAvatars[0]);
+  const [avatar, setAvatar] = useState(() => localStorage.getItem('rentflows_profile_image') || user?.avatar || presetAvatars[0]);
   const [customAvatarUrl, setCustomAvatarUrl] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -56,10 +57,26 @@ const Settings = () => {
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const [newMemberRole, setNewMemberRole] = useState('Property Manager');
 
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setAvatar(base64String);
+        localStorage.setItem('rentflows_profile_image', base64String);
+        if (updateUser) updateUser({ avatar: base64String });
+        toast.success('Profile image uploaded successfully from device!');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSaveProfile = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 400));
+    localStorage.setItem('rentflows_profile_image', avatar);
     if (updateUser) updateUser({ name: fullName, email, phone, bio, avatar });
     setIsSubmitting(false);
     toast.success('Profile settings updated successfully!');
@@ -68,6 +85,8 @@ const Settings = () => {
   const handleAddCustomAvatar = () => {
     if (!customAvatarUrl) return;
     setAvatar(customAvatarUrl);
+    localStorage.setItem('rentflows_profile_image', customAvatarUrl);
+    if (updateUser) updateUser({ avatar: customAvatarUrl });
     setCustomAvatarUrl('');
     toast.success('Custom image URL applied as profile avatar!');
   };
@@ -148,13 +167,14 @@ const Settings = () => {
               <form onSubmit={handleSaveProfile} className="space-y-6">
                 {/* Profile Image Section */}
                 <div className="flex flex-col sm:flex-row items-center gap-6 p-4 rounded-2xl bg-gray-50 border border-gray-200/80">
-                  <div className="relative shrink-0">
+                  <div className="relative shrink-0 cursor-pointer group" onClick={() => fileInputRef.current?.click()} title="Click to upload image">
+                    <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileUpload} className="hidden" />
                     <img
                       src={avatar}
                       alt="Profile Avatar"
-                      className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md"
+                      className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md group-hover:opacity-90 transition-opacity"
                     />
-                    <div className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-[#072F29] text-white flex items-center justify-center shadow-xs">
+                    <div className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-[#072F29] text-white flex items-center justify-center shadow-xs group-hover:bg-[#C75B30] transition-colors">
                       <Camera size={14} />
                     </div>
                   </div>
@@ -162,11 +182,18 @@ const Settings = () => {
                   <div className="flex-1 space-y-2 text-center sm:text-left">
                     <div className="text-xs font-bold text-gray-800 uppercase tracking-wider">Choose Profile Photo</div>
                     <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="bg-[#C75B30] hover:bg-[#b5522b] text-white text-xs font-bold px-3 py-2 rounded-xl border-none cursor-pointer flex items-center gap-1.5 shadow-2xs mr-1"
+                      >
+                        <Camera size={14} /> Upload from Device
+                      </button>
                       {presetAvatars.map((url, i) => (
                         <button
                           key={i}
                           type="button"
-                          onClick={() => { setAvatar(url); toast.info('Selected preset portrait'); }}
+                          onClick={() => { setAvatar(url); localStorage.setItem('rentflows_profile_image', url); toast.info('Selected preset portrait'); }}
                           className={`w-10 h-10 rounded-full overflow-hidden border-2 cursor-pointer transition-transform active:scale-95 p-0 ${avatar === url ? 'border-[#C75B30] ring-2 ring-[#C75B30]/30' : 'border-transparent'}`}
                         >
                           <img src={url} alt={`Preset ${i}`} className="w-full h-full object-cover" />

@@ -638,11 +638,21 @@ const Payments = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Lekki Palms / Unit 8B"
+                  list="payments-property-list"
+                  placeholder="Type or select property / unit..."
                   value={manualForm.propertyUnit}
                   onChange={e => setManualForm({ ...manualForm, propertyUnit: e.target.value })}
                   className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#072F29]"
                 />
+                <datalist id="payments-property-list">
+                  <option value="Victoria Island Towers / 402B" />
+                  <option value="Lekki Palms Villas / 12A" />
+                  <option value="Ikeja City Mall / G2" />
+                  <option value="Victoria Island Towers / 204C" />
+                  <option value="Banana Island Lofts / 501" />
+                  <option value="Maitama Heights / 3" />
+                  <option value="GRA Phase 2 Duplexes / 1" />
+                </datalist>
               </div>
               <div>
                 <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Amount (₦)</label>

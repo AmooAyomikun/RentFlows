@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import {
   ClipboardList, Clock, Banknote, AlertTriangle, ArrowRight, MoreHorizontal,
@@ -146,54 +146,94 @@ const allContractors = [
 const initialActivity = [
   {
     id: 'act1',
-    date: 'Oct 24, 09:12 AM',
+    date: 'Jun 30, 09:12 AM',
     property: 'Victoria Island Towers',
     unit: 'Unit 4B',
     category: 'Plumbing',
     catIcon: '💧',
     status: 'In-Progress',
     statusBg: 'bg-amber-100 text-amber-800',
-    actionIcon: Eye,
   },
   {
     id: 'act2',
-    date: 'Oct 23, 02:45 PM',
+    date: 'Jun 29, 02:45 PM',
     property: 'Lekki Palms Villas',
     unit: 'Amenity Center',
     category: 'Electrical',
     catIcon: '⚡',
     status: 'Completed',
     statusBg: 'bg-emerald-100 text-emerald-800',
-    actionIcon: Eye,
   },
   {
     id: 'act3',
-    date: 'Oct 22, 11:30 AM',
+    date: 'Jun 28, 11:30 AM',
     property: 'Maitama Heights',
     unit: 'Unit 3',
     category: 'General',
     catIcon: '🛠️',
     status: 'Pending Assign',
     statusBg: 'bg-gray-200 text-gray-800',
-    actionIcon: UserPlus,
   },
   {
     id: 'act4',
-    date: 'Oct 21, 04:15 PM',
+    date: 'Jun 27, 04:15 PM',
     property: 'Banana Island Lofts',
     unit: 'Unit 502',
     category: 'Security',
     catIcon: '🔒',
     status: 'Completed',
     statusBg: 'bg-emerald-100 text-emerald-800',
-    actionIcon: Eye,
   },
 ];
 
+const propertyUnitsList = [
+  "Victoria Island Towers • Unit 4B",
+  "Victoria Island Towers • Unit 12A",
+  "Victoria Island Towers • Penthouse",
+  "Lekki Tech Plaza • Suite 101",
+  "Lekki Tech Plaza • Suite 204",
+  "Lekki Tech Plaza • Ground Floor Store",
+  "Maitama Lofts • Unit 3A",
+  "Maitama Lofts • Unit 8B",
+  "Banana Island Estates • Villa 1",
+  "Banana Island Estates • Villa 5",
+  "GRA Phase 2 Duplexes • Unit 1",
+  "GRA Phase 2 Duplexes • Unit 3",
+  "Alau Dam Estates • Block C",
+  "General Portfolio • Common Area"
+];
+
 const Maintenance = () => {
-  const [columns, setColumns] = useState(initialKanbanColumns);
-  const [recentActivity, setRecentActivity] = useState(initialActivity);
+  const [columns, setColumns] = useState(() => {
+    const saved = localStorage.getItem('rentflows_maintenance_columns');
+    return saved ? JSON.parse(saved) : initialKanbanColumns;
+  });
+  const [recentActivity, setRecentActivity] = useState(() => {
+    try {
+      const saved = localStorage.getItem('rentflows_maintenance_activity');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          return parsed.map(item => {
+            const { actionIcon, ...rest } = item;
+            return rest;
+          });
+        }
+      }
+    } catch (e) {
+      console.error("Error parsing recent activity:", e);
+    }
+    return initialActivity;
+  });
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
+
+  useEffect(() => {
+    localStorage.setItem('rentflows_maintenance_columns', JSON.stringify(columns));
+  }, [columns]);
+
+  useEffect(() => {
+    localStorage.setItem('rentflows_maintenance_activity', JSON.stringify(recentActivity));
+  }, [recentActivity]);
 
   const [showFullBoardModal, setShowFullBoardModal] = useState(false);
   const [showContractorsModal, setShowContractorsModal] = useState(false);
@@ -202,7 +242,7 @@ const Maintenance = () => {
 
   const [orderForm, setOrderForm] = useState({
     title: '',
-    propertyUnit: '',
+    propertyUnit: propertyUnitsList[0],
     category: 'Plumbing',
     priority: 'Normal'
   });
@@ -240,24 +280,99 @@ const Maintenance = () => {
       return c;
     });
 
-    const iconMap = { Plumbing: '💧', Electrical: '⚡', General: '🛠️', Security: '🔒' };
+    const iconMap = { Plumbing: '💧', Electrical: '⚡', General: '🛠️', Security: '🔒', 'HVAC / Aircon': '❄️', Carpentry: '🪚', Painting: '🎨', 'Appliance Repair': '🔌', 'Pest Control': '🐜', 'Roofing / Leak': '🏠' };
     const newAct = {
       id: `act_${Date.now()}`,
-      date: 'Oct 24, Just now',
+      date: 'Jun 30, Just now',
       property: orderForm.propertyUnit.split('•')[0] || orderForm.propertyUnit,
       unit: orderForm.propertyUnit.split('•')[1] || 'Unit',
       category: orderForm.category,
       catIcon: iconMap[orderForm.category] || '🛠️',
       status: 'Pending Assign',
       statusBg: 'bg-gray-200 text-gray-800',
-      actionIcon: UserPlus
     };
 
     setColumns(updatedCols);
     setRecentActivity([newAct, ...recentActivity]);
     setShowNewOrderModal(false);
-    setOrderForm({ title: '', propertyUnit: '', category: 'Plumbing', priority: 'Normal' });
+    setOrderForm({ title: '', propertyUnit: propertyUnitsList[0], category: 'Plumbing', priority: 'Normal' });
     toast.success(`Work Order ${newCode} successfully logged and assigned to Received!`);
+  };
+
+  const totalOpenTickets = columns.reduce((sum, col) => col.id !== 'completed' ? sum + col.items.length : sum, 0);
+  const urgentTicketsCount = columns.reduce((sum, col) => col.id !== 'completed' ? sum + col.items.filter(it => it.urgent || it.tag === 'URGENT').length : sum, 0);
+
+  const handleEscalateOrder = () => {
+    if (!selectedOrder) return;
+    if (selectedOrder.colId) {
+      setColumns(prev => prev.map(c => {
+        if (c.id === selectedOrder.colId) {
+          return {
+            ...c,
+            items: c.items.map(it => it.id === selectedOrder.id ? { ...it, urgent: true, tag: 'URGENT', tagBg: 'bg-rose-50 text-rose-600' } : it)
+          };
+        }
+        return c;
+      }));
+    } else if (selectedOrder.isActivity) {
+      setRecentActivity(prev => prev.map(a => a.id === selectedOrder.id ? { ...a, priority: 'URGENT' } : a));
+    }
+    toast.success(`Work order ${selectedOrder.code} escalated to Urgent Priority.`);
+    setSelectedOrder(null);
+  };
+
+  const handleStartWorkOrder = () => {
+    if (!selectedOrder) return;
+    if (selectedOrder.colId === 'received') {
+      let targetCard = null;
+      setColumns(prev => {
+        const removedCols = prev.map(c => {
+          if (c.id === 'received') {
+            targetCard = c.items.find(it => it.id === selectedOrder.id);
+            return { ...c, count: c.items.length - 1, items: c.items.filter(it => it.id !== selectedOrder.id) };
+          }
+          return c;
+        });
+        return removedCols.map(c => {
+          if (c.id === 'in_progress' && targetCard) {
+            const updatedCard = { ...targetCard, contractorName: 'Segun Adebayo', contractorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80', statusText: 'Working' };
+            return { ...c, count: c.items.length + 1, items: [updatedCard, ...c.items] };
+          }
+          return { ...c, count: c.items.length };
+        });
+      });
+    } else if (selectedOrder.isActivity) {
+      setRecentActivity(prev => prev.map(a => a.id === selectedOrder.id ? { ...a, status: 'In-Progress', statusBg: 'bg-amber-100 text-amber-800' } : a));
+    }
+    toast.success(`Contractor assigned! Work order ${selectedOrder.code} moved to In-Progress.`);
+    setSelectedOrder(null);
+  };
+
+  const handleResolveOrder = () => {
+    if (!selectedOrder) return;
+    if (selectedOrder.colId === 'in_progress' || selectedOrder.colId === 'received') {
+      let targetCard = null;
+      setColumns(prev => {
+        const removedCols = prev.map(c => {
+          if (c.id === selectedOrder.colId) {
+            targetCard = c.items.find(it => it.id === selectedOrder.id);
+            return { ...c, count: c.items.length - 1, items: c.items.filter(it => it.id !== selectedOrder.id) };
+          }
+          return c;
+        });
+        return removedCols.map(c => {
+          if (c.id === 'completed' && targetCard) {
+            const updatedCard = { ...targetCard, tag: 'COMPLETED', tagBg: 'bg-emerald-50 text-emerald-700', doneText: 'Done by Contractor' };
+            return { ...c, count: c.items.length + 1, items: [updatedCard, ...c.items] };
+          }
+          return { ...c, count: c.items.length };
+        });
+      });
+    } else if (selectedOrder.isActivity) {
+      setRecentActivity(prev => prev.map(a => a.id === selectedOrder.id ? { ...a, status: 'Completed', statusBg: 'bg-emerald-100 text-emerald-800' } : a));
+    }
+    toast.success(`Work order ${selectedOrder.code} marked as Completed.`);
+    setSelectedOrder(null);
   };
 
   return (
@@ -277,7 +392,7 @@ const Maintenance = () => {
           </div>
           <div className="mt-4">
             <p className="text-sm font-semibold uppercase text-gray-800 m-0 mb-1">Open Tickets</p>
-            <p className="text-3xl font-display font-black text-gray-900 m-0 tracking-tight">42</p>
+            <p className="text-3xl font-display font-black text-gray-900 m-0 tracking-tight">{totalOpenTickets < 10 ? `0${totalOpenTickets}` : totalOpenTickets}</p>
           </div>
         </div>
 
@@ -316,7 +431,7 @@ const Maintenance = () => {
           </div>
           <div className="mt-4">
             <p className="text-sm font-semibold uppercase text-gray-800 m-0 mb-1">Urgent Repairs</p>
-            <p className="text-3xl font-display font-black text-rose-600 m-0 tracking-tight">09</p>
+            <p className="text-3xl font-display font-black text-rose-600 m-0 tracking-tight">{urgentTicketsCount < 10 ? `0${urgentTicketsCount}` : urgentTicketsCount}</p>
           </div>
         </div>
       </div>
@@ -348,6 +463,8 @@ const Maintenance = () => {
                 <div
                   key={card.id}
                   onClick={() => setSelectedOrder({
+                    id: card.id,
+                    colId: col.id,
                     code: card.code,
                     title: card.title,
                     location: card.location,
@@ -492,16 +609,18 @@ const Maintenance = () => {
                         </td>
                         <td className="py-4 px-5 text-right">
                           <button onClick={() => setSelectedOrder({
+                            id: act.id,
+                            isActivity: true,
                             code: `#M-${Math.floor(1000 + Math.random() * 9000)}`,
                             title: `${act.category} Service Request`,
                             location: `${act.property} (${act.unit})`,
                             status: act.status,
                             statusBg: act.statusBg,
                             priority: 'NORMAL',
-                            contractor: 'Segun Adebayo (Assigned Contractor)',
+                            contractor: act.status === 'Pending Assign' ? 'Unassigned' : 'Segun Adebayo (Assigned Contractor)',
                             date: act.date
-                          })} className="p-1 text-gray-500 hover:text-black transition-colors cursor-pointer bg-transparent border-none" aria-label="Action">
-                            <act.actionIcon size={17} />
+                          })} className="p-1 text-gray-500 hover:text-black transition-colors cursor-pointer bg-transparent border-none" aria-label="Action" title={act.status === 'Pending Assign' ? 'Assign Contractor' : 'View Details'}>
+                            {act.status === 'Pending Assign' ? <UserPlus size={17} /> : <Eye size={17} />}
                           </button>
                         </td>
                       </tr>
@@ -624,11 +743,17 @@ const Maintenance = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Lekki Palms Villas • Unit 14B"
+                  list="property-units-list"
+                  placeholder="Type or select property • unit..."
                   value={orderForm.propertyUnit}
                   onChange={e => setOrderForm({ ...orderForm, propertyUnit: e.target.value })}
                   className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#C75B30]"
                 />
+                <datalist id="property-units-list">
+                  {propertyUnitsList.map((pu, idx) => (
+                    <option key={idx} value={pu} />
+                  ))}
+                </datalist>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -638,10 +763,16 @@ const Maintenance = () => {
                     onChange={e => setOrderForm({ ...orderForm, category: e.target.value })}
                     className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#C75B30] bg-white cursor-pointer"
                   >
-                    <option>Plumbing</option>
-                    <option>Electrical</option>
-                    <option>General</option>
-                    <option>Security</option>
+                    <option value="Plumbing">Plumbing</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="HVAC / Aircon">HVAC / Aircon</option>
+                    <option value="Carpentry">Carpentry</option>
+                    <option value="Painting">Painting</option>
+                    <option value="Appliance Repair">Appliance Repair</option>
+                    <option value="Pest Control">Pest Control</option>
+                    <option value="Roofing / Leak">Roofing / Leak</option>
+                    <option value="Security">Security</option>
+                    <option value="General">General</option>
                   </select>
                 </div>
                 <div>
@@ -710,15 +841,32 @@ const Maintenance = () => {
                   <span className="text-xs font-black text-[#0B4F45] font-mono mt-0.5 block">₦85,000</span>
                 </div>
               </div>
+
+              {(selectedOrder.colId === 'received' || selectedOrder.status === 'Received' || selectedOrder.status === 'Pending Assign') && (
+                <div className="p-3.5 bg-amber-50 rounded-xl border border-amber-200/80 flex items-start gap-2.5">
+                  <UserPlus size={18} className="text-amber-600 shrink-0 mt-0.5" />
+                  <div className="text-xs text-amber-900">
+                    <span className="font-bold block mb-0.5">Awaiting Contractor Assignment</span>
+                    This work order is currently pending dispatch. Click <b>Start Work / Assign</b> below to dispatch our verified contractor and move the ticket to In-Progress.
+                  </div>
+                </div>
+              )}
+
+              {(selectedOrder.colId === 'in_progress' || selectedOrder.status === 'In-Progress') && (
+                <div className="p-3.5 bg-teal-50 rounded-xl border border-teal-200/80 flex items-start gap-2.5">
+                  <Eye size={18} className="text-[#0B4F45] shrink-0 mt-0.5" />
+                  <div className="text-xs text-[#0B4F45]">
+                    <span className="font-bold block mb-0.5">Work In Progress</span>
+                    Contractor is actively working on this repair. You can view progress details or mark it resolved once confirmed.
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="pt-5 mt-5 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
               <button
-                onClick={() => {
-                  toast.success(`Work order ${selectedOrder.code} escalated to Urgent Priority.`);
-                  setSelectedOrder(null);
-                }}
-                className="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5"
+                onClick={handleEscalateOrder}
+                className="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5 shadow-2xs"
               >
                 <AlertTriangle size={14} /> Escalate Ticket
               </button>
@@ -730,11 +878,16 @@ const Maintenance = () => {
                 >
                   Close
                 </button>
+                {(selectedOrder.colId === 'received' || selectedOrder.status === 'Received' || selectedOrder.status === 'Pending Assign') && (
+                  <button
+                    onClick={handleStartWorkOrder}
+                    className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5 shadow-sm"
+                  >
+                    <Wrench size={14} /> Start Work / Assign
+                  </button>
+                )}
                 <button
-                  onClick={() => {
-                    toast.success(`Work order ${selectedOrder.code} marked as Completed.`);
-                    setSelectedOrder(null);
-                  }}
+                  onClick={handleResolveOrder}
                   className="px-4 py-2 rounded-xl bg-[#0B4F45] hover:bg-[#083D35] text-white font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5 shadow-sm"
                 >
                   <CheckCircle2 size={14} /> Mark Resolved
