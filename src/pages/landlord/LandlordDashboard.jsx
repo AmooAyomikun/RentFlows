@@ -7,7 +7,7 @@ import {
   Wrench, TrendingUp, ArrowRight, Bell, Calendar,
   Wallet, DollarSign, Banknote, CheckCircle2, ArrowDownLeft,
   ArrowUpRight, FileText, Search, Filter, MoreVertical,
-  Plus, Clock, X, Check, Mail, MessageSquare, Send
+  Plus, Clock, X, Check, Mail, MessageSquare, Send, ChevronDown
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -124,6 +124,8 @@ const LandlordDashboard = () => {
   const [chartPeriod, setChartPeriod] = useState('Monthly');
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState('All');
+  const [dashboardDate, setDashboardDate] = useState('2026-06-30');
+  const [outstandingDirectoryOpen, setOutstandingDirectoryOpen] = useState(false);
   const [remindModalOpen, setRemindModalOpen] = useState(false);
   const [selectedRemindIds, setSelectedRemindIds] = useState([1, 2, 3]);
   const [reminderChannel, setReminderChannel] = useState('both'); // 'sms', 'email', 'both'
@@ -165,10 +167,18 @@ const LandlordDashboard = () => {
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Overview</h1>
           <p className="text-base text-[#4A4F4C] font-medium mt-0.5">Welcome back, here's what's happening with your properties today.</p>
         </div>
-        <button className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-gray-200/80 text-xs font-bold text-gray-700 shadow-sm sm:self-start hover:bg-gray-50 transition-colors">
-          <Calendar size={14} className="text-gray-400" />
-          <span>Oct 24, 2023</span>
-        </button>
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-gray-200/80 text-xs font-bold text-gray-700 shadow-sm sm:self-start hover:border-gray-300 transition-all focus-within:ring-2 focus-within:ring-[#0B4F45]">
+          <Calendar size={14} className="text-[#0B4F45]" />
+          <input 
+            type="date" 
+            value={dashboardDate} 
+            onChange={(e) => {
+              setDashboardDate(e.target.value);
+              toast.success(`Dashboard view date refreshed to ${e.target.value}`);
+            }}
+            className="bg-transparent border-none text-xs font-bold text-gray-800 focus:outline-none cursor-pointer"
+          />
+        </div>
       </div>
 
       {/* Top KPI Cards Grid */}
@@ -386,24 +396,33 @@ const LandlordDashboard = () => {
             <h3 className="text-sm font-semibold uppercase text-gray-800">Top Performing Properties</h3>
 
             <div className="flex items-center gap-2">
-              <div className="relative flex items-center bg-gray-50 border border-gray-200/80 rounded-xl h-8 px-2.5 w-48 focus-within:bg-white focus-within:border-gray-300 transition-all">
-                <Search size={13} className="text-gray-400 mr-1.5 flex-shrink-0" />
+              <div className="relative flex items-center bg-white border border-gray-300 rounded-xl h-9 px-3 w-60 focus-within:border-[#0B4F45] focus-within:ring-2 focus-within:ring-[#0B4F45]/20 shadow-xs transition-all">
+                <Search size={14} className="text-gray-400 mr-2 flex-shrink-0" />
                 <input
                   type="text"
-                  placeholder="Search property..."
+                  placeholder="Search property name or address..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full bg-transparent text-xs text-gray-800 placeholder-gray-400 focus:outline-none"
                 />
               </div>
 
-              <button 
-                onClick={() => setTypeFilter(prev => prev === 'All' ? 'Multi-family' : prev === 'Multi-family' ? 'Commercial' : 'All')}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-gray-200/80 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold transition-colors shadow-sm cursor-pointer"
-              >
-                <Filter size={12} className="text-gray-500" />
-                <span>{typeFilter === 'All' ? 'Filter (All)' : `Type: ${typeFilter}`}</span>
-              </button>
+              <div className="relative flex items-center">
+                <Filter size={13} className="absolute left-3 text-gray-500 pointer-events-none" />
+                <select 
+                  value={typeFilter}
+                  onChange={(e) => setTypeFilter(e.target.value)}
+                  className="pl-8 pr-8 py-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold transition-all shadow-xs cursor-pointer focus:outline-none focus:border-[#0B4F45] appearance-none"
+                >
+                  <option value="All">All Types</option>
+                  <option value="Apartment">Apartment</option>
+                  <option value="Commercial">Commercial</option>
+                  <option value="Multi-family">Multi-family</option>
+                  <option value="Duplex">Duplex</option>
+                  <option value="Residential">Residential</option>
+                </select>
+                <ChevronDown size={13} className="absolute right-3 text-gray-400 pointer-events-none" />
+              </div>
             </div>
           </div>
 
@@ -474,7 +493,7 @@ const LandlordDashboard = () => {
         <div className="bg-white rounded-xl border border-gray-200/80 card-shadow overflow-hidden flex flex-col">
           <div className="p-6 flex items-center justify-between border-b border-gray-100">
             <h3 className="text-sm font-semibold uppercase text-gray-800">Outstanding Rent</h3>
-            <button onClick={() => { setSelectedRemindIds([1, 2, 3]); setRemindModalOpen(true); }} className="text-xs font-bold text-[#072F29] hover:underline cursor-pointer">View All ({outstandingRentData.length})</button>
+            <button onClick={() => setOutstandingDirectoryOpen(true)} className="text-xs font-bold text-[#072F29] hover:underline cursor-pointer">View All ({outstandingRentData.length})</button>
           </div>
 
           <div className="w-full overflow-hidden flex-1">
@@ -801,6 +820,63 @@ const LandlordDashboard = () => {
                     <span>Send {selectedRemindIds.length} Reminder{selectedRemindIds.length !== 1 ? 's' : ''}</span>
                   </>
                 )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Outstanding Rent Directory Modal */}
+      {outstandingDirectoryOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-gray-100 max-h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4 shrink-0">
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 m-0">Outstanding Rent Directory</h3>
+                <p className="text-xs text-gray-500 m-0 mt-0.5">Showing all overdue tenants requiring payment collection across properties</p>
+              </div>
+              <button onClick={() => setOutstandingDirectoryOpen(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="overflow-y-auto space-y-3 flex-1 pr-1">
+              {outstandingRentData.map((row) => (
+                <div key={row.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-gray-200/80 bg-gray-50/50 hover:bg-white hover:shadow-sm transition-all">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-gray-900">{row.name}</span>
+                      <span className="text-[10px] font-black px-2 py-0.5 rounded bg-rose-100 text-rose-700">{row.overdue}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 font-medium m-0 mt-1">Property: {row.unit}</p>
+                  </div>
+                  <div className="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 pt-3 sm:pt-0 border-gray-200/60">
+                    <div className="text-left sm:text-right">
+                      <span className="text-[10px] text-gray-400 uppercase font-bold block">Overdue Amount</span>
+                      <span className="text-sm font-black text-rose-600 font-mono">{row.amount}</span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setOutstandingDirectoryOpen(false);
+                        setSelectedRemindIds([row.id]);
+                        setRemindModalOpen(true);
+                      }}
+                      className="px-3 py-1.5 rounded-xl bg-[#0B4F45] hover:bg-[#083D35] text-white text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1.5 border-none"
+                    >
+                      <Bell size={13} />
+                      <span>Send Reminder</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-4 mt-4 border-t border-gray-100 flex justify-end">
+              <button
+                onClick={() => setOutstandingDirectoryOpen(false)}
+                className="px-5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs transition-colors cursor-pointer border-none"
+              >
+                Close Directory
               </button>
             </div>
           </div>

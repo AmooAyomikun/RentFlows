@@ -138,9 +138,40 @@ const initialTransactions = [
   },
 ];
 
+const chartVariations = {
+  'Last 6 Months': {
+    labels: ['MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT'],
+    expPath: 'M 60 172 L 155 168 L 250 170 L 345 160 L 440 156 L 535 158',
+    expFill: 'M 60 172 L 155 168 L 250 170 L 345 160 L 440 156 L 535 158 L 535 180 L 60 180 Z',
+    revPath: 'M 60 155 L 155 125 L 250 95 L 345 102 L 440 60 L 535 45',
+    revFill: 'M 60 155 L 155 125 L 250 95 L 345 102 L 440 60 L 535 45 L 535 180 L 60 180 Z',
+    expPoints: [[60, 172], [155, 168], [250, 170], [345, 160], [440, 156], [535, 158]],
+    revPoints: [[60, 155], [155, 125], [250, 95], [345, 102], [440, 60], [535, 45]]
+  },
+  'This Year': {
+    labels: ['JAN', 'MAR', 'MAY', 'JUL', 'SEP', 'NOV'],
+    expPath: 'M 60 165 L 155 160 L 250 162 L 345 150 L 440 148 L 535 142',
+    expFill: 'M 60 165 L 155 160 L 250 162 L 345 150 L 440 148 L 535 142 L 535 180 L 60 180 Z',
+    revPath: 'M 60 140 L 155 130 L 250 110 L 345 90 L 440 70 L 535 30',
+    revFill: 'M 60 140 L 155 130 L 250 110 L 345 90 L 440 70 L 535 30 L 535 180 L 60 180 Z',
+    expPoints: [[60, 165], [155, 160], [250, 162], [345, 150], [440, 148], [535, 142]],
+    revPoints: [[60, 140], [155, 130], [250, 110], [345, 90], [440, 70], [535, 30]]
+  },
+  'All Time': {
+    labels: ['2021', '2022', '2023', '2024', '2025', '2026'],
+    expPath: 'M 60 170 L 155 165 L 250 155 L 345 145 L 440 135 L 535 130',
+    expFill: 'M 60 170 L 155 165 L 250 155 L 345 145 L 440 135 L 535 130 L 535 180 L 60 180 Z',
+    revPath: 'M 60 160 L 155 140 L 250 120 L 345 90 L 440 50 L 535 20',
+    revFill: 'M 60 160 L 155 140 L 250 120 L 345 90 L 440 50 L 535 20 L 535 180 L 60 180 Z',
+    expPoints: [[60, 170], [155, 165], [250, 155], [345, 145], [440, 135], [535, 130]],
+    revPoints: [[60, 160], [155, 140], [250, 120], [345, 90], [440, 50], [535, 20]]
+  }
+};
+
 const Payments = () => {
   const [transactions, setTransactions] = useState(initialTransactions);
   const [timeRange, setTimeRange] = useState('Last 6 Months');
+  const activeChart = chartVariations[timeRange] || chartVariations['Last 6 Months'];
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
 
@@ -333,7 +364,7 @@ const Payments = () => {
                 value={timeRange}
                 onChange={(e) => {
                   setTimeRange(e.target.value);
-                  toast.info(`Updated financial analytics to show: ${e.target.value}`);
+                  toast.success(`Financial analytics dynamically updated for: ${e.target.value}`);
                 }}
                 className="bg-gray-100 hover:bg-gray-200/80 text-gray-700 font-bold text-xs py-1.5 pl-3 pr-8 rounded-lg appearance-none border-none cursor-pointer focus:outline-none"
               >
@@ -363,23 +394,25 @@ const Payments = () => {
                 <line x1="32" y1="180" x2="550" y2="180" stroke="#e5e7eb" strokeWidth="1" />
 
                 {/* Operating Expenses Shading */}
-                <path d="M 60 172 L 155 168 L 250 170 L 345 160 L 440 156 L 535 158 L 535 180 L 60 180 Z" fill="#F4A261" opacity="0.18" />
+                <path d={activeChart.expFill} fill="#F4A261" opacity="0.18" className="transition-all duration-500 ease-in-out" />
 
                 {/* Operating Expenses Dashed Line */}
-                <path d="M 60 172 L 155 168 L 250 170 L 345 160 L 440 156 L 535 158" fill="none" stroke="#F4A261" strokeWidth="2.5" strokeDasharray="5 5" />
-                <circle cx="60" cy="172" r="3.5" fill="#F4A261" />
-                <circle cx="155" cy="168" r="3.5" fill="#F4A261" />
+                <path d={activeChart.expPath} fill="none" stroke="#F4A261" strokeWidth="2.5" strokeDasharray="5 5" className="transition-all duration-500 ease-in-out" />
+                {activeChart.expPoints.map((pt, idx) => (
+                  <circle key={`exp-${idx}`} cx={pt[0]} cy={pt[1]} r="3.5" fill="#F4A261" className="transition-all duration-500 ease-in-out" />
+                ))}
 
                 {/* Gross Revenue Shading */}
-                <path d="M 60 155 L 155 125 L 250 95 L 345 102 L 440 60 L 535 45 L 535 180 L 60 180 Z" fill="#072F29" opacity="0.06" />
+                <path d={activeChart.revFill} fill="#072F29" opacity="0.06" className="transition-all duration-500 ease-in-out" />
 
                 {/* Gross Revenue Thick Line */}
-                <path d="M 60 155 L 155 125 L 250 95 L 345 102 L 440 60 L 535 45" fill="none" stroke="#072F29" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="60" cy="155" r="4" fill="#072F29" />
-                <circle cx="535" cy="45" r="4" fill="#072F29" />
+                <path d={activeChart.revPath} fill="none" stroke="#072F29" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" className="transition-all duration-500 ease-in-out" />
+                {activeChart.revPoints.map((pt, idx) => (
+                  <circle key={`rev-${idx}`} cx={pt[0]} cy={pt[1]} r="4" fill="#072F29" className="transition-all duration-500 ease-in-out" />
+                ))}
 
                 {/* X-axis Month Labels */}
-                {['MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT'].map((m, i) => (
+                {activeChart.labels.map((m, i) => (
                   <text key={m} x={60 + i * 95} y="196" textAnchor="middle" className="text-[10px] font-bold fill-gray-400 tracking-wider">{m}</text>
                 ))}
               </svg>

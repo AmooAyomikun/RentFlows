@@ -198,6 +198,7 @@ const Maintenance = () => {
   const [showFullBoardModal, setShowFullBoardModal] = useState(false);
   const [showContractorsModal, setShowContractorsModal] = useState(false);
   const [showNewOrderModal, setShowNewOrderModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const [orderForm, setOrderForm] = useState({
     title: '',
@@ -346,7 +347,16 @@ const Maintenance = () => {
               {col.items.map(card => (
                 <div
                   key={card.id}
-                  onClick={() => toast.info(`Viewing ticket ${card.code}: ${card.title}`)}
+                  onClick={() => setSelectedOrder({
+                    code: card.code,
+                    title: card.title,
+                    location: card.location,
+                    status: col.title,
+                    statusBg: col.id === 'received' ? 'bg-gray-200 text-gray-800' : col.id === 'in_progress' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800',
+                    priority: card.tag,
+                    contractor: card.contractorName || card.doneText || 'Unassigned / Tenant Logged',
+                    date: card.footerRight || 'Added recently'
+                  })}
                   className={`bg-white rounded-xl border border-gray-200/80 p-5 card-shadow relative overflow-hidden transition-all hover:shadow-md cursor-pointer ${card.borderLeft || ''}`}
                 >
                   <div className="flex items-center justify-between gap-2 mb-2">
@@ -481,7 +491,16 @@ const Maintenance = () => {
                           </span>
                         </td>
                         <td className="py-4 px-5 text-right">
-                          <button onClick={() => toast.info(`Viewing details for ${act.category} order at ${act.property}`)} className="p-1 text-gray-500 hover:text-black transition-colors cursor-pointer bg-transparent border-none" aria-label="Action">
+                          <button onClick={() => setSelectedOrder({
+                            code: `#M-${Math.floor(1000 + Math.random() * 9000)}`,
+                            title: `${act.category} Service Request`,
+                            location: `${act.property} (${act.unit})`,
+                            status: act.status,
+                            statusBg: act.statusBg,
+                            priority: 'NORMAL',
+                            contractor: 'Segun Adebayo (Assigned Contractor)',
+                            date: act.date
+                          })} className="p-1 text-gray-500 hover:text-black transition-colors cursor-pointer bg-transparent border-none" aria-label="Action">
                             <act.actionIcon size={17} />
                           </button>
                         </td>
@@ -646,6 +665,82 @@ const Maintenance = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Work Order Details Modal */}
+      {selectedOrder && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+              <div className="flex items-center gap-2.5">
+                <span className="text-sm font-mono font-black text-[#0B4F45] bg-teal-50 px-2.5 py-1 rounded-lg">{selectedOrder.code}</span>
+                <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${selectedOrder.statusBg}`}>{selectedOrder.status}</span>
+              </div>
+              <button onClick={() => setSelectedOrder(null)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider block">Issue Title</span>
+                <h3 className="text-lg font-bold text-gray-900 m-0 mt-0.5">{selectedOrder.title}</h3>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 p-3.5 bg-gray-50/80 rounded-xl border border-gray-100">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-gray-400 block">Property / Location</span>
+                  <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.location}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-gray-400 block">Reported / Updated</span>
+                  <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.date}</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 p-3.5 bg-gray-50/80 rounded-xl border border-gray-100">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-gray-400 block">Assigned Contractor</span>
+                  <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.contractor}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-gray-400 block">Estimated Cost</span>
+                  <span className="text-xs font-black text-[#0B4F45] font-mono mt-0.5 block">₦85,000</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-5 mt-5 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+              <button
+                onClick={() => {
+                  toast.success(`Work order ${selectedOrder.code} escalated to Urgent Priority.`);
+                  setSelectedOrder(null);
+                }}
+                className="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5"
+              >
+                <AlertTriangle size={14} /> Escalate Ticket
+              </button>
+              
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setSelectedOrder(null)}
+                  className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs transition-colors cursor-pointer border-none"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => {
+                    toast.success(`Work order ${selectedOrder.code} marked as Completed.`);
+                    setSelectedOrder(null);
+                  }}
+                  className="px-4 py-2 rounded-xl bg-[#0B4F45] hover:bg-[#083D35] text-white font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5 shadow-sm"
+                >
+                  <CheckCircle2 size={14} /> Mark Resolved
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

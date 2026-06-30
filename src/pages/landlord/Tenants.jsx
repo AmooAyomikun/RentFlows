@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import {
   Filter, ArrowUpDown, Users, FileText, ShieldCheck, LogOut,
   Search, MoreVertical, ChevronLeft, ChevronRight, MessageSquare, TrendingUp, CheckCircle2,
-  X, Send, Check
+  X, Send, Check, Bell, Wrench, Eye
 } from 'lucide-react';
 
 const initialDirectoryRows = [
@@ -118,6 +118,7 @@ const Tenants = () => {
   const [showAllAppsModal, setShowAllAppsModal] = useState(false);
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [replyMessage, setReplyMessage] = useState('');
+  const [selectedTenantAction, setSelectedTenantAction] = useState(null);
 
   // Filter and Sort logic
   let filtered = initialDirectoryRows.filter(r => {
@@ -297,7 +298,7 @@ const Tenants = () => {
                     </td>
                     <td className="p-4 text-right" onClick={e => e.stopPropagation()}>
                       <button
-                        onClick={() => toast.info(`Options for ${row.name}`)}
+                        onClick={() => setSelectedTenantAction(row)}
                         className="text-[#404946] hover:text-[#181c1a] p-1 rounded-lg hover:bg-[#e0e3e0]/50 transition-colors bg-transparent border-none cursor-pointer"
                       >
                         <MoreVertical size={18} />
@@ -569,6 +570,74 @@ const Tenants = () => {
               </button>
               <button onClick={handleSendReply} className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer flex items-center gap-2 shadow-sm">
                 <Send size={14} /> Send Message
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tenant Quick Actions Modal */}
+      {selectedTenantAction && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-gray-100 flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+              <div className="flex items-center gap-3">
+                {selectedTenantAction.isInitials ? (
+                  <div className="w-10 h-10 rounded-full bg-[#7f2800] text-white text-sm font-bold flex items-center justify-center shrink-0">
+                    {selectedTenantAction.avatar}
+                  </div>
+                ) : (
+                  <img src={selectedTenantAction.avatar} alt={selectedTenantAction.name} className="w-10 h-10 rounded-full object-cover shrink-0 border border-gray-200" />
+                )}
+                <div>
+                  <h3 className="text-base font-bold text-gray-900 m-0 leading-snug">{selectedTenantAction.name}</h3>
+                  <p className="text-xs text-gray-500 m-0 mt-0.5">{selectedTenantAction.propertyUnit}</p>
+                </div>
+              </div>
+              <button onClick={() => setSelectedTenantAction(null)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              <button
+                onClick={() => {
+                  const id = selectedTenantAction.id;
+                  setSelectedTenantAction(null);
+                  navigate(`/landlord/tenants/${id}`);
+                }}
+                className="w-full p-3 rounded-xl bg-gray-50 hover:bg-[#00372f] text-gray-800 hover:text-white font-bold text-xs transition-all flex items-center gap-3 border border-gray-200/80 hover:border-[#00372f] cursor-pointer"
+              >
+                <Eye size={16} /> View Full Profile & History
+              </button>
+
+              <button
+                onClick={() => {
+                  toast.success(`Payment reminder sent to ${selectedTenantAction.name} via SMS & Email.`);
+                  setSelectedTenantAction(null);
+                }}
+                className="w-full p-3 rounded-xl bg-gray-50 hover:bg-[#00372f] text-gray-800 hover:text-white font-bold text-xs transition-all flex items-center gap-3 border border-gray-200/80 hover:border-[#00372f] cursor-pointer"
+              >
+                <Bell size={16} /> Send Payment Reminder
+              </button>
+
+              <button
+                onClick={() => {
+                  setSelectedTenantAction(null);
+                  navigate('/landlord/maintenance');
+                }}
+                className="w-full p-3 rounded-xl bg-gray-50 hover:bg-[#00372f] text-gray-800 hover:text-white font-bold text-xs transition-all flex items-center gap-3 border border-gray-200/80 hover:border-[#00372f] cursor-pointer"
+              >
+                <Wrench size={16} /> Log Maintenance Request
+              </button>
+            </div>
+
+            <div className="pt-4 mt-4 border-t border-gray-100 flex justify-end">
+              <button
+                onClick={() => setSelectedTenantAction(null)}
+                className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs transition-colors cursor-pointer border-none"
+              >
+                Close
               </button>
             </div>
           </div>
