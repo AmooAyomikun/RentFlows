@@ -335,16 +335,19 @@ const Maintenance = () => {
         });
         return removedCols.map(c => {
           if (c.id === 'in_progress' && targetCard) {
-            const updatedCard = { ...targetCard, contractorName: 'Segun Adebayo', contractorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80', statusText: 'Working' };
+            const chosenContractor = (selectedOrder.contractor && selectedOrder.contractor !== 'Unassigned' && !selectedOrder.contractor.includes('Tenant')) ? selectedOrder.contractor : 'Precision Plumbing Lagos';
+            const updatedCard = { ...targetCard, contractorName: chosenContractor, contractorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80', statusText: 'Working' };
             return { ...c, count: c.items.length + 1, items: [updatedCard, ...c.items] };
           }
           return { ...c, count: c.items.length };
         });
       });
     } else if (selectedOrder.isActivity) {
-      setRecentActivity(prev => prev.map(a => a.id === selectedOrder.id ? { ...a, status: 'In-Progress', statusBg: 'bg-amber-100 text-amber-800' } : a));
+      const chosenContractor = (selectedOrder.contractor && selectedOrder.contractor !== 'Unassigned' && !selectedOrder.contractor.includes('Tenant')) ? selectedOrder.contractor : 'Precision Plumbing Lagos';
+      setRecentActivity(prev => prev.map(a => a.id === selectedOrder.id ? { ...a, status: 'In-Progress', statusBg: 'bg-amber-100 text-amber-800', contractorName: chosenContractor } : a));
     }
-    toast.success(`Contractor assigned! Work order ${selectedOrder.code} moved to In-Progress.`);
+    const finalContractor = (selectedOrder.contractor && selectedOrder.contractor !== 'Unassigned' && !selectedOrder.contractor.includes('Tenant')) ? selectedOrder.contractor : 'Precision Plumbing Lagos';
+    toast.success(`${finalContractor} assigned! Work order ${selectedOrder.code} moved to In-Progress.`);
     setSelectedOrder(null);
   };
 
@@ -471,7 +474,7 @@ const Maintenance = () => {
                     status: col.title,
                     statusBg: col.id === 'received' ? 'bg-gray-200 text-gray-800' : col.id === 'in_progress' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800',
                     priority: card.tag,
-                    contractor: card.contractorName || card.doneText || 'Unassigned / Tenant Logged',
+                    contractor: card.contractorName || card.doneText || (col.id === 'received' ? 'Unassigned' : 'Segun Adebayo'),
                     date: card.footerRight || 'Added recently'
                   })}
                   className={`bg-white rounded-xl border border-gray-200/80 p-5 card-shadow relative overflow-hidden transition-all hover:shadow-md cursor-pointer ${card.borderLeft || ''}`}
@@ -617,7 +620,7 @@ const Maintenance = () => {
                             status: act.status,
                             statusBg: act.statusBg,
                             priority: 'NORMAL',
-                            contractor: act.status === 'Pending Assign' ? 'Unassigned' : 'Segun Adebayo (Assigned Contractor)',
+                            contractor: act.contractorName || (act.status === 'Pending Assign' ? 'Unassigned' : 'Segun Adebayo (Assigned Contractor)'),
                             date: act.date
                           })} className="p-1 text-gray-500 hover:text-black transition-colors cursor-pointer bg-transparent border-none" aria-label="Action" title={act.status === 'Pending Assign' ? 'Assign Contractor' : 'View Details'}>
                             {act.status === 'Pending Assign' ? <UserPlus size={17} /> : <Eye size={17} />}
@@ -834,7 +837,22 @@ const Maintenance = () => {
               <div className="grid grid-cols-2 gap-4 p-3.5 bg-gray-50/80 rounded-xl border border-gray-100">
                 <div>
                   <span className="text-[10px] uppercase font-bold text-gray-400 block">Assigned Contractor</span>
-                  <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.contractor}</span>
+                  {(selectedOrder.colId === 'received' || selectedOrder.status === 'Received' || selectedOrder.status === 'Pending Assign') ? (
+                    <select
+                      value={(selectedOrder.contractor === 'Unassigned' || selectedOrder.contractor.includes('Tenant')) ? 'Precision Plumbing Lagos' : selectedOrder.contractor}
+                      onChange={e => setSelectedOrder({ ...selectedOrder, contractor: e.target.value })}
+                      className="mt-1 w-full p-2 text-xs font-bold border border-gray-300 rounded-lg bg-white text-[#0B4F45] focus:outline-none focus:border-[#0B4F45] cursor-pointer shadow-2xs"
+                    >
+                      {allContractors.map((c, idx) => (
+                        <option key={idx} value={c.name}>{c.name}</option>
+                      ))}
+                      <option value="Segun Adebayo (Plumber)">Segun Adebayo (Plumber)</option>
+                      <option value="Chinedu Okafor (Electrician)">Chinedu Okafor (Electrician)</option>
+                      <option value="Tunde Bakare (HVAC Tech)">Tunde Bakare (HVAC Tech)</option>
+                    </select>
+                  ) : (
+                    <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.contractor}</span>
+                  )}
                 </div>
                 <div>
                   <span className="text-[10px] uppercase font-bold text-gray-400 block">Estimated Cost</span>
@@ -846,8 +864,8 @@ const Maintenance = () => {
                 <div className="p-3.5 bg-amber-50 rounded-xl border border-amber-200/80 flex items-start gap-2.5">
                   <UserPlus size={18} className="text-amber-600 shrink-0 mt-0.5" />
                   <div className="text-xs text-amber-900">
-                    <span className="font-bold block mb-0.5">Awaiting Contractor Assignment</span>
-                    This work order is currently pending dispatch. Click <b>Start Work / Assign</b> below to dispatch our verified contractor and move the ticket to In-Progress.
+                    <span className="font-bold block mb-0.5">Select Contractor & Dispatch</span>
+                    Choose a verified service contractor from the dropdown above, then click <b>Start Work / Assign</b> to dispatch them and move this ticket to In-Progress.
                   </div>
                 </div>
               )}
