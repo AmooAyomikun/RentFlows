@@ -1,12 +1,22 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const TenantPayRent = () => {
   const navigate = useNavigate();
   const [scheduleType, setScheduleType] = useState('now'); // 'now' | 'later'
-  const [paymentMethod, setPaymentMethod] = useState('bank'); // 'bank' | 'card'
+  const [paymentMethod, setPaymentMethod] = useState('bank');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const [savedMethods, setSavedMethods] = useState([
+    { id: 'bank', title: 'Bank Account', subtitle: 'Ending in 4928 • GTBank Savings', icon: 'account_balance' },
+    { id: 'card', title: 'Debit Card', subtitle: 'Ending in 1022 • Mastercard Exp 12/26', icon: 'credit_card' },
+  ]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newMethodType, setNewMethodType] = useState('bank');
+  const [newBankName, setNewBankName] = useState('Zenith Bank');
+  const [newAccNum, setNewAccNum] = useState('');
 
   const handlePay = () => {
     setIsProcessing(true);
@@ -24,7 +34,7 @@ const TenantPayRent = () => {
         </div>
         <h1 className="text-2xl font-bold text-gray-900 m-0 mb-2">Payment Authorized</h1>
         <p className="text-sm text-gray-600 mb-6 leading-relaxed m-0">
-          Your payment of <span className="font-mono font-bold text-primary">$3,250.00</span> has been successfully processed. A receipt has been dispatched to your email.
+          Your payment of <span className="font-mono font-bold text-primary">₦3,250,000</span> has been successfully processed. A receipt has been dispatched to your email.
         </p>
         <div className="bg-surface rounded-lg p-4 mb-6 text-left space-y-2 text-xs border border-outline-variant/60">
           <div className="flex justify-between"><span className="text-on-surface-variant">Transaction Ref:</span><span className="font-mono font-bold text-on-surface">RF-PAY-{Date.now().toString().slice(-6)}</span></div>
@@ -74,26 +84,26 @@ const TenantPayRent = () => {
             <div className="flex justify-between items-start mb-6">
               <div>
                 <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Monthly Rent Summary</h2>
-                <p className="text-sm text-gray-600 mt-1 m-0">6301 Elgin St. Celina, Delaware 10299</p>
+                <p className="text-sm text-gray-600 mt-1 m-0">Victoria Island Towers, Suite 402, Lagos, Nigeria</p>
               </div>
               <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-semibold">Active Lease</span>
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-center py-2 border-b border-surface-container">
                 <span className="text-base text-[#4A4F4C]">Base Rent</span>
-                <span className="font-mono text-primary font-semibold">$3,000.00</span>
+                <span className="font-mono text-primary font-semibold">₦3,000,000</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-surface-container">
                 <span className="text-base text-[#4A4F4C]">Utilities (Fixed)</span>
-                <span className="font-mono text-primary font-semibold">$200.00</span>
+                <span className="font-mono text-primary font-semibold">₦200,000</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-surface-container">
                 <span className="text-base text-[#4A4F4C]">Parking Space #42</span>
-                <span className="font-mono text-primary font-semibold">$50.00</span>
+                <span className="font-mono text-primary font-semibold">₦50,000</span>
               </div>
               <div className="flex justify-between items-center pt-4">
                 <span className="text-lg font-bold text-gray-900">Total Rent Due</span>
-                <span className="text-2xl font-bold text-primary">$3,250.00</span>
+                <span className="text-2xl font-bold text-primary">₦3,250,000</span>
               </div>
             </div>
           </section>
@@ -156,59 +166,36 @@ const TenantPayRent = () => {
             <div>
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Payment Method</h2>
-                <button type="button" className="text-primary text-sm font-semibold hover:underline">Add New</button>
+                <button type="button" onClick={() => setShowAddModal(true)} className="text-primary text-sm font-semibold hover:underline cursor-pointer">Add New</button>
               </div>
               
               <div className="space-y-3">
-                {/* Saved Method 1 */}
-                <label
-                  onClick={() => setPaymentMethod('bank')}
-                  className={`flex items-center gap-4 p-4 rounded-lg border cursor-pointer transition-colors group ${
-                    paymentMethod === 'bank'
-                      ? 'border-primary bg-primary-container/10'
-                      : 'border-outline-variant hover:bg-surface-container-low'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="payment_method"
-                    checked={paymentMethod === 'bank'}
-                    onChange={() => setPaymentMethod('bank')}
-                    className="w-5 h-5 text-primary focus:ring-primary accent-[#00372f]"
-                  />
-                  <div className="flex-1">
-                    <p className="font-semibold text-on-surface">Bank Account</p>
-                    <p className="text-xs text-on-surface-variant">Ending in 4928 • Savings</p>
-                  </div>
-                  <span className={`material-symbols-outlined ${paymentMethod === 'bank' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`}>
-                    account_balance
-                  </span>
-                </label>
-
-                {/* Saved Method 2 */}
-                <label
-                  onClick={() => setPaymentMethod('card')}
-                  className={`flex items-center gap-4 p-4 rounded-lg border cursor-pointer transition-colors group ${
-                    paymentMethod === 'card'
-                      ? 'border-primary bg-primary-container/10'
-                      : 'border-outline-variant hover:bg-surface-container-low'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="payment_method"
-                    checked={paymentMethod === 'card'}
-                    onChange={() => setPaymentMethod('card')}
-                    className="w-5 h-5 text-primary focus:ring-primary accent-[#00372f]"
-                  />
-                  <div className="flex-1">
-                    <p className="font-semibold text-on-surface">Credit Card</p>
-                    <p className="text-xs text-on-surface-variant">Ending in 1022 • Exp 12/26</p>
-                  </div>
-                  <span className={`material-symbols-outlined ${paymentMethod === 'card' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`}>
-                    credit_card
-                  </span>
-                </label>
+                {savedMethods.map(method => (
+                  <label
+                    key={method.id}
+                    onClick={() => setPaymentMethod(method.id)}
+                    className={`flex items-center gap-4 p-4 rounded-lg border cursor-pointer transition-colors group ${
+                      paymentMethod === method.id
+                        ? 'border-primary bg-primary-container/10'
+                        : 'border-outline-variant hover:bg-surface-container-low'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      checked={paymentMethod === method.id}
+                      onChange={() => setPaymentMethod(method.id)}
+                      className="w-5 h-5 text-primary focus:ring-primary accent-[#00372f]"
+                    />
+                    <div className="flex-1">
+                      <p className="font-semibold text-on-surface">{method.title}</p>
+                      <p className="text-xs text-on-surface-variant">{method.subtitle}</p>
+                    </div>
+                    <span className={`material-symbols-outlined ${paymentMethod === method.id ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`}>
+                      {method.icon}
+                    </span>
+                  </label>
+                ))}
               </div>
             </div>
 
@@ -233,7 +220,7 @@ const TenantPayRent = () => {
                   disabled={isProcessing}
                   className="w-full bg-[#C75B30] hover:bg-[#b04a25] disabled:opacity-75 text-white py-4 rounded-lg font-semibold text-lg shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 group cursor-pointer"
                 >
-                  <span>{isProcessing ? 'Processing...' : 'Confirm and Pay $3,250.00'}</span>
+                  <span>{isProcessing ? 'Processing...' : 'Confirm and Pay ₦3,250,000'}</span>
                   {!isProcessing && (
                     <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">
                       arrow_forward
@@ -267,6 +254,78 @@ const TenantPayRent = () => {
         </div>
 
       </div>
+
+      {/* Add New Payment Method Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-gray-100">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Add Payment Method</h3>
+            <div className="space-y-4 text-left">
+              <div>
+                <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Method Type</label>
+                <select value={newMethodType} onChange={e => setNewMethodType(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none">
+                  <option value="bank">Bank Account (NUBAN)</option>
+                  <option value="card">Debit / Credit Card</option>
+                </select>
+              </div>
+              {newMethodType === 'bank' ? (
+                <>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Select Bank</label>
+                    <select value={newBankName} onChange={e => setNewBankName(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none">
+                      <option value="Zenith Bank">Zenith Bank Plc</option>
+                      <option value="GTBank">Guaranty Trust Bank (GTCO)</option>
+                      <option value="Access Bank">Access Bank Plc</option>
+                      <option value="UBA">United Bank for Africa (UBA)</option>
+                      <option value="First Bank">First Bank of Nigeria</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase block mb-1">10-Digit Account Number</label>
+                    <input type="text" maxLength={10} placeholder="0123456789" value={newAccNum} onChange={e => setNewAccNum(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Card Number</label>
+                    <input type="text" placeholder="5399 •••• •••• ••••" value={newAccNum} onChange={e => setNewAccNum(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Expiry</label>
+                      <input type="text" placeholder="MM/YY" className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-gray-700 uppercase block mb-1">CVV</label>
+                      <input type="password" maxLength={4} placeholder="123" className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            <div className="flex gap-3 mt-6 justify-end">
+              <button onClick={() => { setShowAddModal(false); setNewAccNum(''); }} className="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-50 cursor-pointer">Cancel</button>
+              <button onClick={() => {
+                if (!newAccNum || newAccNum.length < 4) {
+                  toast.error('Please enter a valid number');
+                  return;
+                }
+                const last4 = newAccNum.slice(-4);
+                const newId = `method-${Date.now()}`;
+                const newObj = newMethodType === 'bank' 
+                  ? { id: newId, title: 'Bank Account', subtitle: `Ending in ${last4} • ${newBankName}`, icon: 'account_balance' }
+                  : { id: newId, title: 'Debit Card', subtitle: `Ending in ${last4} • Mastercard`, icon: 'credit_card' };
+                setSavedMethods(prev => [...prev, newObj]);
+                setPaymentMethod(newId);
+                setShowAddModal(false);
+                setNewAccNum('');
+                toast.success('New payment method added and selected!');
+              }} className="px-5 py-2 bg-[#072F29] text-white rounded-xl text-xs font-bold hover:bg-[#051f1b] cursor-pointer">Save Method</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Visual Atmosphere: Subtle Gradient Background */}
       <div className="fixed bottom-0 right-0 -z-10 opacity-20 pointer-events-none">

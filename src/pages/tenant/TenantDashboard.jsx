@@ -5,8 +5,44 @@ import useAuthStore from '../../store/authStore';
 import { logout as authLogout } from '../../services/authService';
 
 const TenantDashboard = () => {
-  const { clearUser } = useAuthStore();
+  const { user, clearUser } = useAuthStore();
   const navigate = useNavigate();
+  const tenantName = user?.name?.split(' ')[0] || 'Ayo';
+
+  const handleDownloadAnnualReport = () => {
+    toast.success('Generating and downloading 2026 Annual Report...');
+    const reportContent = `RENTFLOWS - TENANT ANNUAL FINANCIAL & LEASE REPORT (2026)
+------------------------------------------------------------------------
+Tenant Name: Ayomikun Adeleke
+Property Address: Victoria Island Towers, Flat 402-B, Ahmadu Bello Way, Lagos, Nigeria
+Landlord / Manager: Adeleke & Co. Properties
+Lease Term: Jan 01, 2026 - Dec 31, 2026
+Annual Rent: ₦3,250,000
+
+FINANCIAL SUMMARY:
+- Total Paid (YTD): ₦32,500,000
+- Total Payments Made: 10 Transactions
+- Next Payment Due: Jul 01, 2026 (₦3,250,000)
+- Outstanding Balance: ₦0.00
+
+MAINTENANCE HISTORY:
+- Jan 15: Plumbing Repair (Completed)
+- Mar 02: Electrical AC Unit Check (Completed)
+- May 20: Kitchen Sink Replacement (Completed)
+
+Report generated on: ${new Date().toLocaleDateString()}
+Status: Verified & Certified by RentFlows Nigeria
+`;
+    const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'RentFlows_Annual_Report_2026.txt';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -30,11 +66,11 @@ const TenantDashboard = () => {
           {/* Welcome Header */}
           <section className="flex justify-between items-end">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Good morning, Dianne</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Good morning, {tenantName}</h1>
               <p className="text-base text-[#4A4F4C] mt-1">Here's what's happening with your property today.</p>
             </div>
             <div className="flex gap-2">
-              <button onClick={() => toast.info('Downloading Annual Report...')} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-primary font-bold text-xs hover:bg-gray-50 transition-colors cursor-pointer">Download Annual Report</button>
+              <button onClick={handleDownloadAnnualReport} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-primary font-bold text-xs hover:bg-gray-50 transition-colors cursor-pointer">Download Annual Report</button>
             </div>
           </section>
 
@@ -52,7 +88,7 @@ const TenantDashboard = () => {
                   <div className="flex flex-col md:flex-row md:items-end gap-6">
                     <div>
                       <p className="text-sm font-medium text-gray-500 mb-1">Total Rent Due</p>
-                      <p className="text-5xl font-extrabold font-display text-primary m-0">$3,250.00</p>
+                      <p className="text-5xl font-extrabold font-display text-primary m-0">₦3,250,000</p>
                     </div>
                     <div className="pb-2">
                       <span className="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-[10px] uppercase font-bold tracking-tight border border-amber-200">Due in 4 days</span>
@@ -66,7 +102,7 @@ const TenantDashboard = () => {
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 m-0">Next Payment</p>
-                      <p className="text-base font-bold text-gray-900 m-0">Oct 01, 2024</p>
+                      <p className="text-base font-bold text-gray-900 m-0">Jul 01, 2026</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -98,16 +134,16 @@ const TenantDashboard = () => {
                 <div className="space-y-6">
                   <div>
                     <p className="text-xs text-gray-500 mb-1">Property Address</p>
-                    <p className="text-xl font-bold text-gray-900 leading-tight m-0">6301 Elgin St. Celina, Delaware 10299</p>
+                    <p className="text-xl font-bold text-gray-900 leading-tight m-0">Victoria Island Towers, Suite 402, Lagos, Nigeria</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
                       <p className="text-xs text-gray-500 m-0 mb-1">Start Date</p>
-                      <p className="font-mono text-sm font-bold text-primary m-0">Jan 12, 2023</p>
+                      <p className="font-mono text-sm font-bold text-primary m-0">Jan 01, 2026</p>
                     </div>
                     <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
                       <p className="text-xs text-gray-500 m-0 mb-1">End Date</p>
-                      <p className="font-mono text-sm font-bold text-primary m-0">Jan 11, 2025</p>
+                      <p className="font-mono text-sm font-bold text-primary m-0">Dec 31, 2026</p>
                     </div>
                   </div>
                 </div>
@@ -119,10 +155,10 @@ const TenantDashboard = () => {
                   </div>
                   <div>
                     <p className="text-xs text-white/70 m-0">Landlord Contact</p>
-                    <p className="font-bold text-sm text-white m-0">Marvin McKinney</p>
+                    <p className="font-bold text-sm text-white m-0">Adeleke &amp; Co. Properties</p>
                   </div>
                 </div>
-                <button onClick={() => toast.info('Calling Marvin McKinney...')} className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer border-none bg-transparent text-white">
+                <button onClick={() => toast.info('Calling Adeleke & Co. Properties...')} className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer border-none bg-transparent text-white">
                   <span className="material-symbols-outlined">call</span>
                 </button>
               </div>
@@ -173,7 +209,7 @@ const TenantDashboard = () => {
                   <div className="flex items-center gap-8">
                     <div className="text-right">
                       <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-bold uppercase tracking-wider">Resolved</span>
-                      <p className="text-xs text-gray-500 m-0 mt-1">Aug 15, 2024</p>
+                      <p className="text-xs text-gray-500 m-0 mt-1">Jun 15, 2026</p>
                     </div>
                     <span className="material-symbols-outlined text-gray-400">chevron_right</span>
                   </div>
@@ -200,9 +236,9 @@ const TenantDashboard = () => {
                   </div>
                   <div className="pb-6">
                     <p className="text-sm font-bold text-gray-900 m-0">Payment Successful</p>
-                    <p className="text-xs text-gray-500 m-0 mt-0.5 mb-2">Aug 01, 2024 • 09:42 AM</p>
+                    <p className="text-xs text-gray-500 m-0 mt-0.5 mb-2">Jun 01, 2026 • 09:42 AM</p>
                     <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                      <p className="text-xs font-mono text-primary font-bold m-0">$3,250.00 Paid via Autopay</p>
+                      <p className="text-xs font-mono text-primary font-bold m-0">₦3,250,000 Paid via Autopay</p>
                     </div>
                   </div>
                 </div>
@@ -217,7 +253,7 @@ const TenantDashboard = () => {
                   <div className="pb-6">
                     <p className="text-sm font-bold text-gray-900 m-0">Maintenance Visit Scheduled</p>
                     <p className="text-xs text-gray-500 m-0 mt-0.5 mb-2">Today • 02:15 PM</p>
-                    <p className="text-xs text-gray-600 italic m-0">"Plumber confirmed for Sep 28 at 10:00 AM."</p>
+                    <p className="text-xs text-gray-600 italic m-0">"Plumber confirmed for Jul 02 at 10:00 AM."</p>
                   </div>
                 </div>
                 {/* Activity 3 */}
@@ -230,7 +266,7 @@ const TenantDashboard = () => {
                   <div>
                     <p className="text-sm font-bold text-gray-900 m-0">New Document Uploaded</p>
                     <p className="text-xs text-gray-500 m-0 mt-0.5 mb-2">Yesterday • 11:30 AM</p>
-                    <p onClick={() => navigate('/tenant/lease')} className="text-xs text-primary font-semibold hover:underline cursor-pointer m-0">Annual Safety Certificate 2024.pdf</p>
+                    <p onClick={() => navigate('/tenant/lease')} className="text-xs text-primary font-semibold hover:underline cursor-pointer m-0">Annual Safety Certificate 2026.pdf</p>
                   </div>
                 </div>
               </div>
@@ -242,7 +278,7 @@ const TenantDashboard = () => {
 
           {/* Quick Links Section */}
           <section className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <Link to="/tenant/payments" className="p-6 bg-white border border-gray-200/80 rounded-xl card-shadow flex items-center gap-4 hover:border-primary transition-all group">
+            <Link to="/tenant/pay-rent" className="p-6 bg-white border border-gray-200/80 rounded-xl card-shadow flex items-center gap-4 hover:border-primary transition-all group">
               <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined">account_balance_wallet</span>
               </div>
@@ -251,7 +287,7 @@ const TenantDashboard = () => {
                 <p className="text-xs text-gray-500 m-0 mt-0.5">Manage cards &amp; bank accounts</p>
               </div>
             </Link>
-            <Link to="/tenant/settings" className="p-6 bg-white border border-gray-200/80 rounded-xl card-shadow flex items-center gap-4 hover:border-primary transition-all group">
+            <Link to="/tenant/lease" className="p-6 bg-white border border-gray-200/80 rounded-xl card-shadow flex items-center gap-4 hover:border-primary transition-all group">
               <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined">verified_user</span>
               </div>
@@ -260,7 +296,7 @@ const TenantDashboard = () => {
                 <p className="text-xs text-gray-500 m-0 mt-0.5">Update tenant insurance policy</p>
               </div>
             </Link>
-            <Link to="/tenant/lease" className="p-6 bg-white border border-gray-200/80 rounded-xl card-shadow flex items-center gap-4 hover:border-primary transition-all group">
+            <Link to="/tenant/receipts" className="p-6 bg-white border border-gray-200/80 rounded-xl card-shadow flex items-center gap-4 hover:border-primary transition-all group">
               <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined">folder_shared</span>
               </div>
@@ -269,7 +305,7 @@ const TenantDashboard = () => {
                 <p className="text-xs text-gray-500 m-0 mt-0.5">Leases, receipts, and forms</p>
               </div>
             </Link>
-            <a href="mailto:support@rentflow.ng" className="p-6 bg-white border border-gray-200/80 rounded-xl card-shadow flex items-center gap-4 hover:border-primary transition-all group">
+            <Link to="/tenant/report-issue" className="p-6 bg-white border border-gray-200/80 rounded-xl card-shadow flex items-center gap-4 hover:border-primary transition-all group">
               <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined">forum</span>
               </div>
@@ -277,7 +313,7 @@ const TenantDashboard = () => {
                 <p className="font-bold text-sm text-gray-900 m-0">Contact Support</p>
                 <p className="text-xs text-gray-500 m-0 mt-0.5">24/7 emergency concierge</p>
               </div>
-            </a>
+            </Link>
           </section>
     </div>
   );

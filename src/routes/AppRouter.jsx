@@ -166,6 +166,7 @@ const AppRouter = () => {
           <Route path="receipts" element={<TenantReceipts />} />
           <Route path="maintenance" element={<TenantMaintenance />} />
           <Route path="report-issue" element={<TenantReportIssue />} />
+          <Route path="support" element={<TenantReportIssue />} />
           <Route path="maintenance/:id" element={<PlaceholderView title="Maintenance Ticket" type="Ticket View" />} />
           <Route path="notifications" element={<Notifications role="tenant" />} />
           <Route path="settings" element={<TenantSettings />} />

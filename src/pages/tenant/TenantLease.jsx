@@ -62,12 +62,12 @@ const TenantLease = () => {
               </div>
 
               <h2 className="text-xl font-bold text-gray-900 tracking-tight mt-2 leading-snug m-0">
-                The Residences at Emerald Creek
+                Victoria Island Towers
               </h2>
 
               <div className="text-xs text-gray-500 font-medium mt-1.5 flex items-center gap-1.5">
                 <MapPin size={15} className="text-gray-400 shrink-0" />
-                <span className="truncate">8822 Skyview Drive, Suite 402, Austin, TX 78701</span>
+                <span className="truncate">Victoria Island Towers, Suite 402, Lagos, Nigeria</span>
               </div>
 
               <div className="flex flex-wrap items-center gap-3 mt-4">
@@ -77,7 +77,7 @@ const TenantLease = () => {
                 </div>
                 <div className="bg-[#F3EFEA] rounded-xl px-3.5 py-2">
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">LEASE ID</span>
-                  <span className="text-xs font-black text-[#1E293B] mt-0.5 block font-mono">RF-8921-TX</span>
+                  <span className="text-xs font-black text-[#1E293B] mt-0.5 block font-mono">RF-8921-LG</span>
                 </div>
               </div>
             </div>
@@ -110,7 +110,7 @@ const TenantLease = () => {
                       <p className="text-xs font-semibold text-gray-600">Automated ACH enabled</p>
                     </div>
                     <div className="col-span-3 text-right">
-                      <p className="text-base font-black text-[#1E293B] font-mono tracking-tight">$2,850.00</p>
+                      <p className="text-base font-black text-[#1E293B] font-mono tracking-tight">₦2,850,000</p>
                     </div>
                   </div>
 
@@ -123,7 +123,7 @@ const TenantLease = () => {
                       <p className="text-xs font-semibold text-gray-600">Fully refundable at exit</p>
                     </div>
                     <div className="col-span-3 text-right">
-                      <p className="text-base font-black text-[#1E293B] font-mono tracking-tight">$3,200.00</p>
+                      <p className="text-base font-black text-[#1E293B] font-mono tracking-tight">₦3,200,000</p>
                     </div>
                   </div>
 
@@ -136,7 +136,7 @@ const TenantLease = () => {
                       <p className="text-xs font-semibold text-gray-600">Includes 1 Domestic Feline</p>
                     </div>
                     <div className="col-span-3 text-right">
-                      <p className="text-base font-black text-[#1E293B] font-mono tracking-tight">$50.00</p>
+                      <p className="text-base font-black text-[#1E293B] font-mono tracking-tight">₦50,000</p>
                     </div>
                   </div>
                 </div>
@@ -158,7 +158,7 @@ const TenantLease = () => {
                 <Building2 size={22} strokeWidth={2.2} />
               </div>
               <div className="min-w-0 flex-1">
-                <h4 className="font-black text-base text-[#1E293B] leading-tight truncate">Vanguard Assets Ltd.</h4>
+                <h4 className="font-black text-base text-[#1E293B] leading-tight truncate">Adeleke &amp; Co. Properties</h4>
                 <p className="text-xs font-semibold text-gray-500 mt-0.5">Primary Management Group</p>
               </div>
             </div>
@@ -170,7 +170,7 @@ const TenantLease = () => {
                 </div>
                 <div>
                   <span className="text-[9px] font-extrabold text-gray-400 tracking-wider uppercase block">SUPPORT LINE</span>
-                  <span className="text-sm font-bold text-[#1E293B] font-mono block mt-0.5">+1 (512) 555-0198</span>
+                  <span className="text-sm font-bold text-[#1E293B] font-mono block mt-0.5">+234 803 000 0198</span>
                 </div>
               </div>
 
@@ -180,13 +180,13 @@ const TenantLease = () => {
                 </div>
                 <div className="min-w-0 flex-1">
                   <span className="text-[9px] font-extrabold text-gray-400 tracking-wider uppercase block">EMAIL ADDRESS</span>
-                  <span className="text-sm font-bold text-[#1E293B] block mt-0.5 truncate">service@vanguard.com</span>
+                  <span className="text-sm font-bold text-[#1E293B] block mt-0.5 truncate">service@adelekeproperties.ng</span>
                 </div>
               </div>
             </div>
 
             <button 
-              onClick={() => toast.info('Opening secure message thread with Vanguard Assets Ltd...')}
+              onClick={() => toast.info('Opening secure message thread with Adeleke & Co. Properties...')}
               className="w-full py-2.5 rounded-lg border border-gray-300 hover:bg-gray-50 text-gray-800 font-extrabold text-xs tracking-wider uppercase flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs"
             >
               <MessageSquare size={16} strokeWidth={2.2} />
@@ -207,7 +207,7 @@ const TenantLease = () => {
                 </div>
                 <div className="pt-0.5 min-w-0 flex-1">
                   <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider block">LEASE START DATE</span>
-                  <span className="text-sm font-black text-[#1E293B] mt-0.5 block font-display">September 01, 2023</span>
+                  <span className="text-sm font-black text-[#1E293B] mt-0.5 block font-display">January 01, 2026</span>
                 </div>
               </div>
 
@@ -217,7 +217,7 @@ const TenantLease = () => {
                 </div>
                 <div className="pt-0.5 min-w-0 flex-1">
                   <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider block">RENEWAL DEADLINE</span>
-                  <span className="text-sm font-black text-[#1E293B] mt-0.5 block font-display">June 30, 2024</span>
+                  <span className="text-sm font-black text-[#1E293B] mt-0.5 block font-display">November 30, 2026</span>
                   <span className="text-xs font-bold text-[#DC2626] mt-1 block leading-snug">60-day notice period required</span>
                 </div>
               </div>
@@ -228,7 +228,7 @@ const TenantLease = () => {
                 </div>
                 <div className="pt-0.5 min-w-0 flex-1">
                   <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider block">LEASE END DATE</span>
-                  <span className="text-sm font-black text-[#1E293B] mt-0.5 block font-display">August 31, 2024</span>
+                  <span className="text-sm font-black text-[#1E293B] mt-0.5 block font-display">December 31, 2026</span>
                 </div>
               </div>
             </div>
@@ -242,7 +242,7 @@ const TenantLease = () => {
             <div>
               <h4 className="font-black text-base tracking-tight font-display text-white">Renewing soon?</h4>
               <p className="text-xs text-[#FAF7F2]/80 font-medium leading-relaxed mt-1">
-                You'll receive an automated renewal offer on May 15th.
+                You'll receive an automated renewal offer on October 15th.
               </p>
             </div>
           </div>
@@ -261,7 +261,7 @@ const TenantLease = () => {
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-black text-sm sm:text-base text-[#1E293B] leading-tight truncate">Full Lease Agreement.pdf</h3>
-              <p className="text-xs font-semibold text-gray-500 mt-0.5 truncate">Electronically signed on Aug 15, 2023 • 4.2 MB • 24 Pages</p>
+              <p className="text-xs font-semibold text-gray-500 mt-0.5 truncate">Electronically signed on Dec 15, 2025 • 4.2 MB • 24 Pages</p>
               <div className="flex flex-wrap items-center gap-4 mt-2 text-[10px] font-extrabold text-gray-400 uppercase tracking-wider">
                 <span className="inline-flex items-center gap-1.5 shrink-0">
                   <CheckCircle2 size={13} className="text-green-600" />

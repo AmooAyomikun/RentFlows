@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { toast } from 'sonner';
 import { 
   Edit2, Camera, Shield, ShieldCheck, CheckCircle2, Plus, 
@@ -10,6 +10,17 @@ const TenantSettings = () => {
   const [smsNotifs, setSmsNotifs] = useState(true);
   const [pushNotifs, setPushNotifs] = useState(false);
   const [biometric, setBiometric] = useState(true);
+  const [profileImg, setProfileImg] = useState('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80');
+  const fileInputRef = useRef(null);
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setProfileImg(url);
+      toast.success('Profile photo updated successfully!');
+    }
+  };
 
   return (
     <div className="space-y-6 w-full text-[#1E293B] pb-8">
@@ -43,13 +54,20 @@ const TenantSettings = () => {
               {/* Profile Photo with Camera Badge */}
               <div className="relative shrink-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80" 
-                  alt="Alexander Rivera" 
+                  src={profileImg} 
+                  alt="Ayomikun Adeleke" 
                   className="w-28 h-28 rounded-2xl object-cover border-4 border-[#E6F2EF] shadow-2xs" 
                 />
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={handleImageUpload} 
+                  accept="image/*" 
+                  className="hidden" 
+                />
                 <button 
-                  onClick={() => toast.info('Change profile photo')}
-                  className="absolute -bottom-1.5 -right-1.5 w-7 h-7 bg-[#04332C] hover:bg-[#064e43] text-white rounded-full flex items-center justify-center shadow-sm transition-all cursor-pointer ring-2 ring-white"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="absolute -bottom-1.5 -right-1.5 w-7 h-7 bg-[#04332C] hover:bg-[#064e43] text-white rounded-full flex items-center justify-center shadow-sm transition-all cursor-pointer ring-2 ring-white border-none"
                   aria-label="Upload photo"
                 >
                   <Camera size={13} />
@@ -60,27 +78,27 @@ const TenantSettings = () => {
               <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-6 w-full">
                 <div>
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">FULL NAME</span>
-                  <span className="text-base font-black text-[#1E293B] mt-0.5 block font-display">Alexander Rivera</span>
+                  <span className="text-base font-black text-[#1E293B] mt-0.5 block font-display">Ayomikun Adeleke</span>
                 </div>
 
                 <div>
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">PREFERRED NAME</span>
-                  <span className="text-base font-semibold text-gray-700 mt-0.5 block">Alex</span>
+                  <span className="text-base font-semibold text-gray-700 mt-0.5 block">Ayo</span>
                 </div>
 
                 <div className="min-w-0">
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">EMAIL ADDRESS</span>
-                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block truncate">alex.rivera@example.com</span>
+                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block truncate">ayomikun.adeleke@rentflows.ng</span>
                 </div>
 
                 <div>
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">PHONE NUMBER</span>
-                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block font-mono">+1 (555) 123-4567</span>
+                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block font-mono">+234 803 123 4567</span>
                 </div>
 
                 <div className="sm:col-span-2">
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">PRIMARY ADDRESS</span>
-                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block">1224 Oakwood Heights, Apt 4C, San Francisco, CA 94107</span>
+                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block">Victoria Island Towers, Flat 402-B, Ahmadu Bello Way, Lagos, Nigeria</span>
                 </div>
               </div>
             </div>
@@ -184,14 +202,14 @@ const TenantSettings = () => {
               {/* Contact 1 */}
               <div className="bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 flex items-center gap-3.5">
                 <div className="w-10 h-10 rounded-full bg-[#E6F2EF] text-[#04332C] font-black text-xs flex items-center justify-center shrink-0">
-                  ES
+                  CA
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-black text-sm text-[#1E293B] leading-tight">Elena Rivera</h4>
+                  <h4 className="font-black text-sm text-[#1E293B] leading-tight">Chidinma Adeleke</h4>
                   <p className="text-[11px] text-gray-500 font-medium mt-0.5">Spouse</p>
                   <div className="flex items-center gap-1.5 text-xs font-bold font-mono text-gray-700 mt-1">
                     <Phone size={11} className="text-gray-400 shrink-0" />
-                    <span>+1 (555) 987-6543</span>
+                    <span>+234 802 987 6543</span>
                   </div>
                 </div>
               </div>
@@ -199,14 +217,14 @@ const TenantSettings = () => {
               {/* Contact 2 */}
               <div className="bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 flex items-center gap-3.5">
                 <div className="w-10 h-10 rounded-full bg-[#FEE2E2] text-[#9B3A0E] font-black text-xs flex items-center justify-center shrink-0">
-                  MR
+                  BA
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-black text-sm text-[#1E293B] leading-tight">Marcus Reed</h4>
-                  <p className="text-[11px] text-gray-500 font-medium mt-0.5">Father</p>
+                  <h4 className="font-black text-sm text-[#1E293B] leading-tight">Babatunde Adeleke</h4>
+                  <p className="text-[11px] text-gray-500 font-medium mt-0.5">Brother</p>
                   <div className="flex items-center gap-1.5 text-xs font-bold font-mono text-gray-700 mt-1">
                     <Phone size={11} className="text-gray-400 shrink-0" />
-                    <span>+1 (555) 234-5678</span>
+                    <span>+234 803 234 5678</span>
                   </div>
                 </div>
               </div>
@@ -221,9 +239,10 @@ const TenantSettings = () => {
               <label className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block mb-1.5">LANGUAGE</label>
               <div className="relative">
                 <select className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 bg-white text-xs font-bold text-gray-800 appearance-none focus:outline-none focus:ring-2 focus:ring-[#04332C]/20 cursor-pointer">
-                  <option value="en-US">English (US)</option>
-                  <option value="es-ES">Spanish (ES)</option>
-                  <option value="fr-FR">French (FR)</option>
+                  <option value="en-US">English (NG / UK)</option>
+                  <option value="yo-NG">Yoruba</option>
+                  <option value="ig-NG">Igbo</option>
+                  <option value="ha-NG">Hausa</option>
                 </select>
                 <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
               </div>

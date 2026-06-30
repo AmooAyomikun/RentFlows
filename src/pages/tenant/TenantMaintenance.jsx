@@ -11,7 +11,7 @@ const ticketsData = [
     status: 'Pending Review',
     statusBadge: 'bg-error-container/20 text-error',
     statusIcon: 'pulse',
-    date: 'SUBMITTED OCT 24, 2023',
+    date: 'SUBMITTED JUN 24, 2026',
     description: 'The main kitchen faucet has started dripping constantly since this morning. It seems to be coming from the handle base.',
     iconName: 'water_drop',
     assigneeType: 'avatars',
@@ -21,10 +21,10 @@ const ticketsData = [
     title: 'Flickering Lights in Hallway',
     category: 'ELECTRICAL',
     categoryBadge: 'bg-secondary-container/30 text-on-secondary-container',
-    status: 'Scheduled: Oct 26',
+    status: 'Scheduled: Jun 26',
     statusBadge: 'bg-primary-container/10 text-primary',
     statusIconName: 'event',
-    date: 'SUBMITTED OCT 22, 2023',
+    date: 'SUBMITTED JUN 22, 2026',
     description: 'The LED track lighting in the main hallway flickers intermittently. Changed the bulbs but the issue persists, possibly a driver issue.',
     iconName: 'bolt',
     assigneeType: 'technician',
@@ -39,7 +39,7 @@ const ticketsData = [
     status: 'Resolved',
     statusBadge: 'bg-surface-container-high text-on-surface-variant',
     statusIconName: 'check_circle',
-    date: 'COMPLETED OCT 15, 2023',
+    date: 'COMPLETED JUN 15, 2026',
     description: 'Standard quarterly filter replacement for the main unit in closet B.',
     iconName: 'ac_unit',
     assigneeType: 'rating',
@@ -248,7 +248,7 @@ const TenantMaintenance = () => {
                   </div>
                   <div>
                     <p className="text-[10px] text-white/70 uppercase font-bold m-0">Maintenance Hotline</p>
-                    <p className="font-mono text-lg text-white font-bold tracking-wider m-0">+1 (800) 555-0199</p>
+                    <p className="font-mono text-lg text-white font-bold tracking-wider m-0">+234 800 555 0199</p>
                   </div>
                 </div>
                 <div 
@@ -260,7 +260,7 @@ const TenantMaintenance = () => {
                   </div>
                   <div>
                     <p className="text-[10px] text-white/70 uppercase font-bold m-0">Emergency SMS</p>
-                    <p className="font-mono text-white font-bold m-0">Text "HELP" to 55022</p>
+                    <p className="font-mono text-white font-bold m-0">Text "HELP" to 08030000199</p>
                   </div>
                 </div>
               </div>
@@ -321,7 +321,7 @@ const TenantMaintenance = () => {
                 <div className="absolute left-1.5 top-1.5 w-3 h-3 rounded-full bg-primary border-2 border-white shadow-sm z-10"></div>
                 <p className="text-xs font-bold text-gray-900 mb-0.5 m-0">Ticket Created</p>
                 <p className="text-[11px] text-gray-600 m-0">Kitchen Faucet Leaking (RF-29402)</p>
-                <p className="text-[10px] font-mono text-gray-400 mt-1 italic m-0">Oct 24, 10:14 AM</p>
+                <p className="text-[10px] font-mono text-gray-400 mt-1 italic m-0">Jun 24, 10:14 AM</p>
               </div>
             </div>
           </div>
@@ -355,12 +355,34 @@ const TenantMaintenance = () => {
 
             <form onSubmit={handleSubmitRequest} className="mt-6 space-y-4">
               <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Property & Unit</label>
+                <input
+                  required
+                  list="tenant-properties-list"
+                  placeholder="Type or select unit (e.g. Victoria Island Towers - Unit 402-B)"
+                  defaultValue="Victoria Island Towers - Unit 402-B"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
+                />
+                <datalist id="tenant-properties-list">
+                  <option value="Victoria Island Towers - Unit 402-B" />
+                  <option value="Lekki Phase 1 Apartments - Flat 3A" />
+                  <option value="Ikoyi Palms Residence - Suite 12" />
+                  <option value="Abuja Central Plaza - Penthouse 4" />
+                </datalist>
+              </div>
+
+              <div>
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Issue Category</label>
                 <select required className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20">
                   <option value="plumbing">Plumbing</option>
                   <option value="electrical">Electrical</option>
                   <option value="hvac">HVAC / Heating & Cooling</option>
                   <option value="appliance">Appliance Repair</option>
+                  <option value="carpentry">Carpentry / Doors / Windows</option>
+                  <option value="painting">Painting / Walls</option>
+                  <option value="pest">Pest Control</option>
+                  <option value="security">Security / Locks</option>
+                  <option value="roofing">Roofing / Leaks</option>
                   <option value="general">General / Other</option>
                 </select>
               </div>

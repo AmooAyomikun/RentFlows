@@ -48,6 +48,24 @@ const TenantReportIssue = () => {
               </p>
             </div>
 
+            {/* Row 0: Property & Unit */}
+            <div>
+              <label className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block mb-2">PROPERTY &amp; UNIT</label>
+              <input
+                required
+                list="report-properties-list"
+                placeholder="Type or select unit (e.g. Victoria Island Towers - Unit 402-B)"
+                defaultValue="Victoria Island Towers - Unit 402-B"
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-xs font-bold text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#04332C]/20 placeholder-gray-400"
+              />
+              <datalist id="report-properties-list">
+                <option value="Victoria Island Towers - Unit 402-B" />
+                <option value="Lekki Phase 1 Apartments - Flat 3A" />
+                <option value="Ikoyi Palms Residence - Suite 12" />
+                <option value="Abuja Central Plaza - Penthouse 4" />
+              </datalist>
+            </div>
+
             {/* Row 1: Category and Priority */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start pt-2">
               <div>
@@ -61,9 +79,13 @@ const TenantReportIssue = () => {
                     <option value="">Select a category</option>
                     <option value="Plumbing">Plumbing</option>
                     <option value="Electrical">Electrical</option>
-                    <option value="HVAC / Heating">HVAC / Heating</option>
-                    <option value="Appliance">Appliance</option>
-                    <option value="Structural / Pest">Structural / Pest</option>
+                    <option value="HVAC / Heating">HVAC / Heating & Cooling</option>
+                    <option value="Appliance">Appliance Repair</option>
+                    <option value="Carpentry">Carpentry / Doors / Windows</option>
+                    <option value="Painting">Painting / Walls</option>
+                    <option value="Pest">Pest Control</option>
+                    <option value="Security">Security / Locks</option>
+                    <option value="Roofing">Roofing / Leaks</option>
                     <option value="Other">Other</option>
                   </select>
                   <ChevronDown size={15} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
@@ -157,17 +179,17 @@ const TenantReportIssue = () => {
             <div className="space-y-3 pt-1">
               <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 space-y-1">
                 <span className="text-[9px] font-extrabold text-gray-300 tracking-widest uppercase block">24/7 ON-CALL MAINTENANCE</span>
-                <span className="font-mono font-bold text-base text-white tracking-wide block">(555) 012-3456</span>
+                <span className="font-mono font-bold text-base text-white tracking-wide block">+234 803 000 0199</span>
               </div>
 
               <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 space-y-1">
                 <span className="text-[9px] font-extrabold text-gray-300 tracking-widest uppercase block">BUILDING SECURITY</span>
-                <span className="font-mono font-bold text-base text-white tracking-wide block">(555) 012-9988</span>
+                <span className="font-mono font-bold text-base text-white tracking-wide block">+234 802 111 9988</span>
               </div>
 
               <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 space-y-1">
                 <span className="text-[9px] font-extrabold text-gray-300 tracking-widest uppercase block">CONCIERGE DESK</span>
-                <span className="font-mono font-bold text-base text-white tracking-wide block">(555) 012-7722</span>
+                <span className="font-mono font-bold text-base text-white tracking-wide block">+234 801 222 7722</span>
               </div>
             </div>
           </div>

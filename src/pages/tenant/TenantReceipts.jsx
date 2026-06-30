@@ -1,6 +1,27 @@
-import React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+
+const mockReceiptsData = [
+  { id: 'RF-2026-1001', title: 'Monthly Rent', type: 'Rent', year: '2026', date: 'Jun 01, 2026', method: 'Direct Debit', amount: '₦3,250,000', icon: 'apartment' },
+  { id: 'RF-2026-0982', title: 'Utility Package', type: 'Utilities', year: '2026', date: 'May 15, 2026', method: 'Credit Card (Visa)', amount: '₦200,000', icon: 'bolt' },
+  { id: 'RF-2026-0901', title: 'Monthly Rent', type: 'Rent', year: '2026', date: 'May 01, 2026', method: 'Direct Debit', amount: '₦3,250,000', icon: 'apartment' },
+  { id: 'RF-2026-0854', title: 'Plumbing Repair', type: 'Maintenance', year: '2026', date: 'Apr 20, 2026', method: 'Manual Pay (Portal)', amount: '₦120,000', icon: 'build' },
+  { id: 'RF-2026-0801', title: 'Monthly Rent', type: 'Rent', year: '2026', date: 'Apr 01, 2026', method: 'Direct Debit', amount: '₦3,250,000', icon: 'apartment' },
+  { id: 'RF-2025-1205', title: 'Late Fee Adjustment', type: 'Late Fees', year: '2025', date: 'Dec 05, 2025', method: 'Bank Transfer', amount: '₦50,000', icon: 'warning' },
+  { id: 'RF-2025-1101', title: 'Monthly Rent', type: 'Rent', year: '2025', date: 'Nov 01, 2025', method: 'Direct Debit', amount: '₦3,000,000', icon: 'apartment' },
+];
 
 const TenantReceipts = () => {
+  const navigate = useNavigate();
+  const [yearFilter, setYearFilter] = useState('2026');
+  const [typeFilter, setTypeFilter] = useState('All Payment Types');
+
+  const filteredReceipts = mockReceiptsData.filter(r => {
+    const matchesYear = yearFilter === 'All Years' || r.year === yearFilter;
+    const matchesType = typeFilter === 'All Payment Types' || r.type.toLowerCase() === typeFilter.toLowerCase();
+    return matchesYear && matchesType;
+  });
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
@@ -24,16 +45,17 @@ const TenantReceipts = () => {
 <h1 className="text-2xl font-bold text-gray-900 m-0">Billing &amp; Receipts</h1>
 </div>
 <div className="flex gap-3">
-<select className="bg-white border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary">
-<option>Year: 2023</option>
-<option defaultValue="Year: 2024">Year: 2024</option>
+<select value={yearFilter} onChange={e => setYearFilter(e.target.value)} className="bg-white border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary cursor-pointer">
+<option value="2026">Year: 2026</option>
+<option value="2025">Year: 2025</option>
+<option value="All Years">All Years</option>
 </select>
-<select className="bg-white border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary">
-<option defaultValue="Year: 2024">All Payment Types</option>
-<option>Rent</option>
-<option>Utilities</option>
-<option>Maintenance</option>
-<option>Late Fees</option>
+<select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="bg-white border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary cursor-pointer">
+<option value="All Payment Types">All Payment Types</option>
+<option value="Rent">Rent</option>
+<option value="Utilities">Utilities</option>
+<option value="Maintenance">Maintenance</option>
+<option value="Late Fees">Late Fees</option>
 </select>
 </div>
 </div>
@@ -56,15 +78,15 @@ const TenantReceipts = () => {
 </div>
 <div>
 <p className="text-xs font-bold uppercase tracking-widest text-outline m-0">Last Payment</p>
-<p className="text-base text-[#4A4F4C] font-semibold m-0">Oct 01, 2024</p>
+<p className="text-base text-[#4A4F4C] font-semibold m-0">Jun 01, 2026</p>
 </div>
 </div>
 <div className="flex justify-between items-end">
 <div>
-<p className="text-2xl font-bold text-primary m-0">$2,450.00</p>
+<p className="text-2xl font-bold text-primary m-0">₦3,250,000</p>
 <p className="text-xs text-outline m-0">Paid via Auto-pay (ACH)</p>
 </div>
-<button className="text-primary hover:bg-primary-container/10 p-2 rounded-full transition-colors">
+<button onClick={() => toast.success('Downloading receipt summary PDF...')} className="text-primary hover:bg-primary-container/10 p-2 rounded-full transition-colors cursor-pointer">
 <span className="material-symbols-outlined">download</span>
 </button>
 </div>
@@ -91,186 +113,50 @@ const TenantReceipts = () => {
 </div>
 </div>
 
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+  {filteredReceipts.map(receipt => (
+    <div key={receipt.id} className="bg-white border border-gray-200 rounded-xl p-6 card-shadow receipt-card-hover transition-all duration-300 group flex flex-col justify-between">
+      <div>
+        <div className="flex justify-between items-start mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-surface-container-high rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+              <span className="material-symbols-outlined">{receipt.icon}</span>
+            </div>
+            <div>
+              <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">{receipt.title}</h2>
+              <p className="text-xs text-outline m-0">Receipt #{receipt.id}</p>
+            </div>
+          </div>
+          <span className="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Verified</span>
+        </div>
+        <div className="space-y-3 mb-6">
+          <div className="flex justify-between text-sm">
+            <span className="text-outline">Date</span>
+            <span className="font-medium text-on-surface">{receipt.date}</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-outline">Method</span>
+            <span className="font-medium text-on-surface">{receipt.method}</span>
+          </div>
+          <div className="flex justify-between items-center pt-2 border-t border-outline-variant/10">
+            <span className="text-outline">Amount</span>
+            <span className="text-lg font-bold text-primary">{receipt.amount}</span>
+          </div>
+        </div>
+      </div>
+      <button onClick={() => toast.success(`Downloading Receipt #${receipt.id}...`)} className="w-full py-2.5 border border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 cursor-pointer">
+        <span className="material-symbols-outlined text-lg">download</span>
+        Download PDF
+      </button>
+    </div>
+  ))}
 
-<div className="bg-white border border-gray-200 rounded-xl p-6 card-shadow receipt-card-hover transition-all duration-300 group">
-<div className="flex justify-between items-start mb-6">
-<div className="flex items-center gap-3">
-<div className="w-12 h-12 bg-surface-container-high rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-<span className="material-symbols-outlined">apartment</span>
+  {filteredReceipts.length === 0 && (
+    <div className="col-span-1 md:col-span-3 py-12 text-center bg-white rounded-xl border border-gray-200">
+      <p className="text-gray-500 font-medium">No receipts match your selected filters.</p>
+    </div>
+  )}
 </div>
-<div>
-<h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Monthly Rent</h2>
-<p className="text-xs text-outline m-0">Receipt #RF-2024-1001</p>
-</div>
-</div>
-<span className="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Verified</span>
-</div>
-<div className="space-y-3 mb-6">
-<div className="flex justify-between text-sm">
-<span className="text-outline">Date</span>
-<span className="font-medium text-on-surface">Oct 01, 2024</span>
-</div>
-<div className="flex justify-between text-sm">
-<span className="text-outline">Method</span>
-<span className="font-medium text-on-surface">Direct Debit</span>
-</div>
-<div className="flex justify-between items-center pt-2 border-t border-outline-variant/10">
-<span className="text-outline">Amount</span>
-<span className="text-lg font-bold text-primary">$2,450.00</span>
-</div>
-</div>
-<button className="w-full py-2.5 border border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
-<span className="material-symbols-outlined text-lg">download</span>
-                        Download PDF
-                    </button>
-</div>
-
-<div className="bg-white border border-gray-200 rounded-xl p-6 card-shadow receipt-card-hover transition-all duration-300 group">
-<div className="flex justify-between items-start mb-6">
-<div className="flex items-center gap-3">
-<div className="w-12 h-12 bg-surface-container-high rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-<span className="material-symbols-outlined">bolt</span>
-</div>
-<div>
-<h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Utility Package</h2>
-<p className="text-xs text-outline m-0">Receipt #RF-2024-0982</p>
-</div>
-</div>
-<span className="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Verified</span>
-</div>
-<div className="space-y-3 mb-6">
-<div className="flex justify-between text-sm">
-<span className="text-outline">Date</span>
-<span className="font-medium text-on-surface">Sep 15, 2024</span>
-</div>
-<div className="flex justify-between text-sm">
-<span className="text-outline">Method</span>
-<span className="font-medium text-on-surface">Credit Card (Visa)</span>
-</div>
-<div className="flex justify-between items-center pt-2 border-t border-outline-variant/10">
-<span className="text-outline">Amount</span>
-<span className="text-lg font-bold text-primary">$185.00</span>
-</div>
-</div>
-<button className="w-full py-2.5 border border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
-<span className="material-symbols-outlined text-lg">download</span>
-                        Download PDF
-                    </button>
-</div>
-
-<div className="bg-white border border-gray-200 rounded-xl p-6 card-shadow receipt-card-hover transition-all duration-300 group">
-<div className="flex justify-between items-start mb-6">
-<div className="flex items-center gap-3">
-<div className="w-12 h-12 bg-surface-container-high rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-<span className="material-symbols-outlined">apartment</span>
-</div>
-<div>
-<h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Monthly Rent</h2>
-<p className="text-xs text-outline m-0">Receipt #RF-2024-0901</p>
-</div>
-</div>
-<span className="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Verified</span>
-</div>
-<div className="space-y-3 mb-6">
-<div className="flex justify-between text-sm">
-<span className="text-outline">Date</span>
-<span className="font-medium text-on-surface">Sep 01, 2024</span>
-</div>
-<div className="flex justify-between text-sm">
-<span className="text-outline">Method</span>
-<span className="font-medium text-on-surface">Direct Debit</span>
-</div>
-<div className="flex justify-between items-center pt-2 border-t border-outline-variant/10">
-<span className="text-outline">Amount</span>
-<span className="text-lg font-bold text-primary">$2,450.00</span>
-</div>
-</div>
-<button className="w-full py-2.5 border border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
-<span className="material-symbols-outlined text-lg">download</span>
-                        Download PDF
-                    </button>
-</div>
-
-<div className="bg-white border border-gray-200 rounded-xl p-6 card-shadow receipt-card-hover transition-all duration-300 group">
-<div className="flex justify-between items-start mb-6">
-<div className="flex items-center gap-3">
-<div className="w-12 h-12 bg-surface-container-high rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-<span className="material-symbols-outlined">build</span>
-</div>
-<div>
-<h2 className="text-sm font-semibold uppercase text-gray-800 m-0">HVAC Repair</h2>
-<p className="text-xs text-outline m-0">Receipt #RF-2024-0854</p>
-</div>
-</div>
-<span className="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Verified</span>
-</div>
-<div className="space-y-3 mb-6">
-<div className="flex justify-between text-sm">
-<span className="text-outline">Date</span>
-<span className="font-medium text-on-surface">Aug 20, 2024</span>
-</div>
-<div className="flex justify-between text-sm">
-<span className="text-outline">Method</span>
-<span className="font-medium text-on-surface">Manual Pay (Portal)</span>
-</div>
-<div className="flex justify-between items-center pt-2 border-t border-outline-variant/10">
-<span className="text-outline">Amount</span>
-<span className="text-lg font-bold text-primary">$120.00</span>
-</div>
-</div>
-<button className="w-full py-2.5 border border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
-<span className="material-symbols-outlined text-lg">download</span>
-                        Download PDF
-                    </button>
-</div>
-
-<div className="bg-white border border-gray-200 rounded-xl p-6 card-shadow receipt-card-hover transition-all duration-300 group">
-<div className="flex justify-between items-start mb-6">
-<div className="flex items-center gap-3">
-<div className="w-12 h-12 bg-surface-container-high rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-<span className="material-symbols-outlined">apartment</span>
-</div>
-<div>
-<h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Monthly Rent</h2>
-<p className="text-xs text-outline m-0">Receipt #RF-2024-0801</p>
-</div>
-</div>
-<span className="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Verified</span>
-</div>
-<div className="space-y-3 mb-6">
-<div className="flex justify-between text-sm">
-<span className="text-outline">Date</span>
-<span className="font-medium text-on-surface">Aug 01, 2024</span>
-</div>
-<div className="flex justify-between text-sm">
-<span className="text-outline">Method</span>
-<span className="font-medium text-on-surface">Direct Debit</span>
-</div>
-<div className="flex justify-between items-center pt-2 border-t border-outline-variant/10">
-<span className="text-outline">Amount</span>
-<span className="text-lg font-bold text-primary">$2,450.00</span>
-</div>
-</div>
-<button className="w-full py-2.5 border border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
-<span className="material-symbols-outlined text-lg">download</span>
-                        Download PDF
-                    </button>
-</div>
-
-<div className="bg-white border border-gray-300 rounded-xl p-6 card-shadow border-dashed border-2 flex flex-col items-center justify-center text-center group cursor-pointer hover:border-primary/40 transition-colors">
-<div className="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center text-outline group-hover:text-primary mb-4 transition-colors">
-<span className="material-symbols-outlined text-3xl">history_toggle_off</span>
-</div>
-<h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Older Records</h2>
-<p className="text-sm text-gray-600 mt-1 px-8 m-0">Load archived receipts from previous lease terms</p>
-<button className="mt-4 text-primary font-bold flex items-center gap-2 text-sm uppercase tracking-wider">
-                        Request Archive
-                        <span className="material-symbols-outlined text-sm">arrow_forward</span>
-</button>
-</div>
-</div>
-
 
 </div>
 
@@ -281,16 +167,16 @@ const TenantReceipts = () => {
 <p className="text-sm text-gray-600 m-0">If you notice any discrepancies in your receipts or have questions about a payment, please contact the property management office directly through the support portal.</p>
 </div>
 <div className="flex gap-4">
-<button className="px-6 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary-container transition-colors text-sm">
+<button onClick={() => navigate('/tenant/report-issue')} className="px-6 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary-container transition-colors text-sm cursor-pointer border-none">
                         Open Support Ticket
                     </button>
-<button className="px-6 py-2 border border-outline text-on-surface-variant font-semibold rounded-lg hover:bg-white transition-colors text-sm">
+<button onClick={() => navigate('/tenant/report-issue')} className="px-6 py-2 border border-outline text-on-surface-variant font-semibold rounded-lg hover:bg-white transition-colors text-sm cursor-pointer bg-transparent">
                         Contact Manager
                     </button>
 </div>
 </div>
 <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-outline-variant/20 flex flex-col sm:flex-row justify-between items-center text-[10px] text-outline uppercase tracking-widest font-bold">
-<p className="text-[10px] text-outline m-0">© 2024 RentFlow Property Group. All rights reserved.</p>
+<p className="text-[10px] text-outline m-0">© 2026 RentFlow Property Group. All rights reserved.</p>
 <div className="flex gap-6 mt-4 sm:mt-0">
 <a className="hover:text-primary transition-colors" href="#">Privacy Policy</a>
 <a className="hover:text-primary transition-colors" href="#">Terms of Service</a>
