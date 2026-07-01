@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, MessageCircle, Building2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -81,9 +81,9 @@ const Contact = () => {
             className="flex flex-wrap justify-center gap-3 pt-2 text-xs font-medium text-white/70"
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
           >
-            <span className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2">💬 WhatsApp Live Support</span>
-            <span className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2">🏢 Enterprise Onboarding Available</span>
-            <span className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2">📍 HQ: Lekki Phase 1, Lagos</span>
+            <span className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2"><MessageCircle size={15} className="text-emerald-400" /> WhatsApp Live Support</span>
+            <span className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2"><Building2 size={15} className="text-[#E79868]" /> Enterprise Onboarding Available</span>
+            <span className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2"><MapPin size={15} className="text-blue-400" /> HQ: Lekki Phase 1, Lagos</span>
           </motion.div>
         </div>
       </section>

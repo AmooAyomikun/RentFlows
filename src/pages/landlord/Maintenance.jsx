@@ -527,7 +527,7 @@ const Maintenance = () => {
                     <h3 className="text-xs font-bold text-gray-900 m-0 truncate">{provider.name}</h3>
                     <div className="flex items-center justify-between text-xs text-gray-600 mt-1">
                       <span>{provider.jobs}</span>
-                      <span>⭐ {provider.rating}</span>
+                      <span className="inline-flex items-center gap-1"><Star size={12} className="text-amber-500 fill-amber-500" />{provider.rating}</span>
                     </div>
                     <p className="text-[10px] text-gray-500 font-medium m-0 mt-0.5">{provider.response}</p>
                   </div>
@@ -603,8 +603,9 @@ const Maintenance = () => {
                           <span className="text-xs sm:text-sm font-bold text-gray-900 block">{act.property}</span>
                           <span className="text-[10px] text-gray-400 block mt-0.5">{act.unit}</span>
                         </td>
-                        <td className="py-4 px-5 text-xs sm:text-sm font-medium text-gray-700">
-                          <span className="mr-1.5">{act.catIcon}</span>{act.category}
+                        <td className="py-4 px-5 text-xs sm:text-sm font-medium text-gray-700 flex items-center gap-1.5">
+                          <Wrench size={14} className="text-[#0B4F45]" />
+                          <span>{act.category}</span>
                         </td>
                         <td className="py-4 px-5">
                           <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold ${act.statusBg}`}>
@@ -708,7 +709,7 @@ const Maintenance = () => {
                         </div>
                       </div>
                       <div className="text-right shrink-0">
-                        <div className="text-xs font-bold text-amber-600">⭐ {provider.rating}</div>
+                        <div className="text-xs font-bold text-amber-600 inline-flex items-center justify-end gap-1"><Star size={12} className="text-amber-500 fill-amber-500" />{provider.rating}</div>
                         <div className="text-[10px] text-gray-400 font-medium">{provider.response}</div>
                       </div>
                     </div>

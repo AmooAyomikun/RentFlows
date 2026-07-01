@@ -40,7 +40,7 @@ const Testimonials = () => {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#E79868] text-xs font-bold tracking-widest uppercase mb-5 shadow-lg backdrop-blur-md"
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
           >
-            ⭐️ 4.9/5 Average Rating Across 2,400+ Portfolios
+            <Star size={14} className="text-warning fill-warning inline mb-0.5 mr-1" /> 4.9/5 Average Rating Across 2,400+ Portfolios
           </motion.div>
           <motion.h1
             className="font-display text-white font-black tracking-tight leading-[1.08] mb-4"

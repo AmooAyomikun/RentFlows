@@ -496,7 +496,7 @@ const Notifications = ({ role: propRole }) => {
               <div key={evt.key} className="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-gray-50/60 transition-colors">
                 <div className="flex items-start gap-3.5">
                   <div className="w-8 h-8 rounded-xl bg-teal-50 text-[#0B4F45] flex items-center justify-center shrink-0 mt-0.5 font-bold">
-                    💬
+                    <MessageCircle size={16} />
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-[#1B1F1D] m-0">{evt.label}</h4>

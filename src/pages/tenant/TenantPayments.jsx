@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import {
   BarChart3, CheckCircle2, Search, SlidersHorizontal,
-  Download, HelpCircle, ChevronLeft, ChevronRight, Users, PiggyBank, Sparkles, Plus, CheckCircle, ShieldCheck, Lock
+  Download, HelpCircle, ChevronLeft, ChevronRight, Users, PiggyBank, Sparkles, Plus, CheckCircle, ShieldCheck, Lock, FileText
 } from 'lucide-react';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { downloadReceiptDoc } from '../../utils/documentGenerator';
@@ -111,7 +111,8 @@ const TenantPayments = () => {
               activeTab === 'history' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            <span>📜 History & Receipts</span>
+            <FileText size={15} />
+            <span>History & Receipts</span>
           </button>
           <button
             type="button"
@@ -121,7 +122,7 @@ const TenantPayments = () => {
             }`}
           >
             <PiggyBank size={15} className="text-[#C75B30]" />
-            <span>🏦 Ajo Cooperatives</span>
+            <span>Ajo Cooperatives</span>
           </button>
           <button
             type="button"

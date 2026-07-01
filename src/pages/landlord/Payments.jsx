@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { toast } from 'sonner';
 import {
   Banknote, Send, Download, ChevronDown, Filter, MoreVertical,
-  CreditCard, Landmark, Wallet, Calendar, Sliders, X, Check, Plus, PiggyBank, ShieldCheck, Lock, ArrowUpRight, Users
+  CreditCard, Landmark, Wallet, Calendar, Sliders, X, Check, Plus, PiggyBank, ShieldCheck, Lock, ArrowUpRight, Users, TrendingUp
 } from 'lucide-react';
 
 const initialTransactions = [
@@ -449,7 +449,8 @@ const Payments = () => {
             activeTab === 'ledger' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
           }`}
         >
-          <span>📊 Financial Ledger & Analytics</span>
+          <TrendingUp size={15} className="text-[#C75B30]" />
+          <span>Financial Ledger & Analytics</span>
         </button>
         <button
           onClick={() => setActiveTab('instalments')}
@@ -457,7 +458,8 @@ const Payments = () => {
             activeTab === 'instalments' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
           }`}
         >
-          <span>🤝 Split Rent & Instalment Requests</span>
+          <Sliders size={15} className="text-[#C75B30]" />
+          <span>Split Rent & Instalment Requests</span>
           <span className="bg-[#C75B30] text-white px-2 py-0.5 rounded-full text-[10px] font-black">
             {instalmentRequests.filter(r => r.status === 'Pending').length}
           </span>
@@ -469,7 +471,7 @@ const Payments = () => {
           }`}
         >
           <PiggyBank size={15} className="text-[#C75B30]" />
-          <span>🏦 Cooperative & Ajo Escrow</span>
+          <span>Cooperative & Ajo Escrow</span>
           <span className="bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[10px] font-black">
             2 Active Pools
           </span>
@@ -481,7 +483,7 @@ const Payments = () => {
           }`}
         >
           <Landmark size={15} className="text-[#C75B30]" />
-          <span>🔄 Bank Reconciliation Hub</span>
+          <span>Bank Reconciliation Hub</span>
           <span className="bg-amber-600 text-white px-2 py-0.5 rounded-full text-[10px] font-black">
             {reconcileQueue.filter(r => r.status === 'Requires Allocation').length} Unmatched
           </span>

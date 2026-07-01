@@ -302,7 +302,7 @@ const Tenants = () => {
           }`}
         >
           <Scale size={15} className="text-[#C75B30]" />
-          <span>⚖️ Mediation & Dispute Docket</span>
+          <span>Mediation & Dispute Docket</span>
           <span className="bg-[#C75B30] text-white px-2 py-0.5 rounded-full text-[10px] font-black">
             {disputeDocket.filter(d => d.step < 4).length} Active
           </span>

@@ -255,7 +255,8 @@ const TenantPayRent = () => {
                 : 'bg-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            <span>💳 Pay / New Plan</span>
+            <span className="material-symbols-outlined text-sm">credit_card</span>
+            <span>Pay / New Plan</span>
           </button>
           <button
             type="button"
@@ -278,7 +279,8 @@ const TenantPayRent = () => {
                 : 'bg-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            <span>🏦 Bank Transfer & Reconciliation</span>
+            <span className="material-symbols-outlined text-sm">account_balance</span>
+            <span>Bank Transfer & Reconciliation</span>
           </button>
         </div>
       </div>
