@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import {
@@ -21,6 +22,7 @@ const initialDirectoryRows = [
     statusBg: 'bg-[#bae9df]/30',
     statusText: 'text-[#0b4f45]',
     dotBg: 'bg-[#0b4f45]',
+    repScore: 890,
   },
   {
     id: 't2',
@@ -35,6 +37,7 @@ const initialDirectoryRows = [
     statusBg: 'bg-[#ffdad6]/40',
     statusText: 'text-[#ba1a1a]',
     dotBg: 'bg-[#ba1a1a]',
+    repScore: 680,
   },
   {
     id: 't3',
@@ -49,6 +52,7 @@ const initialDirectoryRows = [
     statusBg: 'bg-[#ffdbcf]/40',
     statusText: 'text-[#7f2800]',
     dotBg: 'bg-[#7f2800]',
+    repScore: 745,
   },
   {
     id: 't4',
@@ -63,6 +67,7 @@ const initialDirectoryRows = [
     statusBg: 'bg-[#bae9df]/30',
     statusText: 'text-[#0b4f45]',
     dotBg: 'bg-[#0b4f45]',
+    repScore: 920,
   },
   {
     id: 't5',
@@ -77,6 +82,7 @@ const initialDirectoryRows = [
     statusBg: 'bg-[#bae9df]/30',
     statusText: 'text-[#0b4f45]',
     dotBg: 'bg-[#0b4f45]',
+    repScore: 850,
   },
   {
     id: 't6',
@@ -91,6 +97,7 @@ const initialDirectoryRows = [
     statusBg: 'bg-[#ffdad6]/40',
     statusText: 'text-[#ba1a1a]',
     dotBg: 'bg-[#ba1a1a]',
+    repScore: 610,
   },
 ];
 
@@ -261,7 +268,7 @@ const Tenants = () => {
           <table className="w-full border-collapse text-left min-w-[650px]">
             <thead>
               <tr className="bg-[#f1f4f1] border-b border-[#e0e3e0]">
-                {['Tenant', 'Property / Unit', 'Lease Term', 'Monthly Rent', 'Status', 'Actions'].map(h => (
+                {['Tenant', 'Property / Unit', 'Lease Term', 'Monthly Rent', 'Status', 'Trust Score', 'Actions'].map(h => (
                   <th key={h} className="p-4 text-xs font-semibold uppercase tracking-wider text-[#404946]">{h}</th>
                 ))}
               </tr>
@@ -269,7 +276,7 @@ const Tenants = () => {
             <tbody className="divide-y divide-[#e0e3e0]">
               {paginatedRows.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="p-8 text-center text-[#404946] font-medium">
+                  <td colSpan="7" className="p-8 text-center text-[#404946] font-medium">
                     No tenants match your current search or filter criteria.
                   </td>
                 </tr>
@@ -299,6 +306,15 @@ const Tenants = () => {
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${row.statusBg} ${row.statusText}`}>
                         <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${row.dotBg}`} />
                         {row.status}
+                      </span>
+                    </td>
+                    <td className="p-4 font-mono font-bold text-xs" onClick={e => e.stopPropagation()}>
+                      <span className={`px-2.5 py-1 rounded-lg border flex items-center gap-1 w-fit ${
+                        (row.repScore || 800) >= 800
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                          : 'bg-amber-50 text-amber-800 border-amber-200'
+                      }`}>
+                        <span>★ {row.repScore || 800}</span>
                       </span>
                     </td>
                     <td className="p-4 text-right" onClick={e => e.stopPropagation()}>
@@ -401,252 +417,258 @@ const Tenants = () => {
         </div>
       </div>
 
-      {/* MODAL 1: Filter Options */}
-      {showFilterModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-              <h3 className="text-lg font-bold text-gray-900 m-0">Filter Tenant Directory</h3>
-              <button onClick={() => setShowFilterModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-2">Payment Status</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {['All', 'On Time', 'Late', 'Grace Period'].map(status => (
-                    <button
-                      key={status}
-                      onClick={() => { setStatusFilter(status); setCurrentPage(1); }}
-                      className={`py-2.5 px-3 rounded-xl text-xs font-bold border cursor-pointer transition-all ${statusFilter === status ? 'bg-[#00372f] text-white border-[#00372f] shadow-sm' : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'}`}
-                    >
-                      {status}
-                    </button>
-                  ))}
+      {/* MODALS */}
+      {typeof document !== 'undefined' && createPortal(
+        <>
+          {/* MODAL 1: Filter Options */}
+          {showFilterModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                  <h3 className="text-lg font-bold text-gray-900 m-0">Filter Tenant Directory</h3>
+                  <button onClick={() => setShowFilterModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
                 </div>
-              </div>
-            </div>
-            <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end gap-2">
-              <button
-                onClick={() => { setStatusFilter('All'); setCurrentPage(1); setShowFilterModal(false); toast.info('Filters reset.'); }}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border-none bg-transparent cursor-pointer"
-              >
-                Reset
-              </button>
-              <button
-                onClick={() => { setShowFilterModal(false); toast.success(`Filter applied: ${statusFilter}`); }}
-                className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer shadow-sm"
-              >
-                Apply Filter
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL 2: Sort Options */}
-      {showSortModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-              <h3 className="text-lg font-bold text-gray-900 m-0">Sort Directory</h3>
-              <button onClick={() => setShowSortModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-2">Sort By</label>
-                <div className="flex flex-col gap-2">
-                  {[
-                    { key: 'name', label: 'Tenant Name (Alphabetical)' },
-                    { key: 'rent', label: 'Monthly Rent Amount' },
-                    { key: 'status', label: 'Payment Status' }
-                  ].map(item => (
-                    <button
-                      key={item.key}
-                      onClick={() => setSortBy(item.key)}
-                      className={`flex items-center justify-between p-3 rounded-xl text-xs font-bold border cursor-pointer transition-all ${sortBy === item.key ? 'bg-teal-50 border-teal-500 text-teal-900' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'}`}
-                    >
-                      <span>{item.label}</span>
-                      {sortBy === item.key && <Check size={16} className="text-teal-600" />}
-                    </button>
-                  ))}
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold uppercase text-gray-500 mb-2">Payment Status</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {['All', 'On Time', 'Late', 'Grace Period'].map(status => (
+                        <button
+                          key={status}
+                          onClick={() => { setStatusFilter(status); setCurrentPage(1); }}
+                          className={`py-2.5 px-3 rounded-xl text-xs font-bold border cursor-pointer transition-all ${statusFilter === status ? 'bg-[#00372f] text-white border-[#00372f] shadow-sm' : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'}`}
+                        >
+                          {status}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-2">Order</label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end gap-2">
                   <button
-                    onClick={() => setSortOrder('asc')}
-                    className={`py-2 rounded-xl text-xs font-bold border cursor-pointer ${sortOrder === 'asc' ? 'bg-[#00372f] text-white border-[#00372f]' : 'bg-gray-50 text-gray-700 border-gray-200'}`}
+                    onClick={() => { setStatusFilter('All'); setCurrentPage(1); setShowFilterModal(false); toast.info('Filters reset.'); }}
+                    className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border-none bg-transparent cursor-pointer"
                   >
-                    Ascending (A-Z / Low-High)
+                    Reset
                   </button>
                   <button
-                    onClick={() => setSortOrder('desc')}
-                    className={`py-2 rounded-xl text-xs font-bold border cursor-pointer ${sortOrder === 'desc' ? 'bg-[#00372f] text-white border-[#00372f]' : 'bg-gray-50 text-gray-700 border-gray-200'}`}
+                    onClick={() => { setShowFilterModal(false); toast.success(`Filter applied: ${statusFilter}`); }}
+                    className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer shadow-sm"
                   >
-                    Descending (Z-A / High-Low)
+                    Apply Filter
                   </button>
                 </div>
               </div>
             </div>
-            <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end">
-              <button
-                onClick={() => { setShowSortModal(false); toast.success(`Directory sorted by ${sortBy} (${sortOrder})`); }}
-                className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer shadow-sm"
-              >
-                Done
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+          )}
 
-      {/* MODAL 3: View All Active Applications */}
-      {showAllAppsModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-gray-100 max-h-[80vh] flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4 shrink-0">
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 m-0">All Active Applications</h3>
-                <p className="text-xs text-gray-500 m-0 mt-0.5">Reviewing prospective tenants undergoing screening</p>
-              </div>
-              <button onClick={() => setShowAllAppsModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="overflow-y-auto space-y-3 pr-1 flex-1">
-              {mockApplications.map(app => (
-                <div key={app.id} className="flex items-center justify-between gap-4 p-3.5 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all border border-gray-200/60">
-                  <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="w-10 h-10 rounded-full bg-[#00372f] text-white font-bold flex items-center justify-center shrink-0 shadow-sm">
-                      {app.name.split(' ').map(n => n[0]).join('')}
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-sm font-bold text-[#181c1a] truncate leading-tight">{app.name}</h4>
-                      <p className="text-xs font-medium text-[#404946] truncate mt-0.5">{app.unit}</p>
+          {/* MODAL 2: Sort Options */}
+          {showSortModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                  <h3 className="text-lg font-bold text-gray-900 m-0">Sort Directory</h3>
+                  <button onClick={() => setShowSortModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold uppercase text-gray-500 mb-2">Sort By</label>
+                    <div className="flex flex-col gap-2">
+                      {[
+                        { key: 'name', label: 'Tenant Name (Alphabetical)' },
+                        { key: 'rent', label: 'Monthly Rent Amount' },
+                        { key: 'status', label: 'Payment Status' }
+                      ].map(item => (
+                        <button
+                          key={item.key}
+                          onClick={() => setSortBy(item.key)}
+                          className={`flex items-center justify-between p-3 rounded-xl text-xs font-bold border cursor-pointer transition-all ${sortBy === item.key ? 'bg-teal-50 border-teal-500 text-teal-900' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'}`}
+                        >
+                          <span>{item.label}</span>
+                          {sortBy === item.key && <Check size={16} className="text-teal-600" />}
+                        </button>
+                      ))}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="inline-flex items-center px-2.5 py-1 bg-[#bae9df]/30 text-[#0b4f45] rounded-md text-[11px] font-bold">Credit: {app.credit}</span>
-                    <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold ${app.bg === 'Clear' ? 'bg-[#bae9df]/30 text-[#0b4f45]' : 'bg-[#e6e9e5] text-[#404946]'}`}>Background: {app.bg}</span>
+                  <div>
+                    <label className="block text-xs font-bold uppercase text-gray-500 mb-2">Order</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => setSortOrder('asc')}
+                        className={`py-2 rounded-xl text-xs font-bold border cursor-pointer ${sortOrder === 'asc' ? 'bg-[#00372f] text-white border-[#00372f]' : 'bg-gray-50 text-gray-700 border-gray-200'}`}
+                      >
+                        Ascending (A-Z / Low-High)
+                      </button>
+                      <button
+                        onClick={() => setSortOrder('desc')}
+                        className={`py-2 rounded-xl text-xs font-bold border cursor-pointer ${sortOrder === 'desc' ? 'bg-[#00372f] text-white border-[#00372f]' : 'bg-gray-50 text-gray-700 border-gray-200'}`}
+                      >
+                        Descending (Z-A / High-Low)
+                      </button>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end shrink-0">
-              <button onClick={() => setShowAllAppsModal(false)} className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer">
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL 4: Reply Message */}
-      {showReplyModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 m-0">Reply to Nneka Okafor</h3>
-                <p className="text-xs text-gray-500 m-0 mt-0.5">Victoria Island Towers, #4B</p>
-              </div>
-              <button onClick={() => setShowReplyModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="bg-gray-50 p-3 rounded-xl border border-gray-200 mb-4 text-xs text-gray-600 italic">
-              "Question regarding the upcoming maintenance schedule for the generator plant..."
-            </div>
-            <textarea
-              rows="4"
-              value={replyMessage}
-              onChange={e => setReplyMessage(e.target.value)}
-              placeholder="Type your response here..."
-              className="w-full p-3 text-sm bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-[#00372f] resize-none text-gray-900 placeholder:text-gray-400 mb-4"
-            />
-            <div className="flex justify-end gap-2">
-              <button onClick={() => setShowReplyModal(false)} className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border-none bg-transparent cursor-pointer">
-                Cancel
-              </button>
-              <button onClick={handleSendReply} className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer flex items-center gap-2 shadow-sm">
-                <Send size={14} /> Send Message
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Tenant Quick Actions Modal */}
-      {selectedTenantAction && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fadeIn">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-gray-100 flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-              <div className="flex items-center gap-3">
-                {selectedTenantAction.isInitials ? (
-                  <div className="w-10 h-10 rounded-full bg-[#7f2800] text-white text-sm font-bold flex items-center justify-center shrink-0">
-                    {selectedTenantAction.avatar}
-                  </div>
-                ) : (
-                  <img src={selectedTenantAction.avatar} alt={selectedTenantAction.name} className="w-10 h-10 rounded-full object-cover shrink-0 border border-gray-200" />
-                )}
-                <div>
-                  <h3 className="text-base font-bold text-gray-900 m-0 leading-snug">{selectedTenantAction.name}</h3>
-                  <p className="text-xs text-gray-500 m-0 mt-0.5">{selectedTenantAction.propertyUnit}</p>
+                <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end">
+                  <button
+                    onClick={() => { setShowSortModal(false); toast.success(`Directory sorted by ${sortBy} (${sortOrder})`); }}
+                    className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer shadow-sm"
+                  >
+                    Done
+                  </button>
                 </div>
               </div>
-              <button onClick={() => setSelectedTenantAction(null)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
             </div>
+          )}
 
-            <div className="space-y-2">
-              <button
-                onClick={() => {
-                  const id = selectedTenantAction.id;
-                  setSelectedTenantAction(null);
-                  navigate(`/landlord/tenants/${id}`);
-                }}
-                className="w-full p-3 rounded-xl bg-gray-50 hover:bg-[#00372f] text-gray-800 hover:text-white font-bold text-xs transition-all flex items-center gap-3 border border-gray-200/80 hover:border-[#00372f] cursor-pointer"
-              >
-                <Eye size={16} /> View Full Profile & History
-              </button>
-
-              <button
-                onClick={() => {
-                  toast.success(`Payment reminder sent to ${selectedTenantAction.name} via SMS & Email.`);
-                  setSelectedTenantAction(null);
-                }}
-                className="w-full p-3 rounded-xl bg-gray-50 hover:bg-[#00372f] text-gray-800 hover:text-white font-bold text-xs transition-all flex items-center gap-3 border border-gray-200/80 hover:border-[#00372f] cursor-pointer"
-              >
-                <Bell size={16} /> Send Payment Reminder
-              </button>
-
-              <button
-                onClick={() => {
-                  setSelectedTenantAction(null);
-                  navigate('/landlord/maintenance');
-                }}
-                className="w-full p-3 rounded-xl bg-gray-50 hover:bg-[#00372f] text-gray-800 hover:text-white font-bold text-xs transition-all flex items-center gap-3 border border-gray-200/80 hover:border-[#00372f] cursor-pointer"
-              >
-                <Wrench size={16} /> Log Maintenance Request
-              </button>
+          {/* MODAL 3: View All Active Applications */}
+          {showAllAppsModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-gray-100 max-h-[80vh] flex flex-col">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4 shrink-0">
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 m-0">All Active Applications</h3>
+                    <p className="text-xs text-gray-500 m-0 mt-0.5">Reviewing prospective tenants undergoing screening</p>
+                  </div>
+                  <button onClick={() => setShowAllAppsModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+                <div className="overflow-y-auto space-y-3 pr-1 flex-1">
+                  {mockApplications.map(app => (
+                    <div key={app.id} className="flex items-center justify-between gap-4 p-3.5 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all border border-gray-200/60">
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        <div className="w-10 h-10 rounded-full bg-[#00372f] text-white font-bold flex items-center justify-center shrink-0 shadow-sm">
+                          {app.name.split(' ').map(n => n[0]).join('')}
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="text-sm font-bold text-[#181c1a] truncate leading-tight">{app.name}</h4>
+                          <p className="text-xs font-medium text-[#404946] truncate mt-0.5">{app.unit}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="inline-flex items-center px-2.5 py-1 bg-[#bae9df]/30 text-[#0b4f45] rounded-md text-[11px] font-bold">Credit: {app.credit}</span>
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold ${app.bg === 'Clear' ? 'bg-[#bae9df]/30 text-[#0b4f45]' : 'bg-[#e6e9e5] text-[#404946]'}`}>Background: {app.bg}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end shrink-0">
+                  <button onClick={() => setShowAllAppsModal(false)} className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer">
+                    Close
+                  </button>
+                </div>
+              </div>
             </div>
+          )}
 
-            <div className="pt-4 mt-4 border-t border-gray-100 flex justify-end">
-              <button
-                onClick={() => setSelectedTenantAction(null)}
-                className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs transition-colors cursor-pointer border-none"
-              >
-                Close
-              </button>
+          {/* MODAL 4: Reply Message */}
+          {showReplyModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 m-0">Reply to Nneka Okafor</h3>
+                    <p className="text-xs text-gray-500 m-0 mt-0.5">Victoria Island Towers, #4B</p>
+                  </div>
+                  <button onClick={() => setShowReplyModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-xl border border-gray-200 mb-4 text-xs text-gray-600 italic">
+                  "Question regarding the upcoming maintenance schedule for the generator plant..."
+                </div>
+                <textarea
+                  rows="4"
+                  value={replyMessage}
+                  onChange={e => setReplyMessage(e.target.value)}
+                  placeholder="Type your response here..."
+                  className="w-full p-3 text-sm bg-white border border-gray-300 rounded-xl focus:outline-none focus:border-[#00372f] resize-none text-gray-900 placeholder:text-gray-400 mb-4"
+                />
+                <div className="flex justify-end gap-2">
+                  <button onClick={() => setShowReplyModal(false)} className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border-none bg-transparent cursor-pointer">
+                    Cancel
+                  </button>
+                  <button onClick={handleSendReply} className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer flex items-center gap-2 shadow-sm">
+                    <Send size={14} /> Send Message
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+
+          {/* Tenant Quick Actions Modal */}
+          {selectedTenantAction && (
+            <div className="fixed inset-0 bg-black/60 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fadeIn">
+              <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-gray-100 flex flex-col">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                  <div className="flex items-center gap-3">
+                    {selectedTenantAction.isInitials ? (
+                      <div className="w-10 h-10 rounded-full bg-[#7f2800] text-white text-sm font-bold flex items-center justify-center shrink-0">
+                        {selectedTenantAction.avatar}
+                      </div>
+                    ) : (
+                      <img src={selectedTenantAction.avatar} alt={selectedTenantAction.name} className="w-10 h-10 rounded-full object-cover shrink-0 border border-gray-200" />
+                    )}
+                    <div>
+                      <h3 className="text-base font-bold text-gray-900 m-0 leading-snug">{selectedTenantAction.name}</h3>
+                      <p className="text-xs text-gray-500 m-0 mt-0.5">{selectedTenantAction.propertyUnit}</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setSelectedTenantAction(null)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+
+                <div className="space-y-2">
+                  <button
+                    onClick={() => {
+                      const id = selectedTenantAction.id;
+                      setSelectedTenantAction(null);
+                      navigate(`/landlord/tenants/${id}`);
+                    }}
+                    className="w-full p-3 rounded-xl bg-gray-50 hover:bg-[#00372f] text-gray-800 hover:text-white font-bold text-xs transition-all flex items-center gap-3 border border-gray-200/80 hover:border-[#00372f] cursor-pointer"
+                  >
+                    <Eye size={16} /> View Full Profile & History
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      toast.success(`Payment reminder sent to ${selectedTenantAction.name} via SMS & Email.`);
+                      setSelectedTenantAction(null);
+                    }}
+                    className="w-full p-3 rounded-xl bg-gray-50 hover:bg-[#00372f] text-gray-800 hover:text-white font-bold text-xs transition-all flex items-center gap-3 border border-gray-200/80 hover:border-[#00372f] cursor-pointer"
+                  >
+                    <Bell size={16} /> Send Payment Reminder
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setSelectedTenantAction(null);
+                      navigate('/landlord/maintenance');
+                    }}
+                    className="w-full p-3 rounded-xl bg-gray-50 hover:bg-[#00372f] text-gray-800 hover:text-white font-bold text-xs transition-all flex items-center gap-3 border border-gray-200/80 hover:border-[#00372f] cursor-pointer"
+                  >
+                    <Wrench size={16} /> Log Maintenance Request
+                  </button>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-gray-100 flex justify-end">
+                  <button
+                    onClick={() => setSelectedTenantAction(null)}
+                    className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs transition-colors cursor-pointer border-none"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </>,
+        document.body
       )}
     </div>
   );

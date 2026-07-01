@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { toast } from 'sonner';
 import {
   ClipboardList, Clock, Banknote, AlertTriangle, ArrowRight, MoreHorizontal,
@@ -636,284 +637,289 @@ const Maintenance = () => {
         </div>
       </div>
 
-      {showFullBoardModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl border border-gray-100 max-h-[85vh] flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4 shrink-0">
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 m-0">Full Maintenance Kanban Board</h3>
-                <p className="text-xs text-gray-500 m-0 mt-0.5">Showing all 148 work orders across Received, In-Progress, and Completed</p>
-              </div>
-              <button onClick={() => setShowFullBoardModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto pr-1 flex-1">
-              {columns.map(col => (
-                <div key={col.id} className="bg-gray-50 p-4 rounded-xl border border-gray-200/60 flex flex-col gap-3">
-                  <div className="flex items-center gap-2 font-black text-xs text-gray-800 pb-2 border-b border-gray-200">
-                    <span className={`w-2 h-2 rounded-full ${col.dotColor}`} />
-                    <span>{col.title} ({col.count} items)</span>
+      {typeof document !== 'undefined' && createPortal(
+        <>
+          {showFullBoardModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl border border-gray-100 max-h-[85vh] flex flex-col">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4 shrink-0">
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 m-0">Full Maintenance Kanban Board</h3>
+                    <p className="text-xs text-gray-500 m-0 mt-0.5">Showing all 148 work orders across Received, In-Progress, and Completed</p>
                   </div>
-                  {col.items.map(card => (
-                    <div key={card.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs">
-                      <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-1">
-                        <span className={card.urgent ? 'text-rose-600 font-black' : ''}>{card.tag}</span>
-                        <span>{card.code}</span>
+                  <button onClick={() => setShowFullBoardModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto pr-1 flex-1">
+                  {columns.map(col => (
+                    <div key={col.id} className="bg-gray-50 p-4 rounded-xl border border-gray-200/60 flex flex-col gap-3">
+                      <div className="flex items-center gap-2 font-black text-xs text-gray-800 pb-2 border-b border-gray-200">
+                        <span className={`w-2 h-2 rounded-full ${col.dotColor}`} />
+                        <span>{col.title} ({col.count} items)</span>
                       </div>
-                      <div className="text-xs font-bold text-gray-900 leading-tight">{card.title}</div>
-                      <div className="text-[11px] text-gray-500 mt-1">{card.location}</div>
-                    </div>
-                  ))}
-                  <div className="text-center py-2 text-xs font-bold text-gray-400 italic">
-                    + {col.count - col.items.length} more tickets...
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end shrink-0">
-              <button onClick={() => setShowFullBoardModal(false)} className="px-5 py-2 rounded-xl text-xs font-bold bg-[#0B4F45] text-white hover:bg-[#073831] border-none cursor-pointer">
-                Close View
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showContractorsModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-gray-100 max-h-[80vh] flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4 shrink-0">
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 m-0">Verified Service Contractors</h3>
-                <p className="text-xs text-gray-500 m-0 mt-0.5">Licensed Nigerian artisans and engineering firms</p>
-              </div>
-              <button onClick={() => setShowContractorsModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="overflow-y-auto space-y-3 pr-1 flex-1">
-              {allContractors.map((provider, idx) => (
-                <div key={idx} className="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 border border-gray-200/80">
-                  <div className="flex items-center gap-3.5 min-w-0">
-                    <div className={`w-10 h-10 rounded-xl ${provider.iconBg} flex items-center justify-center shrink-0`}>
-                      <provider.icon size={18} />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-sm font-bold text-gray-900 m-0 truncate">{provider.name}</h4>
-                      <p className="text-xs text-gray-500 m-0 mt-0.5">{provider.jobs}</p>
-                    </div>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <div className="text-xs font-bold text-amber-600">⭐ {provider.rating}</div>
-                    <div className="text-[10px] text-gray-400 font-medium">{provider.response}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end shrink-0">
-              <button onClick={() => setShowContractorsModal(false)} className="px-5 py-2 rounded-xl text-xs font-bold bg-[#0B4F45] text-white hover:bg-[#073831] border-none cursor-pointer">
-                Done
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showNewOrderModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-              <h3 className="text-lg font-bold text-gray-900 m-0">Create New Work Order</h3>
-              <button onClick={() => setShowNewOrderModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
-            </div>
-            <form onSubmit={handleCreateOrder} className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Issue / Title</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Broken Water Pipe / Aircon Malfunction"
-                  value={orderForm.title}
-                  onChange={e => setOrderForm({ ...orderForm, title: e.target.value })}
-                  className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#C75B30]"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Property • Unit</label>
-                <input
-                  type="text"
-                  required
-                  list="property-units-list"
-                  placeholder="Type or select property • unit..."
-                  value={orderForm.propertyUnit}
-                  onChange={e => setOrderForm({ ...orderForm, propertyUnit: e.target.value })}
-                  className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#C75B30]"
-                />
-                <datalist id="property-units-list">
-                  {propertyUnitsList.map((pu, idx) => (
-                    <option key={idx} value={pu} />
-                  ))}
-                </datalist>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Category</label>
-                  <select
-                    value={orderForm.category}
-                    onChange={e => setOrderForm({ ...orderForm, category: e.target.value })}
-                    className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#C75B30] bg-white cursor-pointer"
-                  >
-                    <option value="Plumbing">Plumbing</option>
-                    <option value="Electrical">Electrical</option>
-                    <option value="HVAC / Aircon">HVAC / Aircon</option>
-                    <option value="Carpentry">Carpentry</option>
-                    <option value="Painting">Painting</option>
-                    <option value="Appliance Repair">Appliance Repair</option>
-                    <option value="Pest Control">Pest Control</option>
-                    <option value="Roofing / Leak">Roofing / Leak</option>
-                    <option value="Security">Security</option>
-                    <option value="General">General</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Priority</label>
-                  <select
-                    value={orderForm.priority}
-                    onChange={e => setOrderForm({ ...orderForm, priority: e.target.value })}
-                    className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#C75B30] bg-white cursor-pointer"
-                  >
-                    <option>Normal</option>
-                    <option>Urgent</option>
-                  </select>
-                </div>
-              </div>
-              <div className="pt-4 border-t border-gray-100 flex justify-end gap-2">
-                <button type="button" onClick={() => setShowNewOrderModal(false)} className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border-none bg-transparent cursor-pointer">
-                  Cancel
-                </button>
-                <button type="submit" className="px-5 py-2 rounded-xl text-xs font-bold bg-[#C75B30] hover:bg-[#b5522b] text-white border-none cursor-pointer shadow-sm flex items-center gap-1.5">
-                  <Plus size={14} strokeWidth={3} /> Dispatch Order
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Work Order Details Modal */}
-      {selectedOrder && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fadeIn">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-              <div className="flex items-center gap-2.5">
-                <span className="text-sm font-mono font-black text-[#0B4F45] bg-teal-50 px-2.5 py-1 rounded-lg">{selectedOrder.code}</span>
-                <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${selectedOrder.statusBg}`}>{selectedOrder.status}</span>
-              </div>
-              <button onClick={() => setSelectedOrder(null)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider block">Issue Title</span>
-                <h3 className="text-lg font-bold text-gray-900 m-0 mt-0.5">{selectedOrder.title}</h3>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 p-3.5 bg-gray-50/80 rounded-xl border border-gray-100">
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-gray-400 block">Property / Location</span>
-                  <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.location}</span>
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-gray-400 block">Reported / Updated</span>
-                  <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.date}</span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 p-3.5 bg-gray-50/80 rounded-xl border border-gray-100">
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-gray-400 block">Assigned Contractor</span>
-                  {(selectedOrder.colId === 'received' || selectedOrder.status === 'Received' || selectedOrder.status === 'Pending Assign') ? (
-                    <select
-                      value={(selectedOrder.contractor === 'Unassigned' || selectedOrder.contractor.includes('Tenant')) ? 'Precision Plumbing Lagos' : selectedOrder.contractor}
-                      onChange={e => setSelectedOrder({ ...selectedOrder, contractor: e.target.value })}
-                      className="mt-1 w-full p-2 text-xs font-bold border border-gray-300 rounded-lg bg-white text-[#0B4F45] focus:outline-none focus:border-[#0B4F45] cursor-pointer shadow-2xs"
-                    >
-                      {allContractors.map((c, idx) => (
-                        <option key={idx} value={c.name}>{c.name}</option>
+                      {col.items.map(card => (
+                        <div key={card.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs">
+                          <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-1">
+                            <span className={card.urgent ? 'text-rose-600 font-black' : ''}>{card.tag}</span>
+                            <span>{card.code}</span>
+                          </div>
+                          <div className="text-xs font-bold text-gray-900 leading-tight">{card.title}</div>
+                          <div className="text-[11px] text-gray-500 mt-1">{card.location}</div>
+                        </div>
                       ))}
-                      <option value="Segun Adebayo (Plumber)">Segun Adebayo (Plumber)</option>
-                      <option value="Chinedu Okafor (Electrician)">Chinedu Okafor (Electrician)</option>
-                      <option value="Tunde Bakare (HVAC Tech)">Tunde Bakare (HVAC Tech)</option>
-                    </select>
-                  ) : (
-                    <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.contractor}</span>
+                      <div className="text-center py-2 text-xs font-bold text-gray-400 italic">
+                        + {col.count - col.items.length} more tickets...
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end shrink-0">
+                  <button onClick={() => setShowFullBoardModal(false)} className="px-5 py-2 rounded-xl text-xs font-bold bg-[#0B4F45] text-white hover:bg-[#073831] border-none cursor-pointer">
+                    Close View
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {showContractorsModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-gray-100 max-h-[80vh] flex flex-col">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4 shrink-0">
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 m-0">Verified Service Contractors</h3>
+                    <p className="text-xs text-gray-500 m-0 mt-0.5">Licensed Nigerian artisans and engineering firms</p>
+                  </div>
+                  <button onClick={() => setShowContractorsModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+                <div className="overflow-y-auto space-y-3 pr-1 flex-1">
+                  {allContractors.map((provider, idx) => (
+                    <div key={idx} className="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 border border-gray-200/80">
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        <div className={`w-10 h-10 rounded-xl ${provider.iconBg} flex items-center justify-center shrink-0`}>
+                          <provider.icon size={18} />
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="text-sm font-bold text-gray-900 m-0 truncate">{provider.name}</h4>
+                          <p className="text-xs text-gray-500 m-0 mt-0.5">{provider.jobs}</p>
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <div className="text-xs font-bold text-amber-600">⭐ {provider.rating}</div>
+                        <div className="text-[10px] text-gray-400 font-medium">{provider.response}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end shrink-0">
+                  <button onClick={() => setShowContractorsModal(false)} className="px-5 py-2 rounded-xl text-xs font-bold bg-[#0B4F45] text-white hover:bg-[#073831] border-none cursor-pointer">
+                    Done
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {showNewOrderModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                  <h3 className="text-lg font-bold text-gray-900 m-0">Create New Work Order</h3>
+                  <button onClick={() => setShowNewOrderModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+                <form onSubmit={handleCreateOrder} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Issue / Title</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Broken Water Pipe / Aircon Malfunction"
+                      value={orderForm.title}
+                      onChange={e => setOrderForm({ ...orderForm, title: e.target.value })}
+                      className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#C75B30]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Property • Unit</label>
+                    <input
+                      type="text"
+                      required
+                      list="property-units-list"
+                      placeholder="Type or select property • unit..."
+                      value={orderForm.propertyUnit}
+                      onChange={e => setOrderForm({ ...orderForm, propertyUnit: e.target.value })}
+                      className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#C75B30]"
+                    />
+                    <datalist id="property-units-list">
+                      {propertyUnitsList.map((pu, idx) => (
+                        <option key={idx} value={pu} />
+                      ))}
+                    </datalist>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Category</label>
+                      <select
+                        value={orderForm.category}
+                        onChange={e => setOrderForm({ ...orderForm, category: e.target.value })}
+                        className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#C75B30] bg-white cursor-pointer"
+                      >
+                        <option value="Plumbing">Plumbing</option>
+                        <option value="Electrical">Electrical</option>
+                        <option value="HVAC / Aircon">HVAC / Aircon</option>
+                        <option value="Carpentry">Carpentry</option>
+                        <option value="Painting">Painting</option>
+                        <option value="Appliance Repair">Appliance Repair</option>
+                        <option value="Pest Control">Pest Control</option>
+                        <option value="Roofing / Leak">Roofing / Leak</option>
+                        <option value="Security">Security</option>
+                        <option value="General">General</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Priority</label>
+                      <select
+                        value={orderForm.priority}
+                        onChange={e => setOrderForm({ ...orderForm, priority: e.target.value })}
+                        className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#C75B30] bg-white cursor-pointer"
+                      >
+                        <option>Normal</option>
+                        <option>Urgent</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="pt-4 border-t border-gray-100 flex justify-end gap-2">
+                    <button type="button" onClick={() => setShowNewOrderModal(false)} className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border-none bg-transparent cursor-pointer">
+                      Cancel
+                    </button>
+                    <button type="submit" className="px-5 py-2 rounded-xl text-xs font-bold bg-[#C75B30] hover:bg-[#b5522b] text-white border-none cursor-pointer shadow-sm flex items-center gap-1.5">
+                      <Plus size={14} strokeWidth={3} /> Dispatch Order
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Work Order Details Modal */}
+          {selectedOrder && (
+            <div className="fixed inset-0 bg-black/60 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fadeIn">
+              <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 flex flex-col">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-sm font-mono font-black text-[#0B4F45] bg-teal-50 px-2.5 py-1 rounded-lg">{selectedOrder.code}</span>
+                    <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${selectedOrder.statusBg}`}>{selectedOrder.status}</span>
+                  </div>
+                  <button onClick={() => setSelectedOrder(null)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider block">Issue Title</span>
+                    <h3 className="text-lg font-bold text-gray-900 m-0 mt-0.5">{selectedOrder.title}</h3>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 p-3.5 bg-gray-50/80 rounded-xl border border-gray-100">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-gray-400 block">Property / Location</span>
+                      <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.location}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-gray-400 block">Reported / Updated</span>
+                      <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.date}</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 p-3.5 bg-gray-50/80 rounded-xl border border-gray-100">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-gray-400 block">Assigned Contractor</span>
+                      {(selectedOrder.colId === 'received' || selectedOrder.status === 'Received' || selectedOrder.status === 'Pending Assign') ? (
+                        <select
+                          value={(selectedOrder.contractor === 'Unassigned' || selectedOrder.contractor.includes('Tenant')) ? 'Precision Plumbing Lagos' : selectedOrder.contractor}
+                          onChange={e => setSelectedOrder({ ...selectedOrder, contractor: e.target.value })}
+                          className="mt-1 w-full p-2 text-xs font-bold border border-gray-300 rounded-lg bg-white text-[#0B4F45] focus:outline-none focus:border-[#0B4F45] cursor-pointer shadow-2xs"
+                        >
+                          {allContractors.map((c, idx) => (
+                            <option key={idx} value={c.name}>{c.name}</option>
+                          ))}
+                          <option value="Segun Adebayo (Plumber)">Segun Adebayo (Plumber)</option>
+                          <option value="Chinedu Okafor (Electrician)">Chinedu Okafor (Electrician)</option>
+                          <option value="Tunde Bakare (HVAC Tech)">Tunde Bakare (HVAC Tech)</option>
+                        </select>
+                      ) : (
+                        <span className="text-xs font-bold text-gray-800 mt-0.5 block">{selectedOrder.contractor}</span>
+                      )}
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-gray-400 block">Estimated Cost</span>
+                      <span className="text-xs font-black text-[#0B4F45] font-mono mt-0.5 block">₦85,000</span>
+                    </div>
+                  </div>
+
+                  {(selectedOrder.colId === 'received' || selectedOrder.status === 'Received' || selectedOrder.status === 'Pending Assign') && (
+                    <div className="p-3.5 bg-amber-50 rounded-xl border border-amber-200/80 flex items-start gap-2.5">
+                      <UserPlus size={18} className="text-amber-600 shrink-0 mt-0.5" />
+                      <div className="text-xs text-amber-900">
+                        <span className="font-bold block mb-0.5">Select Contractor & Dispatch</span>
+                        Choose a verified service contractor from the dropdown above, then click <b>Start Work / Assign</b> to dispatch them and move this ticket to In-Progress.
+                      </div>
+                    </div>
+                  )}
+
+                  {(selectedOrder.colId === 'in_progress' || selectedOrder.status === 'In-Progress') && (
+                    <div className="p-3.5 bg-teal-50 rounded-xl border border-teal-200/80 flex items-start gap-2.5">
+                      <Eye size={18} className="text-[#0B4F45] shrink-0 mt-0.5" />
+                      <div className="text-xs text-[#0B4F45]">
+                        <span className="font-bold block mb-0.5">Work In Progress</span>
+                        Contractor is actively working on this repair. You can view progress details or mark it resolved once confirmed.
+                      </div>
+                    </div>
                   )}
                 </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-gray-400 block">Estimated Cost</span>
-                  <span className="text-xs font-black text-[#0B4F45] font-mono mt-0.5 block">₦85,000</span>
-                </div>
-              </div>
 
-              {(selectedOrder.colId === 'received' || selectedOrder.status === 'Received' || selectedOrder.status === 'Pending Assign') && (
-                <div className="p-3.5 bg-amber-50 rounded-xl border border-amber-200/80 flex items-start gap-2.5">
-                  <UserPlus size={18} className="text-amber-600 shrink-0 mt-0.5" />
-                  <div className="text-xs text-amber-900">
-                    <span className="font-bold block mb-0.5">Select Contractor & Dispatch</span>
-                    Choose a verified service contractor from the dropdown above, then click <b>Start Work / Assign</b> to dispatch them and move this ticket to In-Progress.
-                  </div>
-                </div>
-              )}
-
-              {(selectedOrder.colId === 'in_progress' || selectedOrder.status === 'In-Progress') && (
-                <div className="p-3.5 bg-teal-50 rounded-xl border border-teal-200/80 flex items-start gap-2.5">
-                  <Eye size={18} className="text-[#0B4F45] shrink-0 mt-0.5" />
-                  <div className="text-xs text-[#0B4F45]">
-                    <span className="font-bold block mb-0.5">Work In Progress</span>
-                    Contractor is actively working on this repair. You can view progress details or mark it resolved once confirmed.
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="pt-5 mt-5 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
-              <button
-                onClick={handleEscalateOrder}
-                className="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5 shadow-2xs"
-              >
-                <AlertTriangle size={14} /> Escalate Ticket
-              </button>
-              
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setSelectedOrder(null)}
-                  className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs transition-colors cursor-pointer border-none"
-                >
-                  Close
-                </button>
-                {(selectedOrder.colId === 'received' || selectedOrder.status === 'Received' || selectedOrder.status === 'Pending Assign') && (
+                <div className="pt-5 mt-5 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
                   <button
-                    onClick={handleStartWorkOrder}
-                    className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5 shadow-sm"
+                    onClick={handleEscalateOrder}
+                    className="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5 shadow-2xs"
                   >
-                    <Wrench size={14} /> Start Work / Assign
+                    <AlertTriangle size={14} /> Escalate Ticket
                   </button>
-                )}
-                <button
-                  onClick={handleResolveOrder}
-                  className="px-4 py-2 rounded-xl bg-[#0B4F45] hover:bg-[#083D35] text-white font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5 shadow-sm"
-                >
-                  <CheckCircle2 size={14} /> Mark Resolved
-                </button>
+                  
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setSelectedOrder(null)}
+                      className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs transition-colors cursor-pointer border-none"
+                    >
+                      Close
+                    </button>
+                    {(selectedOrder.colId === 'received' || selectedOrder.status === 'Received' || selectedOrder.status === 'Pending Assign') && (
+                      <button
+                        onClick={handleStartWorkOrder}
+                        className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5 shadow-sm"
+                      >
+                        <Wrench size={14} /> Start Work / Assign
+                      </button>
+                    )}
+                    <button
+                      onClick={handleResolveOrder}
+                      className="px-4 py-2 rounded-xl bg-[#0B4F45] hover:bg-[#083D35] text-white font-bold text-xs transition-colors cursor-pointer border-none flex items-center gap-1.5 shadow-sm"
+                    >
+                      <CheckCircle2 size={14} /> Mark Resolved
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>,
+        document.body
       )}
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   BarChart3, CheckCircle2, Search, SlidersHorizontal,
@@ -27,6 +28,7 @@ const mockTransactions = [
  * TenantPayments — Redesigned pixel-perfect to match Screenshot 2 (Payment History)
  */
 const TenantPayments = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Statuses');
   const [timeFilter, setTimeFilter] = useState('Last 6 Months');
@@ -51,16 +53,35 @@ const TenantPayments = () => {
   const paginatedTransactions = filteredTransactions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div className="space-y-6 pb-16">
+    <div className="space-y-6 pb-16 font-sans text-[#4A4F4C]">
       
-      {/* Title Section */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 m-0 mb-1">
-          Payment History
-        </h1>
-        <p className="text-base text-[#4A4F4C] m-0">
-          Review and manage your financial transactions for Unit 402.
-        </p>
+      {/* Title Section & Tab Switcher */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-200">
+        <div>
+          <h1 className="text-2xl sm:text-[28px] font-display font-extrabold text-[#0B4F45] m-0 tracking-tight">
+            Payment History
+          </h1>
+          <p className="text-xs sm:text-sm text-[#4A4F4C] font-medium mt-1 m-0">
+            Review and manage your financial transactions and receipts for Unit 402.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl shrink-0">
+          <button
+            type="button"
+            className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#0B4F45] text-white shadow-xs border-none cursor-pointer"
+          >
+            <span>📜 History & Receipts</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/tenant/pay-rent')}
+            className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-transparent text-gray-600 hover:text-gray-900 border-none cursor-pointer flex items-center gap-1.5"
+          >
+            <span className="w-2 h-2 rounded-full bg-[#C75B30] inline-block animate-pulse"></span>
+            <span>Instalment Hub & Pay Rent</span>
+          </button>
+        </div>
       </div>
 
       {/* Top Summary Cards Grid (3 Cards matching Screenshot 2 exactly) */}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { NavLink, useNavigate, Link, Outlet, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import useAuthStore from '../../store/authStore';
@@ -299,65 +300,68 @@ const DashboardLayout = () => {
       </AnimatePresence>
 
       {/* Interactive Global Quick Search Modal */}
-      <AnimatePresence>
-        {searchOpen && (
-          <div className="fixed inset-0 z-[99999] flex items-start justify-center pt-24 px-4 bg-black/50 backdrop-blur-xs" onClick={() => setSearchOpen(false)}>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -10 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-lg overflow-hidden"
-            >
-              <div className="p-4 border-b border-gray-100 flex items-center gap-3">
-                <span className="material-symbols-outlined text-gray-400">search</span>
-                <input
-                  autoFocus
-                  type="text"
-                  placeholder="Type a page or keyword (e.g. rent, receipt, lease)..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-transparent border-none text-sm text-gray-800 focus:outline-none placeholder:text-gray-400 font-medium"
-                />
-                <button onClick={() => setSearchOpen(false)} className="text-gray-400 hover:text-gray-600 border-none bg-transparent cursor-pointer">
-                  <X size={18} />
-                </button>
-              </div>
-              <div className="max-h-80 overflow-y-auto p-2 divide-y divide-gray-50">
-                {searchResults.length > 0 ? (
-                  searchResults.map((item, idx) => (
-                    <div
-                      key={idx}
-                      onClick={() => {
-                        navigate(item.path);
-                        setSearchOpen(false);
-                      }}
-                      className="p-3 hover:bg-gray-50 rounded-xl flex items-center justify-between cursor-pointer transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
-                          →
-                        </span>
-                        <div>
-                          <p className="text-xs font-bold text-gray-800 m-0">{item.title}</p>
-                          <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">{item.cat}</span>
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {searchOpen && (
+            <div className="fixed inset-0 z-[99999] flex items-start justify-center pt-24 px-4 bg-black/50 backdrop-blur-xs" onClick={() => setSearchOpen(false)}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-lg overflow-hidden"
+              >
+                <div className="p-4 border-b border-gray-100 flex items-center gap-3">
+                  <span className="material-symbols-outlined text-gray-400">search</span>
+                  <input
+                    autoFocus
+                    type="text"
+                    placeholder="Type a page or keyword (e.g. rent, receipt, lease)..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-transparent border-none text-sm text-gray-800 focus:outline-none placeholder:text-gray-400 font-medium"
+                  />
+                  <button onClick={() => setSearchOpen(false)} className="text-gray-400 hover:text-gray-600 border-none bg-transparent cursor-pointer">
+                    <X size={18} />
+                  </button>
+                </div>
+                <div className="max-h-80 overflow-y-auto p-2 divide-y divide-gray-50">
+                  {searchResults.length > 0 ? (
+                    searchResults.map((item, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => {
+                          navigate(item.path);
+                          setSearchOpen(false);
+                        }}
+                        className="p-3 hover:bg-gray-50 rounded-xl flex items-center justify-between cursor-pointer transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+                            →
+                          </span>
+                          <div>
+                            <p className="text-xs font-bold text-gray-800 m-0">{item.title}</p>
+                            <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">{item.cat}</span>
+                          </div>
                         </div>
+                        <span className="text-[11px] font-bold text-primary">Jump</span>
                       </div>
-                      <span className="text-[11px] font-bold text-primary">Jump</span>
-                    </div>
-                  ))
-                ) : (
-                  <div className="p-6 text-center text-xs text-gray-500 font-medium">No portal features matched "{searchQuery}".</div>
-                )}
-              </div>
-              <div className="p-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-[11px] text-gray-500">
-                <span>Quick Jump Navigation</span>
-                <span className="font-mono bg-gray-200 px-1.5 py-0.5 rounded text-[10px]">ESC to close</span>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+                    ))
+                  ) : (
+                    <div className="p-6 text-center text-xs text-gray-500 font-medium">No portal features matched "{searchQuery}".</div>
+                  )}
+                </div>
+                <div className="p-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-[11px] text-gray-500">
+                  <span>Quick Jump Navigation</span>
+                  <span className="font-mono bg-gray-200 px-1.5 py-0.5 rounded text-[10px]">ESC to close</span>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
       {/* Top App Bar matching page-specific Stitch designs exactly */}
       <header className={`fixed top-0 right-0 z-50 flex justify-between items-center px-container-padding py-3 min-h-[76px] bg-surface/95 backdrop-blur-md border-b border-outline-variant dark:border-outline shadow-xs transition-[width] duration-300 ease-out ${sidebarCollapsed ? 'w-full lg:w-[calc(100%-72px)]' : 'w-full lg:w-[calc(100%-260px)]'}`}>
@@ -398,11 +402,17 @@ const DashboardLayout = () => {
           <div className="flex items-center gap-4 border-r border-outline-variant pr-6">
             <button
               onClick={() => navigate('/tenant/notifications')}
-              className="relative text-on-surface-variant hover:text-primary transition-colors active:scale-95 cursor-pointer"
+              className="relative text-on-surface-variant hover:text-primary transition-colors active:scale-95 cursor-pointer flex items-center justify-center p-1"
               aria-label="Notifications"
+              title="WhatsApp & System Notifications (3 unread)"
             >
               <span className="material-symbols-outlined">notifications</span>
-              <span className="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+              <span className="absolute -top-1.5 -right-3.5 flex items-center gap-0.5 bg-[#25D366] text-white font-mono text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-2xs border border-white">
+                <svg className="w-2.5 h-2.5 fill-current shrink-0" viewBox="0 0 24 24">
+                  <path d="M11.996 0C5.372 0 0 5.372 0 11.996c0 2.121.554 4.195 1.605 6.012L.053 23.633l5.803-1.52A11.94 11.94 0 0 0 11.996 24C18.62 24 24 18.62 24 11.996S18.62 0 11.996 0zm6.98 17.15c-.294.829-1.458 1.516-2.392 1.644-.64.088-1.472.16-4.266-.998-3.576-1.482-5.882-5.12-6.06-5.358-.176-.236-1.444-1.922-1.444-3.666 0-1.744.912-2.604 1.236-2.956.324-.352.708-.442.944-.442.236 0 .472.002.678.012.216.01.506-.082.792.604.294.708.998 2.454 1.086 2.632.088.176.148.382.028.618-.118.236-.176.382-.352.588-.176.206-.368.46-.526.618-.176.176-.358.368-.152.722.206.352.916 1.51 1.96 2.44 1.344 1.196 2.476 1.566 2.828 1.744.352.176.558.148.764-.088.206-.236.884-1.03 1.12-1.382.236-.352.472-.294.796-.176.324.118 2.06.972 2.414 1.148.352.176.588.264.676.412.088.148.088.854-.206 1.684z" />
+                </svg>
+                <span>3</span>
+              </span>
             </button>
             {showChat && (
               <button

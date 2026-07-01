@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 
@@ -36,10 +37,12 @@ const Drawer = ({
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  return (
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label={title}>
+        <div className="fixed inset-0 z-[99999]" role="dialog" aria-modal="true" aria-label={title}>
           {/* Backdrop */}
           <motion.div
             className="absolute inset-0 bg-charcoal/40 backdrop-blur-sm"
@@ -65,7 +68,7 @@ const Drawer = ({
               <button
                 onClick={onClose}
                 aria-label="Close panel"
-                className="text-muted hover:text-charcoal transition-colors p-1 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="text-muted hover:text-charcoal transition-colors p-1 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer border-none bg-transparent"
               >
                 <X size={20} />
               </button>
@@ -76,7 +79,8 @@ const Drawer = ({
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

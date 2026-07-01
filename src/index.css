@@ -234,3 +234,33 @@ p:last-child { margin-bottom: 0; }
   box-shadow: 0 4px 20px rgba(11, 79, 69, 0.04);
 }
 
+/* Global feature styling rules */
+.dashboard-card {
+  background-color: #FFFFFF;
+  border-radius: 1rem;
+  border: 1px solid rgba(224, 227, 224, 0.8);
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(11, 79, 69, 0.06);
+}
+
+.dashboard-title {
+  font-family: 'Cabinet Grotesk', 'Inter', sans-serif;
+  font-weight: 800;
+  color: #0B4F45;
+  letter-spacing: -0.02em;
+}
+
+.dashboard-card-title {
+  font-family: 'Cabinet Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  color: #1B1F1D;
+  font-size: 1.125rem;
+}
+
+.dashboard-body-text {
+  font-family: 'Inter', sans-serif;
+  color: #4A4F4C;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+

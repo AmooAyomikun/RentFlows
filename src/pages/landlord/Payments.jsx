@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { toast } from 'sonner';
 import {
   Banknote, Send, Download, ChevronDown, Filter, MoreVertical,
@@ -178,6 +179,76 @@ const Payments = () => {
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [showFilterModal, setShowFilterModal] = useState(false);
 
+  const [activeTab, setActiveTab] = useState('ledger'); // 'ledger' | 'instalments'
+  const [instalmentRequests, setInstalmentRequests] = useState([
+    {
+      id: 'REQ-1092',
+      tenantName: 'Simisola Alabi',
+      tenantInitials: 'SA',
+      tenantBg: 'bg-teal-100 text-teal-800',
+      propertyUnit: 'Victoria Island Towers / Suite 402B',
+      totalRent: '₦3,250,000',
+      trancheCount: 3,
+      scheduleText: '3 Tranches (Oct 1, Nov 1, Dec 1)',
+      partner: 'Kwara Cooperative Credit',
+      partnerFee: '1.5% (₦48,750)',
+      status: 'Pending',
+      submittedDate: '2 hours ago'
+    },
+    {
+      id: 'REQ-1093',
+      tenantName: 'Obafemi Martins',
+      tenantInitials: 'OM',
+      tenantBg: 'bg-orange-100 text-orange-800',
+      propertyUnit: 'Lekki Palms Villas / Duplex 12A',
+      totalRent: '₦4,500,000',
+      trancheCount: 4,
+      scheduleText: '4 Tranches Quarterly (Q4 2023 - Q3 2024)',
+      partner: 'Carbon Digital Split',
+      partnerFee: '2.5% (₦112,500)',
+      status: 'Pending',
+      submittedDate: 'Yesterday'
+    },
+    {
+      id: 'REQ-1094',
+      tenantName: 'Folake Adeyemi',
+      tenantInitials: 'FA',
+      tenantBg: 'bg-purple-100 text-purple-800',
+      propertyUnit: 'Ikeja City Mall / Retail G2',
+      totalRent: '₦2,100,000',
+      trancheCount: 2,
+      scheduleText: '2 Tranches (50% Upfront, 50% in 60 days)',
+      partner: 'Direct Landlord Agreement',
+      partnerFee: '0% Interest Fee',
+      status: 'Pending',
+      submittedDate: '2 days ago'
+    },
+    {
+      id: 'REQ-1095',
+      tenantName: 'Chinedu Eze',
+      tenantInitials: 'CE',
+      tenantBg: 'bg-blue-100 text-blue-800',
+      propertyUnit: 'Maitama Heights / Penthouse 3',
+      totalRent: '₦3,800,000',
+      trancheCount: 3,
+      scheduleText: '3 Tranches Monthly Split',
+      partner: 'Renmoney Housing Financing',
+      partnerFee: '2.0% (₦76,000)',
+      status: 'Pending',
+      submittedDate: '3 days ago'
+    }
+  ]);
+
+  const handleApproveInstalment = (reqId, tenantName) => {
+    setInstalmentRequests(prev => prev.map(r => r.id === reqId ? { ...r, status: 'Approved' } : r));
+    toast.success(`Split payment request approved for ${tenantName}. Digital contract executed!`);
+  };
+
+  const handleRejectInstalment = (reqId, tenantName) => {
+    setInstalmentRequests(prev => prev.map(r => r.id === reqId ? { ...r, status: 'Rejected' } : r));
+    toast.info(`Split payment request declined for ${tenantName}.`);
+  };
+
   const [showManualModal, setShowManualModal] = useState(false);
   const [manualForm, setManualForm] = useState({
     tenantName: '',
@@ -281,12 +352,37 @@ const Payments = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[145px]">
-          <div>
-            <div className="flex items-center justify-between gap-2">
-              <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-800 flex items-center justify-center shrink-0">
-                <Banknote size={18} />
+      {/* Navigation Tabs */}
+      <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl w-fit mb-6">
+        <button
+          onClick={() => setActiveTab('ledger')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+            activeTab === 'ledger' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <span>📊 Financial Ledger & Analytics</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('instalments')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+            activeTab === 'instalments' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <span>🤝 Split Rent & Instalment Requests</span>
+          <span className="bg-[#C75B30] text-white px-2 py-0.5 rounded-full text-[10px] font-black">
+            {instalmentRequests.filter(r => r.status === 'Pending').length}
+          </span>
+        </button>
+      </div>
+
+      {activeTab === 'ledger' ? (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[145px]">
+              <div>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-800 flex items-center justify-center shrink-0">
+                    <Banknote size={18} />
               </div>
               <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">+12.5%</span>
             </div>
@@ -584,133 +680,249 @@ const Payments = () => {
           </div>
         </div>
       </div>
+    </div>
+    ) : (
+        /* ── INSTALMENT REQUESTS VIEW ── */
+        <div className="space-y-6 animate-fade-in">
+          <div className="dashboard-card bg-[#FAF7F2] p-6 rounded-2xl border border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="dashboard-title text-lg font-bold text-[#0B4F45] m-0">
+                Pending Split Rent & Instalment Plans
+              </h2>
+              <p className="dashboard-body-text text-xs text-[#4A4F4C] mt-1 m-0">
+                Review proposed split payment schedules submitted by tenants. Approving executes a legally binding digital addendum.
+              </p>
+            </div>
+            <span className="bg-[#0B4F45] text-white px-4 py-1.5 rounded-full text-xs font-bold shrink-0">
+              {instalmentRequests.filter(r => r.status === 'Pending').length} Actionable Requests
+            </span>
+          </div>
 
-      {/* MODAL 1: Filter Transactions */}
-      {showFilterModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-gray-100">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-              <h3 className="text-lg font-bold text-gray-900 m-0">Filter Transactions</h3>
-              <button onClick={() => setShowFilterModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="space-y-2">
-              {['ALL', 'SUCCESS', 'PROCESSING', 'FAILED'].map(st => (
-                <button
-                  key={st}
-                  onClick={() => { setStatusFilter(st); setCurrentPage(1); setShowFilterModal(false); toast.success(`Filtered transactions by: ${st}`); }}
-                  className={`w-full text-left p-3 rounded-xl text-xs font-bold border cursor-pointer transition-all flex items-center justify-between ${statusFilter === st ? 'bg-[#072F29] text-white border-[#072F29]' : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'}`}
-                >
-                  <span>{st === 'ALL' ? 'All Statuses' : st}</span>
-                  {statusFilter === st && <Check size={16} />}
-                </button>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {instalmentRequests.map((req) => (
+              <div
+                key={req.id}
+                className={`dashboard-card rounded-2xl p-6 border transition-all flex flex-col justify-between ${
+                  req.status === 'Approved'
+                    ? 'bg-emerald-50/40 border-emerald-200'
+                    : req.status === 'Rejected'
+                    ? 'bg-gray-50/70 border-gray-200 opacity-75'
+                    : 'bg-white border-gray-200 shadow-xs'
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-4 pb-4 border-b border-gray-100">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-11 h-11 rounded-xl font-bold flex items-center justify-center shrink-0 ${req.tenantBg}`}>
+                        {req.tenantInitials}
+                      </div>
+                      <div>
+                        <h3 className="dashboard-card-title text-base font-bold text-[#0B4F45] m-0">
+                          {req.tenantName}
+                        </h3>
+                        <p className="dashboard-body-text text-xs text-[#4A4F4C] m-0 mt-0.5">
+                          {req.propertyUnit}
+                        </p>
+                      </div>
+                    </div>
+
+                    <span
+                      className={`px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider shrink-0 ${
+                        req.status === 'Approved'
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : req.status === 'Rejected'
+                          ? 'bg-rose-100 text-rose-800'
+                          : 'bg-amber-100 text-amber-900 animate-pulse'
+                      }`}
+                    >
+                      {req.status}
+                    </span>
+                  </div>
+
+                  <div className="py-4 space-y-3">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-[#4A4F4C] font-semibold">Total Rent Contract:</span>
+                      <span className="font-mono font-bold text-gray-900 text-sm">{req.totalRent}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-[#4A4F4C] font-semibold">Financing Partner:</span>
+                      <span className="font-bold text-[#0B4F45]">{req.partner}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-[#4A4F4C] font-semibold">Partner Fee & Interest:</span>
+                      <span className="font-mono text-[#C75B30] font-bold">{req.partnerFee}</span>
+                    </div>
+                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-200/80 mt-2">
+                      <span className="text-[10px] uppercase font-bold text-gray-500 block mb-1">Proposed Schedule</span>
+                      <span className="text-xs font-bold text-[#0B4F45]">{req.scheduleText}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-gray-100 flex items-center justify-between gap-3">
+                  <span className="text-[11px] text-[#4A4F4C] font-medium">Submitted {req.submittedDate}</span>
+                  {req.status === 'Pending' ? (
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleRejectInstalment(req.id, req.tenantName)}
+                        className="px-4 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 text-xs font-bold transition-all cursor-pointer"
+                      >
+                        Decline
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleApproveInstalment(req.id, req.tenantName)}
+                        className="px-5 py-2 rounded-xl bg-[#0B4F45] hover:bg-[#083D35] text-white text-xs font-bold shadow-sm transition-all cursor-pointer border-none flex items-center gap-1.5"
+                      >
+                        <span>Approve Plan</span>
+                        <span className="material-symbols-outlined text-sm">verified</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <span className="text-xs font-bold text-gray-500 italic">
+                      Decision Recorded ({req.status})
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
 
-      {/* MODAL 2: Record Manual Payment */}
-      {showManualModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-              <h3 className="text-lg font-bold text-gray-900 m-0">Record Manual Payment</h3>
-              <button onClick={() => setShowManualModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
-                <X size={20} />
-              </button>
+      {/* MODALS */}
+      {typeof document !== 'undefined' && createPortal(
+        <>
+          {/* MODAL 1: Filter Transactions */}
+          {showFilterModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                  <h3 className="text-lg font-bold text-gray-900 m-0">Filter Transactions</h3>
+                  <button onClick={() => setShowFilterModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {['ALL', 'SUCCESS', 'PROCESSING', 'FAILED'].map(st => (
+                    <button
+                      key={st}
+                      onClick={() => { setStatusFilter(st); setCurrentPage(1); setShowFilterModal(false); toast.success(`Filtered transactions by: ${st}`); }}
+                      className={`w-full text-left p-3 rounded-xl text-xs font-bold border cursor-pointer transition-all flex items-center justify-between ${statusFilter === st ? 'bg-[#072F29] text-white border-[#072F29]' : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'}`}
+                    >
+                      <span>{st === 'ALL' ? 'All Statuses' : st}</span>
+                      {statusFilter === st && <Check size={16} />}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
-            <form onSubmit={handleRecordPayment} className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Tenant Name</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Obafemi Martins"
-                  value={manualForm.tenantName}
-                  onChange={e => setManualForm({ ...manualForm, tenantName: e.target.value })}
-                  className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#072F29]"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Property / Unit</label>
-                <input
-                  type="text"
-                  required
-                  list="payments-property-list"
-                  placeholder="Type or select property / unit..."
-                  value={manualForm.propertyUnit}
-                  onChange={e => setManualForm({ ...manualForm, propertyUnit: e.target.value })}
-                  className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#072F29]"
-                />
-                <datalist id="payments-property-list">
-                  <option value="Victoria Island Towers / 402B" />
-                  <option value="Lekki Palms Villas / 12A" />
-                  <option value="Ikeja City Mall / G2" />
-                  <option value="Victoria Island Towers / 204C" />
-                  <option value="Banana Island Lofts / 501" />
-                  <option value="Maitama Heights / 3" />
-                  <option value="GRA Phase 2 Duplexes / 1" />
-                </datalist>
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Amount (₦)</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. 2,500,000"
-                  value={manualForm.amount}
-                  onChange={e => setManualForm({ ...manualForm, amount: e.target.value })}
-                  className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#072F29]"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Payment Method</label>
-                <select
-                  value={manualForm.method}
-                  onChange={e => setManualForm({ ...manualForm, method: e.target.value })}
-                  className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#072F29] bg-white cursor-pointer"
-                >
-                  <option>Bank Transfer</option>
-                  <option>Card Payment</option>
-                  <option>Cash / Cheque</option>
-                </select>
-              </div>
-              <div className="pt-4 border-t border-gray-100 flex justify-end gap-2">
-                <button type="button" onClick={() => setShowManualModal(false)} className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border-none bg-transparent cursor-pointer">
-                  Cancel
-                </button>
-                <button type="submit" className="px-5 py-2 rounded-xl text-xs font-bold bg-[#072F29] text-white hover:bg-[#0b4f45] border-none cursor-pointer shadow-sm">
-                  Add to Ledger
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+          )}
 
-      {/* MODAL 3: Send Reminders Confirmation */}
-      {showReminderModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100 text-center">
-            <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mx-auto mb-4">
-              <Send size={24} />
+          {/* MODAL 2: Record Manual Payment */}
+          {showManualModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                  <h3 className="text-lg font-bold text-gray-900 m-0">Record Manual Payment</h3>
+                  <button onClick={() => setShowManualModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+                <form onSubmit={handleRecordPayment} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Tenant Name</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Obafemi Martins"
+                      value={manualForm.tenantName}
+                      onChange={e => setManualForm({ ...manualForm, tenantName: e.target.value })}
+                      className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#072F29]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Property / Unit</label>
+                    <input
+                      type="text"
+                      required
+                      list="payments-property-list"
+                      placeholder="Type or select property / unit..."
+                      value={manualForm.propertyUnit}
+                      onChange={e => setManualForm({ ...manualForm, propertyUnit: e.target.value })}
+                      className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#072F29]"
+                    />
+                    <datalist id="payments-property-list">
+                      <option value="Victoria Island Towers / 402B" />
+                      <option value="Lekki Palms Villas / 12A" />
+                      <option value="Ikeja City Mall / G2" />
+                      <option value="Victoria Island Towers / 204C" />
+                      <option value="Banana Island Lofts / 501" />
+                      <option value="Maitama Heights / 3" />
+                      <option value="GRA Phase 2 Duplexes / 1" />
+                    </datalist>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Amount (₦)</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. 2,500,000"
+                      value={manualForm.amount}
+                      onChange={e => setManualForm({ ...manualForm, amount: e.target.value })}
+                      className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#072F29]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Payment Method</label>
+                    <select
+                      value={manualForm.method}
+                      onChange={e => setManualForm({ ...manualForm, method: e.target.value })}
+                      className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#072F29] bg-white cursor-pointer"
+                    >
+                      <option>Bank Transfer</option>
+                      <option>Card Payment</option>
+                      <option>Cash / Cheque</option>
+                    </select>
+                  </div>
+                  <div className="pt-4 border-t border-gray-100 flex justify-end gap-2">
+                    <button type="button" onClick={() => setShowManualModal(false)} className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border-none bg-transparent cursor-pointer">
+                      Cancel
+                    </button>
+                    <button type="submit" className="px-5 py-2 rounded-xl text-xs font-bold bg-[#072F29] text-white hover:bg-[#0b4f45] border-none cursor-pointer shadow-sm">
+                      Add to Ledger
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-            <h3 className="text-lg font-bold text-gray-900 m-0 mb-2">Dispatch Payment Reminders?</h3>
-            <p className="text-xs text-gray-600 m-0 mb-6 leading-relaxed">
-              You are about to broadcast automated reminders via SMS and Email to all <strong className="text-gray-900">25 overdue tenants</strong> across your portfolio.
-            </p>
-            <div className="flex justify-center gap-3">
-              <button onClick={() => setShowReminderModal(false)} className="px-5 py-2.5 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border border-gray-200 bg-white cursor-pointer">
-                Cancel
-              </button>
-              <button onClick={handleSendReminders} className="px-6 py-2.5 rounded-xl text-xs font-bold bg-[#072F29] text-white hover:bg-[#0b4f45] border-none cursor-pointer shadow-sm">
-                Confirm & Send
-              </button>
+          )}
+
+          {/* MODAL 3: Send Reminders Confirmation */}
+          {showReminderModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100 text-center">
+                <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mx-auto mb-4">
+                  <Send size={24} />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 m-0 mb-2">Dispatch Payment Reminders?</h3>
+                <p className="text-xs text-gray-600 m-0 mb-6 leading-relaxed">
+                  You are about to broadcast automated reminders via SMS and Email to all <strong className="text-gray-900">25 overdue tenants</strong> across your portfolio.
+                </p>
+                <div className="flex justify-center gap-3">
+                  <button onClick={() => setShowReminderModal(false)} className="px-5 py-2.5 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border border-gray-200 bg-white cursor-pointer">
+                    Cancel
+                  </button>
+                  <button onClick={handleSendReminders} className="px-6 py-2.5 rounded-xl text-xs font-bold bg-[#072F29] text-white hover:bg-[#0b4f45] border-none cursor-pointer shadow-sm">
+                    Confirm & Send
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>,
+        document.body
       )}
     </div>
   );
