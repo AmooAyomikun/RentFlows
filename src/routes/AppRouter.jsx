@@ -56,6 +56,8 @@ import TenantReceipts from '../pages/tenant/TenantReceipts';
 import TenantMaintenance from '../pages/tenant/TenantMaintenance';
 import TenantSettings from '../pages/tenant/TenantSettings';
 import TenantReportIssue from '../pages/tenant/TenantReportIssue';
+import TenantProfile from '../pages/tenant/TenantProfile';
+import TenantSupport from '../pages/tenant/TenantSupport';
 
 // Fallbacks
 import NotFound from '../pages/NotFound';
@@ -166,11 +168,11 @@ const AppRouter = () => {
           <Route path="receipts" element={<TenantReceipts />} />
           <Route path="maintenance" element={<TenantMaintenance />} />
           <Route path="report-issue" element={<TenantReportIssue />} />
-          <Route path="support" element={<TenantReportIssue />} />
+          <Route path="support" element={<TenantSupport />} />
           <Route path="maintenance/:id" element={<PlaceholderView title="Maintenance Ticket" type="Ticket View" />} />
           <Route path="notifications" element={<Notifications role="tenant" />} />
           <Route path="settings" element={<TenantSettings />} />
-          <Route path="profile" element={<TenantSettings />} />
+          <Route path="profile" element={<TenantProfile />} />
         </Route>
 
         {/* Fallback */}

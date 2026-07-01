@@ -1,31 +1,102 @@
 import { useState, useRef } from 'react';
-import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 import { 
   Edit2, Camera, Shield, ShieldCheck, CheckCircle2, Plus, 
-  Phone, ChevronDown, Check, Lock, Key
+  Phone, ChevronDown, Check, Lock, Key, Copy, AlertTriangle, User, Mail
 } from 'lucide-react';
+import Modal from '../../components/ui/Modal';
+import { downloadDataExportJSON } from '../../utils/documentGenerator';
+import useUIStore from '../../store/uiStore';
 
 const TenantSettings = () => {
+  const navigate = useNavigate();
+  const { portalLanguage, setPortalLanguage } = useUIStore();
   const [emailNotifs, setEmailNotifs] = useState(true);
   const [smsNotifs, setSmsNotifs] = useState(true);
   const [pushNotifs, setPushNotifs] = useState(false);
+  const [statusMsg, setStatusMsg] = useState('');
+  const [passError, setPassError] = useState('');
   const [biometric, setBiometric] = useState(true);
   const [profileImg, setProfileImg] = useState('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80');
   const fileInputRef = useRef(null);
+
+  // Profile data state
+  const [profileData, setProfileData] = useState({
+    fullName: 'Ayomikun Adeleke',
+    prefName: 'Ayo',
+    email: 'ayomikun.adeleke@rentflows.ng',
+    phone: '+234 803 123 4567',
+    address: 'Victoria Island Towers, Flat 402-B, Ahmadu Bello Way, Lagos, Nigeria'
+  });
+
+  // Modal states
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showRecoveryModal, setShowRecoveryModal] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [showDeactivateModal, setShowDeactivateModal] = useState(false);
+
+  // Edit form states
+  const [editForm, setEditForm] = useState({ ...profileData });
+  const [passwordForm, setPasswordForm] = useState({ current: '', newPass: '', confirm: '' });
+  const [newContact, setNewContact] = useState({ name: '', relation: '', phone: '' });
+  const [contacts, setContacts] = useState([
+    { initials: 'CA', color: 'bg-[#E6F2EF] text-[#04332C]', name: 'Chidinma Adeleke', relation: 'Spouse', phone: '+234 802 987 6543' },
+    { initials: 'BA', color: 'bg-[#FEE2E2] text-[#9B3A0E]', name: 'Babatunde Adeleke', relation: 'Brother', phone: '+234 803 234 5678' }
+  ]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setProfileImg(url);
-      toast.success('Profile photo updated successfully!');
+      setStatusMsg('Profile photo updated successfully!');
+      setTimeout(() => setStatusMsg(''), 4000);
     }
+  };
+
+  const handleSaveProfile = (e) => {
+    e.preventDefault();
+    setProfileData({ ...editForm });
+    setShowEditProfileModal(false);
+    setStatusMsg('Profile information saved successfully!');
+    setTimeout(() => setStatusMsg(''), 4000);
+  };
+
+  const handleUpdatePassword = (e) => {
+    e.preventDefault();
+    if (passwordForm.newPass !== passwordForm.confirm) {
+      setPassError('New passwords do not match.');
+      return;
+    }
+    setPassError('');
+    setShowPasswordModal(false);
+    setPasswordForm({ current: '', newPass: '', confirm: '' });
+    setStatusMsg('Password updated securely!');
+    setTimeout(() => setStatusMsg(''), 4000);
+  };
+
+  const handleAddContact = (e) => {
+    e.preventDefault();
+    if (!newContact.name || !newContact.phone) return;
+    const initials = newContact.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    setContacts([...contacts, { initials, color: 'bg-[#E0F2FE] text-[#0369A1]', ...newContact }]);
+    setNewContact({ name: '', relation: '', phone: '' });
+    setShowContactModal(false);
+    setStatusMsg('Emergency contact added successfully!');
+    setTimeout(() => setStatusMsg(''), 4000);
   };
 
   return (
     <div className="space-y-6 w-full text-[#1E293B] pb-8">
       {/* Title Section */}
       <div>
+        {statusMsg && (
+          <div className="mb-4 p-3 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-xl text-xs font-bold flex items-center gap-2">
+            <CheckCircle2 size={16} className="text-emerald-600" />
+            {statusMsg}
+          </div>
+        )}
         <h1 className="text-2xl font-bold text-gray-900 m-0">
           Profile Settings
         </h1>
@@ -42,8 +113,11 @@ const TenantSettings = () => {
             <div className="flex items-center justify-between pb-4 border-b border-gray-100">
               <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Personal Information</h2>
               <button 
-                onClick={() => toast.info('Opening profile editor...')}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-700 hover:text-black transition-colors cursor-pointer"
+                onClick={() => {
+                  setEditForm({ ...profileData });
+                  setShowEditProfileModal(true);
+                }}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-700 hover:text-black transition-colors cursor-pointer bg-white border-none"
               >
                 <Edit2 size={14} />
                 <span>Edit Profile</span>
@@ -78,27 +152,27 @@ const TenantSettings = () => {
               <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-6 w-full">
                 <div>
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">FULL NAME</span>
-                  <span className="text-base font-black text-[#1E293B] mt-0.5 block font-display">Ayomikun Adeleke</span>
+                  <span className="text-base font-black text-[#1E293B] mt-0.5 block font-display">{profileData.fullName}</span>
                 </div>
 
                 <div>
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">PREFERRED NAME</span>
-                  <span className="text-base font-semibold text-gray-700 mt-0.5 block">Ayo</span>
+                  <span className="text-base font-semibold text-gray-700 mt-0.5 block">{profileData.prefName}</span>
                 </div>
 
                 <div className="min-w-0">
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">EMAIL ADDRESS</span>
-                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block truncate">ayomikun.adeleke@rentflows.ng</span>
+                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block truncate">{profileData.email}</span>
                 </div>
 
                 <div>
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">PHONE NUMBER</span>
-                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block font-mono">+234 803 123 4567</span>
+                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block font-mono">{profileData.phone}</span>
                 </div>
 
                 <div className="sm:col-span-2">
                   <span className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block">PRIMARY ADDRESS</span>
-                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block">Victoria Island Towers, Flat 402-B, Ahmadu Bello Way, Lagos, Nigeria</span>
+                  <span className="text-sm font-bold text-[#1E293B] mt-0.5 block">{profileData.address}</span>
                 </div>
               </div>
             </div>
@@ -123,8 +197,8 @@ const TenantSettings = () => {
                     <p className="text-[11px] text-gray-400 mt-0.5">Last updated 3 months ago</p>
                   </div>
                   <button 
-                    onClick={() => toast.info('Opening password change modal...')}
-                    className="px-3.5 py-1.5 border border-gray-300 rounded-lg text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer shrink-0 ml-2"
+                    onClick={() => setShowPasswordModal(true)}
+                    className="px-3.5 py-1.5 border border-gray-300 rounded-lg text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer shrink-0 ml-2 bg-white"
                   >
                     Update
                   </button>
@@ -138,7 +212,8 @@ const TenantSettings = () => {
                   <button 
                     onClick={() => {
                       setBiometric(!biometric);
-                      toast.success(`Biometric login ${!biometric ? 'enabled' : 'disabled'}`);
+                      setStatusMsg(`Biometric login ${!biometric ? 'enabled' : 'disabled'}`);
+                      setTimeout(() => setStatusMsg(''), 4000);
                     }}
                     className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-200 ease-in-out cursor-pointer flex items-center shrink-0 ml-2 ${biometric ? 'bg-[#04332C] justify-end' : 'bg-gray-300 justify-start'}`}
                     aria-label="Toggle biometric login"
@@ -170,7 +245,7 @@ const TenantSettings = () => {
 
               <div className="pt-2">
                 <span 
-                  onClick={() => toast.info('Managing recovery codes...')}
+                  onClick={() => setShowRecoveryModal(true)}
                   className="text-xs font-bold text-[#FF8C5A] hover:underline cursor-pointer inline-block"
                 >
                   Manage Recovery Codes
@@ -190,8 +265,8 @@ const TenantSettings = () => {
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold uppercase text-gray-800 m-0">Emergency Contacts</h2>
               <button 
-                onClick={() => toast.info('Adding emergency contact...')}
-                className="text-gray-500 hover:text-black transition-colors cursor-pointer p-1"
+                onClick={() => setShowContactModal(true)}
+                className="text-gray-500 hover:text-black transition-colors cursor-pointer p-1 bg-white border-none"
                 aria-label="Add emergency contact"
               >
                 <Plus size={18} />
@@ -199,35 +274,21 @@ const TenantSettings = () => {
             </div>
 
             <div className="space-y-3 pt-1">
-              {/* Contact 1 */}
-              <div className="bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-full bg-[#E6F2EF] text-[#04332C] font-black text-xs flex items-center justify-center shrink-0">
-                  CA
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h4 className="font-black text-sm text-[#1E293B] leading-tight">Chidinma Adeleke</h4>
-                  <p className="text-[11px] text-gray-500 font-medium mt-0.5">Spouse</p>
-                  <div className="flex items-center gap-1.5 text-xs font-bold font-mono text-gray-700 mt-1">
-                    <Phone size={11} className="text-gray-400 shrink-0" />
-                    <span>+234 802 987 6543</span>
+              {contacts.map((c, idx) => (
+                <div key={idx} className="bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 flex items-center gap-3.5">
+                  <div className={`w-10 h-10 rounded-full font-black text-xs flex items-center justify-center shrink-0 ${c.color}`}>
+                    {c.initials}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-black text-sm text-[#1E293B] leading-tight">{c.name}</h4>
+                    <p className="text-[11px] text-gray-500 font-medium mt-0.5">{c.relation}</p>
+                    <div className="flex items-center gap-1.5 text-xs font-bold font-mono text-gray-700 mt-1">
+                      <Phone size={11} className="text-gray-400 shrink-0" />
+                      <span>{c.phone}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Contact 2 */}
-              <div className="bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-full bg-[#FEE2E2] text-[#9B3A0E] font-black text-xs flex items-center justify-center shrink-0">
-                  BA
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h4 className="font-black text-sm text-[#1E293B] leading-tight">Babatunde Adeleke</h4>
-                  <p className="text-[11px] text-gray-500 font-medium mt-0.5">Brother</p>
-                  <div className="flex items-center gap-1.5 text-xs font-bold font-mono text-gray-700 mt-1">
-                    <Phone size={11} className="text-gray-400 shrink-0" />
-                    <span>+234 803 234 5678</span>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
@@ -238,11 +299,26 @@ const TenantSettings = () => {
             <div>
               <label className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block mb-1.5">LANGUAGE</label>
               <div className="relative">
-                <select className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 bg-white text-xs font-bold text-gray-800 appearance-none focus:outline-none focus:ring-2 focus:ring-[#04332C]/20 cursor-pointer">
+                <select 
+                  value={portalLanguage || 'en-US'}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setPortalLanguage(val);
+                    const langNames = {
+                      'en-US': 'English (NG / UK)',
+                      'yo-NG': 'Yoruba (Èdè Yorùbá)',
+                      'ig-NG': 'Igbo (Asụsụ Igbo)',
+                      'ha-NG': 'Hausa (Harshen Hausa)'
+                    };
+                    setStatusMsg(`Portal language set to ${langNames[val]}!`);
+                    setTimeout(() => setStatusMsg(''), 4000);
+                  }}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 bg-white text-xs font-bold text-gray-800 appearance-none focus:outline-none focus:ring-2 focus:ring-[#04332C]/20 cursor-pointer"
+                >
                   <option value="en-US">English (NG / UK)</option>
-                  <option value="yo-NG">Yoruba</option>
-                  <option value="ig-NG">Igbo</option>
-                  <option value="ha-NG">Hausa</option>
+                  <option value="yo-NG">Yoruba (Èdè Yorùbá)</option>
+                  <option value="ig-NG">Igbo (Asụsụ Igbo)</option>
+                  <option value="ha-NG">Hausa (Harshen Hausa)</option>
                 </select>
                 <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
               </div>
@@ -252,7 +328,11 @@ const TenantSettings = () => {
               <label className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider block mb-3">NOTIFICATION CHANNELS</label>
               <div className="space-y-3">
                 <label 
-                  onClick={() => setEmailNotifs(!emailNotifs)}
+                  onClick={() => {
+                    setEmailNotifs(!emailNotifs);
+                    setStatusMsg(`Email notifications ${!emailNotifs ? 'enabled' : 'disabled'}`);
+                    setTimeout(() => setStatusMsg(''), 3000);
+                  }}
                   className="flex items-center gap-3 cursor-pointer select-none"
                 >
                   <div className={`w-4 h-4 rounded flex items-center justify-center transition-colors ${emailNotifs ? 'bg-[#04332C] text-white' : 'border border-gray-300 bg-white'}`}>
@@ -262,7 +342,11 @@ const TenantSettings = () => {
                 </label>
 
                 <label 
-                  onClick={() => setSmsNotifs(!smsNotifs)}
+                  onClick={() => {
+                    setSmsNotifs(!smsNotifs);
+                    setStatusMsg(`SMS alerts ${!smsNotifs ? 'enabled' : 'disabled'}`);
+                    setTimeout(() => setStatusMsg(''), 3000);
+                  }}
                   className="flex items-center gap-3 cursor-pointer select-none"
                 >
                   <div className={`w-4 h-4 rounded flex items-center justify-center transition-colors ${smsNotifs ? 'bg-[#04332C] text-white' : 'border border-gray-300 bg-white'}`}>
@@ -272,7 +356,11 @@ const TenantSettings = () => {
                 </label>
 
                 <label 
-                  onClick={() => setPushNotifs(!pushNotifs)}
+                  onClick={() => {
+                    setPushNotifs(!pushNotifs);
+                    setStatusMsg(`Push notifications ${!pushNotifs ? 'enabled' : 'disabled'}`);
+                    setTimeout(() => setStatusMsg(''), 3000);
+                  }}
                   className="flex items-center gap-3 cursor-pointer select-none"
                 >
                   <div className={`w-4 h-4 rounded flex items-center justify-center transition-colors ${pushNotifs ? 'bg-[#04332C] text-white' : 'border border-gray-300 bg-white'}`}>
@@ -297,8 +385,8 @@ const TenantSettings = () => {
             </p>
 
             <button 
-              onClick={() => toast.success('Redirecting to payment methods setup...')}
-              className="w-full py-2.5 rounded-xl bg-[#437A70] hover:bg-[#4f8d82] text-white font-extrabold text-xs tracking-wider uppercase transition-all shadow-sm cursor-pointer text-center block mt-1"
+              onClick={() => navigate('/tenant/payments')}
+              className="w-full py-2.5 rounded-xl bg-[#437A70] hover:bg-[#4f8d82] text-white font-extrabold text-xs tracking-wider uppercase transition-all shadow-sm cursor-pointer text-center block mt-1 border-none"
             >
               Complete Profile
             </button>
@@ -320,14 +408,16 @@ const TenantSettings = () => {
 
           <div className="flex flex-wrap items-center gap-3 shrink-0 w-full sm:w-auto justify-end">
             <button 
-              onClick={() => toast.info('Preparing your personal data export...')}
+              onClick={() => {
+                downloadDataExportJSON(profileData);
+              }}
               className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 font-extrabold text-xs tracking-wider uppercase transition-all shadow-2xs cursor-pointer whitespace-nowrap"
             >
               Export Data
             </button>
             <button 
-              onClick={() => toast.error('Account deactivation requested. Please check your email to confirm.')}
-              className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-[#DC2626] hover:bg-[#b91c1c] text-white font-extrabold text-xs tracking-wider uppercase transition-all shadow-sm cursor-pointer whitespace-nowrap"
+              onClick={() => setShowDeactivateModal(true)}
+              className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-[#DC2626] hover:bg-[#b91c1c] text-white font-extrabold text-xs tracking-wider uppercase transition-all shadow-sm cursor-pointer whitespace-nowrap border-none"
             >
               Deactivate Account
             </button>
@@ -335,6 +425,160 @@ const TenantSettings = () => {
         </div>
       </div>
 
+      {/* Edit Profile Modal */}
+      <Modal isOpen={showEditProfileModal} onClose={() => setShowEditProfileModal(false)} title="Edit Personal Information">
+        <form onSubmit={handleSaveProfile} className="space-y-4 text-[#1E293B]">
+          <div>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Full Name</label>
+            <input 
+              type="text" 
+              required
+              value={editForm.fullName} 
+              onChange={e => setEditForm({ ...editForm, fullName: e.target.value })} 
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Preferred Name</label>
+              <input 
+                type="text" 
+                value={editForm.prefName} 
+                onChange={e => setEditForm({ ...editForm, prefName: e.target.value })} 
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold"
+              />
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Phone Number</label>
+              <input 
+                type="text" 
+                required
+                value={editForm.phone} 
+                onChange={e => setEditForm({ ...editForm, phone: e.target.value })} 
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-mono"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Email Address</label>
+            <input 
+              type="email" 
+              required
+              value={editForm.email} 
+              onChange={e => setEditForm({ ...editForm, email: e.target.value })} 
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold"
+            />
+          </div>
+          <div>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Primary Address</label>
+            <textarea 
+              rows={2}
+              value={editForm.address} 
+              onChange={e => setEditForm({ ...editForm, address: e.target.value })} 
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-medium"
+            />
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <button type="button" onClick={() => setShowEditProfileModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg text-xs font-bold bg-white cursor-pointer">Cancel</button>
+            <button type="submit" className="px-5 py-2 bg-[#04332C] text-white rounded-lg text-xs font-bold border-none cursor-pointer">Save Changes</button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Password Modal */}
+      <Modal isOpen={showPasswordModal} onClose={() => setShowPasswordModal(false)} title="Update Account Password">
+        <form onSubmit={handleUpdatePassword} className="space-y-4 text-[#1E293B]">
+          <div>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Current Password</label>
+            <input type="password" required value={passwordForm.current} onChange={e => setPasswordForm({ ...passwordForm, current: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold" placeholder="••••••••" />
+          </div>
+          <div>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">New Password</label>
+            <input type="password" required value={passwordForm.newPass} onChange={e => setPasswordForm({ ...passwordForm, newPass: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold" placeholder="••••••••" />
+          </div>
+          <div>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Confirm New Password</label>
+            <input type="password" required value={passwordForm.confirm} onChange={e => setPasswordForm({ ...passwordForm, confirm: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold" placeholder="••••••••" />
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <button type="button" onClick={() => setShowPasswordModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg text-xs font-bold bg-white cursor-pointer">Cancel</button>
+            <button type="submit" className="px-5 py-2 bg-[#04332C] text-white rounded-lg text-xs font-bold border-none cursor-pointer">Update Password</button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Recovery Codes Modal */}
+      <Modal isOpen={showRecoveryModal} onClose={() => setShowRecoveryModal(false)} title="Two-Factor Recovery Codes">
+        <div className="space-y-4 text-[#1E293B]">
+          <p className="text-xs text-gray-600 leading-relaxed m-0">Store these backup codes in a safe place. If you lose access to your mobile authenticator, each code can be used once to log in.</p>
+          <div className="grid grid-cols-2 gap-2 bg-gray-50 p-4 rounded-xl border border-gray-200 font-mono text-xs font-bold text-[#04332C] text-center">
+            <div>RF-8921-A1B2</div><div>RF-8921-C3D4</div>
+            <div>RF-8921-E5F6</div><div>RF-8921-G7H8</div>
+            <div>RF-8921-J9K0</div><div>RF-8921-L1M2</div>
+            <div>RF-8921-N3P4</div><div>RF-8921-Q5R6</div>
+          </div>
+          <div className="flex justify-between items-center pt-2">
+            <button 
+              onClick={() => {
+                navigator.clipboard?.writeText("RF-8921-A1B2\nRF-8921-C3D4\nRF-8921-E5F6\nRF-8921-G7H8\nRF-8921-J9K0\nRF-8921-L1M2\nRF-8921-N3P4\nRF-8921-Q5R6");
+                setStatusMsg('Recovery codes copied to clipboard!');
+                setTimeout(() => setStatusMsg(''), 4000);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 cursor-pointer inline-flex items-center gap-1.5"
+            >
+              <Copy size={14} /> Copy All Codes
+            </button>
+            <button onClick={() => setShowRecoveryModal(false)} className="px-5 py-2 bg-[#04332C] text-white rounded-lg text-xs font-bold border-none cursor-pointer">Done</button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Add Contact Modal */}
+      <Modal isOpen={showContactModal} onClose={() => setShowContactModal(false)} title="Add Emergency Contact">
+        <form onSubmit={handleAddContact} className="space-y-4 text-[#1E293B]">
+          <div>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Contact Name</label>
+            <input type="text" required value={newContact.name} onChange={e => setNewContact({ ...newContact, name: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold" placeholder="e.g. Samuel Adeleke" />
+          </div>
+          <div>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Relationship</label>
+            <input type="text" required value={newContact.relation} onChange={e => setNewContact({ ...newContact, relation: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold" placeholder="e.g. Father, Sister" />
+          </div>
+          <div>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Phone Number</label>
+            <input type="text" required value={newContact.phone} onChange={e => setNewContact({ ...newContact, phone: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-mono" placeholder="+234 803 000 0000" />
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <button type="button" onClick={() => setShowContactModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg text-xs font-bold bg-white cursor-pointer">Cancel</button>
+            <button type="submit" className="px-5 py-2 bg-[#04332C] text-white rounded-lg text-xs font-bold border-none cursor-pointer">Add Contact</button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Deactivate Modal */}
+      <Modal isOpen={showDeactivateModal} onClose={() => setShowDeactivateModal(false)} title="Deactivate Tenant Portal Account">
+        <div className="space-y-4 text-[#1E293B]">
+          <div className="p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
+            <AlertTriangle className="text-red-600 shrink-0 mt-0.5" size={18} />
+            <div className="text-xs text-red-900 leading-relaxed">
+              <strong>Warning:</strong> Deactivating your account will restrict online rent payments, maintenance requests, and lease downloads. Active leases remain legally binding under property management terms.
+            </div>
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <button onClick={() => setShowDeactivateModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg text-xs font-bold bg-white cursor-pointer">Keep Account Active</button>
+            <button 
+              onClick={() => {
+                setShowDeactivateModal(false);
+                setStatusMsg('Account deactivation request logged. Please check your email for confirmation link.');
+                setTimeout(() => setStatusMsg(''), 6000);
+              }} 
+              className="px-5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold border-none cursor-pointer"
+            >
+              Confirm Deactivation
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

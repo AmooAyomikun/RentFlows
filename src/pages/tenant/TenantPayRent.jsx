@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+import Modal from '../../components/ui/Modal';
 
 const TenantPayRent = () => {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ const TenantPayRent = () => {
   const [newMethodType, setNewMethodType] = useState('bank');
   const [newBankName, setNewBankName] = useState('Zenith Bank');
   const [newAccNum, setNewAccNum] = useState('');
+  const [formError, setFormError] = useState('');
 
   const handlePay = () => {
     setIsProcessing(true);
@@ -256,76 +257,76 @@ const TenantPayRent = () => {
       </div>
 
       {/* Add New Payment Method Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-gray-100">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Add Payment Method</h3>
-            <div className="space-y-4 text-left">
+      <Modal isOpen={showAddModal} onClose={() => { setShowAddModal(false); setNewAccNum(''); setFormError(''); }} title="Add Payment Method">
+        {formError && (
+          <div className="mb-4 p-3 bg-red-50 text-red-700 text-xs rounded-xl border border-red-100 font-medium">
+            {formError}
+          </div>
+        )}
+        <div className="space-y-4 text-left">
+          <div>
+            <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Method Type</label>
+            <select value={newMethodType} onChange={e => setNewMethodType(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none">
+              <option value="bank">Bank Account (NUBAN)</option>
+              <option value="card">Debit / Credit Card</option>
+            </select>
+          </div>
+          {newMethodType === 'bank' ? (
+            <>
               <div>
-                <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Method Type</label>
-                <select value={newMethodType} onChange={e => setNewMethodType(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none">
-                  <option value="bank">Bank Account (NUBAN)</option>
-                  <option value="card">Debit / Credit Card</option>
+                <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Select Bank</label>
+                <select value={newBankName} onChange={e => setNewBankName(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none">
+                  <option value="Zenith Bank">Zenith Bank Plc</option>
+                  <option value="GTBank">Guaranty Trust Bank (GTCO)</option>
+                  <option value="Access Bank">Access Bank Plc</option>
+                  <option value="UBA">United Bank for Africa (UBA)</option>
+                  <option value="First Bank">First Bank of Nigeria</option>
                 </select>
               </div>
-              {newMethodType === 'bank' ? (
-                <>
-                  <div>
-                    <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Select Bank</label>
-                    <select value={newBankName} onChange={e => setNewBankName(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none">
-                      <option value="Zenith Bank">Zenith Bank Plc</option>
-                      <option value="GTBank">Guaranty Trust Bank (GTCO)</option>
-                      <option value="Access Bank">Access Bank Plc</option>
-                      <option value="UBA">United Bank for Africa (UBA)</option>
-                      <option value="First Bank">First Bank of Nigeria</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-gray-700 uppercase block mb-1">10-Digit Account Number</label>
-                    <input type="text" maxLength={10} placeholder="0123456789" value={newAccNum} onChange={e => setNewAccNum(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div>
-                    <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Card Number</label>
-                    <input type="text" placeholder="5399 •••• •••• ••••" value={newAccNum} onChange={e => setNewAccNum(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Expiry</label>
-                      <input type="text" placeholder="MM/YY" className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
-                    </div>
-                    <div>
-                      <label className="text-xs font-bold text-gray-700 uppercase block mb-1">CVV</label>
-                      <input type="password" maxLength={4} placeholder="123" className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-            <div className="flex gap-3 mt-6 justify-end">
-              <button onClick={() => { setShowAddModal(false); setNewAccNum(''); }} className="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-50 cursor-pointer">Cancel</button>
-              <button onClick={() => {
-                if (!newAccNum || newAccNum.length < 4) {
-                  toast.error('Please enter a valid number');
-                  return;
-                }
-                const last4 = newAccNum.slice(-4);
-                const newId = `method-${Date.now()}`;
-                const newObj = newMethodType === 'bank' 
-                  ? { id: newId, title: 'Bank Account', subtitle: `Ending in ${last4} • ${newBankName}`, icon: 'account_balance' }
-                  : { id: newId, title: 'Debit Card', subtitle: `Ending in ${last4} • Mastercard`, icon: 'credit_card' };
-                setSavedMethods(prev => [...prev, newObj]);
-                setPaymentMethod(newId);
-                setShowAddModal(false);
-                setNewAccNum('');
-                toast.success('New payment method added and selected!');
-              }} className="px-5 py-2 bg-[#072F29] text-white rounded-xl text-xs font-bold hover:bg-[#051f1b] cursor-pointer">Save Method</button>
-            </div>
-          </div>
+              <div>
+                <label className="text-xs font-bold text-gray-700 uppercase block mb-1">10-Digit Account Number</label>
+                <input type="text" maxLength={10} placeholder="0123456789" value={newAccNum} onChange={e => setNewAccNum(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
+              </div>
+            </>
+          ) : (
+            <>
+              <div>
+                <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Card Number</label>
+                <input type="text" placeholder="5399 •••• •••• ••••" value={newAccNum} onChange={e => setNewAccNum(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Expiry</label>
+                  <input type="text" placeholder="MM/YY" className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-gray-700 uppercase block mb-1">CVV</label>
+                  <input type="password" maxLength={4} placeholder="123" className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
+                </div>
+              </div>
+            </>
+          )}
         </div>
-      )}
+        <div className="flex gap-3 mt-6 justify-end">
+          <button onClick={() => { setShowAddModal(false); setNewAccNum(''); setFormError(''); }} className="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-50 cursor-pointer bg-transparent">Cancel</button>
+          <button onClick={() => {
+            if (!newAccNum || newAccNum.length < 4) {
+              setFormError('Please enter a valid account or card number (min 4 characters).');
+              return;
+            }
+            const last4 = newAccNum.slice(-4);
+            const newId = `method-${Date.now()}`;
+            const newObj = newMethodType === 'bank' 
+              ? { id: newId, title: 'Bank Account', subtitle: `Ending in ${last4} • ${newBankName}`, icon: 'account_balance' }
+              : { id: newId, title: 'Debit Card', subtitle: `Ending in ${last4} • Mastercard`, icon: 'credit_card' };
+            setSavedMethods(prev => [...prev, newObj]);
+            setPaymentMethod(newId);
+            setShowAddModal(false);
+            setNewAccNum('');
+            setFormError('');
+          }} className="px-5 py-2 bg-[#072F29] text-white rounded-xl text-xs font-bold hover:bg-[#051f1b] cursor-pointer border-none">Save Method</button>
+        </div>
+      </Modal>
 
       {/* Visual Atmosphere: Subtle Gradient Background */}
       <div className="fixed bottom-0 right-0 -z-10 opacity-20 pointer-events-none">

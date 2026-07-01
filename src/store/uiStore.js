@@ -32,11 +32,16 @@ const useUIStore = create(
       // Global search open state
       searchOpen: false,
       setSearchOpen: (val) => set({ searchOpen: val }),
+
+      // Global portal language selection
+      portalLanguage: 'en-US',
+      setPortalLanguage: (lang) => set({ portalLanguage: lang }),
     }),
     {
       name: 'rf_ui',
       partialize: (state) => ({
         sidebarCollapsed: state.sidebarCollapsed,
+        portalLanguage: state.portalLanguage,
       }),
     }
   )

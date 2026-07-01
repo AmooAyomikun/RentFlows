@@ -21,10 +21,14 @@ const Modal = ({
   // Escape key handler
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === 'Escape' && isOpen) onClose();
+      if ((e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) && isOpen) {
+        e.preventDefault();
+        e.stopPropagation();
+        onClose();
+      }
     };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+    window.addEventListener('keydown', handler, true);
+    return () => window.removeEventListener('keydown', handler, true);
   }, [isOpen, onClose]);
 
   // Lock body scroll
@@ -58,7 +62,7 @@ const Modal = ({
       {isOpen && (
         <motion.div
           ref={overlayRef}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -69,11 +73,11 @@ const Modal = ({
           aria-label={title}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-charcoal/40 backdrop-blur-sm" aria-hidden="true" />
+          <div className="fixed inset-0 bg-charcoal/60 backdrop-blur-sm pointer-events-none" aria-hidden="true" />
 
           {/* Panel */}
           <motion.div
-            className={`relative w-full ${maxWidth} bg-white rounded-lg shadow-lg ${className}`}
+            className={`relative w-full ${maxWidth} bg-white rounded-2xl shadow-2xl my-auto flex flex-col max-h-[88vh] overflow-hidden ${className}`}
             initial={{ scale: 0.95, opacity: 0, y: 8 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 8 }}
@@ -81,15 +85,15 @@ const Modal = ({
           >
             {/* Header */}
             {(title || showClose) && (
-              <div className="flex items-center justify-between p-6 border-b border-border">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 shrink-0 bg-gray-50/50">
                 {title && (
-                  <h2 className="text-h4 font-display text-charcoal">{title}</h2>
+                  <h2 className="text-lg font-bold text-[#1E293B] m-0 pr-4">{title}</h2>
                 )}
                 {showClose && (
                   <button
                     onClick={onClose}
                     aria-label="Close modal"
-                    className="ml-auto text-muted hover:text-charcoal transition-colors p-1 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    className="ml-auto text-gray-400 hover:text-gray-700 hover:bg-gray-200/60 transition-colors p-1.5 rounded-full focus-visible:outline-none cursor-pointer border-none bg-transparent shrink-0 flex items-center justify-center"
                   >
                     <X size={20} />
                   </button>
@@ -98,7 +102,7 @@ const Modal = ({
             )}
 
             {/* Content */}
-            <div className="p-6">{children}</div>
+            <div className="p-6 overflow-y-auto flex-1">{children}</div>
           </motion.div>
         </motion.div>
       )}

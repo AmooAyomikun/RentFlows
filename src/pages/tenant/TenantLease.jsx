@@ -1,8 +1,10 @@
-import { toast } from 'sonner';
+import { useState } from 'react';
 import {
   MapPin, Wallet, FileText, CheckCircle2, Lock, Eye, Download,
-  Car, Building2, Phone, Mail, MessageSquare, Calendar, Bell, Info
+  Car, Building2, Phone, Mail, MessageSquare, Calendar, Bell, Info, Send, Printer
 } from 'lucide-react';
+import Modal from '../../components/ui/Modal';
+import { downloadLeaseDoc } from '../../utils/documentGenerator';
 
 // Custom PawPrint / Dog SVG Icon
 const PawIcon = ({ size = 20, className = "" }) => (
@@ -24,6 +26,21 @@ const PaintRollerIcon = ({ size = 20, className = "" }) => (
 );
 
 const TenantLease = () => {
+  const [showOnlineViewer, setShowOnlineViewer] = useState(false);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [messageTopic, setMessageTopic] = useState('Lease Terms Inquiry');
+  const [messageText, setMessageText] = useState('');
+  const [chatHistory, setChatHistory] = useState([
+    { sender: 'Adeleke & Co.', text: 'Welcome to Victoria Island Towers! Your lease document is active and verified.', date: 'Dec 15, 2025' }
+  ]);
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!messageText.trim()) return;
+    setChatHistory([...chatHistory, { sender: 'You', text: `[${messageTopic}] ${messageText}`, date: 'Just now' }]);
+    setMessageText('');
+  };
+
   return (
     <div className="space-y-6 w-full text-[#1E293B]">
       {/* Page Title & Subtitle matching design mockup exactly */}
@@ -186,8 +203,8 @@ const TenantLease = () => {
             </div>
 
             <button 
-              onClick={() => toast.info('Opening secure message thread with Adeleke & Co. Properties...')}
-              className="w-full py-2.5 rounded-lg border border-gray-300 hover:bg-gray-50 text-gray-800 font-extrabold text-xs tracking-wider uppercase flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs"
+              onClick={() => setShowMessageModal(true)}
+              className="w-full py-2.5 rounded-lg border border-gray-300 hover:bg-gray-50 text-gray-800 font-extrabold text-xs tracking-wider uppercase flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs bg-white"
             >
               <MessageSquare size={16} strokeWidth={2.2} />
               <span>Message Manager</span>
@@ -277,15 +294,17 @@ const TenantLease = () => {
 
           <div className="flex items-center gap-3 shrink-0 w-full sm:w-auto justify-end">
             <button 
-              onClick={() => toast.info('Opening lease document inline...')}
-              className="flex-1 sm:flex-none px-4 py-2.5 rounded-lg bg-[#E6F2EF] hover:bg-[#d5ebe5] text-[#04332C] font-extrabold text-xs tracking-wider inline-flex items-center justify-center gap-2 transition-all cursor-pointer uppercase whitespace-nowrap"
+              onClick={() => setShowOnlineViewer(true)}
+              className="flex-1 sm:flex-none px-4 py-2.5 rounded-lg bg-[#E6F2EF] hover:bg-[#d5ebe5] text-[#04332C] font-extrabold text-xs tracking-wider inline-flex items-center justify-center gap-2 transition-all cursor-pointer uppercase whitespace-nowrap border-none"
             >
               <Eye size={16} strokeWidth={2.2} />
               <span>View Online</span>
             </button>
             <button 
-              onClick={() => toast.success('Downloading Full Lease Agreement.pdf...')}
-              className="flex-1 sm:flex-none px-5 py-2.5 rounded-lg bg-[#9B3A0E] hover:bg-[#86310b] text-white font-extrabold text-xs tracking-wider inline-flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98] cursor-pointer uppercase whitespace-nowrap"
+              onClick={() => {
+                downloadLeaseDoc();
+              }}
+              className="flex-1 sm:flex-none px-5 py-2.5 rounded-lg bg-[#9B3A0E] hover:bg-[#86310b] text-white font-extrabold text-xs tracking-wider inline-flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98] cursor-pointer uppercase whitespace-nowrap border-none"
             >
               <Download size={16} strokeWidth={2.2} />
               <span>Download Full Lease</span>
@@ -330,6 +349,154 @@ const TenantLease = () => {
           <span className="hover:text-gray-600 cursor-pointer transition-colors">ADA COMPLIANCE</span>
         </div>
       </footer>
+
+      {/* Online Lease Viewer Modal */}
+      <Modal
+        isOpen={showOnlineViewer}
+        onClose={() => setShowOnlineViewer(false)}
+        title="Full Residential Lease Agreement (Online Viewer)"
+        maxWidth="max-w-4xl"
+      >
+        <div className="space-y-6 text-[#1E293B] max-h-[70vh] overflow-y-auto pr-2">
+          <div className="bg-[#E6F2EF] p-4 rounded-xl flex items-center justify-between border border-[#04332C]/20 sticky top-0 bg-[#E6F2EF]/95 backdrop-blur-sm z-10">
+            <div className="flex items-center gap-3">
+              <FileText size={24} className="text-[#04332C]" />
+              <div>
+                <h4 className="font-bold text-sm text-[#04332C] m-0">Victoria Island Towers • Unit #402-B</h4>
+                <p className="text-xs text-[#04332C]/80 m-0">Lease ID: RF-8921-LG • Signed Dec 15, 2025</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => downloadLeaseDoc()}
+                className="px-3 py-1.5 bg-white text-[#04332C] rounded-lg text-xs font-bold border border-[#04332C]/20 hover:bg-gray-50 cursor-pointer inline-flex items-center gap-1"
+              >
+                <Printer size={13} />
+                Print / Save Document
+              </button>
+              <button
+                onClick={() => downloadLeaseDoc()}
+                className="px-3 py-1.5 bg-[#04332C] text-white rounded-lg text-xs font-bold border-none hover:bg-[#064e43] cursor-pointer inline-flex items-center gap-1"
+              >
+                <Download size={13} />
+                Download PDF
+              </button>
+            </div>
+          </div>
+
+          <div className="p-6 bg-gray-50 border border-gray-200 rounded-xl space-y-6 text-sm leading-relaxed font-serif">
+            <div className="text-center pb-4 border-b border-gray-300">
+              <h2 className="text-xl font-bold font-sans text-[#04332C] uppercase tracking-wider m-0">Residential Lease Contract</h2>
+              <p className="text-xs text-gray-500 font-sans mt-1">Legally Binding Agreement under Lagos Tenancy Law</p>
+            </div>
+
+            <div className="space-y-4 font-sans text-sm">
+              <div>
+                <h4 className="font-bold text-gray-900 uppercase text-xs tracking-wider mb-1">1. PARTIES & PREMISES</h4>
+                <p className="text-gray-700 m-0">This Agreement is made by and between <strong>Adeleke & Co. Properties</strong> ("Landlord/Manager") and <strong>Ayomikun Adeleke</strong> ("Resident") for the real property located at Victoria Island Towers, Suite #402-B, Lagos, Nigeria.</p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-gray-900 uppercase text-xs tracking-wider mb-1">2. LEASE TERM & FINANCIAL TERMS</h4>
+                <p className="text-gray-700 m-0">The lease term begins on <strong>January 01, 2026</strong> and ends on <strong>December 31, 2026</strong>. Resident agrees to pay base rent of <strong>₦2,850,000</strong> per month via Automated Direct Debit (ACH). A security deposit of <strong>₦3,200,000</strong> is held in an escrow account.</p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-gray-900 uppercase text-xs tracking-wider mb-1">3. PETS & PARKING RULES</h4>
+                <p className="text-gray-700 m-0">Domestic cats and dogs under 40lbs permitted (maximum 2 pets) subject to monthly pet premium of ₦50,000. Resident is assigned Parking Stall #42 in Basement Level 1.</p>
+              </div>
+
+              <div className="pt-4 border-t border-gray-300 grid grid-cols-2 gap-4">
+                <div className="bg-white p-3 rounded border border-gray-200">
+                  <span className="text-[10px] font-bold text-gray-400 block uppercase">Resident Digital Signature</span>
+                  <span className="font-mono text-xs font-bold text-green-700 block mt-1">Ayomikun Adeleke (SHA: 8f9a...3b21)</span>
+                  <span className="text-[10px] text-gray-500 block">Signed: Dec 15, 2025</span>
+                </div>
+                <div className="bg-white p-3 rounded border border-gray-200">
+                  <span className="text-[10px] font-bold text-gray-400 block uppercase">Management Countersignature</span>
+                  <span className="font-mono text-xs font-bold text-green-700 block mt-1">Adeleke & Co. Authorized Signatory</span>
+                  <span className="text-[10px] text-gray-500 block">Signed: Dec 15, 2025</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Secure Message Manager Modal */}
+      <Modal
+        isOpen={showMessageModal}
+        onClose={() => setShowMessageModal(false)}
+        title="Secure Property Management Center"
+        maxWidth="max-w-xl"
+      >
+        <div className="space-y-4 text-[#1E293B]">
+          <div className="bg-[#F8FAFC] p-3 rounded-xl border border-gray-200 flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2">
+              <Building2 size={16} className="text-[#04332C]" />
+              <span className="font-bold text-gray-800">Adeleke & Co. Properties Support</span>
+            </div>
+            <span className="text-green-600 font-bold flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-green-500 block" /> Online
+            </span>
+          </div>
+
+          <div className="border border-gray-200 rounded-xl p-4 bg-gray-50/50 max-h-56 overflow-y-auto space-y-3">
+            {chatHistory.map((msg, idx) => (
+              <div key={idx} className={`flex flex-col ${msg.sender === 'You' ? 'items-end' : 'items-start'}`}>
+                <div className={`px-3.5 py-2.5 rounded-xl max-w-[85%] text-xs ${msg.sender === 'You' ? 'bg-[#04332C] text-white' : 'bg-white border border-gray-200 text-gray-800 shadow-2xs'}`}>
+                  <div className={`font-bold text-[10px] mb-0.5 ${msg.sender === 'You' ? 'text-white/70' : 'text-gray-400'}`}>{msg.sender}</div>
+                  <div>{msg.text}</div>
+                </div>
+                <span className="text-[9px] text-gray-400 mt-1 px-1">{msg.date}</span>
+              </div>
+            ))}
+          </div>
+
+          <form onSubmit={handleSendMessage} className="space-y-3 pt-2">
+            <div>
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Topic / Reference</label>
+              <select
+                value={messageTopic}
+                onChange={(e) => setMessageTopic(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-semibold bg-white cursor-pointer"
+              >
+                <option value="Lease Terms Inquiry">Lease Terms Inquiry</option>
+                <option value="Renewal Question">Renewal Offer Question</option>
+                <option value="Billing & Ledger">Billing & Ledger Clarification</option>
+                <option value="General Support">General Support</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Your Message</label>
+              <textarea
+                rows={3}
+                required
+                value={messageText}
+                onChange={(e) => setMessageText(e.target.value)}
+                placeholder="Write your message to Adeleke & Co. management team..."
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-medium focus:ring-2 focus:ring-[#04332C]/20 focus:outline-none"
+              />
+            </div>
+            <div className="flex justify-end gap-2 pt-1">
+              <button
+                type="button"
+                onClick={() => setShowMessageModal(false)}
+                className="px-4 py-2 border border-gray-300 rounded-lg text-xs font-bold text-gray-600 hover:bg-gray-50 cursor-pointer bg-white"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                className="px-5 py-2 bg-[#04332C] hover:bg-[#064e43] text-white rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer border-none"
+              >
+                <Send size={13} />
+                Send Secure Message
+              </button>
+            </div>
+          </form>
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { toast } from 'sonner';
+import Modal from '../../components/ui/Modal';
+import { downloadHandbookGuideDoc } from '../../utils/documentGenerator';
 
 const ticketsData = [
   {
@@ -50,6 +51,11 @@ const ticketsData = [
 const TenantMaintenance = () => {
   const [filter, setFilter] = useState('ALL');
   const [showModal, setShowModal] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [showArchiveModal, setShowArchiveModal] = useState(false);
+  const [showHandbookModal, setShowHandbookModal] = useState(false);
+  const [selectedGuide, setSelectedGuide] = useState(null);
+  const [submittedSuccessModal, setSubmittedSuccessModal] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -60,8 +66,8 @@ const TenantMaintenance = () => {
 
   const handleSubmitRequest = (e) => {
     e.preventDefault();
-    toast.success('Maintenance request submitted successfully! Our team will review within 24 hours.');
     setShowModal(false);
+    setSubmittedSuccessModal(true);
   };
 
   const filteredTickets = filter === 'OPEN' 
@@ -78,7 +84,7 @@ const TenantMaintenance = () => {
         </div>
         <button 
           onClick={() => setShowModal(true)}
-          className="bg-[#04332C] text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider shadow-sm hover:bg-[#032621] transition-all flex items-center gap-2 cursor-pointer shrink-0"
+          className="bg-[#04332C] text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider shadow-sm hover:bg-[#032621] transition-all flex items-center gap-2 cursor-pointer shrink-0 border-none"
         >
           <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>add_circle</span>
           REQUEST NEW MAINTENANCE
@@ -130,16 +136,16 @@ const TenantMaintenance = () => {
             <div className="flex gap-2">
               <button 
                 onClick={() => setFilter('ALL')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                  filter === 'ALL' ? 'bg-primary text-on-primary' : 'border border-outline-variant hover:bg-surface-container text-on-surface-variant'
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer border-none ${
+                  filter === 'ALL' ? 'bg-[#04332C] text-white' : 'border border-gray-200 hover:bg-gray-50 text-gray-600'
                 }`}
               >
                 ALL
               </button>
               <button 
                 onClick={() => setFilter('OPEN')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                  filter === 'OPEN' ? 'bg-primary text-on-primary' : 'border border-outline-variant hover:bg-surface-container text-on-surface-variant'
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer border-none ${
+                  filter === 'OPEN' ? 'bg-[#04332C] text-white' : 'border border-gray-200 hover:bg-gray-50 text-gray-600'
                 }`}
               >
                 OPEN
@@ -153,7 +159,7 @@ const TenantMaintenance = () => {
               {filteredTickets.map((ticket) => (
                 <div 
                   key={ticket.id} 
-                  onClick={() => toast.info(`Viewing details for ticket ${ticket.id}`)}
+                  onClick={() => setSelectedTicket(ticket)}
                   className={`p-6 hover:bg-surface-container-low transition-colors group cursor-pointer relative overflow-hidden ${ticket.resolved ? 'opacity-70' : ''}`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-2">
@@ -163,7 +169,7 @@ const TenantMaintenance = () => {
                       </div>
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-center gap-3">
-                          <h4 className="font-semibold text-on-surface">{ticket.title}</h4>
+                          <h4 className="font-semibold text-on-surface m-0">{ticket.title}</h4>
                           <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest ${ticket.categoryBadge}`}>
                             {ticket.category}
                           </span>
@@ -186,7 +192,7 @@ const TenantMaintenance = () => {
                   <div className="mt-4 flex items-center justify-between">
                     {ticket.assigneeType === 'avatars' && (
                       <div className="flex -space-x-2">
-                        <div className="w-7 h-7 rounded-full border-2 border-white bg-outline-variant flex items-center justify-center text-[10px] text-white">JD</div>
+                        <div className="w-7 h-7 rounded-full border-2 border-white bg-outline-variant flex items-center justify-center text-[10px] text-white font-bold">JD</div>
                         <div className="w-7 h-7 rounded-full border-2 border-white bg-primary-container flex items-center justify-center text-[10px] text-white font-bold">RF</div>
                       </div>
                     )}
@@ -219,8 +225,8 @@ const TenantMaintenance = () => {
 
             <div className="p-4 bg-surface-container-lowest text-center border-t border-outline-variant/30">
               <button 
-                onClick={() => toast.info('Loading historical tickets archive...')}
-                className="text-primary text-xs font-bold hover:underline cursor-pointer uppercase tracking-widest"
+                onClick={() => setShowArchiveModal(true)}
+                className="text-primary text-xs font-bold hover:underline cursor-pointer uppercase tracking-widest border-none bg-transparent"
               >
                 VIEW ALL HISTORICAL TICKETS
               </button>
@@ -242,7 +248,7 @@ const TenantMaintenance = () => {
               <h2 className="text-xl font-bold text-white mb-2 m-0">Emergency Contact</h2>
               <p className="text-white/80 text-sm mb-6 leading-relaxed m-0">For immediate life-safety issues, fires, or catastrophic flooding, please contact our 24/7 hotline directly.</p>
               <div className="space-y-4">
-                <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10">
+                <a href="tel:+2348005550199" className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10 no-underline text-white hover:bg-white/20 transition-colors">
                   <div className="w-10 h-10 rounded-full bg-white text-[#04332C] flex items-center justify-center shrink-0 font-bold">
                     <span className="material-symbols-outlined">call</span>
                   </div>
@@ -250,11 +256,8 @@ const TenantMaintenance = () => {
                     <p className="text-[10px] text-white/70 uppercase font-bold m-0">Maintenance Hotline</p>
                     <p className="font-mono text-lg text-white font-bold tracking-wider m-0">+234 800 555 0199</p>
                   </div>
-                </div>
-                <div 
-                  onClick={() => toast.info('Opening emergency SMS interface...')}
-                  className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10 cursor-pointer hover:bg-white/20 transition-colors"
-                >
+                </a>
+                <a href="sms:+2348030000199?body=HELP" className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10 cursor-pointer hover:bg-white/20 transition-colors no-underline text-white">
                   <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined text-white">chat_bubble</span>
                   </div>
@@ -262,7 +265,7 @@ const TenantMaintenance = () => {
                     <p className="text-[10px] text-white/70 uppercase font-bold m-0">Emergency SMS</p>
                     <p className="font-mono text-white font-bold m-0">Text "HELP" to 08030000199</p>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
           </div>
@@ -291,7 +294,7 @@ const TenantMaintenance = () => {
 
           {/* Helpful Resources & Guides Card */}
           <div 
-            onClick={() => toast.info('Opening Resident Handbook and Guides...')}
+            onClick={() => setShowHandbookModal(true)}
             className="bg-white p-6 rounded-xl border border-gray-200 card-shadow flex items-center gap-4 cursor-pointer hover:bg-gray-50 transition-colors group"
           >
             <div className="w-12 h-12 rounded-xl bg-secondary-container/30 flex items-center justify-center text-secondary shrink-0 group-hover:scale-105 transition-transform">
@@ -332,109 +335,285 @@ const TenantMaintenance = () => {
       <div className="md:hidden fixed bottom-6 right-6 z-50">
         <button 
           onClick={() => setShowModal(true)}
-          className="w-14 h-14 rounded-full bg-on-tertiary-container text-white shadow-2xl flex items-center justify-center active:scale-90 transition-transform cursor-pointer"
+          className="w-14 h-14 rounded-full bg-on-tertiary-container text-white shadow-2xl flex items-center justify-center active:scale-90 transition-transform cursor-pointer border-none"
           aria-label="Request New Maintenance"
         >
           <span className="material-symbols-outlined text-3xl">add</span>
         </button>
       </div>
 
-      {/* New Maintenance Modal Dialog */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1"
-            >
-              <span className="material-symbols-outlined">close</span>
-            </button>
-
-            <h2 className="text-xl font-bold text-gray-900 m-0">Request New Maintenance</h2>
-            <p className="text-xs text-gray-500 mt-1 m-0">Describe your issue below and our team will dispatch a technician.</p>
-
-            <form onSubmit={handleSubmitRequest} className="mt-6 space-y-4">
+      {/* Ticket Details Modal */}
+      <Modal isOpen={!!selectedTicket} onClose={() => setSelectedTicket(null)} title={`Ticket Details: ${selectedTicket?.id}`}>
+        {selectedTicket && (
+          <div className="space-y-4 text-[#1E293B]">
+            <div className="flex justify-between items-start border-b border-gray-100 pb-3">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Property & Unit</label>
-                <input
-                  required
-                  list="tenant-properties-list"
-                  placeholder="Type or select unit (e.g. Victoria Island Towers - Unit 402-B)"
-                  defaultValue="Victoria Island Towers - Unit 402-B"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
-                />
-                <datalist id="tenant-properties-list">
-                  <option value="Victoria Island Towers - Unit 402-B" />
-                  <option value="Lekki Phase 1 Apartments - Flat 3A" />
-                  <option value="Ikoyi Palms Residence - Suite 12" />
-                  <option value="Abuja Central Plaza - Penthouse 4" />
-                </datalist>
+                <h3 className="font-bold text-base text-gray-900 m-0">{selectedTicket.title}</h3>
+                <p className="text-xs text-gray-500 m-0 mt-0.5">{selectedTicket.date} • {selectedTicket.category}</p>
               </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Issue Category</label>
-                <select required className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20">
-                  <option value="plumbing">Plumbing</option>
-                  <option value="electrical">Electrical</option>
-                  <option value="hvac">HVAC / Heating & Cooling</option>
-                  <option value="appliance">Appliance Repair</option>
-                  <option value="carpentry">Carpentry / Doors / Windows</option>
-                  <option value="painting">Painting / Walls</option>
-                  <option value="pest">Pest Control</option>
-                  <option value="security">Security / Locks</option>
-                  <option value="roofing">Roofing / Leaks</option>
-                  <option value="general">General / Other</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Short Title</label>
-                <input
-                  required
-                  type="text"
-                  placeholder="e.g. Broken garbage disposal"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Description</label>
-                <textarea
-                  required
-                  rows={4}
-                  placeholder="Please describe the issue in detail, when it started, and any troubleshooting done..."
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder-gray-400 resize-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Photos (Optional)</label>
-                <div className="border-2 border-dashed border-gray-200 rounded-xl p-5 text-center hover:bg-gray-50 transition-colors cursor-pointer">
-                  <span className="material-symbols-outlined text-gray-400 text-3xl mb-1 block">upload</span>
-                  <p className="text-xs font-bold text-gray-700">Click to upload or drag and drop</p>
-                  <p className="text-[11px] text-gray-400 mt-0.5">PNG, JPG up to 10MB</p>
+              <span className={`px-2.5 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
+                selectedTicket.resolved ? 'bg-gray-100 text-gray-700' : 'bg-amber-100 text-amber-800'
+              }`}>
+                {selectedTicket.status}
+              </span>
+            </div>
+            <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100 text-xs text-gray-700 leading-relaxed">
+              <strong>Problem Description:</strong><br />
+              {selectedTicket.description}
+            </div>
+            {selectedTicket.technicianName && (
+              <div className="p-3.5 bg-emerald-50/50 rounded-xl border border-emerald-100 flex items-center gap-3">
+                <img src={selectedTicket.technicianAvatar} alt="Tech" className="w-8 h-8 rounded-full object-cover" />
+                <div className="text-xs">
+                  <p className="font-bold text-gray-900 m-0">Assigned Technician: {selectedTicket.technicianName}</p>
+                  <p className="text-[11px] text-gray-500 m-0">Status: En route / Scheduled</p>
                 </div>
               </div>
+            )}
+            <div className="flex justify-end pt-2">
+              <button onClick={() => setSelectedTicket(null)} className="px-5 py-2 bg-[#04332C] text-white rounded-lg text-xs font-bold border-none cursor-pointer">Close</button>
+            </div>
+          </div>
+        )}
+      </Modal>
 
-              <div className="pt-4 flex items-center justify-end gap-3 border-t border-gray-100 mt-6">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-5 py-2.5 rounded-xl border border-gray-300 font-bold text-xs uppercase tracking-wider text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-container font-bold text-xs uppercase tracking-wider text-on-primary shadow-sm transition-all active:scale-[0.98] cursor-pointer"
-                >
-                  Submit Ticket
-                </button>
-              </div>
-            </form>
+      {/* Historical Archive Modal */}
+      <Modal isOpen={showArchiveModal} onClose={() => setShowArchiveModal(false)} title="Historical Tickets Archive">
+        <div className="space-y-4 text-[#1E293B]">
+          <p className="text-xs text-gray-600 m-0">
+            Below is a summary of completed and archived maintenance records from previous lease periods.
+          </p>
+          <div className="divide-y divide-gray-100 border border-gray-200 rounded-xl overflow-hidden text-xs">
+            <div className="p-3.5 bg-gray-50 flex justify-between items-center font-medium">
+              <span>Bathroom Sink Unclogging (#RF-28011)</span>
+              <span className="text-gray-500 font-bold">Mar 2026</span>
+            </div>
+            <div className="p-3.5 bg-white flex justify-between items-center font-medium">
+              <span>Balcony Door Handle Replacement (#RF-27544)</span>
+              <span className="text-gray-500 font-bold">Jan 2026</span>
+            </div>
+            <div className="p-3.5 bg-gray-50 flex justify-between items-center font-medium">
+              <span>Annual Pest Inspection (#RF-26990)</span>
+              <span className="text-gray-500 font-bold">Nov 2025</span>
+            </div>
+          </div>
+          <div className="flex justify-end pt-2">
+            <button onClick={() => setShowArchiveModal(false)} className="px-5 py-2 bg-[#04332C] text-white rounded-lg text-xs font-bold border-none cursor-pointer">Close Archive</button>
           </div>
         </div>
-      )}
+      </Modal>
+
+      {/* Handbook Modal */}
+      <Modal isOpen={showHandbookModal} onClose={() => { setShowHandbookModal(false); setSelectedGuide(null); }} title="Resident Handbook & Guides">
+        <div className="space-y-4 text-[#1E293B]">
+          <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center justify-between gap-3">
+            <div>
+              <h4 className="font-bold text-sm text-emerald-900 m-0">2026 Resident Maintenance Manual</h4>
+              <p className="text-xs text-emerald-800 mt-1 m-0">Official guidelines on apartment care, appliance warranties, and emergency protocols.</p>
+            </div>
+            <button
+              onClick={() => downloadHandbookGuideDoc('2026 Resident Maintenance Manual')}
+              className="px-3.5 py-2 bg-[#04332C] text-white rounded-lg text-xs font-bold shrink-0 hover:bg-[#03241f] transition-all cursor-pointer border-none shadow-xs"
+            >
+              Download Full Manual PDF
+            </button>
+          </div>
+
+          {selectedGuide ? (
+            <div className="p-5 bg-gray-50 rounded-xl border border-gray-200 space-y-4 max-h-[60vh] overflow-y-auto">
+              <div className="flex justify-between items-center border-b border-gray-200 pb-3 sticky top-0 bg-gray-50 pt-1">
+                <h5 className="font-bold text-sm text-gray-900 m-0">{selectedGuide.title}</h5>
+                <button onClick={() => setSelectedGuide(null)} className="text-xs text-primary font-bold hover:underline cursor-pointer bg-transparent border-none">← Back to Guides</button>
+              </div>
+              <div className="text-xs text-gray-700 leading-relaxed space-y-3 whitespace-pre-line m-0 font-medium">
+                {selectedGuide.content}
+              </div>
+              <div className="pt-3 border-t border-gray-200 flex justify-end">
+                <button
+                  onClick={() => downloadHandbookGuideDoc(selectedGuide.title)}
+                  className="px-4 py-2 bg-primary text-white rounded-lg text-xs font-bold cursor-pointer border-none shadow-xs hover:bg-primary/90 transition-all"
+                >
+                  Download Guide PDF
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-3 text-xs font-medium text-gray-700">
+              {[
+                {
+                  title: '1. Electrical Distribution & Circuit Breakers Guide',
+                  content: `The main electrical distribution panel for your suite is located inside the hallway utility pantry. Every breaker switch is labeled for Lighting, HVAC, Kitchen Appliances, and Receptacles.
+
+If an appliance trips a circuit breaker due to temporary overload:
+1. Immediately unplug all high-wattage devices connected to that room's wall outlets.
+2. Open the utility pantry door and inspect the breaker panel switches. A tripped switch sits halfway between ON and OFF.
+3. Firmly push the tripped breaker switch completely to the OFF position, wait 10 seconds, and then firmly push it up to the ON position.
+4. If a breaker trips twice consecutively, leave it in the OFF position and immediately log an urgent electrical ticket on the maintenance portal.`
+                },
+                {
+                  title: '2. Air Conditioning Care & Hygiene Procedures',
+                  content: `Your residence is equipped with high-efficiency inverter split cooling systems designed for tropical climate stability.
+
+To ensure maximum cooling performance, maintain indoor air quality, and prevent condensation leaks:
+• Monthly Filter Sanitation: Open the front access panel of each indoor unit once every 30 days. Gently slide out the mesh dust filters and rinse under lukewarm tap water. Shake off excess moisture and allow to air-dry completely before reinstalling.
+• Energy Efficiency: Maintain room thermostats between 22°C and 24°C. Operating AC units while balcony doors or windows are open causes rapid coil freezing and excess condensation dripping.
+• Professional Servicing: Quarterly deep chemical cleaning and refrigerant pressure checks are scheduled automatically by Adeleke & Co. Management.`
+                },
+                {
+                  title: '3. Plumbing Isolation & Water Shut-off Valves',
+                  content: `Knowing the locations of emergency water valves is essential to prevent flood damage during accidental pipe bursts or fixture leaks.
+
+• Fixture Isolation Valves: Underneath every bathroom sink vanity, kitchen sink, and toilet cistern, you will find angled chrome stop valves. Turn clockwise until tight to isolate water flow to that specific fixture.
+• Master Apartment Shut-off Valve: The main water isolation valve governing your entire apartment unit is located inside the laundry room closet behind metal hatch B. In case of a major burst or overflowing tub, immediately shut off this master valve and contact the 24/7 hotline.`
+                },
+                {
+                  title: '4. Fire Safety & Emergency Evacuation Protocols',
+                  content: `Victoria Island Towers is equipped with interconnected optical smoke detectors and sprinkler heads in every apartment suite.
+
+• Alarm Activation: If your smoke alarm sounds due to cooking smoke, ventilate the kitchen immediately. Never tamper with or cover smoke detector sensors.
+• Fire Emergencies: If an active fire occurs, alert household members immediately, leave all belongings behind, and exit via the illuminated fire escape stairwells. Never use elevators during a fire evacuation.
+• Assembly Point: Proceed directly to the primary emergency muster point located at the South Courtyard fountain lawn.`
+                },
+                {
+                  title: '5. Waste Management & Recycling Guidelines',
+                  content: `To maintain hygiene and prevent pest ingress across residential corridors:
+
+• Trash Chutes: Automated garbage chutes are located in the service corridor of each floor. All household refuse must be sealed inside durable garbage bags before insertion.
+• Prohibited Items: Never drop glass, renovation debris, hot liquids, or oversized cardboard boxes down the disposal chute. Leave broken-down cardboard boxes neatly in the freight service lobby for daily janitorial collection.`
+                }
+              ].map((guide, idx) => (
+                <div key={idx} className="p-3.5 bg-gray-50 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-gray-200/80 hover:border-gray-300 transition-all shadow-2xs">
+                  <div>
+                    <span className="font-bold text-gray-900 block text-xs">{guide.title}</span>
+                    <span className="text-[11px] text-gray-500 line-clamp-1 mt-0.5">{guide.content.split('\n')[0]}</span>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={() => setSelectedGuide(guide)}
+                      className="px-3 py-1.5 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 text-[11px] font-bold cursor-pointer transition-all"
+                    >
+                      Read Online
+                    </button>
+                    <button
+                      onClick={() => downloadHandbookGuideDoc(guide.title)}
+                      className="px-3 py-1.5 rounded-lg bg-[#04332C] text-white text-[11px] font-bold cursor-pointer border-none shadow-2xs hover:bg-[#03241f] transition-all"
+                    >
+                      Download PDF
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="flex justify-end pt-2 border-t border-gray-100">
+            <button onClick={() => { setShowHandbookModal(false); setSelectedGuide(null); }} className="px-5 py-2 bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-lg text-xs font-bold border-none cursor-pointer">Close</button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Submission Success Modal */}
+      <Modal isOpen={submittedSuccessModal} onClose={() => setSubmittedSuccessModal(false)} title="Maintenance Request Submitted">
+        <div className="space-y-4 text-center text-[#1E293B] py-2">
+          <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+            <span className="material-symbols-outlined text-3xl">check_circle</span>
+          </div>
+          <div>
+            <h3 className="font-bold text-base text-gray-900 m-0">Request Logged Successfully</h3>
+            <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+              Your service request has been transmitted to our facility managers. You will receive an SMS confirmation once a technician is scheduled.
+            </p>
+          </div>
+          <div className="pt-2">
+            <button onClick={() => setSubmittedSuccessModal(false)} className="px-6 py-2.5 bg-[#04332C] text-white rounded-xl text-xs font-bold border-none cursor-pointer">View Tickets</button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* New Maintenance Modal Dialog */}
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)} title="Request New Maintenance">
+        <p className="text-xs text-gray-500 mt-0 mb-4">Describe your issue below and our team will dispatch a technician.</p>
+
+        <form onSubmit={handleSubmitRequest} className="space-y-4">
+          <div>
+            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Property & Unit</label>
+            <input
+              required
+              list="tenant-properties-list"
+              placeholder="Type or select unit (e.g. Victoria Island Towers - Unit 402-B)"
+              defaultValue="Victoria Island Towers - Unit 402-B"
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
+            />
+            <datalist id="tenant-properties-list">
+              <option value="Victoria Island Towers - Unit 402-B" />
+              <option value="Lekki Phase 1 Apartments - Flat 3A" />
+              <option value="Ikoyi Palms Residence - Suite 12" />
+              <option value="Abuja Central Plaza - Penthouse 4" />
+            </datalist>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Issue Category</label>
+            <select required className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20">
+              <option value="plumbing">Plumbing</option>
+              <option value="electrical">Electrical</option>
+              <option value="hvac">HVAC / Heating & Cooling</option>
+              <option value="appliance">Appliance Repair</option>
+              <option value="carpentry">Carpentry / Doors / Windows</option>
+              <option value="painting">Painting / Walls</option>
+              <option value="pest">Pest Control</option>
+              <option value="security">Security / Locks</option>
+              <option value="roofing">Roofing / Leaks</option>
+              <option value="general">General / Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Short Title</label>
+            <input
+              required
+              type="text"
+              placeholder="e.g. Broken garbage disposal"
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Description</label>
+            <textarea
+              required
+              rows={4}
+              placeholder="Please describe the issue in detail, when it started, and any troubleshooting done..."
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder-gray-400 resize-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Photos (Optional)</label>
+            <div className="border-2 border-dashed border-gray-200 rounded-xl p-5 text-center hover:bg-gray-50 transition-colors cursor-pointer">
+              <span className="material-symbols-outlined text-gray-400 text-3xl mb-1 block">upload</span>
+              <p className="text-xs font-bold text-gray-700">Click to upload or drag and drop</p>
+              <p className="text-[11px] text-gray-400 mt-0.5">PNG, JPG up to 10MB</p>
+            </div>
+          </div>
+
+          <div className="pt-4 flex items-center justify-end gap-3 border-t border-gray-100 mt-6">
+            <button
+              type="button"
+              onClick={() => setShowModal(false)}
+              className="px-5 py-2.5 rounded-xl border border-gray-300 font-bold text-xs uppercase tracking-wider text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer bg-transparent"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-container font-bold text-xs uppercase tracking-wider text-on-primary shadow-sm transition-all active:scale-[0.98] cursor-pointer border-none"
+            >
+              Submit Ticket
+            </button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };

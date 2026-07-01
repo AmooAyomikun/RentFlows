@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate, Link, Outlet, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import useAuthStore from '../../store/authStore';
@@ -11,6 +11,56 @@ import {
   ChevronLeft, ChevronRight, X
 } from 'lucide-react';
 
+const translations = {
+  'yo-NG': {
+    'Dashboard': 'Pátákó Bútá',
+    'Pay Rent': 'San Owó Ilé',
+    'Payment History': 'Ìtàn Ìsanwó',
+    'Receipts': 'Rísíìtì',
+    'Maintenance': 'Ìtọ́jú Ilé',
+    'Lease Details': 'Àlàyé Àdéhùn',
+    'Profile': 'Púrófáìlì',
+    'Settings': 'Ètò',
+    'Make Payment': 'San Owó',
+    'Report Issue': 'Ròyìn Ìṣòro',
+    'Support': 'Ìrànwọ́',
+    'Logout': 'Jáde',
+    'Tenant Portal': 'Póńtá Tẹ́nàntì'
+  },
+  'ig-NG': {
+    'Dashboard': 'Dáshbọ̀d',
+    'Pay Rent': 'Kwụọ Ụgwọ Ụlọ',
+    'Payment History': 'Akụkọ Ịkwụ Ụgwọ',
+    'Receipts': 'Risiitị',
+    'Maintenance': 'Mmezi',
+    'Lease Details': 'Nkọwa Mgbazinye',
+    'Profile': 'Prọfaịlụ',
+    'Settings': 'Ntọala',
+    'Make Payment': 'Kwụọ Ụgwọ',
+    'Report Issue': 'Kọọ Nsogbu',
+    'Support': 'Nkwado',
+    'Logout': 'Pụọ',
+    'Tenant Portal': 'Pọtụ Ndi Onye Obibi'
+  },
+  'ha-NG': {
+    'Dashboard': 'Dashboard',
+    'Pay Rent': 'Biyan Kudin Gida',
+    'Payment History': 'Tarihin Biyayya',
+    'Receipts': 'Rasit',
+    'Maintenance': 'Gyaran Gida',
+    'Lease Details': 'Bayanin Yarjejeniya',
+    'Profile': 'Bayanin Mutum',
+    'Settings': 'Saitini',
+    'Make Payment': 'Biyan Kudi',
+    'Report Issue': 'Kawo Rahoton Matsala',
+    'Support': 'Taimako',
+    'Logout': 'Fita',
+    'Tenant Portal': 'Tashar Yan Gida'
+  }
+};
+
+const t = (text, lang) => (translations[lang] && translations[lang][text]) ? translations[lang][text] : text;
+
 const tenantNavItems = [
   { href: '/tenant/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/tenant/pay-rent', icon: CreditCard, label: 'Pay Rent' },
@@ -22,7 +72,7 @@ const tenantNavItems = [
   { href: '/tenant/settings', icon: Settings, label: 'Settings' },
 ];
 
-const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarCollapsed, toggleSidebar }) => (
+const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarCollapsed, toggleSidebar, portalLanguage }) => (
   <div className="flex flex-col h-full bg-[#00372f] text-white py-4 select-none overflow-hidden">
     {/* Branding Header */}
     <div className={`flex items-center justify-between px-5 mb-5 shrink-0 ${sidebarCollapsed ? 'justify-center px-2' : ''}`}>
@@ -31,7 +81,7 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarColl
           <LogoMark />
           <div className="flex flex-col shrink-0">
             <h1 className="text-xl font-bold text-white leading-tight">RentFlow</h1>
-            <p className="text-[11px] font-semibold text-[#84bfb2] opacity-80 uppercase tracking-widest">Tenant Portal</p>
+            <p className="text-[11px] font-semibold text-[#84bfb2] opacity-80 uppercase tracking-widest">{t('Tenant Portal', portalLanguage)}</p>
           </div>
         </Link>
       )}
@@ -72,7 +122,7 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarColl
               sidebarCollapsed ? 'justify-center px-0' : '',
             ].join(' ')
           }
-          title={sidebarCollapsed ? label : undefined}
+          title={sidebarCollapsed ? t(label, portalLanguage) : undefined}
         >
           {({ isActive }) => (
             <>
@@ -84,7 +134,7 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarColl
                 aria-hidden="true"
                 className={`shrink-0 ${isActive ? 'text-white' : 'text-[#84bfb2]'}`}
               />
-              {!sidebarCollapsed && <span className="text-[15px] tracking-normal truncate">{label}</span>}
+              {!sidebarCollapsed && <span className="text-[15px] tracking-normal truncate">{t(label, portalLanguage)}</span>}
             </>
           )}
         </NavLink>
@@ -97,10 +147,10 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarColl
         to="/tenant/pay-rent"
         onClick={onClose}
         className={`flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[#C75B30] hover:bg-[#d8683b] text-white font-bold text-[15px] shadow-md hover:shadow-lg transition-all active:scale-95 ${sidebarCollapsed ? 'px-0 w-11 h-11 mx-auto' : ''}`}
-        title="Make Payment"
+        title={t('Make Payment', portalLanguage)}
       >
         <CreditCard size={20} className="shrink-0" />
-        {!sidebarCollapsed && <span>Make Payment</span>}
+        {!sidebarCollapsed && <span>{t('Make Payment', portalLanguage)}</span>}
       </Link>
 
       <div className="space-y-1 pt-1">
@@ -108,29 +158,29 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarColl
           to="/tenant/report-issue"
           onClick={onClose}
           className={`flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
-          title="Report Issue"
+          title={t('Report Issue', portalLanguage)}
         >
           <AlertTriangle size={20} className="shrink-0 text-[#C75B30]" />
-          {!sidebarCollapsed && <span className="text-[15px]">Report Issue</span>}
+          {!sidebarCollapsed && <span className="text-[15px]">{t('Report Issue', portalLanguage)}</span>}
         </Link>
 
         <Link
           to="/tenant/support"
           onClick={onClose}
           className={`flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
-          title="Support"
+          title={t('Support', portalLanguage)}
         >
           <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[11px] font-bold shrink-0">?</div>
-          {!sidebarCollapsed && <span className="text-[15px]">Support</span>}
+          {!sidebarCollapsed && <span className="text-[15px]">{t('Support', portalLanguage)}</span>}
         </Link>
 
         <button
           onClick={handleLogout}
           className={`w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[#84bfb2] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/20 transition-all duration-200 cursor-pointer text-left font-medium ${sidebarCollapsed ? 'justify-center px-0' : ''}`}
-          title="Logout"
+          title={t('Logout', portalLanguage)}
         >
           <LogOut size={20} className="shrink-0" />
-          {!sidebarCollapsed && <span className="text-[15px]">Logout</span>}
+          {!sidebarCollapsed && <span className="text-[15px]">{t('Logout', portalLanguage)}</span>}
         </button>
       </div>
     </div>
@@ -139,9 +189,22 @@ const SidebarContent = ({ onClose, location, handleLogout, navigate, sidebarColl
 
 const DashboardLayout = () => {
   const { user, clearUser } = useAuthStore();
-  const { mobileSidebarOpen, setMobileSidebarOpen, sidebarCollapsed, toggleSidebar } = useUIStore();
+  const { mobileSidebarOpen, setMobileSidebarOpen, sidebarCollapsed, toggleSidebar, portalLanguage, searchOpen, setSearchOpen } = useUIStore();
+  const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handler = (e) => {
+      if ((e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) && searchOpen) {
+        e.preventDefault();
+        e.stopPropagation();
+        setSearchOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handler, true);
+    return () => window.removeEventListener('keydown', handler, true);
+  }, [searchOpen, setSearchOpen]);
 
   const path = location.pathname;
   const isPayRent = path.includes('/pay-rent');
@@ -152,14 +215,16 @@ const DashboardLayout = () => {
   const isProfile = path.includes('/profile');
   const isSettings = path.includes('/settings');
   const isReportIssue = path.includes('/report-issue');
-  const isDashboard = path.includes('/dashboard') || (!isPayRent && !isMaintenance && !isPayments && !isLease && !isReceipts && !isProfile && !isSettings && !isReportIssue);
+  const isSupport = path.includes('/support');
+  const isDashboard = path.includes('/dashboard') || (!isPayRent && !isMaintenance && !isPayments && !isLease && !isReceipts && !isProfile && !isSettings && !isReportIssue && !isSupport);
 
   // Determine Title vs Search input
   let headerTitle = null;
-  if (isPayRent) headerTitle = "Pay Rent";
-  else if (isProfile) headerTitle = "Profile Settings";
-  else if (isSettings) headerTitle = "Settings";
-  else if (isReportIssue) headerTitle = "Report Issue";
+  if (isPayRent) headerTitle = t("Pay Rent", portalLanguage);
+  else if (isProfile) headerTitle = t("Profile", portalLanguage);
+  else if (isSettings) headerTitle = t("Settings", portalLanguage);
+  else if (isReportIssue) headerTitle = t("Report Issue", portalLanguage);
+  else if (isSupport) headerTitle = t("Support", portalLanguage);
 
   // Determine Search placeholder
   let searchPlaceholder = "Search invoices, requests...";
@@ -188,11 +253,23 @@ const DashboardLayout = () => {
     navigate('/login');
   };
 
+  const searchResults = [
+    { title: 'Pay Rent Online', cat: 'Billing', path: '/tenant/pay-rent' },
+    { title: 'Payment History & Ledger', cat: 'Billing', path: '/tenant/payments' },
+    { title: 'Official Rent Receipts PDF', cat: 'Documents', path: '/tenant/receipts' },
+    { title: 'Log Maintenance Request', cat: 'Facility', path: '/tenant/maintenance' },
+    { title: 'Lease Agreement RF-8921-LG', cat: 'Contract', path: '/tenant/lease' },
+    { title: 'Report Facility Issue', cat: 'Support', path: '/tenant/report-issue' },
+    { title: '24/7 Concierge Support Center', cat: 'Support', path: '/tenant/support' },
+    { title: 'Resident Profile & Unit Info', cat: 'Account', path: '/tenant/profile' },
+    { title: 'Portal Preferences & Language', cat: 'Settings', path: '/tenant/settings' },
+  ].filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.cat.toLowerCase().includes(searchQuery.toLowerCase()));
+
   return (
     <div className="min-h-screen bg-surface flex font-body-lg text-on-surface overflow-x-hidden">
       {/* Desktop sidebar */}
       <aside className={`hidden lg:flex flex-col fixed inset-y-0 left-0 z-50 transition-[width] duration-300 ease-out bg-primary dark:bg-primary-container border-r border-outline-variant dark:border-outline shadow-sm h-screen overflow-hidden ${sidebarCollapsed ? 'w-[72px]' : 'w-sidebar-width'}`} aria-label="Sidebar navigation">
-        <SidebarContent onClose={undefined} location={location} handleLogout={handleLogout} navigate={navigate} sidebarCollapsed={sidebarCollapsed} toggleSidebar={toggleSidebar} />
+        <SidebarContent onClose={undefined} location={location} handleLogout={handleLogout} navigate={navigate} sidebarCollapsed={sidebarCollapsed} toggleSidebar={toggleSidebar} portalLanguage={portalLanguage} />
       </aside>
 
       {/* Mobile drawer */}
@@ -215,9 +292,70 @@ const DashboardLayout = () => {
               transition={{ type: 'tween', duration: 0.25 }}
               aria-label="Mobile sidebar navigation"
             >
-              <SidebarContent onClose={() => setMobileSidebarOpen(false)} location={location} handleLogout={handleLogout} navigate={navigate} sidebarCollapsed={false} toggleSidebar={toggleSidebar} />
+              <SidebarContent onClose={() => setMobileSidebarOpen(false)} location={location} handleLogout={handleLogout} navigate={navigate} sidebarCollapsed={false} toggleSidebar={toggleSidebar} portalLanguage={portalLanguage} />
             </motion.aside>
           </>
+        )}
+      </AnimatePresence>
+
+      {/* Interactive Global Quick Search Modal */}
+      <AnimatePresence>
+        {searchOpen && (
+          <div className="fixed inset-0 z-[99999] flex items-start justify-center pt-24 px-4 bg-black/50 backdrop-blur-xs" onClick={() => setSearchOpen(false)}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -10 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-lg overflow-hidden"
+            >
+              <div className="p-4 border-b border-gray-100 flex items-center gap-3">
+                <span className="material-symbols-outlined text-gray-400">search</span>
+                <input
+                  autoFocus
+                  type="text"
+                  placeholder="Type a page or keyword (e.g. rent, receipt, lease)..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-transparent border-none text-sm text-gray-800 focus:outline-none placeholder:text-gray-400 font-medium"
+                />
+                <button onClick={() => setSearchOpen(false)} className="text-gray-400 hover:text-gray-600 border-none bg-transparent cursor-pointer">
+                  <X size={18} />
+                </button>
+              </div>
+              <div className="max-h-80 overflow-y-auto p-2 divide-y divide-gray-50">
+                {searchResults.length > 0 ? (
+                  searchResults.map((item, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => {
+                        navigate(item.path);
+                        setSearchOpen(false);
+                      }}
+                      className="p-3 hover:bg-gray-50 rounded-xl flex items-center justify-between cursor-pointer transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+                          →
+                        </span>
+                        <div>
+                          <p className="text-xs font-bold text-gray-800 m-0">{item.title}</p>
+                          <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">{item.cat}</span>
+                        </div>
+                      </div>
+                      <span className="text-[11px] font-bold text-primary">Jump</span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-6 text-center text-xs text-gray-500 font-medium">No portal features matched "{searchQuery}".</div>
+                )}
+              </div>
+              <div className="p-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-[11px] text-gray-500">
+                <span>Quick Jump Navigation</span>
+                <span className="font-mono bg-gray-200 px-1.5 py-0.5 rounded text-[10px]">ESC to close</span>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
@@ -237,10 +375,11 @@ const DashboardLayout = () => {
           ) : (
             <>
               {isSettings && <h2 className="font-headline-md text-xl font-bold text-primary mr-2 hidden sm:block">{headerTitle}</h2>}
-              <div className="relative group">
+              <div className="relative group cursor-pointer" onClick={() => setSearchOpen(true)}>
                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-colors group-focus-within:text-primary">search</span>
                 <input
-                  className="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 w-48 sm:w-72 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none text-on-surface placeholder:text-on-surface-variant/60"
+                  readOnly
+                  className="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 w-48 sm:w-72 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none text-on-surface placeholder:text-on-surface-variant/60 cursor-pointer"
                   placeholder={searchPlaceholder}
                   type="text"
                 />
@@ -296,10 +435,10 @@ const DashboardLayout = () => {
           <div className="flex items-center gap-4">
             {showHelpText && (
               <button
-                onClick={() => navigate('/tenant/settings')}
+                onClick={() => navigate('/tenant/support')}
                 className="hidden sm:block text-on-surface-variant hover:text-primary transition-colors font-label-caps text-label-caps uppercase cursor-pointer"
               >
-                Help
+                {t('Support', portalLanguage)}
               </button>
             )}
             {showMakePayment && (
@@ -307,7 +446,7 @@ const DashboardLayout = () => {
                 onClick={() => navigate('/tenant/pay-rent')}
                 className="bg-primary text-on-primary font-label-caps text-label-caps uppercase px-5 py-2 rounded-full hover:bg-primary-container transition-all active:scale-95 cursor-pointer shadow-xs"
               >
-                Make Payment
+                {t('Make Payment', portalLanguage)}
               </button>
             )}
             <div

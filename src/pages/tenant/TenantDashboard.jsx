@@ -1,47 +1,18 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 import useAuthStore from '../../store/authStore';
 import { logout as authLogout } from '../../services/authService';
+import { downloadAnnualReportDoc } from '../../utils/documentGenerator';
+import Modal from '../../components/ui/Modal';
 
 const TenantDashboard = () => {
   const { user, clearUser } = useAuthStore();
   const navigate = useNavigate();
+  const [showContactModal, setShowContactModal] = useState(false);
   const tenantName = user?.name?.split(' ')[0] || 'Ayo';
 
   const handleDownloadAnnualReport = () => {
-    toast.success('Generating and downloading 2026 Annual Report...');
-    const reportContent = `RENTFLOWS - TENANT ANNUAL FINANCIAL & LEASE REPORT (2026)
-------------------------------------------------------------------------
-Tenant Name: Ayomikun Adeleke
-Property Address: Victoria Island Towers, Flat 402-B, Ahmadu Bello Way, Lagos, Nigeria
-Landlord / Manager: Adeleke & Co. Properties
-Lease Term: Jan 01, 2026 - Dec 31, 2026
-Annual Rent: ₦3,250,000
-
-FINANCIAL SUMMARY:
-- Total Paid (YTD): ₦32,500,000
-- Total Payments Made: 10 Transactions
-- Next Payment Due: Jul 01, 2026 (₦3,250,000)
-- Outstanding Balance: ₦0.00
-
-MAINTENANCE HISTORY:
-- Jan 15: Plumbing Repair (Completed)
-- Mar 02: Electrical AC Unit Check (Completed)
-- May 20: Kitchen Sink Replacement (Completed)
-
-Report generated on: ${new Date().toLocaleDateString()}
-Status: Verified & Certified by RentFlows Nigeria
-`;
-    const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'RentFlows_Annual_Report_2026.txt';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    downloadAnnualReportDoc();
   };
 
   useEffect(() => {
@@ -158,7 +129,7 @@ Status: Verified & Certified by RentFlows Nigeria
                     <p className="font-bold text-sm text-white m-0">Adeleke &amp; Co. Properties</p>
                   </div>
                 </div>
-                <button onClick={() => toast.info('Calling Adeleke & Co. Properties...')} className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer border-none bg-transparent text-white">
+                <button onClick={() => setShowContactModal(true)} className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer border-none bg-transparent text-white" title="Contact Landlord">
                   <span className="material-symbols-outlined">call</span>
                 </button>
               </div>
@@ -305,7 +276,7 @@ Status: Verified & Certified by RentFlows Nigeria
                 <p className="text-xs text-gray-500 m-0 mt-0.5">Leases, receipts, and forms</p>
               </div>
             </Link>
-            <Link to="/tenant/report-issue" className="p-6 bg-white border border-gray-200/80 rounded-xl card-shadow flex items-center gap-4 hover:border-primary transition-all group">
+            <Link to="/tenant/support" className="p-6 bg-white border border-gray-200/80 rounded-xl card-shadow flex items-center gap-4 hover:border-primary transition-all group">
               <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined">forum</span>
               </div>
@@ -315,6 +286,42 @@ Status: Verified & Certified by RentFlows Nigeria
               </div>
             </Link>
           </section>
+
+          {/* Landlord Contact Modal */}
+          <Modal isOpen={showContactModal} onClose={() => setShowContactModal(false)} title="Contact Landlord & Concierge">
+            <div className="space-y-4 text-[#1E293B]">
+              <div className="p-4 bg-[#E6F2EF] rounded-xl border border-[#c4e3dc] flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-full bg-[#04332C] text-white flex items-center justify-center shrink-0 font-bold">
+                  AC
+                </div>
+                <div>
+                  <h4 className="font-black text-sm text-[#04332C] m-0">Adeleke & Co. Properties</h4>
+                  <p className="text-xs text-gray-600 m-0 mt-0.5">Primary Property Management Office</p>
+                </div>
+              </div>
+              <div className="space-y-3 pt-1 text-xs">
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-500 font-bold">24/7 Telephone Hotline</span>
+                  <a href="tel:+2348005550199" className="font-mono font-black text-[#04332C] hover:underline">+234 800 555 0199</a>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-500 font-bold">Emergency WhatsApp Desk</span>
+                  <a href="https://wa.me/2348005550199" target="_blank" rel="noreferrer" className="font-mono font-black text-[#04332C] hover:underline">+234 800 555 0199</a>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-500 font-bold">Official Email Support</span>
+                  <span className="font-bold text-gray-800">support@adelekeco.ng</span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="text-gray-500 font-bold">Office Location</span>
+                  <span className="font-medium text-gray-800 text-right">Victoria Island Towers, Suite 101, Lagos</span>
+                </div>
+              </div>
+              <div className="flex justify-end pt-2">
+                <button onClick={() => setShowContactModal(false)} className="px-5 py-2 bg-[#04332C] text-white rounded-lg text-xs font-bold border-none cursor-pointer">Close</button>
+              </div>
+            </div>
+          </Modal>
     </div>
   );
 };

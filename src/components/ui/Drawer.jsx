@@ -16,10 +16,14 @@ const Drawer = ({
   // Escape key handler
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === 'Escape' && isOpen) onClose();
+      if ((e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) && isOpen) {
+        e.preventDefault();
+        e.stopPropagation();
+        onClose();
+      }
     };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+    window.addEventListener('keydown', handler, true);
+    return () => window.removeEventListener('keydown', handler, true);
   }, [isOpen, onClose]);
 
   // Lock body scroll

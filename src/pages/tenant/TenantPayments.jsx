@@ -4,8 +4,9 @@ import {
   BarChart3, CheckCircle2, Search, SlidersHorizontal,
   Download, HelpCircle, ChevronLeft, ChevronRight
 } from 'lucide-react';
-import { toast } from 'sonner';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { downloadReceiptDoc } from '../../utils/documentGenerator';
+import Modal from '../../components/ui/Modal';
 
 const mockTransactions = [
   { id: 'tx-1', date: 'Jun 30, 2026', description: 'Monthly Rent - Jun 2026', amount: 3250000, method: 'Bank Account (**** 4928)', status: 'Success' },
@@ -34,6 +35,7 @@ const TenantPayments = () => {
   const [methodFilter, setMethodFilter] = useState('All Methods');
   const [minAmount, setMinAmount] = useState('');
   const [maxAmount, setMaxAmount] = useState('');
+  const [selectedFailureTx, setSelectedFailureTx] = useState(null);
   const itemsPerPage = 5;
 
   const filteredTransactions = mockTransactions.filter(tx => {
@@ -235,11 +237,17 @@ const TenantPayments = () => {
                   </td>
                   <td className="pr-6 pl-4 text-right whitespace-nowrap">
                     {tx.status === 'Failed' ? (
-                      <button onClick={() => toast.info(`Viewing failure details for ${tx.id}`)} className="p-2 text-gray-400 hover:text-gray-700 rounded-lg transition-colors inline-flex items-center justify-center cursor-pointer" title="Transaction Information">
+                      <button onClick={() => setSelectedFailureTx(tx)} className="p-2 text-gray-400 hover:text-gray-700 rounded-lg transition-colors inline-flex items-center justify-center cursor-pointer border-none bg-transparent" title="Transaction Information">
                         <HelpCircle size={18} />
                       </button>
                     ) : (
-                      <button onClick={() => toast.success(`Downloading receipt for ${tx.id}...`)} className="p-2 text-gray-600 hover:text-black rounded-lg transition-colors inline-flex items-center justify-center cursor-pointer hover:bg-gray-100" title="Download Receipt">
+                      <button 
+                        onClick={() => {
+                          downloadReceiptDoc(tx);
+                        }} 
+                        className="p-2 text-gray-600 hover:text-black rounded-lg transition-colors inline-flex items-center justify-center cursor-pointer hover:bg-gray-100 border-none bg-transparent" 
+                        title="Download Receipt"
+                      >
                         <Download size={18} />
                       </button>
                     )}
@@ -286,38 +294,64 @@ const TenantPayments = () => {
       </div>
 
       {/* Advanced Filters Modal Drawer */}
-      {showAdvancedFilters && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
-          <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-gray-100">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Advanced Transaction Filters</h3>
-            <div className="space-y-4 text-left">
-              <div>
-                <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Payment Method</label>
-                <select value={methodFilter} onChange={e => setMethodFilter(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#072F29]">
-                  <option value="All Methods">All Methods</option>
-                  <option value="Bank Account">Bank Account</option>
-                  <option value="Credit Card">Credit Card</option>
-                  <option value="Transfer">Bank Transfer</option>
-                </select>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Min Amount (₦)</label>
-                  <input type="number" placeholder="0" value={minAmount} onChange={e => setMinAmount(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Max Amount (₦)</label>
-                  <input type="number" placeholder="5000000" value={maxAmount} onChange={e => setMaxAmount(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
-                </div>
-              </div>
+      <Modal isOpen={showAdvancedFilters} onClose={() => setShowAdvancedFilters(false)} title="Advanced Transaction Filters">
+        <div className="space-y-4 text-left">
+          <div>
+            <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Payment Method</label>
+            <select value={methodFilter} onChange={e => setMethodFilter(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#072F29]">
+              <option value="All Methods">All Methods</option>
+              <option value="Bank Account">Bank Account</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Transfer">Bank Transfer</option>
+            </select>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Min Amount (₦)</label>
+              <input type="number" placeholder="0" value={minAmount} onChange={e => setMinAmount(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
             </div>
-            <div className="flex gap-3 mt-6 justify-end">
-              <button onClick={() => { setMethodFilter('All Methods'); setMinAmount(''); setMaxAmount(''); setCurrentPage(1); }} className="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-50 cursor-pointer">Reset</button>
-              <button onClick={() => { setShowAdvancedFilters(false); setCurrentPage(1); toast.success('Filters applied successfully'); }} className="px-5 py-2 bg-[#072F29] text-white rounded-xl text-xs font-bold hover:bg-[#051f1b] cursor-pointer">Apply Filters</button>
+            <div>
+              <label className="text-xs font-bold text-gray-700 uppercase block mb-1">Max Amount (₦)</label>
+              <input type="number" placeholder="5000000" value={maxAmount} onChange={e => setMaxAmount(e.target.value)} className="w-full px-3 py-2 border rounded-xl text-sm bg-gray-50 focus:outline-none" />
             </div>
-          </motion.div>
+          </div>
         </div>
-      )}
+        <div className="flex gap-3 mt-6 justify-end">
+          <button onClick={() => { setMethodFilter('All Methods'); setMinAmount(''); setMaxAmount(''); setCurrentPage(1); }} className="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-50 cursor-pointer bg-transparent">Reset</button>
+          <button onClick={() => { setShowAdvancedFilters(false); setCurrentPage(1); }} className="px-5 py-2 bg-[#072F29] text-white rounded-xl text-xs font-bold hover:bg-[#051f1b] cursor-pointer border-none">Apply Filters</button>
+        </div>
+      </Modal>
+
+      {/* Failure Details Modal */}
+      <Modal isOpen={!!selectedFailureTx} onClose={() => setSelectedFailureTx(null)} title="Transaction Details">
+        {selectedFailureTx && (
+          <div className="space-y-4 text-[#1E293B]">
+            <div className="p-4 bg-red-50 border border-red-200 rounded-xl space-y-1">
+              <p className="text-xs font-bold text-red-900 uppercase tracking-wider m-0">Status: Payment Failed</p>
+              <p className="text-xs text-red-800 m-0 leading-relaxed">
+                Your financial institution declined or timed out during processing for <strong>{selectedFailureTx.description}</strong> ({formatCurrency(selectedFailureTx.amount)}).
+              </p>
+            </div>
+            <div className="space-y-2 text-xs">
+              <div className="flex justify-between py-1 border-b border-gray-100">
+                <span className="text-gray-500">Transaction ID</span>
+                <span className="font-mono font-bold">{selectedFailureTx.id}</span>
+              </div>
+              <div className="flex justify-between py-1 border-b border-gray-100">
+                <span className="text-gray-500">Attempt Date</span>
+                <span className="font-bold">{selectedFailureTx.date}</span>
+              </div>
+              <div className="flex justify-between py-1 border-b border-gray-100">
+                <span className="text-gray-500">Payment Method</span>
+                <span className="font-bold">{selectedFailureTx.method}</span>
+              </div>
+            </div>
+            <div className="flex justify-end pt-2">
+              <button onClick={() => setSelectedFailureTx(null)} className="px-5 py-2 bg-[#04332C] text-white rounded-lg text-xs font-bold border-none cursor-pointer">Close</button>
+            </div>
+          </div>
+        )}
+      </Modal>
 
     </div>
   );
