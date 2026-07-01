@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 import {
   BarChart3, CheckCircle2, Search, SlidersHorizontal,
-  Download, HelpCircle, ChevronLeft, ChevronRight
+  Download, HelpCircle, ChevronLeft, ChevronRight, Users, PiggyBank, Sparkles, Plus, CheckCircle, ShieldCheck, Lock
 } from 'lucide-react';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { downloadReceiptDoc } from '../../utils/documentGenerator';
@@ -24,11 +25,25 @@ const mockTransactions = [
   { id: 'tx-12', date: 'Dec 31, 2025', description: 'Legal & Agreement Stamping Fee', amount: 250000, method: 'Credit Card (**** 1022)', status: 'Success' },
 ];
 
+const mockAjoMembers = [
+  { rank: 1, name: 'Chief Tunde Bakare', month: 'Month 1 (Jan)', status: 'Paid Out', amount: '₦2,500,000' },
+  { rank: 2, name: 'Simisola Alabi', month: 'Month 2 (Feb)', status: 'Paid Out', amount: '₦2,500,000' },
+  { rank: 3, name: 'Dr. Folake Adeleke', month: 'Month 3 (Mar)', status: 'Paid Out', amount: '₦2,500,000' },
+  { rank: 4, name: 'Musa Rano', month: 'Month 4 (Apr)', status: 'Paid Out', amount: '₦2,500,000' },
+  { rank: 5, name: 'Zainab Balogun', month: 'Month 5 (May)', status: 'Paid Out', amount: '₦2,500,000' },
+  { rank: 6, name: 'Ayomikun Adeleke (YOU)', month: 'Month 6 (Jun)', status: 'Current Recipient 🌟', amount: '₦2,500,000' },
+  { rank: 7, name: 'Chinedu Eze', month: 'Month 7 (Jul)', status: 'Upcoming', amount: '₦2,500,000' },
+  { rank: 8, name: 'Bisi Silva', month: 'Month 8 (Aug)', status: 'Upcoming', amount: '₦2,500,000' },
+  { rank: 9, name: 'Dapo Solarin', month: 'Month 9 (Sep)', status: 'Upcoming', amount: '₦2,500,000' },
+  { rank: 10, name: 'Oluwaseun Olabode', month: 'Month 10 (Oct)', status: 'Upcoming', amount: '₦2,500,000' },
+];
+
 /**
- * TenantPayments — Redesigned pixel-perfect to match Screenshot 2 (Payment History)
+ * TenantPayments — Includes History & Receipts and Ajo Savings Cooperatives
  */
 const TenantPayments = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('history'); // 'history' | 'ajo'
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Statuses');
   const [timeFilter, setTimeFilter] = useState('Last 6 Months');
@@ -39,6 +54,13 @@ const TenantPayments = () => {
   const [maxAmount, setMaxAmount] = useState('');
   const [selectedFailureTx, setSelectedFailureTx] = useState(null);
   const itemsPerPage = 5;
+
+  // Ajo State
+  const [ajoContributed, setAjoContributed] = useState(false);
+  const [autoEscrow, setAutoEscrow] = useState(true);
+  const [showCreateAjoModal, setShowCreateAjoModal] = useState(false);
+  const [newGroupName, setNewGroupName] = useState('');
+  const [newGroupContribution, setNewGroupContribution] = useState('250000');
 
   const filteredTransactions = mockTransactions.filter(tx => {
     const matchesSearch = tx.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -52,6 +74,19 @@ const TenantPayments = () => {
   const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage) || 1;
   const paginatedTransactions = filteredTransactions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+  const handleContributeAjo = () => {
+    setAjoContributed(true);
+    toast.success('₦250,000 Ajo contribution successful via NIBSS Direct Debit! Trust Score +10 pts.');
+  };
+
+  const handleCreateGroup = (e) => {
+    e.preventDefault();
+    if (!newGroupName.trim()) return;
+    toast.success(`Cooperative Group "${newGroupName}" created! Invitation link sent to verified Victoria Island Towers residents.`);
+    setShowCreateAjoModal(false);
+    setNewGroupName('');
+  };
+
   return (
     <div className="space-y-6 pb-16 font-sans text-[#4A4F4C]">
       
@@ -59,19 +94,34 @@ const TenantPayments = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-200">
         <div>
           <h1 className="text-2xl sm:text-[28px] font-display font-extrabold text-[#0B4F45] m-0 tracking-tight">
-            Payment History
+            {activeTab === 'history' ? 'Payment History & Receipts' : 'Ajo & Thrift Savings Cooperatives'}
           </h1>
           <p className="text-xs sm:text-sm text-[#4A4F4C] font-medium mt-1 m-0">
-            Review and manage your financial transactions and receipts for Unit 402.
+            {activeTab === 'history' 
+              ? 'Review and manage your financial transactions and receipts for Unit 402.' 
+              : 'Pool contributions with verified neighbors to fund rent renewals and unlock 5% landlord discounts.'}
           </p>
         </div>
 
-        <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl shrink-0">
+        <div className="flex flex-wrap items-center gap-2 bg-gray-100 p-1.5 rounded-2xl shrink-0">
           <button
             type="button"
-            className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#0B4F45] text-white shadow-xs border-none cursor-pointer"
+            onClick={() => setActiveTab('history')}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-1.5 ${
+              activeTab === 'history' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+            }`}
           >
             <span>📜 History & Receipts</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('ajo')}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-1.5 ${
+              activeTab === 'ajo' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <PiggyBank size={15} className="text-[#C75B30]" />
+            <span>🏦 Ajo Cooperatives</span>
           </button>
           <button
             type="button"
@@ -79,10 +129,13 @@ const TenantPayments = () => {
             className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-transparent text-gray-600 hover:text-gray-900 border-none cursor-pointer flex items-center gap-1.5"
           >
             <span className="w-2 h-2 rounded-full bg-[#C75B30] inline-block animate-pulse"></span>
-            <span>Instalment Hub & Pay Rent</span>
+            <span>Instalment Hub</span>
           </button>
         </div>
       </div>
+
+      {activeTab === 'history' ? (
+        <div className="space-y-6 animate-fade-in">
 
       {/* Top Summary Cards Grid (3 Cards matching Screenshot 2 exactly) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -311,8 +364,212 @@ const TenantPayments = () => {
             </button>
           </div>
         </div>
-
       </div>
+    </div>
+    ) : (
+        /* ── AJO & THRIFT COOPERATIVE HUB VIEW ── */
+        <div className="space-y-6 animate-fade-in">
+          
+          {/* Hero Cooperative Banner */}
+          <div className="dashboard-card bg-[#0B4F45] text-white p-6 sm:p-8 rounded-2xl shadow-md relative overflow-hidden">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+              <div className="space-y-3 max-w-xl">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                    <ShieldCheck size={14} /> Verified RentFlow Cooperative
+                  </span>
+                  <span className="bg-[#C75B30] text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                    Group #104 • Victoria Island Towers
+                  </span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white m-0">
+                  Resident Rent Ajo & Savings Pool
+                </h2>
+                <p className="text-xs sm:text-sm text-white/80 leading-relaxed m-0">
+                  Pool contributions with verified neighbors to pre-fund upcoming annual rent renewals. Earn a guaranteed 5% landlord discount and boost your Trust Score by +25 points upon completion.
+                </p>
+
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  {ajoContributed ? (
+                    <div className="px-5 py-3 rounded-xl bg-emerald-500/20 border border-emerald-400 text-emerald-300 font-bold text-xs sm:text-sm flex items-center gap-2">
+                      <CheckCircle size={18} />
+                      <span>Month 6 Tranche (₦250,000) Settled via NIBSS</span>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleContributeAjo}
+                      className="px-5 py-3 rounded-xl bg-[#C75B30] hover:bg-[#b04a25] text-white font-bold text-xs sm:text-sm border-none cursor-pointer shadow-md transition-all flex items-center gap-2"
+                    >
+                      <PiggyBank size={18} />
+                      <span>Contribute Month 6 Tranche (₦250,000)</span>
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setShowCreateAjoModal(true)}
+                    className="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 cursor-pointer flex items-center gap-2"
+                  >
+                    <Plus size={16} />
+                    <span>Start New Cooperative Group</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Payout Summary Box */}
+              <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/15 text-center min-w-[260px] flex flex-col items-center">
+                <span className="text-xs text-white/70 font-bold uppercase tracking-wider mb-1">Current Pool (Month 6/10)</span>
+                <div className="text-3xl sm:text-4xl font-mono font-black text-[#F4C395] tracking-tight">
+                  ₦2,500,000
+                </div>
+                <span className="text-xs font-bold text-emerald-300 mt-1">
+                  Recipient This Month: YOU 🌟
+                </span>
+
+                <div className="w-full bg-black/30 p-3 rounded-xl border border-white/10 mt-4 text-left space-y-1">
+                  <div className="flex justify-between items-center text-[11px] font-bold text-white/80">
+                    <span>Landlord Escrow Lock</span>
+                    <Lock size={12} className="text-emerald-400" />
+                  </div>
+                  <p className="text-[10px] text-white/60 m-0 leading-tight">
+                    Funds auto-locked to 2027 Rent Renewal Account. 5% Early Renewal Discount Applied.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Members Rotation Ring Table */}
+          <div className="dashboard-card bg-white rounded-2xl border border-gray-200 card-shadow overflow-hidden">
+            <div className="p-6 border-b border-gray-100 flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h3 className="dashboard-title text-base font-bold text-[#0B4F45] m-0 flex items-center gap-2">
+                  <Users size={18} className="text-[#C75B30]" />
+                  Cooperative Rotation Schedule & Payout Roster
+                </h3>
+                <p className="dashboard-body-text text-xs text-[#4A4F4C] m-0 mt-0.5">
+                  Every 30 days, pooled contributions disburse directly to the scheduled verified resident.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-[#0B4F45] bg-teal-50 px-3 py-1.5 rounded-full border border-teal-200 font-mono">
+                10 Verified Members • ₦250k/mo
+              </span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left min-w-[600px]">
+                <thead>
+                  <tr className="bg-[#FAF7F2] border-b border-gray-200">
+                    <th className="p-4 text-xs font-bold uppercase text-[#4A4F4C]">Turn</th>
+                    <th className="p-4 text-xs font-bold uppercase text-[#4A4F4C]">Resident Member</th>
+                    <th className="p-4 text-xs font-bold uppercase text-[#4A4F4C]">Scheduled Month</th>
+                    <th className="p-4 text-xs font-bold uppercase text-[#4A4F4C]">Disbursement Pool</th>
+                    <th className="p-4 text-xs font-bold uppercase text-[#4A4F4C]">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {mockAjoMembers.map((m) => (
+                    <tr
+                      key={m.rank}
+                      className={m.rank === 6 ? 'bg-amber-50/50 font-medium' : 'hover:bg-gray-50/50'}
+                    >
+                      <td className="p-4 font-mono font-bold text-xs text-gray-500">#{m.rank}</td>
+                      <td className="p-4 text-sm font-bold text-[#0B4F45]">
+                        <div className="flex items-center gap-2">
+                          <span>{m.name}</span>
+                          {m.rank === 6 && (
+                            <span className="bg-[#C75B30] text-white text-[10px] px-2 py-0.5 rounded-full font-black uppercase">
+                              Active Turn
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="p-4 text-xs text-[#4A4F4C] font-mono">{m.month}</td>
+                      <td className="p-4 text-sm font-mono font-bold text-gray-900">{m.amount}</td>
+                      <td className="p-4">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-bold ${
+                            m.status.includes('Paid')
+                              ? 'bg-emerald-100 text-emerald-800'
+                              : m.status.includes('Current')
+                              ? 'bg-amber-100 text-amber-900 border border-amber-300 animate-pulse'
+                              : 'bg-gray-100 text-gray-600'
+                          }`}
+                        >
+                          {m.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      )}
+
+      {/* CREATE AJO GROUP MODAL */}
+      <Modal isOpen={showCreateAjoModal} onClose={() => setShowCreateAjoModal(false)} title="Start New Resident Rent Ajo">
+        <form onSubmit={handleCreateGroup} className="space-y-4 text-[#4A4F4C]">
+          <div>
+            <label className="text-xs font-bold text-gray-700 block mb-1">Cooperative Group Name</label>
+            <input
+              type="text"
+              placeholder="e.g. Victoria Island 2027 Rent Pool"
+              value={newGroupName}
+              onChange={(e) => setNewGroupName(e.target.value)}
+              required
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-xs font-medium text-gray-800 focus:outline-none focus:border-[#0B4F45]"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs font-bold text-gray-700 block mb-1">Monthly Contribution (₦)</label>
+              <input
+                type="number"
+                value={newGroupContribution}
+                onChange={(e) => setNewGroupContribution(e.target.value)}
+                required
+                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-xs font-mono font-bold text-gray-800 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-bold text-gray-700 block mb-1">Total Members Roster</label>
+              <select className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-xs font-bold bg-gray-50">
+                <option value="5">5 Residents (5 Months)</option>
+                <option value="10">10 Residents (10 Months)</option>
+                <option value="12">12 Residents (1 Year)</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="p-3 bg-teal-50 rounded-xl border border-teal-100 flex items-center gap-2.5 text-xs">
+            <ShieldCheck size={18} className="text-[#0B4F45] shrink-0" />
+            <p className="m-0 text-[#0B4F45]">
+              All members undergo automated NIN & BVN trust screening before joining the payout cycle.
+            </p>
+          </div>
+
+          <div className="flex gap-3 pt-2 justify-end">
+            <button
+              type="button"
+              onClick={() => setShowCreateAjoModal(false)}
+              className="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-50 cursor-pointer bg-transparent"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-5 py-2 bg-[#0B4F45] hover:bg-[#083D35] text-white rounded-xl text-xs font-bold cursor-pointer border-none shadow-sm"
+            >
+              Launch Cooperative Group
+            </button>
+          </div>
+        </form>
+      </Modal>
 
       {/* Advanced Filters Modal Drawer */}
       <Modal isOpen={showAdvancedFilters} onClose={() => setShowAdvancedFilters(false)} title="Advanced Transaction Filters">

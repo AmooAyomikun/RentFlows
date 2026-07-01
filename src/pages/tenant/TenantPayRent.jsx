@@ -79,6 +79,57 @@ const TenantPayRent = () => {
   const [newAccNum, setNewAccNum] = useState('');
   const [formError, setFormError] = useState('');
 
+  // Bank Transfer Reconciliation State
+  const [reconcileHistory, setReconcileHistory] = useState([
+    {
+      id: 'REC-9012',
+      date: 'Jun 01, 2026 • 10:14 AM',
+      amount: '₦1,099,583',
+      bank: 'GTBank (Guaranty Trust)',
+      sessionId: '09026726060110142981928374',
+      status: 'Auto-Reconciled via Webhook',
+      matchScore: '100% Exact Match',
+      invoiceRef: 'Tranche 1 (Upfront Rent)'
+    },
+    {
+      id: 'REC-8419',
+      date: 'Mar 15, 2026 • 04:22 PM',
+      amount: '₦150,000',
+      bank: 'OPay Digital Services',
+      sessionId: '10000426031516220019283112',
+      status: 'Manual Session ID Match',
+      matchScore: 'Verified by Landlord',
+      invoiceRef: 'Visitor Parking Annual Pass'
+    }
+  ]);
+  const [reportForm, setReportForm] = useState({
+    amount: '1099583',
+    bank: 'GTBank',
+    sessionId: '',
+    note: 'Payment for Tranche 2'
+  });
+
+  const handleReportTransfer = (e) => {
+    e.preventDefault();
+    if (!reportForm.sessionId.trim()) {
+      toast.error('Please enter the 30-digit NIBSS Session ID or Transfer Reference.');
+      return;
+    }
+    const newRec = {
+      id: `REC-${Math.floor(1000 + Math.random() * 9000)}`,
+      date: 'Just now',
+      amount: `₦${Number(reportForm.amount.replace(/[^0-9]/g, '') || 1099583).toLocaleString()}`,
+      bank: reportForm.bank,
+      sessionId: reportForm.sessionId,
+      status: 'Instant Webhook Match Confirmed',
+      matchScore: '99.4% Automated Match',
+      invoiceRef: reportForm.note || 'Rent Settlement'
+    };
+    setReconcileHistory([newRec, ...reconcileHistory]);
+    toast.success('Transfer session matched! Your rent ledger has been automatically reconciled.');
+    setReportForm({ amount: '', bank: 'GTBank', sessionId: '', note: '' });
+  };
+
   const baseRentTotal = 3250000;
   const currentPartner = partnersData[partnerKey];
   const feeAmount = Math.round((baseRentTotal * currentPartner.feePct) / 100);
@@ -218,6 +269,17 @@ const TenantPayRent = () => {
             <span className="w-2 h-2 rounded-full bg-[#C75B30] inline-block animate-pulse"></span>
             <span>Active Instalment Plan</span>
           </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('reconciliation')}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+              activeTab === 'reconciliation'
+                ? 'bg-[#0B4F45] text-white shadow-xs'
+                : 'bg-transparent text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <span>🏦 Bank Transfer & Reconciliation</span>
+          </button>
         </div>
       </div>
 
@@ -352,7 +414,7 @@ const TenantPayRent = () => {
             </div>
           </div>
         </div>
-      ) : (
+      ) : activeTab === 'pay' ? (
         /* ── NEW PAYMENT / PLAN SETUP VIEW ── */
         <div className="space-y-6 animate-fade-in">
           
@@ -696,7 +758,154 @@ const TenantPayRent = () => {
             </div>
           )}
         </div>
-      )}
+      ) : activeTab === 'reconciliation' ? (
+        /* ── BANK TRANSFER & VIRTUAL ACCOUNT RECONCILIATION VIEW ── */
+        <div className="space-y-6 animate-fade-in pb-8">
+          
+          {/* Virtual Account Hero Card */}
+          <div className="bg-[#0B4F45] text-white p-6 sm:p-8 rounded-2xl shadow-md relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="space-y-2 max-w-xl">
+              <span className="bg-[#C75B30] text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-sm">account_balance</span> CBN Regulated Virtual Account
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white m-0">
+                Instant NIBSS Auto-Reconciling Account
+              </h2>
+              <p className="text-xs sm:text-sm text-white/80 leading-relaxed m-0">
+                Transfer any amount from your GTBank, Zenith, OPay, or Kuda banking app to this unique virtual reference. Webhooks automatically settle your rent ledger within 3 seconds.
+              </p>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/15 text-left min-w-[280px]">
+              <span className="text-[11px] text-white/70 font-bold uppercase tracking-wider block mb-1">Beneficiary Bank</span>
+              <div className="text-lg font-bold text-white mb-3">Wema Bank (ALAT / RentFlow)</div>
+              
+              <span className="text-[11px] text-white/70 font-bold uppercase tracking-wider block mb-1">Virtual Account Number</span>
+              <div className="flex items-center justify-between gap-3 bg-black/20 p-2.5 rounded-xl border border-white/10">
+                <span className="text-2xl font-mono font-black text-[#F4C395] tracking-widest">7820491823</span>
+                <button
+                  type="button"
+                  onClick={() => toast.success('Account number copied to clipboard!')}
+                  className="px-2.5 py-1.5 rounded-lg bg-[#C75B30] hover:bg-[#b04a25] text-white text-xs font-bold border-none cursor-pointer transition-colors shrink-0"
+                >
+                  Copy
+                </button>
+              </div>
+              <span className="text-[10px] text-emerald-300 font-medium mt-2 block">Account Name: RentFlow / Simisola Alabi</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Self-Reporting Form */}
+            <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-xs space-y-4">
+              <h3 className="text-base font-bold text-[#0B4F45] m-0 pb-3 border-b border-gray-100 flex items-center gap-2">
+                <span className="material-symbols-outlined text-[#C75B30]">fact_check</span>
+                Self-Report Transfer Reference
+              </h3>
+              <p className="text-xs text-[#4A4F4C] m-0 leading-relaxed">
+                If your bank omitted the narrative or delayed webhook delivery, enter your 30-digit NIBSS Session ID to expedite ledger reconciliation.
+              </p>
+
+              <form onSubmit={handleReportTransfer} className="space-y-3 pt-2">
+                <div>
+                  <label className="text-xs font-bold text-gray-700 block mb-1">Amount Transferred (₦)</label>
+                  <input
+                    type="text"
+                    required
+                    value={reportForm.amount}
+                    onChange={e => setReportForm({ ...reportForm, amount: e.target.value })}
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-xs font-mono font-bold text-gray-900 focus:outline-none focus:border-[#0B4F45]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-gray-700 block mb-1">Sending Bank</label>
+                  <select
+                    value={reportForm.bank}
+                    onChange={e => setReportForm({ ...reportForm, bank: e.target.value })}
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-xs font-bold text-gray-800 bg-white focus:outline-none focus:border-[#0B4F45]"
+                  >
+                    <option>GTBank (Guaranty Trust Bank)</option>
+                    <option>Zenith Bank Plc</option>
+                    <option>OPay Digital Services</option>
+                    <option>Moniepoint Microfinance Bank</option>
+                    <option>Kuda Bank</option>
+                    <option>Access Bank Plc</option>
+                    <option>United Bank for Africa (UBA)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-gray-700 block mb-1">30-Digit NIBSS Session ID</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. 09026726060110142981928374"
+                    value={reportForm.sessionId}
+                    onChange={e => setReportForm({ ...reportForm, sessionId: e.target.value })}
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-xs font-mono font-medium text-gray-800 focus:outline-none focus:border-[#0B4F45]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-gray-700 block mb-1">Allocation Note / Invoice</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Payment for Tranche 2"
+                    value={reportForm.note}
+                    onChange={e => setReportForm({ ...reportForm, note: e.target.value })}
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-xs font-medium text-gray-800 focus:outline-none focus:border-[#0B4F45]"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-xl bg-[#0B4F45] hover:bg-[#083D35] text-white font-bold text-xs sm:text-sm border-none cursor-pointer shadow-sm transition-all mt-2"
+                >
+                  Verify & Reconcile Transfer
+                </button>
+              </form>
+            </div>
+
+            {/* Reconciliation Log Table */}
+            <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-gray-200 shadow-xs space-y-4 flex flex-col justify-between">
+              <div>
+                <h3 className="text-base font-bold text-[#0B4F45] m-0 pb-3 border-b border-gray-100 flex items-center justify-between">
+                  <span className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[#0B4F45]">sync_alt</span>
+                    Automated Reconciliation Log
+                  </span>
+                  <span className="text-xs font-normal text-gray-400">Real-time NIBSS Feed</span>
+                </h3>
+
+                <div className="space-y-3 mt-4">
+                  {reconcileHistory.map(rec => (
+                    <div key={rec.id} className="p-4 rounded-xl bg-gray-50/80 border border-gray-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs font-black text-[#0B4F45]">{rec.id}</span>
+                          <span className="text-gray-300">•</span>
+                          <span className="text-xs font-bold text-gray-700">{rec.bank}</span>
+                        </div>
+                        <p className="text-xs text-[#4A4F4C] m-0 font-mono">Session ID: {rec.sessionId}</p>
+                        <p className="text-xs text-gray-500 m-0">Allocated to: <strong className="text-gray-800">{rec.invoiceRef}</strong></p>
+                      </div>
+
+                      <div className="text-left sm:text-right shrink-0">
+                        <span className="text-base font-mono font-black text-gray-900 block">{rec.amount}</span>
+                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 mt-1">
+                          {rec.status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      ) : null}
 
       {/* Add New Payment Method Modal */}
       <Modal isOpen={showAddModal} onClose={() => { setShowAddModal(false); setNewAccNum(''); setFormError(''); }} title="Add Payment Method">

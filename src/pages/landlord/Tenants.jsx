@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import {
   Filter, ArrowUpDown, Users, FileText, ShieldCheck, LogOut,
   Search, MoreVertical, ChevronLeft, ChevronRight, MessageSquare, TrendingUp, CheckCircle2,
-  X, Send, Check, Bell, Wrench, Eye
+  X, Send, Check, Bell, Wrench, Eye, Scale, AlertCircle, UploadCloud, FileCheck
 } from 'lucide-react';
 
 const initialDirectoryRows = [
@@ -164,6 +164,57 @@ const Tenants = () => {
     setShowReplyModal(false);
   };
 
+  const [activeTab, setActiveTab] = useState('directory'); // 'directory' | 'disputes'
+  const [disputeDocket, setDisputeDocket] = useState([
+    {
+      id: 'DSP-209',
+      tenantName: 'Simisola Alabi',
+      propertyUnit: 'Victoria Island Towers, #4B',
+      category: 'Security Deposit Deduction Contest',
+      amountContested: '₦150,000',
+      filedDate: 'Jun 14, 2026',
+      status: 'Awaiting Landlord Counter-Evidence',
+      step: 2,
+      claimSummary: 'Tenant contests wall scuff painting deduction, claiming pre-move-in inspection report proves scuffs existed prior to move-in.',
+      landlordResponse: ''
+    },
+    {
+      id: 'DSP-195',
+      tenantName: 'Musa Rano',
+      propertyUnit: 'Lekki Palms Villas, #12A',
+      category: 'Quiet Enjoyment & Generator Noise Breach',
+      amountContested: '₦100,000 Rebate Claim',
+      filedDate: 'May 28, 2026',
+      status: 'Arbitrator Deliberating',
+      step: 3,
+      claimSummary: 'Tenant claims backup industrial generator operates outside scheduled 10 PM curfew, causing acoustic disturbance.',
+      landlordResponse: 'Submitted maintenance log showing soundproof enclosure installation completed May 30.'
+    }
+  ]);
+
+  const [showCounterModal, setShowCounterModal] = useState(false);
+  const [activeDisputeId, setActiveDisputeId] = useState(null);
+  const [counterForm, setCounterForm] = useState({ responseText: '' });
+
+  const handleOpenCounterModal = (d) => {
+    setActiveDisputeId(d.id);
+    setCounterForm({ responseText: d.landlordResponse || '' });
+    setShowCounterModal(true);
+  };
+
+  const handleSubmitCounter = (e) => {
+    e.preventDefault();
+    if (!counterForm.responseText.trim()) return;
+    setDisputeDocket(prev => prev.map(d => d.id === activeDisputeId ? {
+      ...d,
+      landlordResponse: counterForm.responseText,
+      status: 'Evidence Submitted to Arbitrator',
+      step: 3
+    } : d));
+    toast.success(`Counter-evidence submitted for Case #${activeDisputeId}. Arbitrator has been notified.`);
+    setShowCounterModal(false);
+  };
+
   return (
     <div className="flex-1 overflow-y-auto relative">
       {/* Header section */}
@@ -233,8 +284,35 @@ const Tenants = () => {
         </div>
       </div>
 
-      {/* Comprehensive Tenant Table */}
-      <div className="glass-card rounded-xl overflow-hidden flex flex-col mb-6">
+      {/* Navigation Tabs */}
+      <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl w-fit mb-6">
+        <button
+          onClick={() => setActiveTab('directory')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+            activeTab === 'directory' ? 'bg-[#00372f] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <Users size={15} />
+          <span>Active Residents Directory</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('disputes')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+            activeTab === 'disputes' ? 'bg-[#00372f] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <Scale size={15} className="text-[#C75B30]" />
+          <span>⚖️ Mediation & Dispute Docket</span>
+          <span className="bg-[#C75B30] text-white px-2 py-0.5 rounded-full text-[10px] font-black">
+            {disputeDocket.filter(d => d.step < 4).length} Active
+          </span>
+        </button>
+      </div>
+
+      {activeTab === 'directory' ? (
+        <div className="space-y-6 animate-fade-in">
+          {/* Comprehensive Tenant Table */}
+          <div className="glass-card rounded-xl overflow-hidden flex flex-col mb-6">
         <div className="p-6 border-b border-[#e0e3e0] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h3 className="text-sm font-semibold uppercase text-[#181c1a] tracking-wider">Tenant Directory ({filtered.length})</h3>
           <div className="flex flex-wrap items-center gap-3">
@@ -413,11 +491,110 @@ const Tenants = () => {
                 Reply
               </button>
             </div>
+            </div>
           </div>
         </div>
       </div>
+      ) : activeTab === 'disputes' ? (
+        /* ── MEDIATION & DISPUTE DOCKET VIEW ── */
+        <div className="space-y-6 animate-fade-in mb-8">
+          
+          <div className="bg-[#00372f] text-white p-6 sm:p-8 rounded-2xl shadow-md relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="space-y-2 max-w-xl">
+              <span className="bg-[#C75B30] text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5">
+                <Scale size={14} /> Multi-Door Arbitration Docket
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white m-0">
+                Active Tenant Disputes & Mediation Cases
+              </h2>
+              <p className="text-xs sm:text-sm text-white/80 leading-relaxed m-0">
+                All formal claims docketed by tenants are adjudicated by independent court-accredited arbitrators. Submit counter-evidence within 7 business days to release escrow funds.
+              </p>
+            </div>
 
-      {/* MODALS */}
+            <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/15 text-center min-w-[220px]">
+              <span className="text-xs text-white/70 font-bold uppercase tracking-wider block mb-1">Contested Escrow Pool</span>
+              <div className="text-3xl font-mono font-black text-[#F4C395]">
+                ₦250,000
+              </div>
+              <span className="text-xs font-bold text-amber-300 mt-1 block">
+                {disputeDocket.filter(d => d.step < 4).length} Pending Resolution
+              </span>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {disputeDocket.map((d) => (
+              <div key={d.id} className="glass-card rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-5">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b border-gray-100">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs font-black text-[#C75B30] uppercase tracking-wider">{d.id}</span>
+                      <span className="text-gray-300">•</span>
+                      <span className="text-xs font-bold text-gray-500">{d.category}</span>
+                    </div>
+                    <h4 className="text-lg font-display font-bold text-[#00372f] m-0 mt-1">Tenant Claim: {d.tenantName}</h4>
+                    <p className="text-xs text-[#404946] m-0 mt-1">Property Unit: <strong className="text-gray-800">{d.propertyUnit}</strong> • Docketed: {d.filedDate}</p>
+                  </div>
+
+                  <div className="text-left sm:text-right shrink-0">
+                    <span className="text-[11px] font-bold text-gray-400 uppercase block">Contested Value</span>
+                    <span className="text-xl font-mono font-black text-gray-900 block">{d.amountContested}</span>
+                    <span className="inline-block mt-1 px-3 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900">
+                      {d.status}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 4-Step Progress */}
+                <div className="space-y-2">
+                  <div className="flex justify-between text-[11px] font-bold text-gray-600">
+                    <span className={d.step >= 1 ? 'text-[#00372f]' : ''}>1. Tenant Filed</span>
+                    <span className={d.step >= 2 ? 'text-[#00372f]' : ''}>2. Landlord Evidence</span>
+                    <span className={d.step >= 3 ? 'text-[#00372f]' : ''}>3. Tribunal Review</span>
+                    <span className={d.step >= 4 ? 'text-emerald-600' : ''}>4. Binding Verdict</span>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {[1, 2, 3, 4].map((sIdx) => (
+                      <div
+                        key={sIdx}
+                        className={`h-2.5 rounded-full transition-all ${
+                          d.step >= sIdx ? 'bg-[#00372f]' : 'bg-gray-200'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-3">
+                  <p className="text-xs text-[#404946] m-0 leading-relaxed">
+                    <strong className="text-[#00372f]">Tenant Allegation:</strong> {d.claimSummary}
+                  </p>
+                  {d.landlordResponse ? (
+                    <p className="text-xs text-[#00372f] bg-teal-50/80 p-2.5 rounded-lg m-0 border border-teal-200 font-medium">
+                      <strong className="font-bold">Your Submitted Defense:</strong> {d.landlordResponse}
+                    </p>
+                  ) : (
+                    <div className="flex justify-between items-center pt-2 border-t border-gray-200">
+                      <span className="text-xs font-bold text-amber-800 flex items-center gap-1">
+                        <AlertCircle size={14} /> Counter-evidence required within 7 days
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenCounterModal(d)}
+                        className="px-4 py-2 rounded-xl bg-[#00372f] hover:bg-[#002822] text-white text-xs font-bold border-none cursor-pointer shadow-sm transition-all"
+                      >
+                        Submit Defense & Evidence
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      ) : null}
       {typeof document !== 'undefined' && createPortal(
         <>
           {/* MODAL 1: Filter Options */}
@@ -664,6 +841,53 @@ const Tenants = () => {
                     Close
                   </button>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* MODAL 6: Submit Counter Evidence */}
+          {showCounterModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                  <h3 className="text-lg font-bold text-gray-900 m-0">Submit Arbitration Response</h3>
+                  <button onClick={() => setShowCounterModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+                <form onSubmit={handleSubmitCounter} className="space-y-4">
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 block mb-1">Defense & Facts Chronology</label>
+                    <textarea
+                      rows={4}
+                      required
+                      placeholder="State exact timeline, move-in log evidence, or repair receipts proving validity of charges..."
+                      value={counterForm.responseText}
+                      onChange={e => setCounterForm({ ...counterForm, responseText: e.target.value })}
+                      className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-xs font-medium text-gray-800 focus:outline-none focus:border-[#00372f] resize-none"
+                    />
+                  </div>
+                  <div className="p-3 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 text-center cursor-pointer hover:bg-gray-100 transition-colors">
+                    <UploadCloud size={20} className="mx-auto text-gray-400 mb-1" />
+                    <span className="text-xs font-bold text-[#00372f] block">Attach Supporting Evidence (Move-in Photos, Contractor Bills)</span>
+                    <span className="text-[10px] text-gray-400">Supported: PDF, JPG, PNG up to 15MB</span>
+                  </div>
+                  <div className="pt-4 border-t border-gray-100 flex justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowCounterModal(false)}
+                      className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 bg-transparent border-none cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer shadow-sm"
+                    >
+                      Submit Counter-Evidence
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           )}

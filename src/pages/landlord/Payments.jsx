@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { toast } from 'sonner';
 import {
   Banknote, Send, Download, ChevronDown, Filter, MoreVertical,
-  CreditCard, Landmark, Wallet, Calendar, Sliders, X, Check, Plus
+  CreditCard, Landmark, Wallet, Calendar, Sliders, X, Check, Plus, PiggyBank, ShieldCheck, Lock, ArrowUpRight, Users
 } from 'lucide-react';
 
 const initialTransactions = [
@@ -249,6 +249,95 @@ const Payments = () => {
     toast.info(`Split payment request declined for ${tenantName}.`);
   };
 
+  const [cooperativePools, setCooperativePools] = useState([
+    {
+      id: 'AJO-104',
+      name: 'Victoria Island Towers Resident Rent Ajo #104',
+      property: 'Victoria Island Towers (10 Units)',
+      monthlyPool: '₦2,500,000',
+      totalLockedEscrow: '₦12,500,000',
+      cycleProgress: 'Month 6 of 10 (60% Pre-funded)',
+      nextDisbursementDate: 'Jul 1, 2026',
+      activeMembersCount: 10,
+      status: 'Active Escrow Lock',
+      discountApplied: '5% Early Renewal Match'
+    },
+    {
+      id: 'AJO-209',
+      name: 'Lekki Palms Cooperative Pool #209',
+      property: 'Lekki Palms Villas (6 Units)',
+      monthlyPool: '₦1,860,000',
+      totalLockedEscrow: '₦7,440,000',
+      cycleProgress: 'Month 4 of 6 (67% Pre-funded)',
+      nextDisbursementDate: 'Jul 15, 2026',
+      activeMembersCount: 6,
+      status: 'Active Escrow Lock',
+      discountApplied: '3.5% Early Renewal Match'
+    }
+  ]);
+
+  const handleDisburseCooperative = (poolId, poolName) => {
+    setCooperativePools(prev => prev.map(p => p.id === poolId ? { ...p, status: 'Disbursed to Property Account' } : p));
+    toast.success(`Escrow funds for "${poolName}" successfully disbursed to your designated bank account!`);
+  };
+
+  const [reconcileQueue, setReconcileQueue] = useState([
+    {
+      id: 'NIBSS-99201',
+      date: 'Today • 09:12 AM',
+      senderName: 'ALHAJI MUSA RANO',
+      bank: 'Zenith Bank Plc',
+      amount: '₦3,100,000',
+      sessionId: '09011026070109120019283948',
+      narrative: 'TRANSFER FROM RANO MUSA RENT LEKKI',
+      status: 'Requires Allocation',
+      allocatedTo: null
+    },
+    {
+      id: 'NIBSS-99184',
+      date: 'Yesterday • 04:45 PM',
+      senderName: 'SIMISOLA ALABI',
+      bank: 'GTBank',
+      amount: '₦1,099,583',
+      sessionId: '09026726063016450019281122',
+      narrative: 'TRANCHE 1 UPFRONT VI TOWERS',
+      status: 'Auto-Matched 99%',
+      allocatedTo: 'Simisola Alabi (VI Towers #4B)'
+    },
+    {
+      id: 'NIBSS-99102',
+      date: 'Jun 28, 2026 • 11:20 AM',
+      senderName: 'DAPO SOLARIN LTD',
+      bank: 'Access Bank Plc',
+      amount: '₦1,850,000',
+      sessionId: '04400126062811200019287733',
+      narrative: 'SOLARIN RENT PAY',
+      status: 'Requires Allocation',
+      allocatedTo: null
+    }
+  ]);
+
+  const [showAllocateModal, setShowAllocateModal] = useState(false);
+  const [activeRecItem, setActiveRecItem] = useState(null);
+  const [selectedTenantAlloc, setSelectedTenantAlloc] = useState('Musa Rano - Lekki Palms Villas #12A');
+
+  const handleOpenAllocate = (item) => {
+    setActiveRecItem(item);
+    setShowAllocateModal(true);
+  };
+
+  const handleConfirmAllocation = (e) => {
+    e.preventDefault();
+    if (!activeRecItem) return;
+    setReconcileQueue(prev => prev.map(r => r.id === activeRecItem.id ? {
+      ...r,
+      status: 'Reconciled & Posted',
+      allocatedTo: selectedTenantAlloc
+    } : r));
+    toast.success(`Bank transfer of ${activeRecItem.amount} successfully reconciled to ${selectedTenantAlloc}!`);
+    setShowAllocateModal(false);
+  };
+
   const [showManualModal, setShowManualModal] = useState(false);
   const [manualForm, setManualForm] = useState({
     tenantName: '',
@@ -371,6 +460,30 @@ const Payments = () => {
           <span>🤝 Split Rent & Instalment Requests</span>
           <span className="bg-[#C75B30] text-white px-2 py-0.5 rounded-full text-[10px] font-black">
             {instalmentRequests.filter(r => r.status === 'Pending').length}
+          </span>
+        </button>
+        <button
+          onClick={() => setActiveTab('ajo')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+            activeTab === 'ajo' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <PiggyBank size={15} className="text-[#C75B30]" />
+          <span>🏦 Cooperative & Ajo Escrow</span>
+          <span className="bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[10px] font-black">
+            2 Active Pools
+          </span>
+        </button>
+        <button
+          onClick={() => setActiveTab('reconciliation')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+            activeTab === 'reconciliation' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <Landmark size={15} className="text-[#C75B30]" />
+          <span>🔄 Bank Reconciliation Hub</span>
+          <span className="bg-amber-600 text-white px-2 py-0.5 rounded-full text-[10px] font-black">
+            {reconcileQueue.filter(r => r.status === 'Requires Allocation').length} Unmatched
           </span>
         </button>
       </div>
@@ -681,7 +794,7 @@ const Payments = () => {
         </div>
       </div>
     </div>
-    ) : (
+    ) : activeTab === 'instalments' ? (
         /* ── INSTALMENT REQUESTS VIEW ── */
         <div className="space-y-6 animate-fade-in">
           <div className="dashboard-card bg-[#FAF7F2] p-6 rounded-2xl border border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -789,7 +902,252 @@ const Payments = () => {
             ))}
           </div>
         </div>
-      )}
+      ) : activeTab === 'ajo' ? (
+        /* ── COOPERATIVE & AJO ESCROW ACCOUNTS VIEW ── */
+        <div className="space-y-6 animate-fade-in">
+          
+          {/* Summary Header Banner */}
+          <div className="dashboard-card bg-[#0B4F45] text-white p-6 sm:p-8 rounded-2xl shadow-md relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="space-y-2 max-w-xl">
+              <span className="bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5">
+                <ShieldCheck size={14} /> Automated Landlord Escrow Lock
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white m-0">
+                Resident Cooperative Pools & Future Rent Escrow
+              </h2>
+              <p className="text-xs sm:text-sm text-white/80 leading-relaxed m-0">
+                Residents in your properties rotate monthly savings pools (Ajo) directly locked into your escrow account to guarantee next year's lease renewals and zero collection risk.
+              </p>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/15 text-center min-w-[240px]">
+              <span className="text-xs text-white/70 font-bold uppercase tracking-wider block mb-1">Total Pre-funded Escrow</span>
+              <div className="text-3xl font-mono font-black text-[#F4C395]">
+                ₦19,940,000
+              </div>
+              <span className="text-xs font-bold text-emerald-300 mt-1 block">
+                16 Verified Residents Participating
+              </span>
+            </div>
+          </div>
+
+          {/* Cooperative Pools Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {cooperativePools.map((pool) => (
+              <div
+                key={pool.id}
+                className="dashboard-card bg-white rounded-2xl p-6 border border-gray-200 shadow-xs flex flex-col justify-between"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <span className="text-[11px] font-mono font-bold text-[#C75B30] uppercase tracking-wider">
+                        {pool.id} • {pool.property}
+                      </span>
+                      <h3 className="text-lg font-display font-bold text-[#0B4F45] m-0 mt-0.5">
+                        {pool.name}
+                      </h3>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold shrink-0 ${
+                      pool.status.includes('Disbursed')
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-teal-50 text-[#0B4F45] border border-teal-200'
+                    }`}>
+                      {pool.status}
+                    </span>
+                  </div>
+
+                  <div className="p-4 bg-[#FAF7F2] rounded-xl border border-gray-200/80 grid grid-cols-2 gap-3">
+                    <div>
+                      <span className="text-[11px] font-bold uppercase text-gray-500 block">Monthly Group Pool</span>
+                      <span className="text-base font-mono font-bold text-gray-900">{pool.monthlyPool}</span>
+                    </div>
+                    <div>
+                      <span className="text-[11px] font-bold uppercase text-gray-500 block">Locked Escrow Total</span>
+                      <span className="text-base font-mono font-extrabold text-[#0B4F45]">{pool.totalLockedEscrow}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5 text-xs text-[#4A4F4C]">
+                    <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                      <span>Cycle Progress</span>
+                      <span className="font-bold text-gray-800">{pool.cycleProgress}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                      <span>Active Members</span>
+                      <span className="font-bold text-gray-800">{pool.activeMembersCount} Tenants</span>
+                    </div>
+                    <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                      <span>Next Disbursement Date</span>
+                      <span className="font-mono font-bold text-[#C75B30]">{pool.nextDisbursementDate}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-1">
+                      <span>Renewal Incentive</span>
+                      <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+                        {pool.discountApplied}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-5 mt-4 border-t border-gray-100 flex items-center justify-between gap-3">
+                  <span className="text-xs text-gray-500 italic flex items-center gap-1">
+                    <Lock size={12} className="text-emerald-600" />
+                    Escrow secured via CBN Regulated Trust
+                  </span>
+
+                  {pool.status.includes('Disbursed') ? (
+                    <span className="text-xs font-bold text-emerald-700 flex items-center gap-1">
+                      <Check size={16} /> Disbursed to Bank Account
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleDisburseCooperative(pool.id, pool.name)}
+                      className="px-4 py-2.5 rounded-xl bg-[#0B4F45] hover:bg-[#083D35] text-white text-xs font-bold border-none cursor-pointer shadow-sm transition-all flex items-center gap-1.5"
+                    >
+                      <span>Disburse Escrow to Revenue Account</span>
+                      <ArrowUpRight size={14} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      ) : activeTab === 'reconciliation' ? (
+        /* ── BANK TRANSFER RECONCILIATION HUB VIEW ── */
+        <div className="space-y-6 animate-fade-in pb-12">
+          
+          {/* Reconciliation Summary Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white rounded-2xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Unreconciled Inflows</span>
+                <span className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center">
+                  <Landmark size={16} />
+                </span>
+              </div>
+              <div className="mt-4">
+                <h3 className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">₦4,950,000</h3>
+                <p className="text-xs text-amber-700 font-bold m-0 mt-1">2 Unallocated NIBSS Transfers</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Auto-Match Rate (SLA)</span>
+                <span className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                  <Check size={16} />
+                </span>
+              </div>
+              <div className="mt-4">
+                <h3 className="text-2xl font-display font-black text-gray-900 m-0 tracking-tight">96.8%</h3>
+                <p className="text-xs text-emerald-700 font-bold m-0 mt-1">Instant Webhook Settlement</p>
+              </div>
+            </div>
+
+            <div className="bg-[#0B4F45] text-white rounded-2xl p-6 card-shadow flex flex-col justify-between relative overflow-hidden">
+              <div className="flex items-center justify-between relative z-10">
+                <span className="text-xs font-bold uppercase tracking-wider text-white/70">Master Settlement Pool</span>
+                <span className="bg-[#C75B30] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full">Providus Hub</span>
+              </div>
+              <div className="mt-4 relative z-10">
+                <h3 className="text-xl font-mono font-black text-[#F4C395] m-0 tracking-wider">Acc # 0928103928</h3>
+                <p className="text-xs text-white/80 m-0 mt-1">RentFlow Escrow / Providus Bank</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Reconciliation Queue Table Section */}
+          <div className="bg-white rounded-2xl border border-gray-200/80 card-shadow overflow-hidden">
+            <div className="p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="text-base font-bold text-[#0B4F45] m-0 flex items-center gap-2">
+                  <span>Inbound NIBSS Bank Transfer Ledger</span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-700">Real-Time Sync</span>
+                </h3>
+                <p className="text-xs text-[#4A4F4C] m-0 mt-1">
+                  Incoming bank transfers matched via automated narration parsing or flagged for manual allocation.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => toast.success('NIBSS settlement feed refreshed. All webhooks up to date!')}
+                  className="px-3.5 py-2 rounded-xl border border-gray-200 bg-gray-50 hover:bg-gray-100 text-xs font-bold text-gray-700 cursor-pointer flex items-center gap-1.5 transition-colors"
+                >
+                  <span>Refresh NIBSS Feed</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left">
+                <thead>
+                  <tr className="bg-gray-50/80 border-b border-gray-200/80 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                    <th className="py-3.5 px-6">Date / Session Ref</th>
+                    <th className="py-3.5 px-6">Sender & Origin Bank</th>
+                    <th className="py-3.5 px-6">Transfer Narration</th>
+                    <th className="py-3.5 px-6">Amount (₦)</th>
+                    <th className="py-3.5 px-6">Match Status</th>
+                    <th className="py-3.5 px-6 text-right">Action / Allocation</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 text-xs font-medium text-gray-700">
+                  {reconcileQueue.map(item => (
+                    <tr key={item.id} className="hover:bg-gray-50/60 transition-colors">
+                      <td className="py-4 px-6">
+                        <div className="font-bold text-gray-900">{item.date}</div>
+                        <div className="font-mono text-[10px] text-gray-400 mt-0.5">{item.sessionId}</div>
+                      </td>
+                      <td className="py-4 px-6">
+                        <div className="font-bold text-[#0B4F45]">{item.senderName}</div>
+                        <div className="text-[11px] text-gray-500 mt-0.5">{item.bank}</div>
+                      </td>
+                      <td className="py-4 px-6 font-mono text-[11px] text-gray-600 max-w-[200px] truncate">
+                        {item.narrative}
+                      </td>
+                      <td className="py-4 px-6 font-mono font-black text-sm text-gray-900">
+                        {item.amount}
+                      </td>
+                      <td className="py-4 px-6">
+                        <span className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                          item.status === 'Requires Allocation'
+                            ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                            : item.status.includes('Reconciled') || item.status.includes('Auto')
+                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                            : 'bg-gray-100 text-gray-800'
+                        }`}>
+                          {item.status}
+                        </span>
+                      </td>
+                      <td className="py-4 px-6 text-right">
+                        {item.status === 'Requires Allocation' ? (
+                          <button
+                            type="button"
+                            onClick={() => handleOpenAllocate(item)}
+                            className="px-3.5 py-1.5 rounded-xl bg-[#C75B30] hover:bg-[#b04a25] text-white font-bold text-xs border-none cursor-pointer shadow-xs transition-colors"
+                          >
+                            Reconcile & Allocate
+                          </button>
+                        ) : (
+                          <div className="text-[11px] text-emerald-700 font-bold flex items-center justify-end gap-1">
+                            <Check size={14} />
+                            <span>{item.allocatedTo}</span>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      ) : null}
 
       {/* MODALS */}
       {typeof document !== 'undefined' && createPortal(
@@ -918,6 +1276,85 @@ const Payments = () => {
                     Confirm & Send
                   </button>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* MODAL 4: Bank Transfer Reconcile & Allocate Modal */}
+          {showAllocateModal && activeRecItem && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100 text-left space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+                  <h3 className="text-base font-bold text-[#0B4F45] m-0 flex items-center gap-2">
+                    <Landmark size={18} className="text-[#C75B30]" />
+                    <span>Reconcile Bank Transfer</span>
+                  </h3>
+                  <button
+                    onClick={() => setShowAllocateModal(false)}
+                    className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-500 flex items-center justify-center border-none cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-200/80 space-y-1.5 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500 font-medium">Inflow Amount:</span>
+                    <span className="font-mono font-black text-[#0B4F45] text-sm">{activeRecItem.amount}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500 font-medium">Sender Name:</span>
+                    <span className="font-bold text-gray-800">{activeRecItem.senderName}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500 font-medium">Origin Bank:</span>
+                    <span className="text-gray-700">{activeRecItem.bank}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500 font-medium">Session ID:</span>
+                    <span className="font-mono text-[10px] text-gray-600">{activeRecItem.sessionId}</span>
+                  </div>
+                  <div className="pt-1 border-t border-gray-200 mt-1">
+                    <span className="text-[10px] uppercase font-bold text-gray-400 block">Bank Narration</span>
+                    <span className="font-mono text-[11px] text-gray-800 font-bold">{activeRecItem.narrative}</span>
+                  </div>
+                </div>
+
+                <form onSubmit={handleConfirmAllocation} className="space-y-4">
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 block mb-1">Match & Allocate to Resident Invoice</label>
+                    <select
+                      value={selectedTenantAlloc}
+                      onChange={e => setSelectedTenantAlloc(e.target.value)}
+                      className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-xs font-bold text-gray-800 bg-white focus:outline-none focus:border-[#0B4F45]"
+                    >
+                      <option value="Musa Rano - Lekki Palms Villas #12A">Alhaji Musa Rano - Lekki Palms Villas #12A (Q3 Rent Invoice)</option>
+                      <option value="Dapo Solarin - VI Towers #10B">Dapo Solarin - Victoria Island Towers #10B (Corporate Annual Lease)</option>
+                      <option value="Folake Adeyemi - Ikeja Mall #G2">Folake Adeyemi - Ikeja City Mall Retail #G2 (Instalment Tranche)</option>
+                      <option value="Unallocated Suspense Account">Unallocated Suspense Account (Hold in General Ledger)</option>
+                    </select>
+                  </div>
+
+                  <p className="text-[11px] text-[#4A4F4C] m-0 leading-relaxed bg-amber-50 p-2.5 rounded-lg border border-amber-100">
+                    <strong>Note:</strong> Reconciling this transfer will post an immutable credit entry to the selected resident ledger and send an instant automated SMS/WhatsApp receipt.
+                  </p>
+
+                  <div className="flex justify-end gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowAllocateModal(false)}
+                      className="px-4 py-2.5 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border border-gray-200 bg-white cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl text-xs font-bold bg-[#0B4F45] text-white hover:bg-[#083D35] border-none cursor-pointer shadow-sm"
+                    >
+                      Confirm Reconciliation & Post
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           )}
