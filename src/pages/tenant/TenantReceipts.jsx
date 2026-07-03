@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/ui/Modal';
 import { downloadReceiptDoc, downloadAnnualReportDoc } from '../../utils/documentGenerator';
 import { Receipt, Download } from 'lucide-react';
-import PageHero from '../../components/ui/PageHero';
-
 const mockReceiptsData = [
   { id: 'RF-2026-1001', title: 'Monthly Rent', type: 'Rent', year: '2026', date: 'Jun 01, 2026', method: 'Direct Debit', amount: '₦3,250,000', icon: 'apartment' },
   { id: 'RF-2026-0982', title: 'Utility Package', type: 'Utilities', year: '2026', date: 'May 15, 2026', method: 'Credit Card (Visa)', amount: '₦200,000', icon: 'bolt' },
@@ -44,22 +42,17 @@ const TenantReceipts = () => {
       `}} />
       <div className="space-y-6">
 
-        <PageHero
-          icon={Receipt}
-          iconBg="bg-emerald-600"
-          tag="Billing & Payments"
-          title="Billing & Receipts"
-          subtitle="View, download, and manage all official payment receipts and documentation for your tenancy."
-          gradient="from-[#001209] via-[#001F11] to-[#003318]"
-          stats={[
-            { value: '24', label: 'Total Receipts' },
-            { value: '₦3.25M', label: 'Last Payment', sub: 'Jun 01, 2026' },
-            { value: '₦32.5M', label: 'Paid (YTD)' },
-          ]}
-          actions={[
-            { label: 'Download Annual Report', icon: Download, onClick: () => downloadAnnualReportDoc() },
-          ]}
-        />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 mt-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Billing & Receipts</h1>
+          <p className="text-gray-500 text-sm mt-1">View, download, and manage all official payment receipts and documentation for your tenancy.</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <button onClick={() => downloadAnnualReportDoc()} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer whitespace-nowrap">
+            <Download size={16} /> Download Annual Report
+          </button>
+        </div>
+      </div>
 
         <div className="flex items-center gap-3 flex-wrap">
           <select value={yearFilter} onChange={e => setYearFilter(e.target.value)} className="bg-white border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary cursor-pointer">

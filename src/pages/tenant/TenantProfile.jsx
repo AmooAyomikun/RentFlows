@@ -4,17 +4,6 @@ import { toast } from 'sonner';
 import { User, ShieldCheck, Phone, Mail, MapPin, Calendar, FileText, CheckCircle2, Edit3, ArrowRight, Award, TrendingUp, Download, Star, CheckCircle, AlertCircle, Camera, Image as ImageIcon } from 'lucide-react';
 import { formatCurrency } from '../../utils/formatCurrency';
 import useAuthStore from '../../store/authStore';
-import Modal from '../../components/ui/Modal';
-
-const presetAvatars = [
-  { id: 'av-1', label: 'Executive Male (Default)', url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80' },
-  { id: 'av-2', label: 'Professional Female', url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80' },
-  { id: 'av-3', label: 'Modern Portrait', url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80' },
-  { id: 'av-4', label: 'Corporate Tech', url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80' },
-  { id: 'av-5', label: 'Business Casual', url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80' },
-  { id: 'av-6', label: 'Minimalist Portrait', url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80' },
-];
-
 const reputationHistory = [
   { id: 'rep-1', date: 'Jun 30, 2026', action: 'Settled Annual Rent via NIBSS 2 days early', change: '+25 pts', type: 'positive' },
   { id: 'rep-2', date: 'May 15, 2026', action: 'Passed Bi-Annual Facility Inspection with 5-Star rating', change: '+15 pts', type: 'positive' },
@@ -27,7 +16,6 @@ const TenantProfile = () => {
   const { user, updateUser } = useAuthStore();
   const [activeTab, setActiveTab] = useState('profile'); // 'profile' | 'reputation'
   const [profileImg, setProfileImg] = useState(user?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80');
-  const [showAvatarModal, setShowAvatarModal] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleImageUpload = (e) => {
@@ -38,13 +26,6 @@ const TenantProfile = () => {
       updateUser({ avatar: url });
       toast.success('Profile photo uploaded and synced across portal!');
     }
-  };
-
-  const handleSelectPresetAvatar = (url) => {
-    setProfileImg(url);
-    updateUser({ avatar: url });
-    setShowAvatarModal(false);
-    toast.success('Profile photo updated from gallery!');
   };
 
   const emergencyContacts = [
@@ -324,7 +305,7 @@ const TenantProfile = () => {
                     className="hidden" 
                   />
                   <button 
-                    onClick={() => setShowAvatarModal(true)}
+                    onClick={() => fileInputRef.current?.click()}
                     className="absolute -bottom-1 -right-1 w-8 h-8 bg-[#0B4F45] hover:bg-[#063831] text-white rounded-xl flex items-center justify-center shadow-md transition-all cursor-pointer ring-2 ring-white border-none group-hover:scale-110"
                     title="Change Profile Picture"
                   >
@@ -466,53 +447,6 @@ const TenantProfile = () => {
         </div>
       )}
 
-      {/* Avatar Gallery Modal */}
-      <Modal isOpen={showAvatarModal} onClose={() => setShowAvatarModal(false)} title="Update Profile Avatar">
-        <div className="space-y-4 text-[#1E293B]">
-          <p className="text-xs text-gray-600 leading-relaxed m-0">
-            Choose from verified prime resident portraits or upload directly from your device.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-80 overflow-y-auto p-1">
-            {presetAvatars.map((av) => (
-              <div 
-                key={av.id}
-                onClick={() => handleSelectPresetAvatar(av.url)}
-                className={`group relative rounded-2xl overflow-hidden border-2 cursor-pointer transition-all hover:scale-[1.02] ${profileImg === av.url ? 'border-[#0B4F45] ring-2 ring-[#0B4F45]/30 shadow-md' : 'border-gray-200 hover:border-[#0B4F45]/60'}`}
-              >
-                <img src={av.url} alt={av.label} className="w-full h-28 object-cover" />
-                <div className="p-2 bg-white text-center">
-                  <p className="text-[11px] font-bold text-gray-800 truncate m-0">{av.label}</p>
-                </div>
-                {profileImg === av.url && (
-                  <div className="absolute top-2 right-2 bg-[#0B4F45] text-white p-1 rounded-full shadow-sm">
-                    <CheckCircle2 size={14} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-            <button
-              type="button"
-              onClick={() => {
-                setShowAvatarModal(false);
-                fileInputRef.current?.click();
-              }}
-              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl text-xs font-bold transition-colors border-none cursor-pointer flex items-center gap-2"
-            >
-              <Camera size={14} />
-              <span>Upload Custom Photo...</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowAvatarModal(false)}
-              className="px-5 py-2 bg-[#0B4F45] text-white rounded-xl text-xs font-bold border-none cursor-pointer"
-            >
-              Done
-            </button>
-          </div>
-        </div>
-      </Modal>
     </div>
   );
 };

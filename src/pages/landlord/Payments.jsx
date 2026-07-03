@@ -413,24 +413,24 @@ const Payments = () => {
           <h1 className="text-2xl font-bold text-gray-900 m-0">Financial Dashboard</h1>
           <p className="text-gray-500 text-sm mt-1">Overview of your real estate portfolio performance (Last 6 Months).</p>
         </div>
-        <div className="flex items-center gap-3">
-          <button onClick={() => setShowManualModal(true)} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+        <div className="flex flex-wrap items-center gap-3">
+          <button onClick={() => setShowManualModal(true)} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer whitespace-nowrap">
             <Banknote size={16} /> Record Manual Payment
           </button>
-          <button onClick={() => setShowReminderModal(true)} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+          <button onClick={() => setShowReminderModal(true)} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer whitespace-nowrap">
             <Send size={16} /> Send Reminders
           </button>
-          <button onClick={handleExportCSV} className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none">
+          <button onClick={handleExportCSV} className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none whitespace-nowrap">
             <Download size={16} /> Export Financials (CSV)
           </button>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl w-fit mb-6">
+      <div className="flex w-full overflow-x-auto hide-scrollbar items-center gap-2 bg-gray-100 p-1.5 rounded-2xl mb-6">
         <button
           onClick={() => setActiveTab('ledger')}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 shrink-0 whitespace-nowrap ${
             activeTab === 'ledger' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
           }`}
         >
@@ -439,7 +439,7 @@ const Payments = () => {
         </button>
         <button
           onClick={() => setActiveTab('instalments')}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 shrink-0 whitespace-nowrap ${
             activeTab === 'instalments' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
           }`}
         >
@@ -451,7 +451,7 @@ const Payments = () => {
         </button>
         <button
           onClick={() => setActiveTab('ajo')}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 shrink-0 whitespace-nowrap ${
             activeTab === 'ajo' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
           }`}
         >
@@ -463,7 +463,7 @@ const Payments = () => {
         </button>
         <button
           onClick={() => setActiveTab('reconciliation')}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 shrink-0 whitespace-nowrap ${
             activeTab === 'reconciliation' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
           }`}
         >

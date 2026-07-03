@@ -6,8 +6,6 @@ import {
   CheckCircle2, Send, ShieldAlert, FileText, Scale, AlertCircle, UploadCloud,
   CheckCircle, FileCheck, ArrowRight, Shield, X, Plus
 } from 'lucide-react';
-import PageHero from '../../components/ui/PageHero';
-
 const faqList = [
   {
     q: 'How do I pay my monthly rent online?',
@@ -104,23 +102,20 @@ const TenantSupport = () => {
 
   return (
     <div className="space-y-6 w-full text-[#1E293B] pb-12 font-sans">
-      <PageHero
-        icon={HelpCircle}
-        iconBg="bg-blue-700"
-        tag="Concierge & Arbitration"
-        title="Help, Support & Dispute Mediation"
-        subtitle="Access instant portal concierge or invoke formal independent arbitration for tenancy matters."
-        gradient="from-[#000D1A] via-[#001A33] to-[#002B52]"
-        stats={[
-          { value: '2h', label: 'Response Time' },
-          { value: `${disputes.filter(d => d.step < 4).length}`, label: 'Active Disputes' },
-          { value: '24/7', label: 'Emergency Line' },
-        ]}
-        actions={[
-          { label: 'File Dispute', icon: Scale, onClick: () => { setActiveTab('disputes'); setShowNewDisputeModal(true); } },
-          { label: activeTab === 'disputes' ? 'Back to Support' : 'View Disputes', icon: FileCheck, onClick: () => setActiveTab(v => v === 'disputes' ? 'support' : 'disputes'), variant: 'ghost' },
-        ]}
-      />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 mt-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Help, Support & Dispute Mediation</h1>
+          <p className="text-gray-500 text-sm mt-1">Access instant portal concierge or invoke formal independent arbitration for tenancy matters.</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <button onClick={() => setActiveTab(v => v === 'disputes' ? 'support' : 'disputes')} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer whitespace-nowrap">
+            <FileCheck size={16} /> {activeTab === 'disputes' ? 'Back to Support' : 'View Disputes'}
+          </button>
+          <button onClick={() => { setActiveTab('disputes'); setShowNewDisputeModal(true); }} className="px-4 py-2 bg-[#04332C] text-white rounded-xl text-sm font-bold hover:bg-[#03221d] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none whitespace-nowrap">
+            <Scale size={16} /> File Dispute
+          </button>
+        </div>
+      </div>
 
       {/* Tab Switcher */}
       <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl w-fit">

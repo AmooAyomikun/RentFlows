@@ -271,11 +271,11 @@ const Tenants = () => {
           <h1 className="text-2xl font-bold text-gray-900 m-0">Tenant Management Center</h1>
           <p className="text-gray-500 text-sm mt-1">Monitor resident health, active leases, payment status and dispute docket across all portfolio units.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+        <div className="flex flex-wrap items-center gap-3">
+          <button className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer whitespace-nowrap">
             <Send size={16} /> Invite Tenant
           </button>
-          <button onClick={() => setShowNewClaimModal(true)} className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none">
+          <button onClick={() => setShowNewClaimModal(true)} className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none whitespace-nowrap">
             <Scale size={16} /> File Claim
           </button>
         </div>

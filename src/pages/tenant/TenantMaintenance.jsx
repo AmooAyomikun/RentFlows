@@ -3,8 +3,6 @@ import { useLocation } from 'react-router-dom';
 import Modal from '../../components/ui/Modal';
 import { downloadHandbookGuideDoc } from '../../utils/documentGenerator';
 import { Wrench, Plus } from 'lucide-react';
-import PageHero from '../../components/ui/PageHero';
-
 const ticketsData = [
   {
     id: 'RF-29402',
@@ -78,22 +76,17 @@ const TenantMaintenance = () => {
 
   return (
     <div className="space-y-6 relative">
-      <PageHero
-        icon={Wrench}
-        iconBg="bg-rose-700"
-        tag="Service Requests"
-        title="Maintenance Center"
-        subtitle="Manage your service requests and keep track of property updates. Our team aims to respond within 24 hours."
-        gradient="from-[#1A0000] via-[#2D0A00] to-[#3D1200]"
-        stats={[
-          { value: '02', label: 'Pending', sub: '+1 new' },
-          { value: '01', label: 'In Progress' },
-          { value: '14', label: 'Resolved (YTD)' },
-        ]}
-        actions={[
-          { label: 'Request Maintenance', icon: Plus, onClick: () => setShowModal(true) },
-        ]}
-      />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Maintenance Center</h1>
+          <p className="text-gray-500 text-sm mt-1">Manage your service requests and keep track of property updates. Our team aims to respond within 24 hours.</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <button onClick={() => setShowModal(true)} className="px-4 py-2 bg-[#04332C] text-white rounded-xl text-sm font-bold hover:bg-[#03221d] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none whitespace-nowrap">
+            <Plus size={16} /> Request Maintenance
+          </button>
+        </div>
+      </div>
 
       <div className="grid grid-cols-12 gap-6">
         {/* Left Column: Tickets & Analytics */}

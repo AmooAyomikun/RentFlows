@@ -5,7 +5,6 @@ import {
 } from 'lucide-react';
 import Modal from '../../components/ui/Modal';
 import { downloadLeaseDoc } from '../../utils/documentGenerator';
-import PageHero from '../../components/ui/PageHero';
 
 // Custom PawPrint / Dog SVG Icon
 const PawIcon = ({ size = 20, className = "" }) => (
@@ -44,24 +43,23 @@ const TenantLease = () => {
 
   return (
     <div className="space-y-6 w-full text-[#1E293B]">
-      <PageHero
-        icon={FileText}
-        iconBg="bg-amber-700"
-        tag="Active Tenancy"
-        title="Lease Agreement"
-        subtitle="Victoria Island Towers, Suite #402-B • Lease ID: RF-8921-LG • Signed Dec 15, 2025"
-        gradient="from-[#1A0800] via-[#2D1400] to-[#4D2800]"
-        stats={[
-          { value: '₦2.85M', label: 'Monthly Rent' },
-          { value: 'Dec 31', label: 'Lease Ends', sub: '2026' },
-          { value: '₦3.2M', label: 'Security Deposit' },
-        ]}
-        actions={[
-          { label: 'Download Lease', icon: Download, onClick: () => downloadLeaseDoc() },
-          { label: 'View Online', icon: Eye, onClick: () => setShowOnlineViewer(true), variant: 'ghost' },
-          { label: 'Message Manager', icon: MessageSquare, onClick: () => setShowMessageModal(true), variant: 'ghost' },
-        ]}
-      />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Lease Agreement</h1>
+          <p className="text-gray-500 text-sm mt-1">Victoria Island Towers, Suite #402-B • Lease ID: RF-8921-LG • Signed Dec 15, 2025</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <button onClick={() => setShowMessageModal(true)} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer whitespace-nowrap">
+            <MessageSquare size={16} /> Message Manager
+          </button>
+          <button onClick={() => setShowOnlineViewer(true)} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer whitespace-nowrap">
+            <Eye size={16} /> View Online
+          </button>
+          <button onClick={() => downloadLeaseDoc()} className="px-4 py-2 bg-[#04332C] text-white rounded-xl text-sm font-bold hover:bg-[#03221d] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none whitespace-nowrap">
+            <Download size={16} /> Download Lease
+          </button>
+        </div>
+      </div>
 
       {/* Main 2-Column vs 1-Column Grid Layout matching mockup aspect ratios exactly */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">

@@ -45,11 +45,11 @@ const Properties = () => {
           <h1 className="text-2xl font-bold text-gray-900 m-0">Property Portfolio</h1>
           <p className="text-gray-500 text-sm mt-1">Managing {properties.length || 8} properties · {totalUnitsComputed} total units · {avgOccupancyComputed}% avg occupancy.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <button onClick={() => window.location.href = '/landlord/properties/new'} className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none">
+        <div className="flex flex-wrap items-center gap-3">
+          <button onClick={() => window.location.href = '/landlord/properties/new'} className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none whitespace-nowrap">
             <Plus size={16} /> Add New Property
           </button>
-          <button onClick={() => setViewMode(v => v === 'grid' ? 'list' : 'grid')} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+          <button onClick={() => setViewMode(v => v === 'grid' ? 'list' : 'grid')} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer whitespace-nowrap">
             {viewMode === 'grid' ? <List size={16} /> : <LayoutGrid size={16} />}
             {viewMode === 'grid' ? 'List View' : 'Grid View'}
           </button>
@@ -108,12 +108,12 @@ const Properties = () => {
       </div>
 
       {/* Filter Pills Row */}
-      <div className="flex flex-wrap items-center gap-2 mb-6 border-b border-gray-200/80 pb-5">
+      <div className="flex w-full overflow-x-auto hide-scrollbar items-center gap-2 mb-6 border-b border-gray-200/80 pb-5">
         {filterTabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-3.5 py-1.5 rounded-full !text-xs !font-bold shadow-sm transition-all duration-150 flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-full !text-xs !font-bold shadow-sm transition-all duration-150 flex items-center gap-1.5 shrink-0 cursor-pointer ${
               activeTab === tab.id
                 ? 'bg-[#072F29] !text-white'
                 : 'bg-white border border-gray-200/80 !text-gray-700 hover:border-gray-300 hover:bg-gray-50'

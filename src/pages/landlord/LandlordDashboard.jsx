@@ -168,11 +168,11 @@ const LandlordDashboard = () => {
           <h1 className="text-2xl font-bold text-gray-900 m-0">Welcome back, Landlord</h1>
           <p className="text-gray-500 text-sm mt-1">Here's what's happening with your properties today. Your portfolio is performing well.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none">
+        <div className="flex flex-wrap items-center gap-3">
+          <button className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none whitespace-nowrap">
             <Plus size={16} /> Add Property
           </button>
-          <button className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+          <button className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer whitespace-nowrap">
             <TrendingUp size={16} /> View Reports
           </button>
         </div>

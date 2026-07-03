@@ -5,7 +5,6 @@ import { logout as authLogout } from '../../services/authService';
 import { downloadAnnualReportDoc } from '../../utils/documentGenerator';
 import Modal from '../../components/ui/Modal';
 import { Home, CreditCard, Wrench, FileText } from 'lucide-react';
-import PageHero from '../../components/ui/PageHero';
 
 const TenantDashboard = () => {
   const { user, clearUser } = useAuthStore();
@@ -36,24 +35,20 @@ const TenantDashboard = () => {
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-8">
-          {/* Premium Hero */}
-          <PageHero
-            icon={Home}
-            iconBg="bg-[#04332C]"
-            tag="Tenant Portal"
-            title={`Good morning, ${tenantName}`}
-            subtitle="Here's a snapshot of your tenancy status, upcoming rent, and active maintenance requests."
-            gradient="from-[#001812] via-[#02261E] to-[#04332C]"
-            stats={[
-              { value: '₦3.25M', label: 'Next Rent Due', sub: 'Due in 4 days' },
-              { value: 'Jul 01', label: 'Payment Date' },
-              { value: '2', label: 'Open Tickets' },
-            ]}
-            actions={[
-              { label: 'Pay Rent Now', icon: CreditCard, onClick: () => navigate('/tenant/pay-rent') },
-              { label: 'Download Report', icon: FileText, onClick: handleDownloadAnnualReport, variant: 'ghost' },
-            ]}
-          />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Good morning, {tenantName}</h1>
+          <p className="text-gray-500 text-sm mt-1">Here's a snapshot of your tenancy status, upcoming rent, and active maintenance requests.</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <button onClick={() => navigate('/tenant/pay-rent')} className="px-4 py-2 bg-[#04332C] text-white rounded-xl text-sm font-bold hover:bg-[#03221d] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none whitespace-nowrap">
+            <CreditCard size={16} /> Pay Rent Now
+          </button>
+          <button onClick={handleDownloadAnnualReport} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer whitespace-nowrap">
+            <FileText size={16} /> Download Report
+          </button>
+        </div>
+      </div>
 
           {/* Bento Grid Layout */}
           <div className="grid grid-cols-12 gap-6">
