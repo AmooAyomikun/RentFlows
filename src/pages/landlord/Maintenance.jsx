@@ -6,7 +6,6 @@ import {
   CheckCircle2, Star, Filter, Plus, Eye, UserPlus, Calendar, History,
   Wrench, Zap, Snowflake, X, Send, Check
 } from 'lucide-react';
-import PageHero from '../../components/ui/PageHero';
 
 const initialKanbanColumns = [
   {
@@ -382,24 +381,20 @@ const Maintenance = () => {
 
   return (
     <div className="font-sans text-gray-900 pb-12 relative">
-      <PageHero
-        icon={Wrench}
-        iconBg="bg-amber-600"
-        tag="Property Operations"
-        title="Maintenance & Repairs Hub"
-        subtitle="Oversee property health, active service tickets, contractor assignments and repair spend across all units."
-        gradient="from-[#1A1200] via-[#2D1E00] to-[#3D2B00]"
-        stats={[
-          { value: `${totalOpenTickets < 10 ? `0${totalOpenTickets}` : totalOpenTickets}`, label: 'Open Tickets' },
-          { value: `0${urgentTicketsCount}`, label: 'Urgent', sub: 'Requires Action' },
-          { value: '₦4.2M', label: 'Spend (MTD)' },
-          { value: '28h', label: 'Avg Resolution' },
-        ]}
-        actions={[
-          { label: 'New Work Order', icon: Plus, onClick: () => setShowNewOrderModal(true) },
-          { label: 'View All Contractors', icon: Star, onClick: () => setShowContractorsModal(true), variant: 'ghost' },
-        ]}
-      />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Maintenance Management</h1>
+          <p className="text-gray-500 text-sm mt-1">Track and resolve tenant service requests across your portfolio.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none">
+            <Plus size={16} /> Create Work Order
+          </button>
+          <button className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+            <Wrench size={16} /> Export Log
+          </button>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[140px]">

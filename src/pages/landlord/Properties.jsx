@@ -8,7 +8,6 @@ import {
 } from 'lucide-react';
 import { getProperties } from '../../services/propertyService';
 import { ContentCardSkeleton } from '../../components/ui/SkeletonLoader';
-import PageHero from '../../components/ui/PageHero';
 
 const Properties = () => {
   const [viewMode, setViewMode] = useState('grid');
@@ -41,23 +40,21 @@ const Properties = () => {
 
   return (
     <div className="space-y-6">
-      <PageHero
-        icon={Building2}
-        iconBg="bg-indigo-600"
-        tag="Portfolio Management"
-        title="Property Portfolio"
-        subtitle={`Managing ${properties.length || 8} properties · ${totalUnitsComputed} total units · ${avgOccupancyComputed}% avg occupancy.`}
-        gradient="from-[#0D0C1D] via-[#1a1832] to-[#24205a]"
-        stats={[
-          { value: '₦14.2B', label: 'Portfolio Value', sub: '+2.4% QoQ' },
-          { value: `${totalUnitsComputed}`, label: 'Total Units' },
-          { value: `${avgOccupancyComputed}%`, label: 'Avg Occupancy' },
-        ]}
-        actions={[
-          { label: 'Add New Property', icon: Plus, onClick: () => window.location.href = '/landlord/properties/new' },
-          { label: viewMode === 'grid' ? 'List View' : 'Grid View', icon: viewMode === 'grid' ? List : LayoutGrid, onClick: () => setViewMode(v => v === 'grid' ? 'list' : 'grid'), variant: 'ghost' },
-        ]}
-      />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Property Portfolio</h1>
+          <p className="text-gray-500 text-sm mt-1">Managing {properties.length || 8} properties · {totalUnitsComputed} total units · {avgOccupancyComputed}% avg occupancy.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button onClick={() => window.location.href = '/landlord/properties/new'} className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none">
+            <Plus size={16} /> Add New Property
+          </button>
+          <button onClick={() => setViewMode(v => v === 'grid' ? 'list' : 'grid')} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+            {viewMode === 'grid' ? <List size={16} /> : <LayoutGrid size={16} />}
+            {viewMode === 'grid' ? 'List View' : 'Grid View'}
+          </button>
+        </div>
+      </div>
 
       {/* Metrics Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-5">

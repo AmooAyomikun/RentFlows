@@ -5,7 +5,6 @@ import {
   Banknote, Send, Download, ChevronDown, Filter, MoreVertical,
   CreditCard, Landmark, Wallet, Calendar, Sliders, X, Check, Plus, PiggyBank, ShieldCheck, Lock, ArrowUpRight, Users, TrendingUp
 } from 'lucide-react';
-import PageHero from '../../components/ui/PageHero';
 
 const initialTransactions = [
   {
@@ -409,24 +408,23 @@ const Payments = () => {
 
   return (
     <div className="font-sans text-gray-900 pb-12 relative">
-      <PageHero
-        icon={Banknote}
-        iconBg="bg-[#C75B30]"
-        tag="Financial Intelligence"
-        title="Financial Dashboard & Ledger"
-        subtitle={`Complete portfolio revenue tracking, reconciliation, and split-rent management (${timeRange}).`}
-        gradient="from-[#06201A] via-[#0B3D35] to-[#0f5a4e]"
-        stats={[
-          { value: '₦124.5M', label: 'Total Collected', sub: '+12.5% MoM' },
-          { value: '98.2%', label: 'Collection Rate' },
-          { value: `${instalmentRequests.filter(r => r.status === 'Pending').length}`, label: 'Pending Splits' },
-        ]}
-        actions={[
-          { label: 'Record Payment', icon: Banknote, onClick: () => setShowManualModal(true) },
-          { label: 'Send Reminders', icon: Send, onClick: () => setShowReminderModal(true), variant: 'ghost' },
-          { label: 'Export CSV', icon: Download, onClick: handleExportCSV, variant: 'ghost' },
-        ]}
-      />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Financial Dashboard</h1>
+          <p className="text-gray-500 text-sm mt-1">Overview of your real estate portfolio performance (Last 6 Months).</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button onClick={() => setShowManualModal(true)} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+            <Banknote size={16} /> Record Manual Payment
+          </button>
+          <button onClick={() => setShowReminderModal(true)} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+            <Send size={16} /> Send Reminders
+          </button>
+          <button onClick={handleExportCSV} className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none">
+            <Download size={16} /> Export Financials (CSV)
+          </button>
+        </div>
+      </div>
 
       {/* Navigation Tabs */}
       <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl w-fit mb-6">

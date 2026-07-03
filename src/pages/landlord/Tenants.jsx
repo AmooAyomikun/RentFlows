@@ -7,7 +7,6 @@ import {
   Search, MoreVertical, ChevronLeft, ChevronRight, MessageSquare, TrendingUp, CheckCircle2,
   X, Send, Check, Bell, Wrench, Eye, Scale, AlertCircle, UploadCloud, FileCheck
 } from 'lucide-react';
-import PageHero from '../../components/ui/PageHero';
 
 const initialDirectoryRows = [
   {
@@ -267,24 +266,20 @@ const Tenants = () => {
 
   return (
     <div className="flex-1 overflow-y-auto relative">
-      <PageHero
-        icon={Users}
-        iconBg="bg-teal-600"
-        tag="Resident Directory"
-        title="Tenant Management Center"
-        subtitle="Monitor resident health, active leases, payment status and dispute docket across all portfolio units."
-        gradient="from-[#001810] via-[#003325] to-[#004d38]"
-        stats={[
-          { value: `${tenantRows.length}`, label: 'Active Tenants' },
-          { value: `${paymentHealthRate}%`, label: 'On-Time Rate' },
-          { value: `${mockApplications.length}`, label: 'Applications' },
-          { value: `${disputeDocket.length}`, label: 'Open Disputes' },
-        ]}
-        actions={[
-          { label: 'Invite Tenant', icon: Send, onClick: () => {} },
-          { label: 'File Claim', icon: Scale, onClick: () => setShowNewClaimModal(true), variant: 'ghost' },
-        ]}
-      />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Tenant Management Center</h1>
+          <p className="text-gray-500 text-sm mt-1">Monitor resident health, active leases, payment status and dispute docket across all portfolio units.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+            <Send size={16} /> Invite Tenant
+          </button>
+          <button onClick={() => setShowNewClaimModal(true)} className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none">
+            <Scale size={16} /> File Claim
+          </button>
+        </div>
+      </div>
 
       {/* 4 KPIs row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">

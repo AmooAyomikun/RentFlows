@@ -5,7 +5,6 @@ import {
   Calendar, TrendingUp, Wallet, FileText, ArrowRight,
   ChevronDown, FileSpreadsheet, CheckCircle2, Download
 } from 'lucide-react';
-import PageHero from '../../components/ui/PageHero';
 
 const leaderboardProperties = [
   {
@@ -85,23 +84,20 @@ const Reports = () => {
 
   return (
     <div className="font-sans text-gray-900 pb-12">
-      <PageHero
-        icon={TrendingUp}
-        iconBg="bg-violet-600"
-        tag={`Fiscal Year ${startDate.slice(0, 4)} Analytics`}
-        title="Financial Performance Overview"
-        subtitle="Portfolio revenue trends, NOI analysis, expense breakdowns, and custom export-ready financial statements."
-        gradient="from-[#12001A] via-[#1F0033] to-[#2B0050]"
-        stats={[
-          { value: '₦2.48B', label: 'Gross Revenue', sub: '+12.4% YoY' },
-          { value: '₦1.92B', label: 'Net Operating Income' },
-          { value: '98.2%', label: 'Collection Rate' },
-        ]}
-        actions={[
-          { label: 'Export Report', icon: Download, onClick: handleExport },
-          { label: `${startDate} – ${endDate}`, icon: Calendar, onClick: () => {}, variant: 'ghost' },
-        ]}
-      />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Analytics & Reports</h1>
+          <p className="text-gray-500 text-sm mt-1">Comprehensive insights into your real estate portfolio performance.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none">
+            <Plus size={16} /> Create Custom Report
+          </button>
+          <button className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+            <Download size={16} /> Download All
+          </button>
+        </div>
+      </div>
 
       {/* ── 3 TOP STAT CARDS ── */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

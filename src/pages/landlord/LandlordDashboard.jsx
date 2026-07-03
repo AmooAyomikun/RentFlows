@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { getProperties } from '../../services/propertyService';
 import { getPropertyPhoto } from '../../utils/propertyPhotos';
-import PageHero from '../../components/ui/PageHero';
 
 const revenueChartData = [
   { month: 'Jan', Residential: 30000, Commercial: 20000 },
@@ -164,24 +163,20 @@ const LandlordDashboard = () => {
   return (
     <div className="space-y-6 font-sans text-gray-900 pb-8">
       {/* Premium Hero Banner */}
-      <PageHero
-        icon={Building2}
-        iconBg="bg-[#0B4F45]"
-        tag="Portfolio Overview"
-        title="Welcome back, Landlord"
-        subtitle="Here's what's happening with your properties today. Your portfolio is performing well."
-        gradient="from-[#051E18] via-[#072F29] to-[#0B4F45]"
-        stats={[
-          { value: '₦124.5M', label: 'Revenue (MTD)', sub: '+12.5%' },
-          { value: '94%', label: 'Occupancy Rate' },
-          { value: '14', label: 'Maintenance', sub: '3 urgent' },
-          { value: '98.2%', label: 'Collection Rate' },
-        ]}
-        actions={[
-          { label: 'Add Property', icon: Plus, onClick: () => {} },
-          { label: 'View Reports', icon: TrendingUp, onClick: () => {}, variant: 'ghost' },
-        ]}
-      />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0">Welcome back, Landlord</h1>
+          <p className="text-gray-500 text-sm mt-1">Here's what's happening with your properties today. Your portfolio is performing well.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button className="px-4 py-2 bg-[#072F29] text-white rounded-xl text-sm font-bold hover:bg-[#05221e] transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer border-none">
+            <Plus size={16} /> Add Property
+          </button>
+          <button className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer">
+            <TrendingUp size={16} /> View Reports
+          </button>
+        </div>
+      </div>
 
       {/* Date picker row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 -mt-2">
