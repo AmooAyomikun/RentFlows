@@ -466,7 +466,7 @@ const DashboardLayout = () => {
               <img
                 className="w-full h-full object-cover"
                 alt="User Profile"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSATJ-G-vHa4bNj34nATx1BKm2za_S-96OxC_mss9_r1r-1Pci828_GB06QhPzoNu0Tfz9OMNsO3hA9ps6H1Tqi-AHL5InKHa1_1c1UxTBPvePEaYDAzK-PSNgNppbzt4SoGasXMLEksucSGIcLlhTpjefsPv3uvu1hhGHGMwFsuaKx0AhKkry0JdQwcDgJRFa6YBC5sqODuybER7Fir57dVhYnq_Mv4UiaGBI8NvmNgCkANwVvO3Atrz2kAtCJpktqVL7o7vu7--s"
+                src={user?.avatar || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80"}
               />
             </div>
           </div>

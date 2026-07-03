@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import Modal from '../../components/ui/Modal';
 import { downloadLeaseDoc } from '../../utils/documentGenerator';
+import PageHero from '../../components/ui/PageHero';
 
 // Custom PawPrint / Dog SVG Icon
 const PawIcon = ({ size = 20, className = "" }) => (
@@ -43,15 +44,24 @@ const TenantLease = () => {
 
   return (
     <div className="space-y-6 w-full text-[#1E293B]">
-      {/* Page Title & Subtitle matching design mockup exactly */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 m-0">
-          Lease Agreement
-        </h1>
-        <p className="text-base text-[#4A4F4C] m-0 mt-1 font-medium">
-          Review your current tenancy terms and legal obligations.
-        </p>
-      </div>
+      <PageHero
+        icon={FileText}
+        iconBg="bg-amber-700"
+        tag="Active Tenancy"
+        title="Lease Agreement"
+        subtitle="Victoria Island Towers, Suite #402-B • Lease ID: RF-8921-LG • Signed Dec 15, 2025"
+        gradient="from-[#1A0800] via-[#2D1400] to-[#4D2800]"
+        stats={[
+          { value: '₦2.85M', label: 'Monthly Rent' },
+          { value: 'Dec 31', label: 'Lease Ends', sub: '2026' },
+          { value: '₦3.2M', label: 'Security Deposit' },
+        ]}
+        actions={[
+          { label: 'Download Lease', icon: Download, onClick: () => downloadLeaseDoc() },
+          { label: 'View Online', icon: Eye, onClick: () => setShowOnlineViewer(true), variant: 'ghost' },
+          { label: 'Message Manager', icon: MessageSquare, onClick: () => setShowMessageModal(true), variant: 'ghost' },
+        ]}
+      />
 
       {/* Main 2-Column vs 1-Column Grid Layout matching mockup aspect ratios exactly */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">

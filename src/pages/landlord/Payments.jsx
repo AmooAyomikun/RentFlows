@@ -5,6 +5,7 @@ import {
   Banknote, Send, Download, ChevronDown, Filter, MoreVertical,
   CreditCard, Landmark, Wallet, Calendar, Sliders, X, Check, Plus, PiggyBank, ShieldCheck, Lock, ArrowUpRight, Users, TrendingUp
 } from 'lucide-react';
+import PageHero from '../../components/ui/PageHero';
 
 const initialTransactions = [
   {
@@ -408,38 +409,24 @@ const Payments = () => {
 
   return (
     <div className="font-sans text-gray-900 pb-12 relative">
-      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0">Financial Dashboard</h1>
-          <p className="text-base text-[#4A4F4C] font-medium mt-1 mb-0">Overview of your real estate portfolio performance ({timeRange}).</p>
-        </div>
-
-        <div className="flex flex-col items-start md:items-end gap-2.5 shrink-0">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <button
-              onClick={() => setShowManualModal(true)}
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-800 font-bold text-xs shadow-2xs transition-all cursor-pointer active:scale-95"
-            >
-              <Banknote size={15} className="text-gray-600" />
-              Record Manual Payment
-            </button>
-            <button
-              onClick={() => setShowReminderModal(true)}
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-800 font-bold text-xs shadow-2xs transition-all cursor-pointer active:scale-95"
-            >
-              <Send size={14} className="text-gray-600" />
-              Send Reminders
-            </button>
-          </div>
-          <button
-            onClick={handleExportCSV}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#072F29] hover:bg-[#0b4f45] text-white font-bold text-xs shadow-sm transition-all cursor-pointer active:scale-95"
-          >
-            <Download size={14} />
-            Export Financials (CSV)
-          </button>
-        </div>
-      </div>
+      <PageHero
+        icon={Banknote}
+        iconBg="bg-[#C75B30]"
+        tag="Financial Intelligence"
+        title="Financial Dashboard & Ledger"
+        subtitle={`Complete portfolio revenue tracking, reconciliation, and split-rent management (${timeRange}).`}
+        gradient="from-[#06201A] via-[#0B3D35] to-[#0f5a4e]"
+        stats={[
+          { value: '₦124.5M', label: 'Total Collected', sub: '+12.5% MoM' },
+          { value: '98.2%', label: 'Collection Rate' },
+          { value: `${instalmentRequests.filter(r => r.status === 'Pending').length}`, label: 'Pending Splits' },
+        ]}
+        actions={[
+          { label: 'Record Payment', icon: Banknote, onClick: () => setShowManualModal(true) },
+          { label: 'Send Reminders', icon: Send, onClick: () => setShowReminderModal(true), variant: 'ghost' },
+          { label: 'Export CSV', icon: Download, onClick: handleExportCSV, variant: 'ghost' },
+        ]}
+      />
 
       {/* Navigation Tabs */}
       <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl w-fit mb-6">

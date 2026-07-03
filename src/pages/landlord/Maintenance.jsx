@@ -6,6 +6,7 @@ import {
   CheckCircle2, Star, Filter, Plus, Eye, UserPlus, Calendar, History,
   Wrench, Zap, Snowflake, X, Send, Check
 } from 'lucide-react';
+import PageHero from '../../components/ui/PageHero';
 
 const initialKanbanColumns = [
   {
@@ -381,10 +382,24 @@ const Maintenance = () => {
 
   return (
     <div className="font-sans text-gray-900 pb-12 relative">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0">Maintenance & Repairs</h1>
-        <p className="text-base text-[#4A4F4C] font-medium mt-1 mb-0">Oversee property health, active service tickets, and contractor assignments.</p>
-      </div>
+      <PageHero
+        icon={Wrench}
+        iconBg="bg-amber-600"
+        tag="Property Operations"
+        title="Maintenance & Repairs Hub"
+        subtitle="Oversee property health, active service tickets, contractor assignments and repair spend across all units."
+        gradient="from-[#1A1200] via-[#2D1E00] to-[#3D2B00]"
+        stats={[
+          { value: `${totalOpenTickets < 10 ? `0${totalOpenTickets}` : totalOpenTickets}`, label: 'Open Tickets' },
+          { value: `0${urgentTicketsCount}`, label: 'Urgent', sub: 'Requires Action' },
+          { value: '₦4.2M', label: 'Spend (MTD)' },
+          { value: '28h', label: 'Avg Resolution' },
+        ]}
+        actions={[
+          { label: 'New Work Order', icon: Plus, onClick: () => setShowNewOrderModal(true) },
+          { label: 'View All Contractors', icon: Star, onClick: () => setShowContractorsModal(true), variant: 'ghost' },
+        ]}
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white rounded-xl border border-gray-200/80 p-6 card-shadow flex flex-col justify-between min-h-[140px]">

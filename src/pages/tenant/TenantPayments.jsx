@@ -9,6 +9,7 @@ import {
 import { formatCurrency } from '../../utils/formatCurrency';
 import { downloadReceiptDoc } from '../../utils/documentGenerator';
 import Modal from '../../components/ui/Modal';
+import PageHero from '../../components/ui/PageHero';
 
 const mockTransactions = [
   { id: 'tx-1', date: 'Jun 30, 2026', description: 'Monthly Rent - Jun 2026', amount: 3250000, method: 'Bank Account (**** 4928)', status: 'Success' },
@@ -89,50 +90,56 @@ const TenantPayments = () => {
 
   return (
     <div className="space-y-6 pb-16 font-sans text-[#4A4F4C]">
-      
-      {/* Title Section & Tab Switcher */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-200">
-        <div>
-          <h1 className="text-2xl sm:text-[28px] font-display font-extrabold text-[#0B4F45] m-0 tracking-tight">
-            {activeTab === 'history' ? 'Payment History & Receipts' : 'Ajo & Thrift Savings Cooperatives'}
-          </h1>
-          <p className="text-xs sm:text-sm text-[#4A4F4C] font-medium mt-1 m-0">
-            {activeTab === 'history' 
-              ? 'Review and manage your financial transactions and receipts for Unit 402.' 
-              : 'Pool contributions with verified neighbors to fund rent renewals and unlock 5% landlord discounts.'}
-          </p>
-        </div>
+      <PageHero
+        icon={BarChart3}
+        iconBg="bg-cyan-700"
+        tag="Financial Activity"
+        title={activeTab === 'history' ? 'Payment History & Receipts' : 'Ajo & Thrift Savings Cooperatives'}
+        subtitle={activeTab === 'history'
+          ? 'Review and manage your financial transactions and receipts for Unit 402.'
+          : 'Pool contributions with verified neighbors to fund rent renewals and unlock 5% landlord discounts.'}
+        gradient="from-[#000A12] via-[#001525] to-[#00243D]"
+        stats={[
+          { value: formatCurrency(32500000), label: 'Paid (YTD)', sub: '10 payments' },
+          { value: formatCurrency(3250000), label: 'Last Payment', sub: 'Jun 30, 2026' },
+          { value: formatCurrency(0), label: 'Outstanding' },
+        ]}
+        actions={[
+          { label: activeTab === 'history' ? 'Ajo Cooperatives' : 'Payment History', icon: activeTab === 'history' ? PiggyBank : FileText, onClick: () => setActiveTab(v => v === 'history' ? 'ajo' : 'history'), variant: 'ghost' },
+          { label: 'Pay Rent Now', icon: CheckCircle2, onClick: () => navigate('/tenant/pay-rent') },
+        ]}
+      />
 
-        <div className="flex flex-wrap items-center gap-2 bg-gray-100 p-1.5 rounded-2xl shrink-0">
-          <button
-            type="button"
-            onClick={() => setActiveTab('history')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-1.5 ${
-              activeTab === 'history' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <FileText size={15} />
-            <span>History & Receipts</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('ajo')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-1.5 ${
-              activeTab === 'ajo' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <PiggyBank size={15} className="text-[#C75B30]" />
-            <span>Ajo Cooperatives</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate('/tenant/pay-rent')}
-            className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-transparent text-gray-600 hover:text-gray-900 border-none cursor-pointer flex items-center gap-1.5"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#C75B30] inline-block animate-pulse"></span>
-            <span>Instalment Hub</span>
-          </button>
-        </div>
+      {/* Tab Switcher */}
+      <div className="flex flex-wrap items-center gap-2 bg-gray-100 p-1.5 rounded-2xl shrink-0 w-fit">
+        <button
+          type="button"
+          onClick={() => setActiveTab('history')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-1.5 ${
+            activeTab === 'history' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <FileText size={15} />
+          <span>History & Receipts</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('ajo')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-1.5 ${
+            activeTab === 'ajo' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <PiggyBank size={15} className="text-[#C75B30]" />
+          <span>Ajo Cooperatives</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate('/tenant/pay-rent')}
+          className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-transparent text-gray-600 hover:text-gray-900 border-none cursor-pointer flex items-center gap-1.5"
+        >
+          <span className="w-2 h-2 rounded-full bg-[#C75B30] inline-block animate-pulse"></span>
+          <span>Instalment Hub</span>
+        </button>
       </div>
 
       {activeTab === 'history' ? (

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/ui/Modal';
 import { downloadReceiptDoc, downloadAnnualReportDoc } from '../../utils/documentGenerator';
+import { Receipt, Download } from 'lucide-react';
+import PageHero from '../../components/ui/PageHero';
 
 const mockReceiptsData = [
   { id: 'RF-2026-1001', title: 'Monthly Rent', type: 'Rent', year: '2026', date: 'Jun 01, 2026', method: 'Direct Debit', amount: '₦3,250,000', icon: 'apartment' },
@@ -42,30 +44,37 @@ const TenantReceipts = () => {
       `}} />
       <div className="space-y-6">
 
-<div className="flex justify-between items-end mb-8">
-<div>
-<nav className="flex items-center gap-2 text-sm text-outline mb-2">
-<span>Portal</span>
-<span className="material-symbols-outlined text-xs">chevron_right</span>
-<span className="text-primary font-medium">Receipts</span>
-</nav>
-<h1 className="text-2xl font-bold text-gray-900 m-0">Billing &amp; Receipts</h1>
-</div>
-<div className="flex gap-3">
-<select value={yearFilter} onChange={e => setYearFilter(e.target.value)} className="bg-white border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary cursor-pointer">
-<option value="2026">Year: 2026</option>
-<option value="2025">Year: 2025</option>
-<option value="All Years">All Years</option>
-</select>
-<select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="bg-white border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary cursor-pointer">
-<option value="All Payment Types">All Payment Types</option>
-<option value="Rent">Rent</option>
-<option value="Utilities">Utilities</option>
-<option value="Maintenance">Maintenance</option>
-<option value="Late Fees">Late Fees</option>
-</select>
-</div>
-</div>
+        <PageHero
+          icon={Receipt}
+          iconBg="bg-emerald-600"
+          tag="Billing & Payments"
+          title="Billing & Receipts"
+          subtitle="View, download, and manage all official payment receipts and documentation for your tenancy."
+          gradient="from-[#001209] via-[#001F11] to-[#003318]"
+          stats={[
+            { value: '24', label: 'Total Receipts' },
+            { value: '₦3.25M', label: 'Last Payment', sub: 'Jun 01, 2026' },
+            { value: '₦32.5M', label: 'Paid (YTD)' },
+          ]}
+          actions={[
+            { label: 'Download Annual Report', icon: Download, onClick: () => downloadAnnualReportDoc() },
+          ]}
+        />
+
+        <div className="flex items-center gap-3 flex-wrap">
+          <select value={yearFilter} onChange={e => setYearFilter(e.target.value)} className="bg-white border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary cursor-pointer">
+            <option value="2026">Year: 2026</option>
+            <option value="2025">Year: 2025</option>
+            <option value="All Years">All Years</option>
+          </select>
+          <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="bg-white border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary cursor-pointer">
+            <option value="All Payment Types">All Payment Types</option>
+            <option value="Rent">Rent</option>
+            <option value="Utilities">Utilities</option>
+            <option value="Maintenance">Maintenance</option>
+            <option value="Late Fees">Late Fees</option>
+          </select>
+        </div>
 
 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 

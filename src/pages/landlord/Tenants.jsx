@@ -7,6 +7,7 @@ import {
   Search, MoreVertical, ChevronLeft, ChevronRight, MessageSquare, TrendingUp, CheckCircle2,
   X, Send, Check, Bell, Wrench, Eye, Scale, AlertCircle, UploadCloud, FileCheck
 } from 'lucide-react';
+import PageHero from '../../components/ui/PageHero';
 
 const initialDirectoryRows = [
   {
@@ -193,13 +194,34 @@ const Tenants = () => {
   ]);
 
   const [showCounterModal, setShowCounterModal] = useState(false);
+  const [showNewClaimModal, setShowNewClaimModal] = useState(false);
   const [activeDisputeId, setActiveDisputeId] = useState(null);
-  const [counterForm, setCounterForm] = useState({ responseText: '' });
+  const [counterForm, setCounterForm] = useState({ responseText: '', files: [] });
+  const [newClaimForm, setNewClaimForm] = useState({
+    tenantName: 'Simisola Alabi',
+    propertyUnit: 'Victoria Island Towers, #4B',
+    category: 'Property Damage & Fixture Repair Claim',
+    amount: '₦85,000',
+    summary: ''
+  });
 
   const handleOpenCounterModal = (d) => {
     setActiveDisputeId(d.id);
-    setCounterForm({ responseText: d.landlordResponse || '' });
+    setCounterForm({ responseText: d.landlordResponse || '', files: d.attachedFiles || [] });
     setShowCounterModal(true);
+  };
+
+  const handleAttachSimulatedFile = () => {
+    const mockFiles = [
+      'Move_In_Condition_Report_Signed.pdf (2.4 MB)',
+      'Contractor_Repair_Receipt_2026.pdf (1.1 MB)',
+      'Timestamped_Wall_Inspection_Photo.jpg (3.8 MB)'
+    ];
+    const randomFile = mockFiles[counterForm.files.length % mockFiles.length];
+    if (!counterForm.files.includes(randomFile)) {
+      setCounterForm(prev => ({ ...prev, files: [...prev.files, randomFile] }));
+      toast.success(`Attached evidence document: ${randomFile}`);
+    }
   };
 
   const handleSubmitCounter = (e) => {
@@ -208,22 +230,61 @@ const Tenants = () => {
     setDisputeDocket(prev => prev.map(d => d.id === activeDisputeId ? {
       ...d,
       landlordResponse: counterForm.responseText,
+      attachedFiles: counterForm.files,
       status: 'Evidence Submitted to Arbitrator',
       step: 3
     } : d));
-    toast.success(`Counter-evidence submitted for Case #${activeDisputeId}. Arbitrator has been notified.`);
+    toast.success(`Counter-evidence submitted for Case #${activeDisputeId}. Arbitrator review initiated.`);
     setShowCounterModal(false);
+  };
+
+  const handleCreateNewClaim = (e) => {
+    e.preventDefault();
+    if (!newClaimForm.summary.trim()) return;
+    const newCase = {
+      id: `DSP-${Math.floor(200 + Math.random() * 800)}`,
+      tenantName: newClaimForm.tenantName,
+      propertyUnit: newClaimForm.propertyUnit,
+      category: newClaimForm.category,
+      amountContested: newClaimForm.amount.startsWith('₦') ? newClaimForm.amount : `₦${newClaimForm.amount}`,
+      filedDate: 'Today',
+      status: 'Notice Served to Tenant',
+      step: 1,
+      claimSummary: newClaimForm.summary,
+      landlordResponse: 'Landlord originated formal claim via Multi-Door Arbitration Portal.'
+    };
+    setDisputeDocket([newCase, ...disputeDocket]);
+    setShowNewClaimModal(false);
+    setNewClaimForm({
+      tenantName: 'Simisola Alabi',
+      propertyUnit: 'Victoria Island Towers, #4B',
+      category: 'Property Damage & Fixture Repair Claim',
+      amount: '₦85,000',
+      summary: ''
+    });
+    toast.success('Formal Landlord Claim filed and docketed! Notice dispatched to resident.');
   };
 
   return (
     <div className="flex-1 overflow-y-auto relative">
-      {/* Header section */}
-      <div className="mb-8 flex flex-wrap justify-between items-end gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-[#00372f] mb-2 leading-tight">Tenant Management</h1>
-          <p className="text-base text-[#404946]">Overview of your active portfolio and resident health.</p>
-        </div>
-      </div>
+      <PageHero
+        icon={Users}
+        iconBg="bg-teal-600"
+        tag="Resident Directory"
+        title="Tenant Management Center"
+        subtitle="Monitor resident health, active leases, payment status and dispute docket across all portfolio units."
+        gradient="from-[#001810] via-[#003325] to-[#004d38]"
+        stats={[
+          { value: `${tenantRows.length}`, label: 'Active Tenants' },
+          { value: `${paymentHealthRate}%`, label: 'On-Time Rate' },
+          { value: `${mockApplications.length}`, label: 'Applications' },
+          { value: `${disputeDocket.length}`, label: 'Open Disputes' },
+        ]}
+        actions={[
+          { label: 'Invite Tenant', icon: Send, onClick: () => {} },
+          { label: 'File Claim', icon: Scale, onClick: () => setShowNewClaimModal(true), variant: 'ghost' },
+        ]}
+      />
 
       {/* 4 KPIs row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
@@ -510,6 +571,14 @@ const Tenants = () => {
               <p className="text-xs sm:text-sm text-white/80 leading-relaxed m-0">
                 All formal claims docketed by tenants are adjudicated by independent court-accredited arbitrators. Submit counter-evidence within 7 business days to release escrow funds.
               </p>
+              <button
+                type="button"
+                onClick={() => setShowNewClaimModal(true)}
+                className="mt-3 px-4 py-2 bg-[#C75B30] hover:bg-[#b04a25] text-white rounded-xl text-xs font-bold border-none cursor-pointer shadow-sm transition-all flex items-center gap-2"
+              >
+                <FileCheck size={14} />
+                <span>File New Landlord Claim / Deduction Notice</span>
+              </button>
             </div>
 
             <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/15 text-center min-w-[220px]">
@@ -571,9 +640,21 @@ const Tenants = () => {
                     <strong className="text-[#00372f]">Tenant Allegation:</strong> {d.claimSummary}
                   </p>
                   {d.landlordResponse ? (
-                    <p className="text-xs text-[#00372f] bg-teal-50/80 p-2.5 rounded-lg m-0 border border-teal-200 font-medium">
-                      <strong className="font-bold">Your Submitted Defense:</strong> {d.landlordResponse}
-                    </p>
+                    <div className="space-y-2 bg-teal-50/80 p-3 rounded-xl border border-teal-200">
+                      <p className="text-xs text-[#00372f] m-0 font-medium leading-relaxed">
+                        <strong className="font-bold">Your Submitted Defense:</strong> {d.landlordResponse}
+                      </p>
+                      {d.attachedFiles && d.attachedFiles.length > 0 && (
+                        <div className="pt-2 border-t border-teal-200/60 flex flex-wrap gap-2">
+                          {d.attachedFiles.map((fname, i) => (
+                            <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white text-[#00372f] text-[11px] font-bold border border-teal-300 shadow-2xs">
+                              <FileText size={12} className="text-[#C75B30]" />
+                              <span>{fname}</span>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <div className="flex justify-between items-center pt-2 border-t border-gray-200">
                       <span className="text-xs font-bold text-amber-800 flex items-center gap-1">
@@ -867,10 +948,22 @@ const Tenants = () => {
                       className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-xs font-medium text-gray-800 focus:outline-none focus:border-[#00372f] resize-none"
                     />
                   </div>
-                  <div className="p-3 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 text-center cursor-pointer hover:bg-gray-100 transition-colors">
+                  <div 
+                    onClick={handleAttachSimulatedFile}
+                    className="p-3.5 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 text-center cursor-pointer hover:bg-gray-100 transition-colors"
+                  >
                     <UploadCloud size={20} className="mx-auto text-gray-400 mb-1" />
-                    <span className="text-xs font-bold text-[#00372f] block">Attach Supporting Evidence (Move-in Photos, Contractor Bills)</span>
+                    <span className="text-xs font-bold text-[#00372f] block">Click to Attach Supporting Evidence (Move-in Photos, Contractor Bills)</span>
                     <span className="text-[10px] text-gray-400">Supported: PDF, JPG, PNG up to 15MB</span>
+                    {counterForm.files && counterForm.files.length > 0 && (
+                      <div className="mt-2 pt-2 border-t border-gray-200 flex flex-wrap gap-1.5 justify-center">
+                        {counterForm.files.map((f, idx) => (
+                          <span key={idx} className="px-2 py-0.5 bg-white text-[#00372f] text-[10px] font-bold rounded border border-gray-300 shadow-2xs">
+                            ✓ {f}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <div className="pt-4 border-t border-gray-100 flex justify-end gap-2">
                     <button
@@ -884,7 +977,96 @@ const Tenants = () => {
                       type="submit"
                       className="px-5 py-2 rounded-xl text-xs font-bold bg-[#00372f] text-white hover:bg-[#002822] border-none cursor-pointer shadow-sm"
                     >
-                      Submit Counter-Evidence
+                      Submit Counter-Evidence ({counterForm.files.length} files)
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* MODAL 7: File New Landlord Claim / Deduction Notice */}
+          {showNewClaimModal && (
+            <div className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4 backdrop-blur-xs animate-fade-in">
+              <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                  <h3 className="text-lg font-bold text-gray-900 m-0">File Formal Landlord Claim</h3>
+                  <button onClick={() => setShowNewClaimModal(false)} className="text-gray-400 hover:text-gray-700 bg-transparent border-none cursor-pointer p-1">
+                    <X size={20} />
+                  </button>
+                </div>
+                <form onSubmit={handleCreateNewClaim} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-gray-700 block mb-1">Resident Tenant</label>
+                      <select
+                        value={newClaimForm.tenantName}
+                        onChange={e => setNewClaimForm({ ...newClaimForm, tenantName: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-800 bg-white"
+                      >
+                        <option value="Simisola Alabi">Simisola Alabi</option>
+                        <option value="Musa Rano">Musa Rano</option>
+                        <option value="Dapo Solarin">Dapo Solarin</option>
+                        <option value="Tunde Bakare">Tunde Bakare</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-gray-700 block mb-1">Property & Unit</label>
+                      <input
+                        type="text"
+                        value={newClaimForm.propertyUnit}
+                        onChange={e => setNewClaimForm({ ...newClaimForm, propertyUnit: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs font-medium text-gray-800"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-gray-700 block mb-1">Claim Category</label>
+                      <select
+                        value={newClaimForm.category}
+                        onChange={e => setNewClaimForm({ ...newClaimForm, category: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-800 bg-white"
+                      >
+                        <option value="Property Damage & Fixture Repair Claim">Property Damage & Fixture Repair</option>
+                        <option value="Unpaid Utility Offset Deduction">Unpaid Utility Offset Deduction</option>
+                        <option value="Unauthorized Alteration / Lease Breach">Unauthorized Alteration / Lease Breach</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-gray-700 block mb-1">Claim Amount (₦)</label>
+                      <input
+                        type="text"
+                        value={newClaimForm.amount}
+                        onChange={e => setNewClaimForm({ ...newClaimForm, amount: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs font-black text-gray-900"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-gray-700 block mb-1">Detailed Claim Summary & Legal Basis</label>
+                    <textarea
+                      rows={3}
+                      required
+                      placeholder="Explain the damage or breach justifying formal deduction notice..."
+                      value={newClaimForm.summary}
+                      onChange={e => setNewClaimForm({ ...newClaimForm, summary: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs font-medium text-gray-800 resize-none"
+                    />
+                  </div>
+                  <div className="pt-4 border-t border-gray-100 flex justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowNewClaimModal(false)}
+                      className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 bg-transparent border-none cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2 rounded-xl text-xs font-bold bg-[#C75B30] text-white hover:bg-[#b04a25] border-none cursor-pointer shadow-sm"
+                    >
+                      Docket Landlord Claim
                     </button>
                   </div>
                 </form>

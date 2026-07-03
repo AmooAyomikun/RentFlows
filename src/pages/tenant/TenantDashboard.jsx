@@ -4,6 +4,8 @@ import useAuthStore from '../../store/authStore';
 import { logout as authLogout } from '../../services/authService';
 import { downloadAnnualReportDoc } from '../../utils/documentGenerator';
 import Modal from '../../components/ui/Modal';
+import { Home, CreditCard, Wrench, FileText } from 'lucide-react';
+import PageHero from '../../components/ui/PageHero';
 
 const TenantDashboard = () => {
   const { user, clearUser } = useAuthStore();
@@ -34,16 +36,24 @@ const TenantDashboard = () => {
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-8">
-          {/* Welcome Header */}
-          <section className="flex justify-between items-end">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Good morning, {tenantName}</h1>
-              <p className="text-base text-[#4A4F4C] mt-1">Here's what's happening with your property today.</p>
-            </div>
-            <div className="flex gap-2">
-              <button onClick={handleDownloadAnnualReport} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-primary font-bold text-xs hover:bg-gray-50 transition-colors cursor-pointer">Download Annual Report</button>
-            </div>
-          </section>
+          {/* Premium Hero */}
+          <PageHero
+            icon={Home}
+            iconBg="bg-[#04332C]"
+            tag="Tenant Portal"
+            title={`Good morning, ${tenantName}`}
+            subtitle="Here's a snapshot of your tenancy status, upcoming rent, and active maintenance requests."
+            gradient="from-[#001812] via-[#02261E] to-[#04332C]"
+            stats={[
+              { value: '₦3.25M', label: 'Next Rent Due', sub: 'Due in 4 days' },
+              { value: 'Jul 01', label: 'Payment Date' },
+              { value: '2', label: 'Open Tickets' },
+            ]}
+            actions={[
+              { label: 'Pay Rent Now', icon: CreditCard, onClick: () => navigate('/tenant/pay-rent') },
+              { label: 'Download Report', icon: FileText, onClick: handleDownloadAnnualReport, variant: 'ghost' },
+            ]}
+          />
 
           {/* Bento Grid Layout */}
           <div className="grid grid-cols-12 gap-6">

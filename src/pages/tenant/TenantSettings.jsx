@@ -2,34 +2,46 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Edit2, Camera, Shield, ShieldCheck, CheckCircle2, Plus, 
-  Phone, ChevronDown, Check, Lock, Key, Copy, AlertTriangle, User, Mail
+  Phone, ChevronDown, Check, Lock, Key, Copy, AlertTriangle, User, Mail, Image as ImageIcon
 } from 'lucide-react';
 import Modal from '../../components/ui/Modal';
 import { downloadDataExportJSON } from '../../utils/documentGenerator';
 import useUIStore from '../../store/uiStore';
+import useAuthStore from '../../store/authStore';
+
+const presetAvatars = [
+  { id: 'av-1', label: 'Executive Male (Default)', url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80' },
+  { id: 'av-2', label: 'Professional Female', url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80' },
+  { id: 'av-3', label: 'Modern Portrait', url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80' },
+  { id: 'av-4', label: 'Corporate Tech', url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80' },
+  { id: 'av-5', label: 'Business Casual', url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80' },
+  { id: 'av-6', label: 'Minimalist Portrait', url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80' },
+];
 
 const TenantSettings = () => {
   const navigate = useNavigate();
   const { portalLanguage, setPortalLanguage } = useUIStore();
+  const { user, updateUser } = useAuthStore();
   const [emailNotifs, setEmailNotifs] = useState(true);
   const [smsNotifs, setSmsNotifs] = useState(true);
   const [pushNotifs, setPushNotifs] = useState(false);
   const [statusMsg, setStatusMsg] = useState('');
   const [passError, setPassError] = useState('');
   const [biometric, setBiometric] = useState(true);
-  const [profileImg, setProfileImg] = useState('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80');
+  const [profileImg, setProfileImg] = useState(user?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80');
   const fileInputRef = useRef(null);
 
   // Profile data state
   const [profileData, setProfileData] = useState({
-    fullName: 'Ayomikun Adeleke',
+    fullName: user?.name || 'Ayomikun Adeleke',
     prefName: 'Ayo',
-    email: 'ayomikun.adeleke@rentflows.ng',
+    email: user?.email || 'ayomikun.adeleke@rentflows.ng',
     phone: '+234 803 123 4567',
     address: 'Victoria Island Towers, Flat 402-B, Ahmadu Bello Way, Lagos, Nigeria'
   });
 
   // Modal states
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showRecoveryModal, setShowRecoveryModal] = useState(false);
@@ -50,9 +62,18 @@ const TenantSettings = () => {
     if (file) {
       const url = URL.createObjectURL(file);
       setProfileImg(url);
-      setStatusMsg('Profile photo updated successfully!');
+      updateUser({ avatar: url });
+      setStatusMsg('Profile photo uploaded and synced across portal!');
       setTimeout(() => setStatusMsg(''), 4000);
     }
+  };
+
+  const handleSelectPresetAvatar = (url) => {
+    setProfileImg(url);
+    updateUser({ avatar: url });
+    setShowAvatarModal(false);
+    setStatusMsg('Profile photo updated from gallery!');
+    setTimeout(() => setStatusMsg(''), 4000);
   };
 
   const handleSaveProfile = (e) => {
@@ -126,25 +147,36 @@ const TenantSettings = () => {
 
             <div className="pt-6 flex flex-col sm:flex-row items-start gap-6">
               {/* Profile Photo with Camera Badge */}
-              <div className="relative shrink-0">
-                <img 
-                  src={profileImg} 
-                  alt="Ayomikun Adeleke" 
-                  className="w-28 h-28 rounded-2xl object-cover border-4 border-[#E6F2EF] shadow-2xs" 
-                />
-                <input 
-                  type="file" 
-                  ref={fileInputRef} 
-                  onChange={handleImageUpload} 
-                  accept="image/*" 
-                  className="hidden" 
-                />
-                <button 
-                  onClick={() => fileInputRef.current?.click()}
-                  className="absolute -bottom-1.5 -right-1.5 w-7 h-7 bg-[#04332C] hover:bg-[#064e43] text-white rounded-full flex items-center justify-center shadow-sm transition-all cursor-pointer ring-2 ring-white border-none"
-                  aria-label="Upload photo"
+              <div className="relative shrink-0 flex flex-col items-center gap-2">
+                <div className="relative">
+                  <img 
+                    src={profileImg} 
+                    alt="Ayomikun Adeleke" 
+                    className="w-28 h-28 rounded-2xl object-cover border-4 border-[#E6F2EF] shadow-2xs" 
+                  />
+                  <input 
+                    type="file" 
+                    ref={fileInputRef} 
+                    onChange={handleImageUpload} 
+                    accept="image/*" 
+                    className="hidden" 
+                  />
+                  <button 
+                    onClick={() => fileInputRef.current?.click()}
+                    className="absolute -bottom-1.5 -right-1.5 w-7 h-7 bg-[#04332C] hover:bg-[#064e43] text-white rounded-full flex items-center justify-center shadow-sm transition-all cursor-pointer ring-2 ring-white border-none"
+                    aria-label="Upload photo from computer"
+                    title="Upload file from device"
+                  >
+                    <Camera size={13} />
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowAvatarModal(true)}
+                  className="text-[11px] font-bold text-[#04332C] hover:underline bg-transparent border-none cursor-pointer flex items-center gap-1"
                 >
-                  <Camera size={13} />
+                  <ImageIcon size={12} />
+                  <span>Choose Preset Avatar</span>
                 </button>
               </div>
 
@@ -575,6 +607,54 @@ const TenantSettings = () => {
               className="px-5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold border-none cursor-pointer"
             >
               Confirm Deactivation
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Avatar Gallery Modal */}
+      <Modal isOpen={showAvatarModal} onClose={() => setShowAvatarModal(false)} title="Select Profile Avatar">
+        <div className="space-y-4 text-[#1E293B]">
+          <p className="text-xs text-gray-600 leading-relaxed m-0">
+            Choose from professional verified resident portraits or upload directly from your device.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-80 overflow-y-auto p-1">
+            {presetAvatars.map((av) => (
+              <div 
+                key={av.id}
+                onClick={() => handleSelectPresetAvatar(av.url)}
+                className={`group relative rounded-2xl overflow-hidden border-2 cursor-pointer transition-all hover:scale-[1.02] ${profileImg === av.url ? 'border-[#04332C] ring-2 ring-[#04332C]/30 shadow-md' : 'border-gray-200 hover:border-[#04332C]/60'}`}
+              >
+                <img src={av.url} alt={av.label} className="w-full h-28 object-cover" />
+                <div className="p-2 bg-white text-center">
+                  <p className="text-[11px] font-bold text-gray-800 truncate m-0">{av.label}</p>
+                </div>
+                {profileImg === av.url && (
+                  <div className="absolute top-2 right-2 bg-[#04332C] text-white p-1 rounded-full shadow-sm">
+                    <CheckCircle2 size={14} />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between items-center pt-3 border-t border-gray-100">
+            <button
+              type="button"
+              onClick={() => {
+                setShowAvatarModal(false);
+                fileInputRef.current?.click();
+              }}
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl text-xs font-bold transition-colors border-none cursor-pointer flex items-center gap-2"
+            >
+              <Camera size={14} />
+              <span>Upload Custom Photo...</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowAvatarModal(false)}
+              className="px-5 py-2 bg-[#04332C] text-white rounded-xl text-xs font-bold border-none cursor-pointer"
+            >
+              Done
             </button>
           </div>
         </div>

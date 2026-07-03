@@ -6,6 +6,7 @@ import {
   CheckCircle2, Send, ShieldAlert, FileText, Scale, AlertCircle, UploadCloud,
   CheckCircle, FileCheck, ArrowRight, Shield, X, Plus
 } from 'lucide-react';
+import PageHero from '../../components/ui/PageHero';
 
 const faqList = [
   {
@@ -103,42 +104,47 @@ const TenantSupport = () => {
 
   return (
     <div className="space-y-6 w-full text-[#1E293B] pb-12 font-sans">
-      
-      {/* Title & Navigation Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-200">
-        <div>
-          <h1 className="text-2xl font-bold text-[#0B4F45] m-0">
-            Help, Support & Dispute Mediation
-          </h1>
-          <p className="text-xs text-[#4A4F4C] mt-1 m-0">
-            Access instant portal concierge or invoke formal independent arbitration for tenancy matters.
-          </p>
-        </div>
+      <PageHero
+        icon={HelpCircle}
+        iconBg="bg-blue-700"
+        tag="Concierge & Arbitration"
+        title="Help, Support & Dispute Mediation"
+        subtitle="Access instant portal concierge or invoke formal independent arbitration for tenancy matters."
+        gradient="from-[#000D1A] via-[#001A33] to-[#002B52]"
+        stats={[
+          { value: '2h', label: 'Response Time' },
+          { value: `${disputes.filter(d => d.step < 4).length}`, label: 'Active Disputes' },
+          { value: '24/7', label: 'Emergency Line' },
+        ]}
+        actions={[
+          { label: 'File Dispute', icon: Scale, onClick: () => { setActiveTab('disputes'); setShowNewDisputeModal(true); } },
+          { label: activeTab === 'disputes' ? 'Back to Support' : 'View Disputes', icon: FileCheck, onClick: () => setActiveTab(v => v === 'disputes' ? 'support' : 'disputes'), variant: 'ghost' },
+        ]}
+      />
 
-        {/* Tab Switcher */}
-        <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl w-fit">
-          <button
-            onClick={() => setActiveTab('support')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
-              activeTab === 'support' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <HelpCircle size={15} />
-            <span>Concierge & FAQ Desk</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('disputes')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
-              activeTab === 'disputes' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <Scale size={15} className="text-[#C75B30]" />
-            <span>Mediation & Dispute Center</span>
-            <span className="bg-[#C75B30] text-white px-2 py-0.5 rounded-full text-[10px] font-black">
-              {disputes.filter(d => d.step < 4).length} Active
-            </span>
-          </button>
-        </div>
+      {/* Tab Switcher */}
+      <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl w-fit">
+        <button
+          onClick={() => setActiveTab('support')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+            activeTab === 'support' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <HelpCircle size={15} />
+          <span>Concierge & FAQ Desk</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('disputes')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer border-none flex items-center gap-2 ${
+            activeTab === 'disputes' ? 'bg-[#0B4F45] text-white shadow-xs' : 'bg-transparent text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <Scale size={15} className="text-[#C75B30]" />
+          <span>Mediation & Dispute Center</span>
+          <span className="bg-[#C75B30] text-white px-2 py-0.5 rounded-full text-[10px] font-black">
+            {disputes.filter(d => d.step < 4).length} Active
+          </span>
+        </button>
       </div>
 
       {activeTab === 'support' ? (

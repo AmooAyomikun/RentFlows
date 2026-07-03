@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { getProperties } from '../../services/propertyService';
 import { getPropertyPhoto } from '../../utils/propertyPhotos';
+import PageHero from '../../components/ui/PageHero';
 
 const revenueChartData = [
   { month: 'Jan', Residential: 30000, Commercial: 20000 },
@@ -162,11 +163,30 @@ const LandlordDashboard = () => {
 
   return (
     <div className="space-y-6 font-sans text-gray-900 pb-8">
-      {/* Overview header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      {/* Premium Hero Banner */}
+      <PageHero
+        icon={Building2}
+        iconBg="bg-[#0B4F45]"
+        tag="Portfolio Overview"
+        title="Welcome back, Landlord"
+        subtitle="Here's what's happening with your properties today. Your portfolio is performing well."
+        gradient="from-[#051E18] via-[#072F29] to-[#0B4F45]"
+        stats={[
+          { value: '₦124.5M', label: 'Revenue (MTD)', sub: '+12.5%' },
+          { value: '94%', label: 'Occupancy Rate' },
+          { value: '14', label: 'Maintenance', sub: '3 urgent' },
+          { value: '98.2%', label: 'Collection Rate' },
+        ]}
+        actions={[
+          { label: 'Add Property', icon: Plus, onClick: () => {} },
+          { label: 'View Reports', icon: TrendingUp, onClick: () => {}, variant: 'ghost' },
+        ]}
+      />
+
+      {/* Date picker row */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 -mt-2">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Overview</h1>
-          <p className="text-base text-[#4A4F4C] font-medium mt-0.5">Welcome back, here's what's happening with your properties today.</p>
+          <h2 className="text-lg font-bold text-gray-900 tracking-tight">Today's Overview</h2>
         </div>
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-gray-200/80 text-xs font-bold text-gray-700 shadow-sm sm:self-start hover:border-gray-300 transition-all focus-within:ring-2 focus-within:ring-[#0B4F45]">
           <Calendar size={14} className="text-[#0B4F45]" />

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { getProperties } from '../../services/propertyService';
 import { ContentCardSkeleton } from '../../components/ui/SkeletonLoader';
+import PageHero from '../../components/ui/PageHero';
 
 const Properties = () => {
   const [viewMode, setViewMode] = useState('grid');
@@ -40,46 +41,23 @@ const Properties = () => {
 
   return (
     <div className="space-y-6">
-      {/* Title & Top Controls Row */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0 leading-tight">Properties</h1>
-          <p className="text-base text-[#4A4F4C] font-medium mt-1 mb-0">Manage and monitor your real estate portfolio.</p>
-        </div>
-
-        <div className="flex items-center gap-3 flex-shrink-0">
-          {/* Grid / List switcher */}
-          <div className="inline-flex items-center bg-white border border-gray-200/80 rounded-xl p-1 shadow-sm gap-0.5">
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === 'grid' ? 'bg-gray-100 text-gray-800 shadow-sm' : 'text-gray-400 hover:text-gray-600'
-              }`}
-              aria-label="Grid view"
-            >
-              <LayoutGrid size={16} />
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === 'list' ? 'bg-gray-100 text-gray-800 shadow-sm' : 'text-gray-400 hover:text-gray-600'
-              }`}
-              aria-label="List view"
-            >
-              <List size={16} />
-            </button>
-          </div>
-
-          {/* Add New Property Button */}
-          <Link
-            to="/landlord/properties/new"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#9A3B1B] hover:bg-[#853216] !text-white !font-bold !text-xs shadow-sm transition-all duration-150 active:scale-[0.98]"
-          >
-            <Plus size={15} strokeWidth={2.5} />
-            Add New Property
-          </Link>
-        </div>
-      </div>
+      <PageHero
+        icon={Building2}
+        iconBg="bg-indigo-600"
+        tag="Portfolio Management"
+        title="Property Portfolio"
+        subtitle={`Managing ${properties.length || 8} properties · ${totalUnitsComputed} total units · ${avgOccupancyComputed}% avg occupancy.`}
+        gradient="from-[#0D0C1D] via-[#1a1832] to-[#24205a]"
+        stats={[
+          { value: '₦14.2B', label: 'Portfolio Value', sub: '+2.4% QoQ' },
+          { value: `${totalUnitsComputed}`, label: 'Total Units' },
+          { value: `${avgOccupancyComputed}%`, label: 'Avg Occupancy' },
+        ]}
+        actions={[
+          { label: 'Add New Property', icon: Plus, onClick: () => window.location.href = '/landlord/properties/new' },
+          { label: viewMode === 'grid' ? 'List View' : 'Grid View', icon: viewMode === 'grid' ? List : LayoutGrid, onClick: () => setViewMode(v => v === 'grid' ? 'list' : 'grid'), variant: 'ghost' },
+        ]}
+      />
 
       {/* Metrics Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-5">

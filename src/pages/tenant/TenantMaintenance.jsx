@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Modal from '../../components/ui/Modal';
 import { downloadHandbookGuideDoc } from '../../utils/documentGenerator';
+import { Wrench, Plus } from 'lucide-react';
+import PageHero from '../../components/ui/PageHero';
 
 const ticketsData = [
   {
@@ -76,20 +78,22 @@ const TenantMaintenance = () => {
 
   return (
     <div className="space-y-6 relative">
-      {/* Header & Action */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8">
-        <div className="max-w-2xl">
-          <h1 className="text-2xl font-bold text-gray-900 m-0 mb-1">Maintenance</h1>
-          <p className="text-base text-[#4A4F4C] m-0">Manage your service requests and keep track of property updates. Our team aims to respond within 24 hours.</p>
-        </div>
-        <button 
-          onClick={() => setShowModal(true)}
-          className="bg-[#04332C] text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider shadow-sm hover:bg-[#032621] transition-all flex items-center gap-2 cursor-pointer shrink-0 border-none"
-        >
-          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>add_circle</span>
-          REQUEST NEW MAINTENANCE
-        </button>
-      </div>
+      <PageHero
+        icon={Wrench}
+        iconBg="bg-rose-700"
+        tag="Service Requests"
+        title="Maintenance Center"
+        subtitle="Manage your service requests and keep track of property updates. Our team aims to respond within 24 hours."
+        gradient="from-[#1A0000] via-[#2D0A00] to-[#3D1200]"
+        stats={[
+          { value: '02', label: 'Pending', sub: '+1 new' },
+          { value: '01', label: 'In Progress' },
+          { value: '14', label: 'Resolved (YTD)' },
+        ]}
+        actions={[
+          { label: 'Request Maintenance', icon: Plus, onClick: () => setShowModal(true) },
+        ]}
+      />
 
       <div className="grid grid-cols-12 gap-6">
         {/* Left Column: Tickets & Analytics */}
