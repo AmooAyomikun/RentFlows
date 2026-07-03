@@ -31,12 +31,15 @@ import Signup from '../pages/auth/Signup';
 import ForgotPassword from '../pages/auth/ForgotPassword';
 import ResetPassword from '../pages/auth/ResetPassword';
 import VerifyEmail from '../pages/auth/VerifyEmail';
+import InviteAcceptance from '../pages/onboarding/InviteAcceptance';
 
 // Landlord Pages
 import LandlordDashboard from '../pages/landlord/LandlordDashboard';
 import Properties from '../pages/landlord/Properties';
 import AddProperty from '../pages/landlord/AddProperty';
 import PropertyDetail from '../pages/landlord/PropertyDetail';
+import AddUnit from '../pages/landlord/AddUnit';
+import UnitDetail from '../pages/landlord/UnitDetail';
 import Tenants from '../pages/landlord/Tenants'; // Force reload
 import TenantDetail from '../pages/landlord/TenantDetail';
 import Payments from '../pages/landlord/Payments';
@@ -54,6 +57,7 @@ import TenantPayments from '../pages/tenant/TenantPayments';
 import TenantPayRent from '../pages/tenant/TenantPayRent';
 import TenantReceipts from '../pages/tenant/TenantReceipts';
 import TenantMaintenance from '../pages/tenant/TenantMaintenance';
+import TenantMaintenanceDetail from '../pages/tenant/TenantMaintenanceDetail';
 import TenantSettings from '../pages/tenant/TenantSettings';
 import TenantReportIssue from '../pages/tenant/TenantReportIssue';
 import TenantProfile from '../pages/tenant/TenantProfile';
@@ -122,6 +126,9 @@ const AppRouter = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
+        
+        {/* Public Onboarding Routes */}
+        <Route path="/onboarding/invite/:token" element={<InviteAcceptance />} />
 
         {/* Landlord Routes */}
         <Route
@@ -137,8 +144,8 @@ const AppRouter = () => {
           <Route path="properties" element={<Properties />} />
           <Route path="properties/new" element={<AddProperty />} />
           <Route path="properties/:id" element={<PropertyDetail />} />
-          <Route path="properties/:id/units/new" element={<PlaceholderView title="Add Unit" type="Unit Creation" />} />
-          <Route path="properties/:id/units/:unitId" element={<PlaceholderView title="Unit Details" type="Unit View" />} />
+          <Route path="properties/:id/units/new" element={<AddUnit />} />
+          <Route path="properties/:id/units/:unitId" element={<UnitDetail />} />
           <Route path="tenants" element={<Tenants />} />
           <Route path="tenants/:id" element={<TenantDetail />} />
           <Route path="payments" element={<Payments />} />
@@ -169,7 +176,7 @@ const AppRouter = () => {
           <Route path="maintenance" element={<TenantMaintenance />} />
           <Route path="report-issue" element={<TenantReportIssue />} />
           <Route path="support" element={<TenantSupport />} />
-          <Route path="maintenance/:id" element={<PlaceholderView title="Maintenance Ticket" type="Ticket View" />} />
+          <Route path="maintenance/:id" element={<TenantMaintenanceDetail />} />
           <Route path="notifications" element={<Notifications role="tenant" />} />
           <Route path="settings" element={<TenantSettings />} />
           <Route path="profile" element={<TenantProfile />} />
