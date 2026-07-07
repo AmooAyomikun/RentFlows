@@ -300,67 +300,9 @@ const Home = () => {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          3. PRODUCT OVERVIEW — Laptop mockup split
+          3. FEATURES BENTO GRID
          ══════════════════════════════════════════════════════════════ */}
-      <section className="py-20 md:py-24 bg-white" aria-label="Product overview">
-        <div className="max-w-marketing mx-auto px-6 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
-
-            {/* Left: Image */}
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-            >
-              <div className="absolute -inset-6 bg-gradient-to-br from-[#0B4F45]/6 to-[#C75B30]/4 rounded-3xl blur-2xl pointer-events-none" />
-              <img
-                src={IMG_PROPERTIES}
-                alt="Modern apartment building in Africa"
-                className="relative w-full rounded-2xl shadow-lg border border-border object-cover aspect-[4/3]"
-              />
-            </motion.div>
-
-            {/* Right: Copy */}
-            <motion.div
-              initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-            >
-              <span className="text-micro font-bold text-accent tracking-[0.12em] uppercase">Built for African Landlords</span>
-              <h2 className="font-display text-h2-sm md:text-h2 text-charcoal mt-2 mb-4 font-bold tracking-tight leading-tight">
-                Manage all your properties in one place
-              </h2>
-              <p className="text-body text-body mb-8 leading-relaxed max-w-lg">
-                Centralize your entire operation. From tenant communication to tracking utility bills, RentFlow provides a unified dashboard to monitor your real-estate portfolio — eliminating manual data entry and human error.
-              </p>
-
-              <ul className="space-y-4 mb-8">
-                {[
-                  'No hidden fees or complex setup',
-                  '100% data security, bank-grade encryption',
-                  'Works on any device, no training needed',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-body text-charcoal font-medium">
-                    <div className="w-6 h-6 rounded-full bg-[#0B4F45]/10 flex items-center justify-center shrink-0">
-                      <CheckCircle className="w-3.5 h-3.5 text-[#0B4F45]" />
-                    </div>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                onClick={() => navigate('/features')}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0B4F45] text-white font-semibold text-sm hover:bg-[#073A33] transition-all cursor-pointer"
-              >
-                Explore Features <ArrowRight size={15} />
-              </button>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════
-          4. FEATURES BENTO GRID
-         ══════════════════════════════════════════════════════════════ */}
-      <section className="py-20 md:py-24 bg-warm" aria-label="Features">
+      <section className="py-20 md:py-24 bg-white" aria-label="Features">
         <div className="max-w-marketing mx-auto px-6 w-full">
           <motion.div
             className="text-center max-w-2xl mx-auto mb-14"
@@ -423,9 +365,113 @@ const Home = () => {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          5. MANAGE ON THE GO — Mobile section
+          4. HOW IT WORKS — 4 steps
          ══════════════════════════════════════════════════════════════ */}
-      <section className="py-20 md:py-24 bg-white" aria-label="Mobile management">
+      <section className="py-20 md:py-24 bg-warm" aria-label="How it works">
+        <div className="max-w-marketing mx-auto px-6 w-full">
+          <motion.div
+            className="text-center max-w-2xl mx-auto mb-14"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          >
+            <span className="text-micro font-bold text-accent tracking-[0.12em] uppercase">Get Started In Minutes</span>
+            <h2 className="font-display text-h2-sm md:text-h2 text-charcoal mt-2 mb-3 font-bold leading-tight">
+              4 Steps to Effortless Management
+            </h2>
+            <p className="text-body text-muted">
+              Our streamlined onboarding gets you up and running in under 5 minutes — no training required.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { icon: UserPlus, num: '01', title: 'Register', desc: 'Create your account in under 2 minutes. No credit card required to start.', active: false },
+              { icon: Building2, num: '02', title: 'Add Properties', desc: 'Add your units, set monthly rent, and upload key documents.', active: true },
+              { icon: Mail, num: '03', title: 'Invite Tenants', desc: 'Send a unique link. Tenants onboard themselves securely.', active: false },
+              { icon: TrendingUp, num: '04', title: 'Collect Rent', desc: 'Money flows directly to your account on time, every month.', active: false },
+            ].map((step, i) => (
+              <motion.div
+                key={i}
+                className={`rounded-2xl p-7 flex flex-col justify-between min-h-[220px] relative overflow-hidden shadow-sm border transition-all duration-300 ${step.active ? 'bg-[#0B4F45] text-white border-[#0B4F45]' : 'bg-white text-charcoal border-border hover:shadow-md'}`}
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 * i }}
+              >
+                <span className={`absolute top-4 right-5 font-display font-black text-5xl leading-none select-none ${step.active ? 'text-white/10' : 'text-charcoal/8'}`}>
+                  {step.num}
+                </span>
+                <div>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-5 ${step.active ? 'bg-white/15' : 'bg-warm'}`}>
+                    <step.icon className={`w-5 h-5 ${step.active ? 'text-white' : 'text-[#0B4F45]'}`} />
+                  </div>
+                  <h4 className="font-display font-bold text-h4 mb-2">{step.title}</h4>
+                  <p className={`text-small leading-relaxed ${step.active ? 'text-white/75' : 'text-muted'}`}>{step.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
+          5. PRODUCT OVERVIEW — Laptop mockup split
+         ══════════════════════════════════════════════════════════════ */}
+      <section className="py-20 md:py-24 bg-white" aria-label="Product overview">
+        <div className="max-w-marketing mx-auto px-6 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+
+            {/* Left: Image */}
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+            >
+              <div className="absolute -inset-6 bg-gradient-to-br from-[#0B4F45]/6 to-[#C75B30]/4 rounded-3xl blur-2xl pointer-events-none" />
+              <img
+                src={IMG_PROPERTIES}
+                alt="Modern apartment building in Africa"
+                className="relative w-full rounded-2xl shadow-lg border border-border object-cover aspect-[4/3]"
+              />
+            </motion.div>
+
+            {/* Right: Copy */}
+            <motion.div
+              initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+            >
+              <span className="text-micro font-bold text-accent tracking-[0.12em] uppercase">Built for African Landlords</span>
+              <h2 className="font-display text-h2-sm md:text-h2 text-charcoal mt-2 mb-4 font-bold tracking-tight leading-tight">
+                Manage all your properties in one place
+              </h2>
+              <p className="text-body text-body mb-8 leading-relaxed max-w-lg">
+                Centralize your entire operation. From tenant communication to tracking utility bills, RentFlow provides a unified dashboard to monitor your real-estate portfolio — eliminating manual data entry and human error.
+              </p>
+
+              <ul className="space-y-4 mb-8">
+                {[
+                  'No hidden fees or complex setup',
+                  '100% data security, bank-grade encryption',
+                  'Works on any device, no training needed',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-body text-charcoal font-medium">
+                    <div className="w-6 h-6 rounded-full bg-[#0B4F45]/10 flex items-center justify-center shrink-0">
+                      <CheckCircle className="w-3.5 h-3.5 text-[#0B4F45]" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                onClick={() => navigate('/features')}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0B4F45] text-white font-semibold text-sm hover:bg-[#073A33] transition-all cursor-pointer"
+              >
+                Explore Features <ArrowRight size={15} />
+              </button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
+          6. MANAGE ON THE GO — Mobile section
+         ══════════════════════════════════════════════════════════════ */}
+      <section className="py-20 md:py-24 bg-warm" aria-label="Mobile management">
         <div className="max-w-marketing mx-auto px-6 w-full">
           <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
 
@@ -473,52 +519,6 @@ const Home = () => {
                 className="relative w-full max-w-[440px] rounded-2xl shadow-xl border border-border object-cover"
               />
             </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════
-          6. HOW IT WORKS — 4 steps
-         ══════════════════════════════════════════════════════════════ */}
-      <section className="py-20 md:py-24 bg-warm" aria-label="How it works">
-        <div className="max-w-marketing mx-auto px-6 w-full">
-          <motion.div
-            className="text-center max-w-2xl mx-auto mb-14"
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          >
-            <span className="text-micro font-bold text-accent tracking-[0.12em] uppercase">Get Started In Minutes</span>
-            <h2 className="font-display text-h2-sm md:text-h2 text-charcoal mt-2 mb-3 font-bold leading-tight">
-              4 Steps to Effortless Management
-            </h2>
-            <p className="text-body text-muted">
-              Our streamlined onboarding gets you up and running in under 5 minutes — no training required.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              { icon: UserPlus, num: '01', title: 'Register', desc: 'Create your account in under 2 minutes. No credit card required to start.', active: false },
-              { icon: Building2, num: '02', title: 'Add Properties', desc: 'Add your units, set monthly rent, and upload key documents.', active: true },
-              { icon: Mail, num: '03', title: 'Invite Tenants', desc: 'Send a unique link. Tenants onboard themselves securely.', active: false },
-              { icon: TrendingUp, num: '04', title: 'Collect Rent', desc: 'Money flows directly to your account on time, every month.', active: false },
-            ].map((step, i) => (
-              <motion.div
-                key={i}
-                className={`rounded-2xl p-7 flex flex-col justify-between min-h-[220px] relative overflow-hidden shadow-sm border transition-all duration-300 ${step.active ? 'bg-[#0B4F45] text-white border-[#0B4F45]' : 'bg-white text-charcoal border-border hover:shadow-md'}`}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 * i }}
-              >
-                <span className={`absolute top-4 right-5 font-display font-black text-5xl leading-none select-none ${step.active ? 'text-white/10' : 'text-charcoal/8'}`}>
-                  {step.num}
-                </span>
-                <div>
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-5 ${step.active ? 'bg-white/15' : 'bg-warm'}`}>
-                    <step.icon className={`w-5 h-5 ${step.active ? 'text-white' : 'text-[#0B4F45]'}`} />
-                  </div>
-                  <h4 className="font-display font-bold text-h4 mb-2">{step.title}</h4>
-                  <p className={`text-small leading-relaxed ${step.active ? 'text-white/75' : 'text-muted'}`}>{step.desc}</p>
-                </div>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
